@@ -8,7 +8,7 @@ let vertexShaderSource = `
   void main() {
     gl_Position = u_view * u_world * a_position;
     v_position = gl_Position;
-    v_normal = u_world * a_normal;
+    v_normal = u_view * a_normal;
   }
 `;
 
@@ -18,7 +18,8 @@ let fragmentShaderSource =`
   varying vec4 v_position;
   varying vec4 v_normal;
   void main() {
-    gl_FragColor = normalize(vec4(v_normal.x, v_normal.y, v_normal.z, 1));
+    vec4 light = normalize(v_normal);
+    gl_FragColor = vec4((light.x+1.0)*0.5*u_color.r, (light.x+1.0)*0.5*u_color.g, (light.x+1.0)*0.5*u_color.b, 1);
   }
 `;
 
@@ -43,7 +44,7 @@ function initShader(gl, program, positionAttr, normalAttr){
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   gl.useProgram(program);
   gl.enableVertexAttribArray(positionAttr);
- // gl.enableVertexAttribArray(normalAttr);
+  gl.enableVertexAttribArray(normalAttr);
 }
 
 module.exports = {
