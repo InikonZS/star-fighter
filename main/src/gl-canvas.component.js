@@ -77,7 +77,7 @@ function glInitialize(glCanvas){
   Shaders.initShader(glCanvas.glContext, shaderProgramm, shaderVariables.positionAttr, shaderVariables.normalAttr);
   
   glCanvas.camera.init();
-  glCanvas.scene = new Scene(glCanvas.glContext);
+  glCanvas.scene = new Scene(glCanvas);
 
 }
 

@@ -10,9 +10,13 @@ class Bullet{
     let mtx = m4.identity();
     mtx = m4.translate(mtx, this.pos.x, this.pos.y, this.pos.z);
     this.model = new Basic(gl,boxModel , mtx, {r:200, g:20, b:60});
+
+    this.time = 1.2;
   }
 
-  render(shadersVariables){
+  render(shadersVariables, deltaTime){
+    this.time-=deltaTime;
+    
     //this.model.matrix = m4.translate(this.model.matrix, this.v.x, this.v.y, this.v.z);
     this.pos.addVector(this.v, true);
     let mtx = m4.identity();
