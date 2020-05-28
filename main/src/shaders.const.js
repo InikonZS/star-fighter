@@ -8,7 +8,7 @@ let vertexShaderSource = `
   void main() {
     gl_Position = u_view * u_world * a_position;
     v_position = gl_Position;
-    v_normal = u_view * a_normal;
+    v_normal = vec4(mat3(u_world) * vec3(a_normal), 1);
   }
 `;
 
@@ -18,10 +18,12 @@ let fragmentShaderSource =`
   varying vec4 v_position;
   varying vec4 v_normal;
   void main() {
-    vec4 light = normalize(v_normal);
-    gl_FragColor = vec4((light.x+1.0)*0.5*u_color.r, (light.x+1.0)*0.5*u_color.g, (light.x+1.0)*0.5*u_color.b, 1);
+    float light = dot(normalize(v_normal.xyz),normalize(vec3(1,1,0)));
+    light = light+1.0;
+    gl_FragColor = vec4(light*u_color.r, light*u_color.g, light*u_color.b, 1);
   }
 `;
+//gl_FragColor = vec4((light.x+0.0)*0.95*u_color.r, (light.y+0.0)*0.95*u_color.r, (light.z+0.0)*0.95*u_color.r, 1);
 
 function getShaderVariables(gl, program){
   var positionAttr = gl.getAttribLocation(program, "a_position");

@@ -56,6 +56,7 @@ class Scene{
     });
 
     let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
+    let bsl1 = calc.transformVertexList(this.enemy.hitPoint.vertexList, this.enemy.model.matrix);
     let reqFilter = false;
     this.bullets.forEach(it=>{
       it.render(shaderVariables, deltaTime);
@@ -63,8 +64,17 @@ class Scene{
         it = undefined;
         reqFilter = true;
       }
-      if (it && it.react(bsl)){
+      if (it && (it.react(bsl))){
         this.bs.color={r:rand(255), g:rand(155)+100, b:60};
+        it = undefined;
+        reqFilter = true;
+      };
+      if (it && (it.react(bsl1))){
+        this.enemy.model.color={r:rand(255), g:rand(155)+100, b:60};
+        this.enemy.pos = new Vector3d(Math.random()*140-70, Math.random()*140-80, Math.random()*140-70);
+        let mtx = m4.identity();
+        mtx = m4.translate(mtx, this.enemy.pos.x, this.enemy.pos.y, this.enemy.pos.z);
+        this.enemy.model.matrix=mtx;
         it = undefined;
         reqFilter = true;
       };

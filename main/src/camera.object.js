@@ -36,7 +36,7 @@ class Camera{
   process(glCanvas, deltaTime){
     this.dt = deltaTime;
     if (glCanvas.keyboardState.forward){
-      let moveSpeed = 3;
+      let moveSpeed = 0.3;
       volumeCamera(this, moveSpeed, deltaTime);
     }
     let cam = glCanvas.camera;
