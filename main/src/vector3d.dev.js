@@ -62,6 +62,15 @@ class Vector3d{
   abs(){
     return Math.hypot(this.x, this.y, this.z);
   }
+
+  normalize(){
+    let len = this.abs();
+    if (len!=0){
+      return new Vector3d(this.x/len, this.y/len, this.z/len);
+    } else {
+      return new Vector3d(0,0,0);  
+    }
+  }
 }
 
 module.exports = Vector3d;

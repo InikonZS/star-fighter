@@ -2,7 +2,8 @@ const Basic = require('./basic.object.js');
 const boxModel = require('./box.model.js');
 const rocketModel = require('./rocket.model.js');
 const Vector3d = require('./vector3d.dev.js');
-let Bullet = require('./bullet.object.js')
+let Bullet = require('./bullet.object.js');
+let Enemy = require('./enemy.object.js')
 
 const calc = require('./calc.utils.js');
 
@@ -12,6 +13,7 @@ class Scene{
     this.gl = glCanvas.glContext;
     let gl = this.gl;
 
+    this.enemy = new Enemy(gl, new Vector3d(50, 50, 50), new Vector3d(0,0,0));
     this.bs = new Basic(gl,rocketModel , m4.identity(), {r:200, g:20, b:60});
 
     this.bd = new Basic(gl,boxModel , m4.identity(), {r:200, g:20, b:60});
@@ -71,6 +73,8 @@ class Scene{
       this.bullets = this.bullets.filter(it=>!it);
       reqFilter = false;
     }
+    this.enemy.logic(this.glCanvas.camera.getPosVector());
+    this.enemy.render(shaderVariables, deltaTime);
   }
 }
 
