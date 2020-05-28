@@ -11,6 +11,10 @@ class Camera{
     this.posX=-2;
     this.posY=-2;
     this.posZ =-3;
+
+    this.vX=0;
+    this.vY=0;
+    this.vZ=0;    
   }
 
   rotateCam(dx, dy){
@@ -24,11 +28,18 @@ class Camera{
   process(glCanvas, deltaTime){
     if (glCanvas.keyboardState.forward){
       let moveSpeed = 3;
-      planeCamera(this, moveSpeed, deltaTime);
+      volumeCamera(this, moveSpeed, deltaTime);
     }
+    let cam = glCanvas.camera;
+    cam.vX*=0.999;
+    cam.vY*=0.999;
+    cam.vZ*=0.999;
+    cam.posX+=cam.vX;
+    cam.posY+=cam.vY;
+    cam.posZ+=cam.vZ;
   }
 
-/*  rotateCam(dx, dy){
+ /* rotateCam(dx, dy){
     this.camRX += (dx / 100) * Math.sin(this.camRY);
     this.camRY += (dy / 100);
     this.camRZ += (dx / 100) * Math.cos(this.camRY);
@@ -48,9 +59,9 @@ function volumeCamera(cam, moveSpeed, deltaTime){
   let ny = (moveSpeed * deltaTime) * Math.cos(cam.camRX);
   let nx = (moveSpeed * deltaTime) * Math.sin(cam.camRX);
   let nv = {x:-nx*Math.sin(cam.camRY), y:-ny*Math.sin(cam.camRY), z:-(moveSpeed * deltaTime)*Math.cos(cam.camRY)};  
-  cam.posX-=nv.x;
-  cam.posY-=nv.y;
-  cam.posZ-=nv.z;
+  cam.vX-=nv.x;
+  cam.vY-=nv.y;
+  cam.vZ-=nv.z;
 }
 
 function trueVolumeCamera(cam, moveSpeed, deltaTime){

@@ -9,15 +9,8 @@ class Basic{
     this.matrix = matrix;
     this.gl = gl;
 
-    var positionBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.vertexList), gl.STATIC_DRAW); 
-    this.positionBuffer = positionBuffer;
-
-    var normBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, normBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.normalList), gl.STATIC_DRAW); 
-    this.normBuffer = normBuffer;
+    this.positionBuffer = createBuffer(gl, this.vertexList);
+    this.normBuffer = createBuffer(gl, this.normalList);
   }
 
   render(shaderVariables, matrix, color){
@@ -31,6 +24,13 @@ class Basic{
 
     renderModel(this.gl, this.positionBuffer, this.normBuffer, this.vertexList.length/3, shaderVariables.positionAttr, shaderVariables.normalAttr, this.color, shaderVariables.colorUniVec4);
   }
+}
+
+function createBuffer(gl, list){
+  var positionBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list), gl.STATIC_DRAW); 
+  return positionBuffer;
 }
 
 function setBuffer(gl, buffer, location){
