@@ -21,7 +21,6 @@ class Basic{
       this.matrix = matrix;
     }
     this.gl.uniformMatrix4fv(shaderVariables.worldUniMat4, false, this.matrix);
-
     renderModel(this.gl, this.positionBuffer, this.normBuffer, this.vertexList.length/3, shaderVariables.positionAttr, shaderVariables.normalAttr, this.color, shaderVariables.colorUniVec4);
   }
 }

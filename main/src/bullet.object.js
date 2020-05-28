@@ -13,8 +13,16 @@ class Bullet{
   }
 
   render(shadersVariables){
-    this.model.matrix = m4.translate(this.model.matrix, this.v.x, this.v.y, this.v.z);
+    //this.model.matrix = m4.translate(this.model.matrix, this.v.x, this.v.y, this.v.z);
+    this.pos.addVector(this.v, true);
+    let mtx = m4.identity();
+    mtx = m4.translate(mtx, this.pos.x, this.pos.y, this.pos.z);
+    this.model.matrix = mtx;
     this.model.render(shadersVariables);
+  }
+
+  react(obj){
+    return calc.isCrossedMeshByLine(obj, this.pos, this.pos.addVector(this.v));
   }
 }
 
