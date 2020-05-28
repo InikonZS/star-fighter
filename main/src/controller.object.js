@@ -1,3 +1,5 @@
+let Bullet = require('./bullet.object.js')
+
 function mouseMoveHandler(glCanvas, dx, dy){
   glCanvas.camera.rotateCam(dx, dy);
 }
@@ -7,7 +9,8 @@ function mouseUpHandler(glCanvas, event){
 }
 
 function mouseDownHandler(glCanvas, event){
-
+  let bul = new Bullet(glCanvas.glContext, glCanvas.camera.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), glCanvas.camera.getCamNormal().mul(-3.10));
+  glCanvas.scene.bullets.push(bul);
 }
 
 function keyDownHandler(glCanvas, e){

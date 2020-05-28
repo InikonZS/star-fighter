@@ -1,8 +1,16 @@
+const Vector3d = require('./vector3d.dev.js');
+
 class Camera{
   constructor(){ 
   }
   getPosVector(){
     return new Vector3d(-this.posX, -this.posY, -this.posZ);
+  }
+  getSpeedVector(){
+    return new Vector3d(-this.vX, -this.vY, -this.vZ);
+  }
+  getCamNormal(){
+    return getCameraNormal(this);
   }
   init(){
     this.camRX=0;
@@ -26,6 +34,7 @@ class Camera{
   }
 
   process(glCanvas, deltaTime){
+    this.dt = deltaTime;
     if (glCanvas.keyboardState.forward){
       let moveSpeed = 3;
       volumeCamera(this, moveSpeed, deltaTime);
@@ -62,6 +71,13 @@ function volumeCamera(cam, moveSpeed, deltaTime){
   cam.vX-=nv.x;
   cam.vY-=nv.y;
   cam.vZ-=nv.z;
+}
+
+function getCameraNormal(cam){
+  let ny = Math.cos(cam.camRX);
+  let nx = Math.sin(cam.camRX);
+  let nv = {x:-nx*Math.sin(cam.camRY), y:-ny*Math.sin(cam.camRY), z:-Math.cos(cam.camRY)};  
+  return new Vector3d(-nv.x, -nv.y, -nv.z);
 }
 
 function trueVolumeCamera(cam, moveSpeed, deltaTime){

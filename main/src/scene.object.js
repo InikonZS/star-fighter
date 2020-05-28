@@ -15,6 +15,8 @@ class Scene{
       let pt = new Basic(gl, boxModel , mtx, {r:rand(255), g:rand(155)+100, b:60});
       this.particles.push(pt);
     }
+
+    this.bullets = [];
   }
 
   render(shaderVariables, deltaTime){
@@ -22,6 +24,10 @@ class Scene{
     this.bs.render(shaderVariables);
 
     this.particles.forEach(it=>{
+      it.render(shaderVariables);
+    });
+
+    this.bullets.forEach(it=>{
       it.render(shaderVariables);
     });
   }

@@ -1,0 +1,21 @@
+const Basic = require('./basic.object.js');
+const boxModel = require('./box.model.js');
+const calc = require('./calc.utils.js');
+
+class Bullet{
+  constructor(gl, startPoint, speedVector){
+    this.gl = gl;
+    this.pos = startPoint;
+    this.v = speedVector; 
+    let mtx = m4.identity();
+    mtx = m4.translate(mtx, this.pos.x, this.pos.y, this.pos.z);
+    this.model = new Basic(gl,boxModel , mtx, {r:200, g:20, b:60});
+  }
+
+  render(shadersVariables){
+    this.model.matrix = m4.translate(this.model.matrix, this.v.x, this.v.y, this.v.z);
+    this.model.render(shadersVariables);
+  }
+}
+
+module.exports = Bullet;
