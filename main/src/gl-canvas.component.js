@@ -3,10 +3,9 @@ const Camera = require('./camera.object.js');
 const Scene = require('./scene.object.js');
 const GLUtils = require('./gl-utils.js');
 const Shaders = require('./shaders.const.js');
-const calc = require('./calc.utils.js');
+const Controller = require('./controller.object.js');
 
-const AABB = require('./aabb.dev.js');
-const Vector3d = require('./vector3d.dev.js');
+const calc = require('./calc.utils.js');
 
 class GLCanvas extends Control{
   constructor(parentNode, width, height){
@@ -17,9 +16,8 @@ class GLCanvas extends Control{
     this.node.height = height;
     this.glContext = this.node.getContext('webgl');
     this.isStarted = false;
-    this.keyboardState;
+    this.keyboardState = {};
     this.camera = new Camera();
-    //this.scene = new Scene();
   }
 
   start(){
@@ -35,7 +33,7 @@ class GLCanvas extends Control{
       var deltaTime = currentTime - lastTime;
       lastTime = currentTime;
       
-      glRender(this);
+      glRender(this, deltaTime);
 
       if (this.isStarted){
         requestAnimationFrame(drawScene);
@@ -50,31 +48,25 @@ class GLCanvas extends Control{
 }
 
 function setController(glCanvas){
+  glCanvas.node.addEventListener('mouseup', (e)=>{
+    Controller.mouseUpHandler(glCanvas, e);
+  });
+
+  glCanvas.node.addEventListener('mousedown', (e)=>{
+    Controller.mouseDownHandler(glCanvas, e);
+  });
+
   glCanvas.node.addEventListener('mousemove', (e)=>{
-    mouseMoveHandler(glCanvas, e.movementX, e.movementY);
+    Controller.mouseMoveHandler(glCanvas, e.movementX, e.movementY);
   });
 
   document.addEventListener('keydown', (e)=>{
-    if (e.code == 'KeyW'){
-      glCanvas.keyboardState.forward = true;
-      keyboardHandler(glCanvas, 'forward', true);
-    } 
-    if (e.code == 'Space'){
-      glCanvas.keyboardState.space = true;
-      keyboardHandler(glCanvas, 'space', true);
-    } 
+    Controller.keyDownHandler(glCanvas, e)
   });
 
   document.addEventListener('keyup', (e)=>{
-    if (e.code == 'KeyW'){
-      glCanvas.keyboardState.forward = false;
-      keyboardHandler(glCanvas, 'forward', false);
-    }  
-    if (e.code == 'Space'){
-      glCanvas.keyboardState.space = false;
-      keyboardHandler(glCanvas, 'space', false);
-    }
-  })
+    Controller.keyUpHandler(glCanvas, e);
+  });
 }
 
 function glInitialize(glCanvas){
@@ -85,32 +77,18 @@ function glInitialize(glCanvas){
   Shaders.initShader(glCanvas.glContext, shaderProgramm, shaderVariables.positionAttr, shaderVariables.normalAttr);
   
   glCanvas.camera.init();
+  glCanvas.scene = new Scene(glCanvas.glContext);
 
-  ///dev
-  glCanvas.model = new AABB(glCanvas.glContext, new Vector3d(0,0,-20),  new Vector3d(1,1,0),
-      {r:Math.random()*100+100, g:Math.random()*100+100, b:Math.random()*100+100, a:255}
-    );
 }
 
-function glRender(glCanvas){
+function glRender(glCanvas, deltaTime){
   var aspect = glCanvas.glContext.canvas.clientWidth / glCanvas.glContext.canvas.clientHeight;
+  glCanvas.camera.process(glCanvas, deltaTime);
   var camera = glCanvas.camera;
-  var viewMatrix = calc.makeShooterCameraMatrix(aspect, camera.camRX, camera.camRY, camera.posX, camera.posY, camera.posZ);
+  var viewMatrix = calc.makeCameraMatrix(aspect, camera.camRX, camera.camRY, camera.camRZ, camera.posX, camera.posY, camera.posZ);
   glCanvas.glContext.uniformMatrix4fv(glCanvas.shaderVariables.viewUniMat4, false, viewMatrix);
 
-  let worldMatrix = m4.identity();
-  glCanvas.glContext.uniformMatrix4fv(glCanvas.shaderVariables.worldUniMat4, false, worldMatrix);
-
-  ///dev
-  glCanvas.model.render(glCanvas.glContext, glCanvas.shaderVariables.positionAttr, glCanvas.shaderVariables.colorUniVec4);
-}
-
-function mouseMoveHandler(glCanvas, dx, dy){
-  glCanvas.camera.rotateCam(dx, dy);
-}
-
-function keyboardHandler(glCanvas, keyName, state){
-
+  glCanvas.scene.render(glCanvas.shaderVariables, deltaTime);
 }
 
 module.exports = GLCanvas;
