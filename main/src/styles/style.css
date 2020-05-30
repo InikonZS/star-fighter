@@ -1,3 +1,11 @@
+body{
+  margin:0px;
+  padding: 0px;
+}
 .global_wrapper{
   width: 100%;
+}
+#app-main{
+  width:100%;
+  min-height:100vh;
 }

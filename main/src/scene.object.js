@@ -1,3 +1,5 @@
+
+
 const Basic = require('./basic.object.js');
 const Textured = require('./textured.object.js');
 
@@ -43,6 +45,15 @@ class Scene{
         let bul = new Bullet(glCanvas.glContext, glCanvas.camera.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), glCanvas.camera.getCamNormal().mul(-3.10));
         glCanvas.scene.bullets.push(bul);
         this.shotTime = 0.15;
+
+        let el = document.createElement('audio');
+        document.body.appendChild(el);
+        
+        el.oncanplay = ()=>{
+          el.play();
+        }
+        el.onended = ()=>{ document.body.removeChild(el); el = undefined;}
+        el.src = 'assets/sounds/laser.mp3';
       }
     }
 
@@ -79,6 +90,16 @@ class Scene{
         this.enemy.model.matrix=mtx;
         it = undefined;
         reqFilter = true;
+
+        let el = document.createElement('audio');
+        document.body.appendChild(el);
+        
+        el.oncanplay = ()=>{
+          el.play();
+        }
+        el.onended = ()=>{ document.body.removeChild(el); el = undefined;}
+        if (rand(3)<2) {el.src = 'assets/sounds/expl1.mp3';}
+        else {el.src = 'assets/sounds/expl2.mp3';}
       };
     });
     if (reqFilter){
