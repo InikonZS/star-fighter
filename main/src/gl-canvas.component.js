@@ -109,18 +109,19 @@ function glRender(glCanvas, deltaTime){
   glCanvas.glContext.uniformMatrix4fv(glCanvas.skyVariables.viewUniMat4, false, viewMatrix);
   glCanvas.skybox.render(glCanvas.skyVariables, deltaTime);
 
-  let aniProgramm = glCanvas.aniProgramm;
-  let aniVariables = glCanvas.aniVariables;
-  AniShader.initShader(glCanvas.glContext, aniProgramm, aniVariables.positionAttr, aniVariables.texAttr);
-  glCanvas.glContext.uniformMatrix4fv(glCanvas.aniVariables.viewUniMat4, false, viewMatrix);
-  glCanvas.effects.render(glCanvas.aniVariables, deltaTime);
+  
 
   let shaderProgramm = glCanvas.shaderProgramm;
   let shaderVariables = glCanvas.shaderVariables;
   Shaders.initShader(glCanvas.glContext, shaderProgramm, shaderVariables.positionAttr, shaderVariables.normalAttr);
   glCanvas.glContext.uniformMatrix4fv(glCanvas.shaderVariables.viewUniMat4, false, viewMatrix);
-  //glCanvas.skybox.render(glCanvas.shaderVariables, deltaTime);*/
   glCanvas.scene.render(glCanvas.shaderVariables, deltaTime);
+
+  let aniProgramm = glCanvas.aniProgramm;
+  let aniVariables = glCanvas.aniVariables;
+  AniShader.initShader(glCanvas.glContext, aniProgramm, aniVariables.positionAttr, aniVariables.texAttr);
+  glCanvas.glContext.uniformMatrix4fv(glCanvas.aniVariables.viewUniMat4, false, viewMatrix);
+  glCanvas.effects.render(glCanvas.aniVariables, deltaTime);
 }
 
 module.exports = GLCanvas;
