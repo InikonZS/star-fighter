@@ -20,6 +20,7 @@ class GLCanvas extends Control{
     this.isStarted = false;
     this.keyboardState = {};
     this.camera = new Camera();
+    this.weapon=1;
   }
 
   start(){

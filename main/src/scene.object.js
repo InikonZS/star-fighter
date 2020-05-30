@@ -13,6 +13,10 @@ const calc = require('./calc.utils.js');
 
 class Scene{
   constructor(glCanvas){
+    preloadSoundUrl('assets/sounds/laser.mp3');
+    preloadSoundUrl('assets/sounds/expl1.mp3');
+    preloadSoundUrl('assets/sounds/expl2.mp3');
+
     this.glCanvas = glCanvas;
     this.gl = glCanvas.glContext;
     let gl = this.gl;
@@ -40,20 +44,36 @@ class Scene{
     let glCanvas = this.glCanvas;
     this.shotTime-=deltaTime;
     if (this.glCanvas.keyboardState.shot){
-      //console.log(this.shotTime);
-      if (this.shotTime<=0 || this.shotTime>=1000){
-        let bul = new Bullet(glCanvas.glContext, glCanvas.camera.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), glCanvas.camera.getCamNormal().mul(-3.10));
-        glCanvas.scene.bullets.push(bul);
-        this.shotTime = 0.15;
+      if (this.glCanvas.weapon ==1){
+        if (this.shotTime<=0 || this.shotTime>=1000){
+          let bul = new Bullet(glCanvas.glContext, glCanvas.camera.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), glCanvas.camera.getCamNormal().mul(-3.10));
+          glCanvas.scene.bullets.push(bul);
+          this.shotTime = 0.15;
 
-        let el = document.createElement('audio');
-        document.body.appendChild(el);
-        
-        el.oncanplay = ()=>{
-          el.play();
+          playSoundUrl('assets/sounds/laser.mp3');
         }
-        el.onended = ()=>{ document.body.removeChild(el); el = undefined;}
-        el.src = 'assets/sounds/laser.mp3';
+      }
+
+      if (this.glCanvas.weapon ==2){
+        if (this.shotTime<=0 || this.shotTime>=1000){
+          let bul = new Bullet(glCanvas.glContext, glCanvas.camera.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), glCanvas.camera.getCamNormal().mul(-3.10));
+          bul.time = 0.6;
+          glCanvas.scene.bullets.push(bul);
+          this.shotTime = 0.07;
+
+          playSoundUrl('assets/sounds/laser.mp3');
+        }
+      }
+
+      if (this.glCanvas.weapon ==3){
+        if (this.shotTime<=0 || this.shotTime>=1000){
+          let bul = new Bullet(glCanvas.glContext, glCanvas.camera.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), glCanvas.camera.getCamNormal().mul(-3.10));
+          bul.time = 5;
+          glCanvas.scene.bullets.push(bul);
+          this.shotTime = 0.35;
+
+          playSoundUrl('assets/sounds/laser_power.mp3');
+        }
       }
     }
 
@@ -71,15 +91,15 @@ class Scene{
     let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
     let bsl1 = calc.transformVertexList(this.enemy.hitPoint.vertexList, this.enemy.model.matrix);
     let reqFilter = false;
-    this.bullets.forEach(it=>{
+    this.bullets.forEach((it, i, arr)=>{
       it.render(shaderVariables, deltaTime);
       if (it.time<=0 || it.time>=10000){
-        it = undefined;
+        arr[i] = undefined;
         reqFilter = true;
       }
       if (it && (it.react(bsl))){
         this.bs.color={r:rand(255), g:rand(155)+100, b:60};
-        it = undefined;
+        arr[i] = undefined;
         reqFilter = true;
       };
       if (it && (it.react(bsl1))){
@@ -88,27 +108,37 @@ class Scene{
         let mtx = m4.identity();
         mtx = m4.translate(mtx, this.enemy.pos.x, this.enemy.pos.y, this.enemy.pos.z);
         this.enemy.model.matrix=mtx;
-        it = undefined;
+        arr[i] = undefined;
         reqFilter = true;
-
-        let el = document.createElement('audio');
-        document.body.appendChild(el);
-        
-        el.oncanplay = ()=>{
-          el.play();
-        }
-        el.onended = ()=>{ document.body.removeChild(el); el = undefined;}
-        if (rand(3)<2) {el.src = 'assets/sounds/expl1.mp3';}
-        else {el.src = 'assets/sounds/expl2.mp3';}
+        rand(10)<5 ? playSoundUrl('assets/sounds/expl1.mp3') : playSoundUrl('assets/sounds/expl2.mp3');
       };
     });
     if (reqFilter){
-      this.bullets = this.bullets.filter(it=>!it);
+      this.bullets = this.bullets.filter(it=>it);
       reqFilter = false;
     }
     this.enemy.logic(this.glCanvas.camera.getPosVector());
     this.enemy.render(shaderVariables, deltaTime);
   }
+}
+
+function preloadSoundUrl(url){
+  let el = document.createElement('audio');
+  document.body.appendChild(el);
+  el.src = url;  
+}
+
+function playSoundUrl(url){
+  let el = document.createElement('audio');
+  document.body.appendChild(el);
+  el.oncanplay = ()=>{
+    el.play();
+  }
+  el.onended = ()=>{ 
+    document.body.removeChild(el); 
+    el = undefined;
+  }
+  el.src = url;  
 }
 
 function rand(lim){

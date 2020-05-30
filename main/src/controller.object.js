@@ -64,6 +64,18 @@ function keyUpHandler(glCanvas, e){
     glCanvas.keyboardState.space = false;
     //keyboardHandler(glCanvas, 'space', false);
   }  
+
+  if (e.code == 'Digit1'){
+    glCanvas.weapon = 1;
+  } 
+
+  if (e.code == 'Digit2'){
+    glCanvas.weapon = 2;
+  } 
+
+  if (e.code == 'Digit3'){
+    glCanvas.weapon = 3;
+  } 
 }
 
 module.exports = {
