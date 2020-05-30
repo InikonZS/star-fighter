@@ -28,6 +28,7 @@ class Textured{
     if (matrix){
       this.matrix = matrix;
     }
+    this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
     this.gl.uniformMatrix4fv(shaderVariables.worldUniMat4, false, this.matrix);
     setTexBuffer(this.gl, this.texBuffer, shaderVariables.texAttr);
     renderModel(this.gl, this.positionBuffer, this.normBuffer, this.vertexList.length/3, shaderVariables.positionAttr, shaderVariables.normalAttr, this.color, shaderVariables.colorUniVec4);

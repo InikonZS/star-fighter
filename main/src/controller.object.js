@@ -76,6 +76,10 @@ function keyUpHandler(glCanvas, e){
   if (e.code == 'Digit3'){
     glCanvas.weapon = 3;
   } 
+
+  if (e.code == 'Digit4'){
+    glCanvas.weapon = 4;
+  } 
 }
 
 module.exports = {

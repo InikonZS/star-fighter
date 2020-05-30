@@ -75,6 +75,17 @@ class Scene{
           playSoundUrl('assets/sounds/laser_power.mp3');
         }
       }
+
+      if (this.glCanvas.weapon ==4){
+        if (this.shotTime<=0 || this.shotTime>=1000){
+          let bul = new Bullet(glCanvas.glContext, glCanvas.camera.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), glCanvas.camera.getCamNormal().mul(-12.10));
+          bul.time = 5;
+          glCanvas.scene.bullets.push(bul);
+          this.shotTime = 0.45;
+
+          playSoundUrl('assets/sounds/laser_power.mp3');
+        }
+      }
     }
 
     this.bs.matrix = m4.xRotate(this.bs.matrix, 0.5*deltaTime);
@@ -103,6 +114,7 @@ class Scene{
         reqFilter = true;
       };
       if (it && (it.react(bsl1))){
+        this.glCanvas.effects.addEffect(this.enemy.pos);
         this.enemy.model.color={r:rand(255), g:rand(155)+100, b:60};
         this.enemy.pos = new Vector3d(Math.random()*140-70, Math.random()*140-80, Math.random()*140-70);
         let mtx = m4.identity();

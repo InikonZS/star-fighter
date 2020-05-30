@@ -58,6 +58,7 @@ function createTexture(gl, textureUrl, onLoad){
     // Now that the image has loaded make copy it to the texture.
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA,gl.UNSIGNED_BYTE, image);
+
       // проверяем, что размер изображения равен степени двойки в обоих измерениях
     if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
       // Да, степень двойки. Генерируем мипмап.

@@ -4,7 +4,9 @@ const Scene = require('./scene.object.js');
 const GLUtils = require('./gl-utils.js');
 const Shaders = require('./shaders.const.js');
 const SkyShader = require('./skybox.shader.js');
+const AniShader = require('./ani-texture.shader.js');
 const Skybox = require('./skybox.object.js');
+const Effects = require('./effects.object.js');
 const Controller = require('./controller.object.js');
 
 const calc = require('./calc.utils.js');
@@ -82,11 +84,15 @@ function glInitialize(glCanvas){
   let skyVariables = SkyShader.getShaderVariables(glCanvas.glContext, skyProgramm);
   glCanvas.skyProgramm = skyProgramm;
   glCanvas.skyVariables = skyVariables;
+
+  glCanvas.aniProgramm = GLUtils.createShaderFromSource(glCanvas.glContext, AniShader.vertexShaderSource, AniShader.fragmentShaderSource);
+  glCanvas.aniVariables = AniShader.getShaderVariables(glCanvas.glContext, glCanvas.aniProgramm);
   
   glCanvas.camera.init();
   glCanvas.scene = new Scene(glCanvas);
 
   glCanvas.skybox = new Skybox(glCanvas);
+  glCanvas.effects = new Effects(glCanvas);
 
 }
 
@@ -102,6 +108,12 @@ function glRender(glCanvas, deltaTime){
   SkyShader.initShader(glCanvas.glContext, skyProgramm, skyVariables.positionAttr, skyVariables.normalAttr, skyVariables.texAttr);
   glCanvas.glContext.uniformMatrix4fv(glCanvas.skyVariables.viewUniMat4, false, viewMatrix);
   glCanvas.skybox.render(glCanvas.skyVariables, deltaTime);
+
+  let aniProgramm = glCanvas.aniProgramm;
+  let aniVariables = glCanvas.aniVariables;
+  AniShader.initShader(glCanvas.glContext, aniProgramm, aniVariables.positionAttr, aniVariables.texAttr);
+  glCanvas.glContext.uniformMatrix4fv(glCanvas.aniVariables.viewUniMat4, false, viewMatrix);
+  glCanvas.effects.render(glCanvas.aniVariables, deltaTime);
 
   let shaderProgramm = glCanvas.shaderProgramm;
   let shaderVariables = glCanvas.shaderVariables;
