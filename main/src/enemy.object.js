@@ -55,7 +55,7 @@ class Enemy{
     this.model.matrix = m4.lookAt([this.pos.x, this.pos.y, this.pos.z], [vs.x, vs.y, vs.z], [0,0,1] );
     this.model.matrix = m4.xRotate(this.model.matrix,-Math.PI/2);
     this.model.matrix = m4.zRotate(this.model.matrix,Math.PI);
-    if (Math.random()<0.01){console.log(dir)};
+    //if (Math.random()<0.01){console.log(dir)};
     //if (this.v.abs()<0.5){
       this.v.subVector(dir.mul(0.05), true);
     if (this.v.abs()>0.51){this.v = this.v.normalize().mul(0.51);}

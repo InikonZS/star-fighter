@@ -1,4 +1,6 @@
 const Basic = require('./basic.object.js');
+const Textured = require('./textured.object.js');
+
 const boxModel = require('./box.model.js');
 const rocketModel = require('./rocket.model.js');
 const Vector3d = require('./vector3d.dev.js');

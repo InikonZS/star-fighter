@@ -1,53 +1,59 @@
 let vertexShaderSource = `
   attribute vec4 a_position;
-  attribute vec4 a_normal;
+  attribute vec2 a_texcoord;
+  
   uniform mat4 u_view;
   uniform mat4 u_world;
+
   varying vec4 v_position;
-  varying vec4 v_normal;
+  varying vec2 v_texcoord;
+
   void main() {
     gl_Position = u_view * u_world * a_position;
     v_position = gl_Position;
-    v_normal = vec4(mat3(u_world) * vec3(a_normal), 1);
+    v_texcoord = a_texcoord;
   }
 `;
 
 let fragmentShaderSource =`
   precision mediump float;
+
   uniform vec4 u_color;
+  uniform sampler2D u_texture;
+
   varying vec4 v_position;
-  varying vec4 v_normal;
+  varying vec2 v_texcoord;
+  
   void main() {
-    float light = dot(normalize(v_normal.xyz),normalize(vec3(1,1,0)));
-    light = light+1.0;
-    gl_FragColor = vec4(light*u_color.r, light*u_color.g, light*u_color.b, 1);
+    gl_FragColor = texture2D(u_texture, v_texcoord);
   }
 `;
 
-//gl_FragColor = vec4((light.x+0.0)*0.95*u_color.r, (light.y+0.0)*0.95*u_color.r, (light.z+0.0)*0.95*u_color.r, 1);
-
 function getShaderVariables(gl, program){
   var positionAttr = gl.getAttribLocation(program, "a_position");
-  var normalAttr = gl.getAttribLocation(program, "a_normal");
+  var texAttr = gl.getAttribLocation(program, "a_texcoord");
   var colorUniVec4 = gl.getUniformLocation(program, "u_color");
   var viewUniMat4 = gl.getUniformLocation(program, "u_view");
   var worldUniMat4 = gl.getUniformLocation(program, "u_world");
+  var texture = gl.getUniformLocation(program, "u_texture");
+
   return {
     positionAttr,
-    normalAttr,
+    texAttr,
     colorUniVec4,
     viewUniMat4,
-    worldUniMat4
+    worldUniMat4,
+    texture
   }
 }
 
-function initShader(gl, program, positionAttr, normalAttr){
+function initShader(gl, program, positionAttr, normalAttr, texAttr){
   gl.clearColor(0, 0, 0, 0);
-  gl.enable(gl.DEPTH_TEST);
+  gl.disable(gl.DEPTH_TEST);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   gl.useProgram(program);
   gl.enableVertexAttribArray(positionAttr);
-  gl.enableVertexAttribArray(normalAttr);
+  gl.enableVertexAttribArray(texAttr);
 }
 
 module.exports = {

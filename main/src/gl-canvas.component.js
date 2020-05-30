@@ -3,6 +3,8 @@ const Camera = require('./camera.object.js');
 const Scene = require('./scene.object.js');
 const GLUtils = require('./gl-utils.js');
 const Shaders = require('./shaders.const.js');
+const SkyShader = require('./skybox.shader.js');
+const Skybox = require('./skybox.object.js');
 const Controller = require('./controller.object.js');
 
 const calc = require('./calc.utils.js');
@@ -74,10 +76,16 @@ function glInitialize(glCanvas){
   let shaderVariables = Shaders.getShaderVariables(glCanvas.glContext, shaderProgramm);
   glCanvas.shaderProgramm = shaderProgramm;
   glCanvas.shaderVariables = shaderVariables;
-  Shaders.initShader(glCanvas.glContext, shaderProgramm, shaderVariables.positionAttr, shaderVariables.normalAttr);
+
+  let skyProgramm = GLUtils.createShaderFromSource(glCanvas.glContext, SkyShader.vertexShaderSource, SkyShader.fragmentShaderSource);
+  let skyVariables = SkyShader.getShaderVariables(glCanvas.glContext, skyProgramm);
+  glCanvas.skyProgramm = skyProgramm;
+  glCanvas.skyVariables = skyVariables;
   
   glCanvas.camera.init();
   glCanvas.scene = new Scene(glCanvas);
+
+  glCanvas.skybox = new Skybox(glCanvas);
 
 }
 
@@ -86,8 +94,19 @@ function glRender(glCanvas, deltaTime){
   glCanvas.camera.process(glCanvas, deltaTime);
   var camera = glCanvas.camera;
   var viewMatrix = calc.makeCameraMatrix(aspect, camera.camRX, camera.camRY, camera.camRZ, camera.posX, camera.posY, camera.posZ);
-  glCanvas.glContext.uniformMatrix4fv(glCanvas.shaderVariables.viewUniMat4, false, viewMatrix);
+  
+  
+  let skyProgramm = glCanvas.skyProgramm;
+  let skyVariables = glCanvas.skyVariables;
+  SkyShader.initShader(glCanvas.glContext, skyProgramm, skyVariables.positionAttr, skyVariables.normalAttr, skyVariables.texAttr);
+  glCanvas.glContext.uniformMatrix4fv(glCanvas.skyVariables.viewUniMat4, false, viewMatrix);
+  glCanvas.skybox.render(glCanvas.skyVariables, deltaTime);
 
+  let shaderProgramm = glCanvas.shaderProgramm;
+  let shaderVariables = glCanvas.shaderVariables;
+  Shaders.initShader(glCanvas.glContext, shaderProgramm, shaderVariables.positionAttr, shaderVariables.normalAttr);
+  glCanvas.glContext.uniformMatrix4fv(glCanvas.shaderVariables.viewUniMat4, false, viewMatrix);
+  //glCanvas.skybox.render(glCanvas.shaderVariables, deltaTime);*/
   glCanvas.scene.render(glCanvas.shaderVariables, deltaTime);
 }
 

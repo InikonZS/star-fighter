@@ -1,5 +1,13 @@
 const Vector3d = require('./vector3d.dev.js');
 
+function radToDeg(r) {
+  return r * 180 / Math.PI;
+}
+
+function degToRad(d) {
+  return d * Math.PI / 180;
+}
+
 function makeCameraMatrix(aspect, rx, ry, rz, px, py, pz){
   let matrix = m4.perspective(1, aspect, 0.1, 2000); 
   matrix = m4.xRotate(matrix, ry);
@@ -166,5 +174,7 @@ module.exports = {
   lineCrossTriangle,
   transformVertexList,
   crossMeshByLine,
-  isCrossedMeshByLine
+  isCrossedMeshByLine,
+  radToDeg,
+  degToRad
 }
