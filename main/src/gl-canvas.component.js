@@ -101,7 +101,7 @@ function glRender(glCanvas, deltaTime){
   glCanvas.camera.process(glCanvas, deltaTime);
   var camera = glCanvas.camera;
   var viewMatrix = calc.makeCameraMatrix(aspect, camera.camRX, camera.camRY, camera.camRZ, camera.posX, camera.posY, camera.posZ);
-  
+  glCanvas.viewMatrix = viewMatrix;
   
   let skyProgramm = glCanvas.skyProgramm;
   let skyVariables = glCanvas.skyVariables;

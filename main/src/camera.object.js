@@ -40,6 +40,7 @@ class Camera{
       volumeCamera(this, moveSpeed, deltaTime);
     }
     let cam = glCanvas.camera;
+    //todo SYNC it with game time!!!
     cam.vX*=0.999;
     cam.vY*=0.999;
     cam.vZ*=0.999;

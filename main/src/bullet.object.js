@@ -25,9 +25,14 @@ class Bullet{
     this.model.render(shadersVariables);
   }
 
-  react(obj){
-    return calc.isCrossedMeshByLine(obj, this.pos, this.pos.addVector(this.v));
+  react(obj, pos){
+    return isCrossedSimple(pos, this.pos, this.v) && calc.isCrossedMeshByLine(obj, this.pos, this.pos.addVector(this.v));
+
   }
+}
+
+function isCrossedSimple(pos, a, v){
+  return (pos.subVector(a).abs()<(v.abs()+10));
 }
 
 module.exports = Bullet;

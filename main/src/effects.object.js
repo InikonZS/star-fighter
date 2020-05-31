@@ -18,6 +18,9 @@ class Effects{
 
     this.list = [];
 
+    /*let mtx = m4.identity();
+    this.model = new Textured(this.gl, boxModel, 'https://raw.githubusercontent.com/InikonZS/textures/master/kisspng-sprite-explosion-animated-film-2d-computer-graphic-5b320d937c5263.6802436815300069315092.png', mtx, {r:200, g:20, b:60});
+    this.model.frame=0;*/
   }
 
   addEffect(p){
@@ -34,9 +37,9 @@ class Effects{
   render(shaderVariables, deltaTime){
     let glCanvas = this.glCanvas;
     let cam = glCanvas.camera;
-    //let mtx = m4.identity();
+    let mtx = m4.identity();
    // mtx = m4.translate(mtx -cam.posX, -cam.posY, -cam.posZ);
-   // mtx = m4.scale(mtx, 1,1,1);
+   // mtx = m4.scale(mtx, 100,100,100);
    // this.model.matrix = mtx;// 
     let reqFilter = false;
 
@@ -48,9 +51,9 @@ class Effects{
         it.time = 0.08;
       //this.time = 0.03;
       });
-      //this.frame++;
-      //if (this.frame>=this.xmax*this.ymax){this.frame=0; this.isFinished=true;}
-      //this.time = 0.03;
+      this.frame++;
+      if (this.frame>=this.xmax*this.ymax){this.frame=0; this.isFinished=true;}
+      this.time = 0.03;
     }
     if (reqFilter){
       this.list = this.list.filter(it=>!it.isFinished)
