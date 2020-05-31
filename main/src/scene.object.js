@@ -19,14 +19,14 @@ class Scene{
 
     let el = document.createElement('div');
     el.textContent = 'X';
-    document.body.appendChild(el);
-    el.style = 'position:absolute; top:0px; left:0px';
+    glCanvas.overlay.node.appendChild(el);
+    el.style = 'position:absolute; top:0px; left:0px; width:100px';
     this.el = el;
 
     let el1 = document.createElement('div');
     el1.textContent = 'X';
-    document.body.appendChild(el1);
-    el1.style = 'position:absolute; top:0px; left:0px';
+    glCanvas.overlay.node.appendChild(el1);
+    el1.style = 'position:absolute; top:0px; left:0px; width:100px';
     this.el1 = el1;
 
     this.glCanvas = glCanvas;
@@ -86,12 +86,19 @@ class Scene{
       }
     });
 
-
-    let ps = getScreenPos(this.glCanvas.viewMatrix, this.enemy.pos, {top:0, left:0, right:600, bottom:450});
-    this.el.style=`position:absolute; top:${ps.y}px; left:${ps.x}px; color:#fff`;
+    let rect =this.glCanvas.overlay.node.getBoundingClientRect();
+    let ps = getScreenPos(this.glCanvas.viewMatrix, this.enemy.pos, rect);
     this.el.textContent = 'Enemy '+Math.round(glCanvas.camera.getPosVector().subVector(this.enemy.pos).abs()*10)/10+ 'km';
+    if (ps.y+this.el.clientHeight>rect.bottom){
+      ps.y = ps.y-this.el.clientHeight;
+    }
+    if (ps.x+this.el.clientWidth>rect.right){
+      ps.x = ps.x-this.el.clientWidth;
+    }
+    this.el.style=`position:absolute; top:${ps.y}px; left:${ps.x}px; color:#fff`;
+    
 
-    let zp = getScreenPos(this.glCanvas.viewMatrix, new Vector3d(0,0,0), {top:0, left:0, right:600, bottom:450});
+    let zp = getScreenPos(this.glCanvas.viewMatrix, new Vector3d(0,0,0), rect);
     this.el1.style=`position:absolute; top:${zp.y}px; left:${zp.x}px; color:#f99`;
     this.el1.textContent = 'Base '+Math.round(glCanvas.camera.getPosVector().abs()*10)/10+ 'km';
     

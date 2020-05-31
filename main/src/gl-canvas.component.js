@@ -16,6 +16,7 @@ class GLCanvas extends Control{
     super (parentNode, 'canvas', '', '', ()=>{
       this.node.requestPointerLock();
     });
+    parentNode.style = 'position:relative';
     this.node.width = width;
     this.node.height = height;
     this.glContext = this.node.getContext('webgl');
@@ -26,6 +27,36 @@ class GLCanvas extends Control{
 
     this.averageRenderTime =0;
     this.info = new Control(parentNode,'div');
+    this.fullScreenButton = new Control(parentNode, 'div', '', 'fullScreen', ()=>{
+      parentNode.requestFullscreen();
+      //let rect = document.documentElement.getBoundingClientRect();
+       
+      //this.node.requestPointerLock();
+    });
+    parentNode.addEventListener('fullscreenchange', (e)=>{
+      if (document.fullscreen){
+        this.node.width = screen.width;
+        this.node.height = screen.height;   
+        this.overlayRefresh();
+      } else {
+        this.node.width = 640;
+        this.node.height = 480; 
+        this.overlayRefresh();
+      }
+    });
+    this.overlay = new Control(parentNode, 'div', '', '', ()=>{
+      this.node.requestPointerLock();
+    });
+    this.overlayRefresh();
+  }
+  overlayRefresh(){
+    this.overlay.node.style = `
+      position:absolute;
+      width:${this.node.clientWidth}px;
+      height:${this.node.clientHeight}px;
+      top:0px;
+      left:0px;
+    `;
   }
 
   start(){
