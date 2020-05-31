@@ -13,9 +13,9 @@ const calc = require('./calc.utils.js');
 
 class Scene{
   constructor(glCanvas){
-    preloadSoundUrl('assets/sounds/laser.mp3');
+  /*  preloadSoundUrl('assets/sounds/laser.mp3');
     preloadSoundUrl('assets/sounds/expl1.mp3');
-    preloadSoundUrl('assets/sounds/expl2.mp3');
+    preloadSoundUrl('assets/sounds/expl2.mp3');*/
 
     let el = document.createElement('div');
     el.textContent = 'X';
@@ -54,49 +54,22 @@ class Scene{
 
   render(shaderVariables, deltaTime){
     let glCanvas = this.glCanvas;
-    this.shotTime-=deltaTime;
+
     if (this.glCanvas.keyboardState.shot){
       if (this.glCanvas.weapon ==1){
-        if (this.shotTime<=0 || this.shotTime>=1000){
-          let bul = new Bullet(glCanvas.glContext, glCanvas.camera.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), glCanvas.camera.getCamNormal().mul(-3.10));
-          glCanvas.scene.bullets.push(bul);
-          this.shotTime = 0.15;
-
-          playSoundUrl('assets/sounds/laser.mp3');
-        }
+        this.glCanvas.camera.shot(glCanvas, 0);
       }
 
       if (this.glCanvas.weapon ==2){
-        if (this.shotTime<=0 || this.shotTime>=1000){
-          let bul = new Bullet(glCanvas.glContext, glCanvas.camera.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), glCanvas.camera.getCamNormal().mul(-3.10));
-          bul.time = 0.6;
-          glCanvas.scene.bullets.push(bul);
-          this.shotTime = 0.07;
-
-          playSoundUrl('assets/sounds/laser.mp3');
-        }
+        this.glCanvas.camera.shot(glCanvas, 1);
       }
 
       if (this.glCanvas.weapon ==3){
-        if (this.shotTime<=0 || this.shotTime>=1000){
-          let bul = new Bullet(glCanvas.glContext, glCanvas.camera.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), glCanvas.camera.getCamNormal().mul(-3.10));
-          bul.time = 5;
-          glCanvas.scene.bullets.push(bul);
-          this.shotTime = 0.35;
-
-          playSoundUrl('assets/sounds/laser_power.mp3');
-        }
+        this.glCanvas.camera.shot(glCanvas, 2);
       }
 
       if (this.glCanvas.weapon ==4){
-        if (this.shotTime<=0 || this.shotTime>=1000){
-          let bul = new Bullet(glCanvas.glContext, glCanvas.camera.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), glCanvas.camera.getCamNormal().mul(-12.10));
-          bul.time = 5;
-          glCanvas.scene.bullets.push(bul);
-          this.shotTime = 0.45;
-
-          playSoundUrl('assets/sounds/laser_power.mp3');
-        }
+        this.glCanvas.camera.shot(glCanvas, 3);
       }
     }
 
@@ -113,29 +86,6 @@ class Scene{
       }
     });
 
-    //// HTML connection
-    /*let ps = this.enemy.pos;
-    var point = [ps.x, ps.y, ps.z, 1];  // это верхний правый угол фронтальной части
-    // вычисляем координаты пространства отсечения,
-    // используя матрицу, которую мы вычисляли для F
-    var clipspace = m4.transformVector(this.glCanvas.viewMatrix, point);
-    // делим X и Y на W аналогично видеокарте
-    clipspace[0] /= clipspace[3];
-    clipspace[1] /= clipspace[3];
-    // конвертация из пространства отсечения в пиксели
-    var pixelX = (clipspace[0] *  0.5 + 0.5) * 640;
-    var pixelY = (clipspace[1] * -0.5 + 0.5) * 480;
-    if (clipspace[3]<0){
-      pixelX*=1000;
-      pixelY*=1000;
-    }
-    pixelY = pixelY > 470 ? 470 : pixelY;
-    pixelX = pixelX > 630 ? 630 : pixelX;
-    pixelY = pixelY < 0 ? 0 : pixelY;
-    pixelX = pixelX < 0 ? 0 : pixelX;
-    this.el.textContent = 'X '+Math.round(glCanvas.camera.getPosVector().subVector(this.enemy.pos).abs()*10)/10+ 'km';
-    //if (clipspace[3]>0){
-      */
 
     let ps = getScreenPos(this.glCanvas.viewMatrix, this.enemy.pos, {top:0, left:0, right:600, bottom:450});
     this.el.style=`position:absolute; top:${ps.y}px; left:${ps.x}px; color:#fff`;
@@ -144,13 +94,10 @@ class Scene{
     let zp = getScreenPos(this.glCanvas.viewMatrix, new Vector3d(0,0,0), {top:0, left:0, right:600, bottom:450});
     this.el1.style=`position:absolute; top:${zp.y}px; left:${zp.x}px; color:#f99`;
     this.el1.textContent = 'Base '+Math.round(glCanvas.camera.getPosVector().abs()*10)/10+ 'km';
-    //} else {
-     // this.el.style=`visibility: hidden; position:absolute; top:${pixelY}px; left:${pixelX}px; color:#fff`;
-    //}
-    //////
+    
     
 
-    let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
+    //let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
     let bsl1 = calc.transformVertexList(this.enemy.hitPoint.vertexList, this.enemy.model.matrix);
     let reqFilter = false;
     this.bullets.forEach((it, i, arr)=>{

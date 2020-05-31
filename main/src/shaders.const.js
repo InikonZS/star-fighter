@@ -44,6 +44,7 @@ function getShaderVariables(gl, program){
 function initShader(gl, program, positionAttr, normalAttr){
   gl.clearColor(0, 0, 0, 0);
   gl.enable(gl.DEPTH_TEST);
+  gl.depthMask(true);
   gl.disable(gl.BLEND);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   gl.useProgram(program);

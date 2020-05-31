@@ -51,6 +51,7 @@ function initShader(gl, program, positionAttr, normalAttr, texAttr){
   gl.clearColor(0, 0, 0, 0);
   gl.disable(gl.DEPTH_TEST);
   gl.disable(gl.BLEND);
+  gl.depthMask(false);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   gl.useProgram(program);
   gl.enableVertexAttribArray(positionAttr);

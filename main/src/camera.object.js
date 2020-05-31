@@ -1,7 +1,15 @@
 const Vector3d = require('./vector3d.dev.js');
+const Weapon = require('./weapon.object.js');
 
 class Camera{
-  constructor(){ 
+  constructor(){
+    this.weapons=[
+      new Weapon(0.15, 1.2, 3.1, 'assets/sounds/laser.mp3'),
+      new Weapon(0.08, 0.7, 3.1, 'assets/sounds/laser.mp3'),
+      new Weapon(0.35, 5.2, 3.1, 'assets/sounds/laser_power.mp3'),
+      new Weapon(0.65, 1.2, 14.1, 'assets/sounds/laser_power.mp3'),
+    ];
+    
   }
   getPosVector(){
     return new Vector3d(-this.posX, -this.posY, -this.posZ);
@@ -34,6 +42,8 @@ class Camera{
   }
 
   process(glCanvas, deltaTime){
+    this.weapons.forEach(it=>it.render(deltaTime));
+
     this.dt = deltaTime;
     if (glCanvas.keyboardState.forward){
       let moveSpeed = 0.3;
@@ -47,6 +57,10 @@ class Camera{
     cam.posX+=cam.vX;
     cam.posY+=cam.vY;
     cam.posZ+=cam.vZ;
+  }
+
+  shot(glCanvas, weaponIndex){
+    this.weapons[weaponIndex].shot(glCanvas.glContext, glCanvas.scene.bullets, this.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), this.getCamNormal().mul(-1));
   }
 
  /* rotateCam(dx, dy){
