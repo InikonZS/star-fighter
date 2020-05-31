@@ -7,31 +7,21 @@ const boxModel = require('./box.model.js');
 const rocketModel = require('./rocket.model.js');
 const Vector3d = require('./vector3d.dev.js');
 let Bullet = require('./bullet.object.js');
-let Enemy = require('./enemy.object.js')
+let Enemy = require('./enemy.object.js');
+let Message = require('./point-message.object.js')
 
 const calc = require('./calc.utils.js');
 
 class Scene{
   constructor(glCanvas){
-  /*  preloadSoundUrl('assets/sounds/laser.mp3');
-    preloadSoundUrl('assets/sounds/expl1.mp3');
-    preloadSoundUrl('assets/sounds/expl2.mp3');*/
-
-    let el = document.createElement('div');
-    el.textContent = 'X';
-    glCanvas.overlay.node.appendChild(el);
-    el.style = 'position:absolute; top:0px; left:0px; width:100px';
-    this.el = el;
-
-    let el1 = document.createElement('div');
-    el1.textContent = 'X';
-    glCanvas.overlay.node.appendChild(el1);
-    el1.style = 'position:absolute; top:0px; left:0px; width:100px';
-    this.el1 = el1;
 
     this.glCanvas = glCanvas;
     this.gl = glCanvas.glContext;
     let gl = this.gl;
+
+    this.messages = [];
+    this.messages.push(new Message(glCanvas.overlay.node,'','fff'));
+    this.messages.push(new Message(glCanvas.overlay.node,'','f88'));
 
     this.enemy = new Enemy(gl, new Vector3d(50, 50, 50), new Vector3d(0,0,0));
     this.bs = new Basic(gl,rocketModel , m4.identity(), {r:200, g:20, b:60});
@@ -86,23 +76,8 @@ class Scene{
       }
     });
 
-    let rect =this.glCanvas.overlay.node.getBoundingClientRect();
-    let ps = getScreenPos(this.glCanvas.viewMatrix, this.enemy.pos, rect);
-    this.el.textContent = 'Enemy '+Math.round(glCanvas.camera.getPosVector().subVector(this.enemy.pos).abs()*10)/10+ 'km';
-    if (ps.y+this.el.clientHeight>rect.bottom){
-      ps.y = ps.y-this.el.clientHeight;
-    }
-    if (ps.x+this.el.clientWidth>rect.right){
-      ps.x = ps.x-this.el.clientWidth;
-    }
-    this.el.style=`position:absolute; top:${ps.y}px; left:${ps.x}px; color:#fff`;
-    
-
-    let zp = getScreenPos(this.glCanvas.viewMatrix, new Vector3d(0,0,0), rect);
-    this.el1.style=`position:absolute; top:${zp.y}px; left:${zp.x}px; color:#f99`;
-    this.el1.textContent = 'Base '+Math.round(glCanvas.camera.getPosVector().abs()*10)/10+ 'km';
-    
-    
+    this.messages[0].refresh(this.glCanvas.viewMatrix, this.enemy.pos, 'Enemy '+Math.round(glCanvas.camera.getPosVector().subVector(this.enemy.pos).abs()*10)/10+ 'km');
+    this.messages[1].refresh(this.glCanvas.viewMatrix, new Vector3d(0,0,0), 'Base '+Math.round(glCanvas.camera.getPosVector().abs()*10)/10+ 'km');
 
     //let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
     let bsl1 = calc.transformVertexList(this.enemy.hitPoint.vertexList, this.enemy.model.matrix);
@@ -113,11 +88,7 @@ class Scene{
         arr[i] = undefined;
         reqFilter = true;
       }
-  /*    if (it && (it.react(bsl, this.bd.pos))){
-        this.bs.color={r:rand(255), g:rand(155)+100, b:60};
-        arr[i] = undefined;
-        reqFilter = true;
-      };*/
+
       if (it && (it.react(bsl1, this.enemy.pos))){
 
         this.glCanvas.effects.addEffect(this.enemy.pos);
@@ -159,28 +130,6 @@ function playSoundUrl(url){
   el.src = url;  
 }
 
-function getScreenPos(viewMatrix, vector, clipRect){
-  var point = [vector.x, vector.y, vector.z, 1];  
-  // это верхний правый угол фронтальной части
-  // вычисляем координаты пространства отсечения,
-  // используя матрицу, которую мы вычисляли для F
-  var clipspace = m4.transformVector(viewMatrix, point);
-  // делим X и Y на W аналогично видеокарте
-  clipspace[0] /= clipspace[3];
-  clipspace[1] /= clipspace[3];
-  // конвертация из пространства отсечения в пиксели
-  var pixelX = (clipspace[0] *  0.5 + 0.5) * clipRect.right;
-  var pixelY = (clipspace[1] * -0.5 + 0.5) * clipRect.bottom;
-  if (clipspace[3]<0){
-    pixelX*=-10000;
-    pixelY*=-10000;
-  }
-  pixelY = pixelY > clipRect.bottom ? clipRect.bottom : pixelY;
-  pixelX = pixelX > clipRect.right ? clipRect.right : pixelX;
-  pixelY = pixelY < clipRect.top ? clipRect.top : pixelY;
-  pixelX = pixelX < clipRect.left ? clipRect.left : pixelX;
-  return {x:pixelX, y:pixelY, back:(clipspace[3]<0)}
-}
 
 function rand(lim){
   return Math.trunc(Math.random()*lim);

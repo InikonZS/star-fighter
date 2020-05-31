@@ -4,8 +4,38 @@ body{
 }
 .global_wrapper{
   width: 100%;
+  box-sizing: border-box;
+}
+.header{
+  width:100%;
+  padding: 10px;
+  min-height: 40px;
+  background-color: #999;
+  box-sizing: border-box;
+}
+.footer{
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.center{
+  display: flex;
+  width:100%;
+  box-sizing: border-box;
+  flex-wrap:wrap;
+  justify-content: center;
+}
+.left_panel{
+  width:25%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.game_panel{
+  width:75%;
+  padding: 10px;
+  box-sizing: border-box;
 }
 #app-main{
   width:100%;
-  min-height:100vh;
+  box-sizing: border-box;
 }
