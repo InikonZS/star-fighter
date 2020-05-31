@@ -23,6 +23,12 @@ class Scene{
     el.style = 'position:absolute; top:0px; left:0px';
     this.el = el;
 
+    let el1 = document.createElement('div');
+    el1.textContent = 'X';
+    document.body.appendChild(el1);
+    el1.style = 'position:absolute; top:0px; left:0px';
+    this.el1 = el1;
+
     this.glCanvas = glCanvas;
     this.gl = glCanvas.glContext;
     let gl = this.gl;
@@ -35,9 +41,9 @@ class Scene{
     //this.bd.matrix = m4.scale(this.bd.matrix, 10,3,20);
 
     this.particles = [];
-    for (let i=0; i< 13000; i++){
+    for (let i=0; i< 3000; i++){
       let mtx = m4.identity();
-      mtx = m4.translate(mtx, rand(3000)-150, rand(3000)-150, rand(3000)-150);
+      mtx = m4.translate(mtx, rand(1000)-500, rand(1000)-500, rand(1000)-500);
       let pt = new Basic(gl, boxModel , mtx, {r:rand(255), g:rand(155)+100, b:60});
       this.particles.push(pt);
     }
@@ -108,7 +114,7 @@ class Scene{
     });
 
     //// HTML connection
-    let ps = this.enemy.pos;
+    /*let ps = this.enemy.pos;
     var point = [ps.x, ps.y, ps.z, 1];  // это верхний правый угол фронтальной части
     // вычисляем координаты пространства отсечения,
     // используя матрицу, которую мы вычисляли для F
@@ -119,16 +125,28 @@ class Scene{
     // конвертация из пространства отсечения в пиксели
     var pixelX = (clipspace[0] *  0.5 + 0.5) * 640;
     var pixelY = (clipspace[1] * -0.5 + 0.5) * 480;
+    if (clipspace[3]<0){
+      pixelX*=1000;
+      pixelY*=1000;
+    }
     pixelY = pixelY > 470 ? 470 : pixelY;
     pixelX = pixelX > 630 ? 630 : pixelX;
     pixelY = pixelY < 0 ? 0 : pixelY;
     pixelX = pixelX < 0 ? 0 : pixelX;
-    //this.el.textContent = clipspace[3];
-    if (clipspace[3]>0){
-      this.el.style=`position:absolute; top:${pixelY}px; left:${pixelX}px; color:#fff`;
-    } else {
-      this.el.style=`visibility: hidden; position:absolute; top:${pixelY}px; left:${pixelX}px; color:#fff`;
-    }
+    this.el.textContent = 'X '+Math.round(glCanvas.camera.getPosVector().subVector(this.enemy.pos).abs()*10)/10+ 'km';
+    //if (clipspace[3]>0){
+      */
+
+    let ps = getScreenPos(this.glCanvas.viewMatrix, this.enemy.pos, {top:0, left:0, right:600, bottom:450});
+    this.el.style=`position:absolute; top:${ps.y}px; left:${ps.x}px; color:#fff`;
+    this.el.textContent = 'Enemy '+Math.round(glCanvas.camera.getPosVector().subVector(this.enemy.pos).abs()*10)/10+ 'km';
+
+    let zp = getScreenPos(this.glCanvas.viewMatrix, new Vector3d(0,0,0), {top:0, left:0, right:600, bottom:450});
+    this.el1.style=`position:absolute; top:${zp.y}px; left:${zp.x}px; color:#f99`;
+    this.el1.textContent = 'Base '+Math.round(glCanvas.camera.getPosVector().abs()*10)/10+ 'km';
+    //} else {
+     // this.el.style=`visibility: hidden; position:absolute; top:${pixelY}px; left:${pixelX}px; color:#fff`;
+    //}
     //////
     
 
@@ -185,6 +203,29 @@ function playSoundUrl(url){
     el = undefined;
   }
   el.src = url;  
+}
+
+function getScreenPos(viewMatrix, vector, clipRect){
+  var point = [vector.x, vector.y, vector.z, 1];  
+  // это верхний правый угол фронтальной части
+  // вычисляем координаты пространства отсечения,
+  // используя матрицу, которую мы вычисляли для F
+  var clipspace = m4.transformVector(viewMatrix, point);
+  // делим X и Y на W аналогично видеокарте
+  clipspace[0] /= clipspace[3];
+  clipspace[1] /= clipspace[3];
+  // конвертация из пространства отсечения в пиксели
+  var pixelX = (clipspace[0] *  0.5 + 0.5) * clipRect.right;
+  var pixelY = (clipspace[1] * -0.5 + 0.5) * clipRect.bottom;
+  if (clipspace[3]<0){
+    pixelX*=-10000;
+    pixelY*=-10000;
+  }
+  pixelY = pixelY > clipRect.bottom ? clipRect.bottom : pixelY;
+  pixelX = pixelX > clipRect.right ? clipRect.right : pixelX;
+  pixelY = pixelY < clipRect.top ? clipRect.top : pixelY;
+  pixelX = pixelX < clipRect.left ? clipRect.left : pixelX;
+  return {x:pixelX, y:pixelY, back:(clipspace[3]<0)}
 }
 
 function rand(lim){

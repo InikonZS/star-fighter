@@ -23,6 +23,9 @@ class GLCanvas extends Control{
     this.keyboardState = {};
     this.camera = new Camera();
     this.weapon=1;
+
+    this.averageRenderTime =0;
+    this.info = new Control(parentNode,'div');
   }
 
   start(){
@@ -97,6 +100,11 @@ function glInitialize(glCanvas){
 }
 
 function glRender(glCanvas, deltaTime){
+  if (deltaTime<1000 && deltaTime>0){
+    glCanvas.averageRenderTime =  (glCanvas.averageRenderTime * 31 + deltaTime)/32;
+  }
+  glCanvas.info.node.textContent = 'FPS: '+ Math.round(1/glCanvas.averageRenderTime);
+
   var aspect = glCanvas.glContext.canvas.clientWidth / glCanvas.glContext.canvas.clientHeight;
   glCanvas.camera.process(glCanvas, deltaTime);
   var camera = glCanvas.camera;
