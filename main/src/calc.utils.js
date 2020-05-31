@@ -100,20 +100,6 @@ function lineCrossTriangle(a, b, u, v, w){
   return res;
 }
 
-/*getTransformed(){
-  let ot =[];
-  for (let i=0; i<this.model.vertexList.length/3; i++){
-    let v =[[this.model.vertexList[i*3+0]],[this.model.vertexList[i*3+1]],[this.model.vertexList[i*3+2]], [1]];
-    //let v =[[this.model.vertexList[i*3+0],this.model.vertexList[i*3+1],this.model.vertexList[i*3+2], 0]];
-    let res = calc.getMatrixProduct(matFromM4(this.matx),v);
-  // let res = calc.getMatrixProduct(this.nmx,v);
-    ot.push(res[0][0]);
-    ot.push(res[1][0]);
-    ot.push(res[2][0]);
-  }
-  return ot;
-}*/
-
 function transformVertexList(vertexList, matrix){
   let ot =[];
   let mtx = matFromM4(matrix);

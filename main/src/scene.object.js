@@ -39,7 +39,7 @@ class Scene{
     }
 
     this.bullets = [];
-    this.shotTime = 0;
+    //this.shotTime = 0;
   }
 
   render(shaderVariables, deltaTime){

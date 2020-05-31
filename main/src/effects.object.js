@@ -35,36 +35,33 @@ class Effects{
   }
 
   render(shaderVariables, deltaTime){
-    let glCanvas = this.glCanvas;
-    let cam = glCanvas.camera;
-    let mtx = m4.identity();
+   // let glCanvas = this.glCanvas;
+   // let cam = glCanvas.camera;
+   // let mtx = m4.identity();
    // mtx = m4.translate(mtx -cam.posX, -cam.posY, -cam.posZ);
    // mtx = m4.scale(mtx, 100,100,100);
    // this.model.matrix = mtx;// 
-    let reqFilter = false;
-
+    
     this.time-=deltaTime;
     if (this.time<0||this.time>10000){
+      let reqFilter = false;
       this.list.forEach((it)=>{
         it.frame++;
         if (it.frame>=this.xmax*this.ymax){it.frame=0; it.isFinished=true; reqFilter = true;}
         it.time = 0.08;
-      //this.time = 0.03;
       });
       this.frame++;
       if (this.frame>=this.xmax*this.ymax){this.frame=0; this.isFinished=true;}
       this.time = 0.03;
+      if (reqFilter){
+        this.list = this.list.filter(it=>!it.isFinished)
+      }
     }
-    if (reqFilter){
-      this.list = this.list.filter(it=>!it.isFinished)
-    }
-
+    
     this.list.forEach((it)=>{
-      this.gl.uniform4f(shaderVariables.posUniVec4, 1/5,1/4,it.frame%this.xmax,Math.trunc(it.frame/this.xmax));
+      this.gl.uniform4f(shaderVariables.posUniVec4, 1/this.xmax,1/this.ymax, it.frame%this.xmax, Math.trunc(it.frame/this.xmax));
       it.render(shaderVariables);    
     });
-    //this.gl.uniform4f(shaderVariables.posUniVec4, 1/5,1/4,this.frame%this.xmax,Math.trunc(this.frame/this.xmax));
-    //this.model.render(shaderVariables);
   }
 }
 
