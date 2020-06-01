@@ -11,6 +11,7 @@ let Enemy = require('./enemy.object.js');
 let Message = require('./point-message.object.js')
 
 const calc = require('./calc.utils.js');
+const anyutils = require('./any.utils.js');
 
 class Scene{
   constructor(glCanvas){
@@ -27,8 +28,10 @@ class Scene{
     this.bs = new Basic(gl,rocketModel , m4.identity(), {r:200, g:20, b:60});
 
     this.bd = new Basic(gl,boxModel , m4.identity(), {r:200, g:20, b:60});
-    this.bs.matrix = m4.translate(this.bs.matrix, 10,3,20);
-    //this.bd.matrix = m4.scale(this.bd.matrix, 10,3,20);
+    this.bs.matrix = m4.translate(this.bs.matrix, 30,3,40);
+
+    this.bd.matrix = m4.translate(this.bd.matrix, 30,30,40);
+    this.bd.matrix = m4.scale(this.bd.matrix, 10,3,20);
 
     this.particles = [];
     for (let i=0; i< 3000; i++){
@@ -66,8 +69,22 @@ class Scene{
     this.bs.matrix = m4.xRotate(this.bs.matrix, 0.5*deltaTime);
     this.bs.render(shaderVariables);
 
-    this.bd.matrix=this.bs.matrix;
+    //this.bd.matrix=this.bs.matrix;
     //this.bd.matrix = m4.xRotate(this.bd.matrix, 0.5*deltaTime);
+    let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
+    glCanvas.camera.intersect = (p, v) =>{
+      let dtt = mirrorVector(bsl, p, v);
+      if (dtt){
+        let k=-0.6;
+        glCanvas.camera.vX = dtt.x*k;
+        glCanvas.camera.vY = dtt.y*k;
+        glCanvas.camera.vZ = dtt.z*k;
+        return glCanvas.camera.getSpeedVector().mul(k);
+      } else {
+        return v.mul(-1);
+      }
+ 
+    }
     this.bd.render(shaderVariables);
     
     this.particles.forEach(it=>{
@@ -99,7 +116,7 @@ class Scene{
         this.enemy.model.matrix=mtx;
         arr[i] = undefined;
         reqFilter = true;
-        rand(10)<5 ? playSoundUrl('assets/sounds/expl1.mp3') : playSoundUrl('assets/sounds/expl2.mp3');
+        rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3') : anyutils.playSoundUrl('assets/sounds/expl2.mp3');
       };
     });
     if (reqFilter){
@@ -111,7 +128,20 @@ class Scene{
   }
 }
 
-function preloadSoundUrl(url){
+function mirrorVector(vertexList, p, v){
+  let b = p.addVector(v);
+  let cpl = calc.crossMeshByLineT(vertexList,p,b);
+  if (cpl.length){///reflection
+    let tr = calc.getNearest(p, cpl).triangle;
+    let nor = calc.getNormal(tr[0], tr[1], tr[2]);
+    let norm = new Vector3d(nor.x, nor.y, nor.z);
+    let dtt = v.subVector(norm.mul(2*v.dot(norm)));
+    return dtt;
+  }
+  return false;
+}
+
+/*function preloadSoundUrl(url){
   let el = document.createElement('audio');
   document.body.appendChild(el);
   el.src = url;  
@@ -128,7 +158,7 @@ function playSoundUrl(url){
     el = undefined;
   }
   el.src = url;  
-}
+}*/
 
 
 function rand(lim){

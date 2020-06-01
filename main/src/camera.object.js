@@ -9,7 +9,7 @@ class Camera{
       new Weapon(0.35, 5.2, 3.1, 'assets/sounds/laser_power.mp3'),
       new Weapon(0.65, 1.2, 14.1, 'assets/sounds/laser_power.mp3'),
     ];
-    
+    this.intersect;
   }
   getPosVector(){
     return new Vector3d(-this.posX, -this.posY, -this.posZ);
@@ -54,9 +54,16 @@ class Camera{
     cam.vX*=0.999;
     cam.vY*=0.999;
     cam.vZ*=0.999;
+    if (this.intersect){
+      let nv = this.intersect(this.getPosVector(), this.getSpeedVector());
+      cam.posX+=nv.x;
+      cam.posY+=nv.y;
+      cam.posZ+=nv.z;
+    } else {
     cam.posX+=cam.vX;
     cam.posY+=cam.vY;
     cam.posZ+=cam.vZ;
+    }
   }
 
   shot(glCanvas, weaponIndex){

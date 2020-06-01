@@ -121,9 +121,41 @@ function crossMeshByLine(vertexList, lineVectorA, lineVectorB){
       v[j] = new Vector3d(vertexList[i+j*3+0], vertexList[i+j*3+1], vertexList[i+j*3+2]);
     }
     let dv = lineCrossTriangle(lineVectorA, lineVectorB, v[0], v[1], v[2]); 
-    res.push(dv)
+    if (dv){
+      res.push(dv)
+    }
   }
   return res;
+}
+
+function crossMeshByLineT(vertexList, lineVectorA, lineVectorB){
+  let res =[];
+  for (let i=0; i<vertexList.length; i+=9){
+    let v=[];
+    for (let j=0; j<3; j+=1){
+      v[j] = new Vector3d(vertexList[i+j*3+0], vertexList[i+j*3+1], vertexList[i+j*3+2]);
+    }
+    let dv = lineCrossTriangle(lineVectorA, lineVectorB, v[0], v[1], v[2]); 
+    if (dv){
+      res.push({dv:dv, triangle:[v[0], v[1], v[2]]});
+    }
+  }
+  return res;
+}
+
+function getNearest(point, list){
+  let minit;
+  let minlen = 999999;
+  let p = new Vector3d(point.x, point.y, point.z);
+  list.forEach(it=>{
+    let v = new Vector3d(it.dv.x, it.dv.y, it.dv.z);
+    let dist = p.subVector(v).abs();
+    if (dist<minlen){
+      dist = minlen;
+      minit = it;
+    }
+  });
+  return minit;
 }
 
 function isCrossedMeshByLine(vertexList, lineVectorA, lineVectorB){
@@ -161,6 +193,8 @@ module.exports = {
   transformVertexList,
   crossMeshByLine,
   isCrossedMeshByLine,
+  crossMeshByLineT,
+  getNearest,
   radToDeg,
   degToRad
 }

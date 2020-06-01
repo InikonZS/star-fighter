@@ -71,6 +71,30 @@ class Vector3d{
       return new Vector3d(0,0,0);  
     }
   }
+
+  toVec4(){
+    return [this.x, this.y, this.z, 1];
+  }
+
+  fromList(list, ind){
+    return new Vector3d(list[ind], list[ind+1], list[ind+2]);  
+  }
+
+  pushToList(list){
+    list.push(this.x);
+    list.push(this.y);
+    list.push(this.z);
+  }
+
+  transform(matrix){
+    let vec = m4.transformVector(matrix, this.toVec4());
+    return new Vector3d(vec[0], vec[1], vec[2]);
+  }
+
+  dot(v){
+    let u = this;
+    return u.x*v.x + u.y*v.y + u.z*v.z;
+  }
 }
 
 module.exports = Vector3d;
