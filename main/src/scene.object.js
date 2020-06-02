@@ -9,6 +9,7 @@ const Vector3d = require('./vector3d.dev.js');
 let Bullet = require('./bullet.object.js');
 let Weapon = require('./weapon.object.js');
 let Enemy = require('./enemy.object.js');
+let Chunk = require('./static-chunk.object.js');
 let Message = require('./point-message.object.js')
 
 const calc = require('./calc.utils.js');
@@ -41,12 +42,15 @@ class Scene{
     this.bd.matrix = m4.scale(this.bd.matrix, 10,3,20);
 
     this.particles = [];
-    for (let i=0; i< 3000; i++){
+    this.partMtx= [];
+    for (let i=0; i< 300; i++){
       let mtx = m4.identity();
       mtx = m4.translate(mtx, rand(1000)-500, rand(1000)-500, rand(1000)-500);
-      let pt = new Basic(gl, boxModel , mtx, {r:rand(255), g:rand(155)+100, b:60});
-      this.particles.push(pt);
+      this.partMtx.push(mtx);
+      //let pt = new Basic(gl, boxModel , mtx, {r:rand(255), g:rand(155)+100, b:60});
     }
+    let pt = new Chunk(gl , m4.identity(), {r:rand(255), g:rand(155)+100, b:60});
+    this.particles.push(pt);
 
     this.bullets = [];
     //this.shotTime = 0;
@@ -103,9 +107,9 @@ class Scene{
     this.bd.render(shaderVariables);
     
     this.particles.forEach(it=>{
-      if (this.glCanvas.camera.getPosVector().subVector(new Vector3d(it.matrix[12], it.matrix[13], it.matrix[14])).abs()<400){
-        it.render(shaderVariables);
-      }
+    //  if (this.glCanvas.camera.getPosVector().subVector(new Vector3d(it.matrix[12], it.matrix[13], it.matrix[14])).abs()<400){
+        it.renderMany(shaderVariables,this.partMtx);
+    //  }
     });
 
     this.messages[0].refresh(this.glCanvas.viewMatrix, this.enemy.pos, 'Enemy '+Math.round(glCanvas.camera.getPosVector().subVector(this.enemy.pos).abs()*10)/10+ 'km');

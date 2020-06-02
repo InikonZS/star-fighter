@@ -28,6 +28,21 @@ class Basic{
     this.gl.uniformMatrix4fv(shaderVariables.worldUniMat4, false, this.matrix);
     renderModel(this.gl, this.positionBuffer, this.normBuffer, this.vertexList.length/3, shaderVariables.positionAttr, shaderVariables.normalAttr, this.color, shaderVariables.colorUniVec4);
   }
+
+  renderMany(shaderVariables, matList){
+    let gl = this.gl;
+    setBuffer(gl, this.positionBuffer, shaderVariables.positionAttr);
+    setBuffer(gl, this.normBuffer, shaderVariables.normalAttr);
+    var primitiveType = gl.TRIANGLES;
+    var count = this.vertexList.length/3; 
+    matList.forEach(it=>{
+      gl.uniformMatrix4fv(shaderVariables.worldUniMat4, false, it);
+      let color = this.color;
+      gl.uniform4f(shaderVariables.colorUniVec4, color.r/255, color.g/255, color.b/255, color.a/255);
+      gl.drawArrays(primitiveType, 0, count); 
+    });
+    
+  }
 }
 
 function createBuffer(gl, list){
