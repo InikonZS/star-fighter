@@ -6,7 +6,7 @@ class Textured{
     this.gl = gl;
     let modelObject = getModList(modelSource);
     this.vertexList = modelObject.triangleList;
-    //this.normalList = modelObject.normalList;
+    this.normalList = modelObject.normalList;
     this.texList = modelObject.texList;
     //console.log(this.texList, this.vertexList, this.normalList);
 
@@ -19,6 +19,7 @@ class Textured{
 
     this.positionBuffer = createBuffer(gl, this.vertexList);
     this.texBuffer = createBuffer(gl, this.texList);
+    //this.normBuffer = createBuffer(gl, this.normalList);
   }
 
   render(shaderVariables, matrix, color){
@@ -70,7 +71,7 @@ function renderModel(gl, vertexBuf, normBuf ,triCount, positionAttributeLocation
   gl.uniform4f(colorLocation, color.r/255, color.g/255, color.b/255, color.a/255);
 
   setBuffer(gl, vertexBuf, positionAttributeLocation);
- // setBuffer(gl, normBuf, positionNormLocation);
+  //setBuffer(gl, normBuf, positionNormLocation);
 
   var primitiveType = gl.TRIANGLES;
   var count = triCount; 
@@ -111,7 +112,7 @@ function getModList(oob){
           texList.push(vertexListUV[sp].v);
         }
 
-    /*    for (let j=0; j<3; j++){
+        for (let j=0; j<3; j++){
           let sp1 = spl[1].split('/')[0]-1;
           let sp2 = spl[2].split('/')[0]-1;
           let sp3 = spl[3].split('/')[0]-1;
@@ -119,7 +120,7 @@ function getModList(oob){
           normalList.push(norm.x);
           normalList.push(norm.y);
           normalList.push(norm.z);
-        }*/
+        }
       break;
     }
   }

@@ -20,6 +20,11 @@ class Weapon{
       Utils.playSoundUrl(this.soundUrl);
     }
   }
+
+  shotTo(gl, bulletList, pointA, pointB){
+    this.shot(gl, bulletList, pointA, pointB.subVector(pointA).normalize());
+  }
+
   render(deltaTime){
     this.shotTime-=deltaTime;
   }

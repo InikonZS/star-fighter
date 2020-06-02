@@ -7,6 +7,7 @@ const boxModel = require('./box.model.js');
 const rocketModel = require('./rocket.model.js');
 const Vector3d = require('./vector3d.dev.js');
 let Bullet = require('./bullet.object.js');
+let Weapon = require('./weapon.object.js');
 let Enemy = require('./enemy.object.js');
 let Message = require('./point-message.object.js')
 
@@ -26,9 +27,15 @@ class Scene{
 
     this.enemy = new Enemy(gl, new Vector3d(50, 50, 50), new Vector3d(0,0,0));
     this.bs = new Basic(gl,rocketModel , m4.identity(), {r:200, g:20, b:60});
+    this.bs.matrix = m4.translate(this.bs.matrix, 30,3,40);
+
+    this.tur = new Basic(gl,rocketModel , m4.identity(), {r:200, g:20, b:60});
+    this.tur.matrix = m4.translate(this.tur.matrix, 30,3,40);
+    this.tur.weapon = new Weapon(1.75, 5.2, 1.1, 'assets/sounds/laser.mp3');
+
 
     this.bd = new Basic(gl,boxModel , m4.identity(), {r:200, g:20, b:60});
-    this.bs.matrix = m4.translate(this.bs.matrix, 30,3,40);
+    
 
     this.bd.matrix = m4.translate(this.bd.matrix, 30,30,40);
     this.bd.matrix = m4.scale(this.bd.matrix, 10,3,20);
@@ -66,7 +73,15 @@ class Scene{
       }
     }
 
-    this.bs.matrix = m4.xRotate(this.bs.matrix, 0.5*deltaTime);
+    //this.bs.matrix = m4.xRotate(this.bs.matrix, 0.5*deltaTime);
+    let cam = glCanvas.camera;
+    let matrix = m4.identity();
+    matrix = m4.xRotate(matrix, cam.camRY);
+    matrix = m4.yRotate(matrix, cam.camRZ);
+    matrix = m4.zRotate(matrix, cam.camRX);
+    matrix = m4.inverse(matrix);
+    this.bs.matrix = matrix;
+    //this.bs.matrix = this.glCanvas.
     this.bs.render(shaderVariables);
 
     //this.bd.matrix=this.bs.matrix;
@@ -95,6 +110,14 @@ class Scene{
 
     this.messages[0].refresh(this.glCanvas.viewMatrix, this.enemy.pos, 'Enemy '+Math.round(glCanvas.camera.getPosVector().subVector(this.enemy.pos).abs()*10)/10+ 'km');
     this.messages[1].refresh(this.glCanvas.viewMatrix, new Vector3d(0,0,0), 'Base '+Math.round(glCanvas.camera.getPosVector().abs()*10)/10+ 'km');
+
+
+    //////
+    this.tur.render(shaderVariables);
+    this.tur.weapon.shotTo(this.glCanvas.glContext, this.bullets, this.tur.getPosVector(), this.glCanvas.camera.getPosVector());
+    this.tur.weapon.render(deltaTime);
+    ////
+
 
     //let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
     let bsl1 = calc.transformVertexList(this.enemy.hitPoint.vertexList, this.enemy.model.matrix);

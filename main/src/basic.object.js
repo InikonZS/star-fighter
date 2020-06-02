@@ -1,4 +1,5 @@
 const calc = require('./calc.utils.js');
+const Vector3d = require('./vector3d.dev.js');
 
 class Basic{
   constructor(gl, modelSource, matrix, color){
@@ -12,6 +13,10 @@ class Basic{
     this.positionBuffer = createBuffer(gl, this.vertexList);
     this.normBuffer = createBuffer(gl, this.normalList);
   }
+
+  getPosVector(){
+    return new Vector3d(this.matrix[12], this.matrix[13], this.matrix[14]);
+  };
 
   render(shaderVariables, matrix, color){
     if (color){
@@ -78,7 +83,7 @@ function getModList(oob){
         }
 
         for (let j=0; j<3; j++){
-          
+
           normalList.push(calc.getNormal(vertexList[spl[1]-1],vertexList[spl[2]-1],vertexList[spl[3]-1]).x);
           normalList.push(calc.getNormal(vertexList[spl[1]-1],vertexList[spl[2]-1],vertexList[spl[3]-1]).y);
           normalList.push(calc.getNormal(vertexList[spl[1]-1],vertexList[spl[2]-1],vertexList[spl[3]-1]).z);

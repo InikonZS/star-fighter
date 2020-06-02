@@ -22,7 +22,7 @@ class GLCanvas extends Control{
     this.glContext = this.node.getContext('webgl');
     this.isStarted = false;
     this.keyboardState = {};
-    this.camera = new Camera();
+    this.camera = new Camera(this);
     this.weapon=1;
 
     this.averageRenderTime =0;
