@@ -138,6 +138,9 @@ function glRender(glCanvas, deltaTime){
   var aspect = glCanvas.glContext.canvas.clientWidth / glCanvas.glContext.canvas.clientHeight;
   glCanvas.camera.process(glCanvas, deltaTime);
   var camera = glCanvas.camera;
+
+  //let matrix = m4.perspective(1, aspect, 0.1, 2000);
+  //matrix = m4.multiply(matrix, glCanvas.scene.bs.matrix)
   var viewMatrix = calc.makeCameraMatrix(aspect, camera.camRX, camera.camRY, camera.camRZ, camera.posX, camera.posY, camera.posZ);
   glCanvas.viewMatrix = viewMatrix;
   

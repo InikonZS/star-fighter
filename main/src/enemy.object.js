@@ -2,6 +2,7 @@ const Basic = require('./basic.object.js');
 const rocketModel = require('./rocket.model.js');
 const boxModel = require('./rocket.model.js');
 const calc = require('./calc.utils.js');
+const Vector3d = require('./vector3d.dev.js');
 
 class Enemy{
   constructor(gl, startPoint, speedVector){
@@ -33,6 +34,7 @@ class Enemy{
     if (this.atack){
       if (this.pos.subVector(playerPosition).abs()>20){
         dir = this.pos.subVector(playerPosition).normalize();
+        this.weapon.shot(this.gl, app.glCanvas.scene.bullets, this.pos.addVector(dir.mul(-3)), dir.mul(-1));
       } else {
         dir = this.pos.subVector(playerPosition).mul(-1).normalize();
         this.atack = false;

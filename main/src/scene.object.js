@@ -4,7 +4,8 @@ const Basic = require('./basic.object.js');
 const Textured = require('./textured.object.js');
 
 const boxModel = require('./box.model.js');
-const rocketModel = require('./rocket.model.js');
+const rocketModel = require('./tf.model.js');
+const rocketModel1 = require('./rocket.model.js');
 const Vector3d = require('./vector3d.dev.js');
 let Bullet = require('./bullet.object.js');
 let Weapon = require('./weapon.object.js');
@@ -27,6 +28,12 @@ class Scene{
     this.messages.push(new Message(glCanvas.overlay.node,'','f88'));
 
     this.enemy = new Enemy(gl, new Vector3d(50, 50, 50), new Vector3d(0,0,0));
+    this.enemy.weapon = new Weapon(1.75, 5.2, 6.1, 'assets/sounds/laser.mp3');
+
+    this.hs = new Basic(gl,boxModel , m4.identity(), {r:200, g:20, b:60});
+    let plpos = glCanvas.camera.getPosVector();
+    this.hs.matrix = m4.translate(this.hs.matrix, plpos.x, plpos.y, plpos.z);
+
     this.bs = new Basic(gl,rocketModel , m4.identity(), {r:200, g:20, b:60});
     this.bs.matrix = m4.translate(this.bs.matrix, 30,3,40);
 
@@ -126,11 +133,22 @@ class Scene{
     //let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
     let bsl1 = calc.transformVertexList(this.enemy.hitPoint.vertexList, this.enemy.model.matrix);
     let reqFilter = false;
+
+    let plpos = this.glCanvas.camera.getPosVector();
+    this.hs.matrix = m4.identity();
+    this.hs.matrix = m4.translate(this.hs.matrix, plpos.x, plpos.y, plpos.z);
+    let phs = calc.transformVertexList(this.hs.vertexList, this.hs.matrix);
+
     this.bullets.forEach((it, i, arr)=>{
       it.render(shaderVariables, deltaTime);
       if (it.time<=0 || it.time>=10000){
         arr[i] = undefined;
         reqFilter = true;
+      }
+
+      if (it && (it.react(phs, plpos))){
+        this.glCanvas.effects.addEffect(plpos);  
+        anyutils.playSoundUrl('assets/sounds/expl1.mp3');
       }
 
       if (it && (it.react(bsl1, this.enemy.pos))){
@@ -151,6 +169,7 @@ class Scene{
       reqFilter = false;
     }
     this.enemy.logic(this.glCanvas.camera.getPosVector());
+    this.enemy.weapon.render(deltaTime);
     this.enemy.render(shaderVariables, deltaTime);
   }
 }
