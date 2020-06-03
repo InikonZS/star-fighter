@@ -74,9 +74,30 @@ function createTexture(gl, textureUrl, onLoad){
   image.src = textureUrl;
 }
 
+function createBuffer(gl, list){
+  var positionBuffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list), gl.STATIC_DRAW); 
+  return positionBuffer;
+}
+
+function setBuffer(gl, buffer, location, size){
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  // Указываем атрибуту, как получать данные от positionBuffer (ARRAY_BUFFER)
+  //var size_ = size;          // 2 компоненты на итерацию
+  var type = gl.FLOAT;   // наши данные - 32-битные числа с плавающей точкой
+  var normalize = false; // не нормализовать данные
+  var stride = 0;        // 0 = перемещаться на size * sizeof(type) каждую итерацию для получения следующего положения
+  var offset = 0;        // начинать с начала буфера
+  gl.vertexAttribPointer(
+  location, size, type, normalize, stride, offset);  
+}
+
 module.exports = {
   createShader,
   createProgram,
   createShaderFromSource,
-  createTexture
+  createTexture,
+  createBuffer,
+  setBuffer
 };

@@ -18,6 +18,10 @@ class Basic{
     return new Vector3d(this.matrix[12], this.matrix[13], this.matrix[14]);
   };
 
+  getTransformed(){
+    return calc.transformVertexList(this.vertexList, this.matrix);
+  }
+
   render(shaderVariables, matrix, color){
     if (color){
       this.color = color;

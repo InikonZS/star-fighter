@@ -8,6 +8,10 @@ function degToRad(d) {
   return d * Math.PI / 180;
 }
 
+function rand(lim){
+  return Math.trunc(Math.random()*lim);
+}
+
 function makeCameraMatrix(aspect, rx, ry, rz, px, py, pz){
   let matrix = m4.perspective(1, aspect, 0.1, 2000); 
   matrix = m4.xRotate(matrix, ry);
@@ -143,6 +147,19 @@ function crossMeshByLineT(vertexList, lineVectorA, lineVectorB){
   return res;
 }
 
+function mirrorVectorFromMesh(vertexList, p, v){
+  let b = p.addVector(v);
+  let cpl = crossMeshByLineT(vertexList,p,b);
+  if (cpl.length){///reflection
+    let tr = getNearest(p, cpl).triangle;
+    let nor = getNormal(tr[0], tr[1], tr[2]);
+    let norm = new Vector3d(nor.x, nor.y, nor.z);
+    let dtt = v.subVector(norm.mul(2*v.dot(norm)));
+    return dtt;
+  }
+  return false;
+}
+
 function getNearest(point, list){
   let minit;
   let minlen = 999999;
@@ -180,6 +197,41 @@ function matFromM4(m){
   return res;
 }
 
+function makeRGBA(color){
+  let result = {r:rand(255), g:rand(255), b: rand(255), a:255};
+  if (color!==undefined){
+    let num = Number.parseInt('0x'+color);
+    if (!Number.isNaN(num)){
+      if (color.length==3){
+        result.r = Number.parseInt('0x'+color[0]+'0');
+        result.g = Number.parseInt('0x'+color[1]+'0');
+        result.b = Number.parseInt('0x'+color[2]+'0');
+      }
+
+      if (color.length==4){
+        result.r = Number.parseInt('0x'+color[0]+'0');
+        result.g = Number.parseInt('0x'+color[1]+'0');
+        result.b = Number.parseInt('0x'+color[2]+'0');
+        result.a = Number.parseInt('0x'+color[3]+'0');
+      }
+
+      if (color.length==6){
+        result.r = Number.parseInt('0x'+color[0]+color[1]);
+        result.g = Number.parseInt('0x'+color[2]+color[3]);
+        result.b = Number.parseInt('0x'+color[4]+color[5]);
+      }
+
+      if (color.length==8){
+        result.r = Number.parseInt('0x'+color[0]+color[1]);
+        result.g = Number.parseInt('0x'+color[2]+color[3]);
+        result.b = Number.parseInt('0x'+color[4]+color[5]);
+        result.a = Number.parseInt('0x'+color[6]+color[7]);
+      }
+    }
+  return result;
+  }
+}
+
 module.exports = {
   makeCameraMatrix,
   getNormal,
@@ -195,6 +247,9 @@ module.exports = {
   isCrossedMeshByLine,
   crossMeshByLineT,
   getNearest,
+  mirrorVectorFromMesh,
   radToDeg,
-  degToRad
+  degToRad,
+  rand,
+  makeRGBA
 }

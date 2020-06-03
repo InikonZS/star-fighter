@@ -21,6 +21,25 @@ class Camera{
   getCamNormal(){
     return getCameraNormal(this);
   }
+
+  getNormalMatrix(){
+    let matrix = m4.identity();
+    matrix = m4.xRotate(matrix, this.camRY);
+    matrix = m4.yRotate(matrix, this.camRZ);
+    matrix = m4.zRotate(matrix, this.camRX);
+    matrix = m4.inverse(matrix);
+    return matrix;
+  }
+
+  getMatrix(){
+    let matrix = m4.identity();
+    matrix = m4.xRotate(matrix, this.camRY);
+    matrix = m4.yRotate(matrix, this.camRZ);
+    matrix = m4.zRotate(matrix, this.camRX);
+    matrix = m4.translate(matrix, px, py, pz);
+    return matrix;
+  }
+
   init(){
     this.camRX=0;
     this.camRY=0;
