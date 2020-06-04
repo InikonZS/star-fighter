@@ -3,6 +3,7 @@ const rocketModel = require('./rocket.model.js');
 const boxModel = require('./rocket.model.js');
 const calc = require('./calc.utils.js');
 const Vector3d = require('./vector3d.dev.js');
+let Weapon = require('./weapon.object.js');
 
 class Enemy{
   constructor(gl, startPoint, speedVector){
@@ -10,6 +11,8 @@ class Enemy{
     this.pos = startPoint;
     //this.pos = new Vector3d(0,0,0);
     this.v = speedVector; 
+
+    this.weapon = new Weapon(0.75, 5.2, 6.1, 'assets/sounds/laser.mp3');
 
     this.nv = new Vector3d(0, 0 ,1);
     this.aziV = new Vector3d (0,0,0);
@@ -26,6 +29,7 @@ class Enemy{
 
   render(shadersVariables, deltaTime){
    // this.time-=deltaTime;
+    this.weapon.render(deltaTime);
     this.model.matrix = m4.identity();
     
 
@@ -65,7 +69,7 @@ class Enemy{
         this.atack = false;
       }
     } else {
-      if (this.pos.subVector(playerPosition).abs()>170){
+      if (this.pos.subVector(playerPosition).abs()>(calc.rand(150)+150)){
         dir = this.pos.subVector(playerPosition).normalize();
         this.atack = true;
       } else {
