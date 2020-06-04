@@ -155,10 +155,10 @@ class Scene{
 
         this.glCanvas.effects.addEffect(this.enemy.pos);
         this.enemy.model.color={r:rand(255), g:rand(155)+100, b:60};
-        this.enemy.pos = new Vector3d(Math.random()*140-70, Math.random()*140-80, Math.random()*140-70);
-        let mtx = m4.identity();
-        mtx = m4.translate(mtx, this.enemy.pos.x, this.enemy.pos.y, this.enemy.pos.z);
-        this.enemy.model.matrix=mtx;
+        //this.enemy.pos = new Vector3d(Math.random()*140-70, Math.random()*140-80, Math.random()*140-70);
+        //let mtx = m4.identity();
+        //mtx = m4.translate(mtx, this.enemy.pos.x, this.enemy.pos.y, this.enemy.pos.z);
+        //this.enemy.model.matrix=mtx;
         arr[i] = undefined;
         reqFilter = true;
         rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3') : anyutils.playSoundUrl('assets/sounds/expl2.mp3');
