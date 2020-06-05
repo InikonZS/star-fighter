@@ -30,14 +30,11 @@ class Enemy{
   render(shadersVariables, deltaTime){
    // this.time-=deltaTime;
     this.weapon.render(deltaTime);
-    this.model.matrix = m4.identity();
-    
-
     
     this.pos.addVector(this.v, true);
+
+    this.model.matrix = m4.identity();
     this.model.matrix = m4.translate(this.model.matrix, this.pos.x, this.pos.y, this.pos.z);
-    //
-    
     this.model.matrix = m4.zRotate(this.model.matrix, this.azi.x+Math.PI/2);
     this.model.matrix = m4.xRotate(this.model.matrix, this.azi.y+Math.PI/2);
     this.model.matrix = m4.yRotate(this.model.matrix, Math.PI);
@@ -45,16 +42,19 @@ class Enemy{
     
     //this.azi.addVector(this.torq, true);
     //this.pos = new Vector3d(0,0,0).transform(this.model.matrix);
-    let vv = new Vector3d(Math.sin(this.azi.y)*Math.cos(this.azi.x), Math.sin(this.azi.y)*Math.sin(this.azi.x), Math.cos(this.azi.y));
+   // let vv = new Vector3d(Math.sin(this.azi.y)*Math.cos(this.azi.x), Math.sin(this.azi.y)*Math.sin(this.azi.x), Math.cos(this.azi.y));
     /*let mi = m4.identity();
     mi = m4.zRotate(mi, this.azi.x+Math.PI/2);
     mi = m4.xRotate(mi, this.azi.y+Math.PI/2);
     mi = m4.yRotate(mi, Math.PI);*/
 
-    this.nv = vv;
+    //this.nv = vv;
     //let mtx = m4.identity();
     //mtx = m4.translate(mtx, this.pos.x, this.pos.y, this.pos.z);
     //this.model.matrix = mtx;
+
+    this.nv = toDecart(this.azi);
+
     this.model.render(shadersVariables);
   }
 
@@ -97,11 +97,12 @@ class Enemy{
 
     //let orta = toPolar3d(dir);//toPolar3d(this.nv).subVector(toPolar3d(dir)).mul(0.005);
     let orta = toPolar3d(dir);
+    let az = azimutDifference(orta.x, this.azi.x);
     //let ortas = orta.subVector()
-    let az = Math.min(Math.abs(orta.x - this.azi.x), Math.abs(orta.x - this.azi.x + Math.PI*2));
-    if (Math.abs(orta.x - this.azi.x + Math.PI*2)<Math.abs(orta.x - this.azi.x)){az = orta.x - this.azi.x + Math.PI*2} else{
+   // let az = Math.min(Math.abs(orta.x - this.azi.x), Math.abs(orta.x - this.azi.x + Math.PI*2));
+   /* if (Math.abs(orta.x - this.azi.x + Math.PI*2)<Math.abs(orta.x - this.azi.x)){az = orta.x - this.azi.x + Math.PI*2} else{
       az =orta.x - this.azi.x;
-    }
+    }*/
     //az= az*Math.sign((orta.x - this.azi.x));
    // if(this.azi.x<orta.x){az=-az;}
     //if (Math.random()<0.01){console.log(orta, ortas, this.azi)};
@@ -109,12 +110,12 @@ class Enemy{
     if (Math.abs(this.aziV.x)<0.2){
       this.aziV.x = this.aziV.x +az/500;
     }
-    this.azi.x = this.azi.x+this.aziV.x;//this.torq.mul(0.059).addVector(orta);
+    this.azi.x += this.aziV.x;//this.torq.mul(0.059).addVector(orta);
     this.azi.y = ((this.azi.y*10)+orta.y)/11;
     this.aziV.x*=0.93;
     //this.azi = this.azi.addVector(ortas.mul(-1));
     //if (orta.y<Math.PI/2){ orta.y}
-    let kk = 20;
+    //let kk = 20;
     //this.aziV = this.aziV.addVector(orta.mul(1/kk));
     //this.azi = this.azi.addVector(this.aziV.mul(-1));
     //this.aziV = this.aziV.mul(0.179);
@@ -135,6 +136,16 @@ class Enemy{
   }
 }
 
+function azimutDifference(a, b){
+  let da = a - b;
+  let daOver = a - b + Math.PI*2;
+  if (Math.abs(da) < Math.abs(daOver)){
+    return da; 
+  } else {
+    return daOver;
+  }
+}
+
 function getAngleBetweenVectors(a, b){
   return Math.acos(a.dot(b)/(a.abs()*b.abs()));
 }
@@ -142,6 +153,10 @@ function getAngleBetweenVectors(a, b){
 function toPolar3d(v){
   if (!v){v=new Vector3d(0,0,1);}
   return new Vector3d(Math.atan2(v.y, v.x), Math.acos(v.z/v.abs()), 0);
+}
+
+function toDecart(azi){
+  return new Vector3d(Math.sin(azi.y)*Math.cos(azi.x), Math.sin(azi.y)*Math.sin(azi.x), Math.cos(azi.y));
 }
 
 module.exports = Enemy;

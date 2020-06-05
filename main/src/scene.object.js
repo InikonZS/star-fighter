@@ -30,8 +30,8 @@ class Scene{
    // this.
     //this.enemy.weapon = new Weapon(0.75, 5.2, 6.1, 'assets/sounds/laser.mp3');
     this.enList =[];
-    for (let i=0; i<4; i++){
-      let enemy = new Enemy(gl, new Vector3d(50, 50, 50), new Vector3d(0,0,0));
+    for (let i=0; i<3; i++){
+      let enemy = new Enemy(gl, new Vector3d(50, calc.rand(400)-200, 50), new Vector3d(0,0,0));
       this.enList.push(enemy);
     }
 
