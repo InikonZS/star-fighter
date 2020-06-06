@@ -1,5 +1,5 @@
 const Basic = require('./basic.object.js');
-const Textured = require('./textured.object.js');
+const Textured = require('./textured-new.object.js');
 
 const boxModel = require('./point-sprite.model.js');
 const Vector3d = require('./vector3d.dev.js');
@@ -15,8 +15,11 @@ class Effects{
     this.xmax = 5;
     this.ymax = 4;
     this.time = 0;
-
+    let mtx = m4.identity();
+    let model = new Textured(this.gl, boxModel, 'https://raw.githubusercontent.com/InikonZS/textures/master/kisspng-sprite-explosion-animated-film-2d-computer-graphic-5b320d937c5263.6802436815300069315092.png', mtx, {r:200, g:20, b:60});
+    this.model = model;
     this.list = [];
+    this.matList = [];
 
     /*let mtx = m4.identity();
     this.model = new Textured(this.gl, boxModel, 'https://raw.githubusercontent.com/InikonZS/textures/master/kisspng-sprite-explosion-animated-film-2d-computer-graphic-5b320d937c5263.6802436815300069315092.png', mtx, {r:200, g:20, b:60});
@@ -29,9 +32,10 @@ class Effects{
     mtx[12]=p.x;
     mtx[13]=p.y;
     mtx[14]=p.z;
-    let model = new Textured(this.gl, boxModel, 'https://raw.githubusercontent.com/InikonZS/textures/master/kisspng-sprite-explosion-animated-film-2d-computer-graphic-5b320d937c5263.6802436815300069315092.png', mtx, {r:200, g:20, b:60});
+    let model =new Textured(this.gl, boxModel, 'https://raw.githubusercontent.com/InikonZS/textures/master/kisspng-sprite-explosion-animated-film-2d-computer-graphic-5b320d937c5263.6802436815300069315092.png', mtx, {r:200, g:20, b:60});
     model.frame=0;
     this.list.push(model);
+    this.matList.push({matrix:mtx});
   }
 
   render(shaderVariables, deltaTime){
@@ -58,8 +62,11 @@ class Effects{
       }
     }
     
+    
+
     this.list.forEach((it)=>{
-      this.gl.uniform4f(shaderVariables.posUniVec4, 1/this.xmax,1/this.ymax, it.frame%this.xmax, Math.trunc(it.frame/this.xmax));
+      //this.gl.uniform4f(shaderVariables.posUniVec4, 1/this.xmax,1/this.ymax, it.frame%this.xmax, Math.trunc(it.frame/this.xmax));
+      
       it.render(shaderVariables);    
     });
   }

@@ -1,10 +1,11 @@
 const calc = require('./calc.utils.js');
 const GLUtils = require('./gl-utils.js');
+const ObjUtils = require('./obj-loader.utils.js');
 
 class Textured{
   constructor(gl, modelSource, textureURL, matrix, color){
     this.gl = gl;
-    let modelObject = getModList(modelSource);
+    let modelObject = ObjUtils.getModList(modelSource);
     this.vertexList = modelObject.triangleList;
     this.normalList = modelObject.normalList;
     this.texList = modelObject.texList;
@@ -31,7 +32,7 @@ class Textured{
     }
     this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
     this.gl.uniformMatrix4fv(shaderVariables.worldUniMat4, false, this.matrix);
-    setTexBuffer(this.gl, this.texBuffer, shaderVariables.texAttr);
+    GLUtils.setBuffer(this.gl, this.texBuffer, shaderVariables.texAttr, 2);
     renderModel(this.gl, this.positionBuffer, this.normBuffer, this.vertexList.length/3, shaderVariables.positionAttr, shaderVariables.normalAttr, this.color, shaderVariables.colorUniVec4);
   }
 }

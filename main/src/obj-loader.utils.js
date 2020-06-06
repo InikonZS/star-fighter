@@ -14,7 +14,7 @@ function getModList(oob, genOwnNormal){
 
   for (let i=0; i< arr.length; i++){
     let spl = arr[i].split(vreg);
-    
+
     switch (spl[0]){
       case 'v': 
         vertexList.push({x:spl[1], y:spl[2], z:spl[3]});
@@ -52,7 +52,7 @@ function getModList(oob, genOwnNormal){
           }
         }
 
-        if (vertexList.normalList.length == 0){
+        if (normalList.length == 0){
           for (let j=0; j<3; j++){
             let sp1 = spl[1].split('/')[0]-1;
             let sp2 = spl[2].split('/')[0]-1;
