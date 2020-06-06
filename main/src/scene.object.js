@@ -181,9 +181,9 @@ class Scene{
     let phs = calc.transformVertexList(this.hs.vertexList, this.hs.matrix);
 
     
-
+    this.blist.matList = [];
     this.bullets.forEach((it, i, arr)=>{
-      //it.render(shaderVariables, deltaTime);
+      it.render(shaderVariables, deltaTime);
       if (it.time<=0 || it.time>=10000){
         arr[i] = undefined;
         reqFilter = true;
@@ -220,8 +220,8 @@ class Scene{
       }
     });
 
-    this.blist.matList = [];
-    this.blist.matList.push(it.model.matrix);
+    
+    this.blist.matList.push(it.matrix);
   });
   this.blist.render(shaderVariables);
 

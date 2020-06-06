@@ -15,6 +15,17 @@ class Bullet{
     this.time = 1.2;
   }
 
+  render(shadersVariables, deltaTime){
+    this.time-=deltaTime;
+    this.pos.addVector(this.v, true);
+    let mtx = m4.identity();
+    mtx = m4.translate(mtx, this.pos.x, this.pos.y, this.pos.z);
+    this.matrix = mtx;  
+  }
+
+  getMatrix(){
+    return this.matrix;
+  }
  /* render(shadersVariables, deltaTime){
     this.time-=deltaTime;
     
