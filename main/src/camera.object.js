@@ -87,7 +87,9 @@ class Camera{
   }
 
   shot(glCanvas, weaponIndex){
-    this.weapons[weaponIndex].shot(glCanvas.glContext, glCanvas.scene.bullets, this.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), this.getCamNormal().mul(-1));
+    this.weapons[weaponIndex].shot(glCanvas.glContext, glCanvas.scene.bullets, this.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), 
+    this.getCamNormal().mul(-1).addVector(this.getSpeedVector().mul(1/this.weapons[weaponIndex].bulletSpeed))
+    );
   }
 
   rotateCamg(dx, dy){

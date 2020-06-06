@@ -9,7 +9,9 @@ class Weapon{
     this.bulletLifeTime = bulletLifeTime;
     this.bulletSpeed = bulletSpeed;
     this.soundUrl = soundUrl;
-    Utils.preloadSoundUrl(soundUrl);
+    if (soundUrl){
+      Utils.preloadSoundUrl(soundUrl);
+    }
   }
   shot(gl, bulletList, point, direction){
     if (this.shotTime<=0 || this.shotTime>=1000){
@@ -17,7 +19,9 @@ class Weapon{
       bul.time = this.bulletLifeTime;
       bulletList.push(bul);
       this.shotTime = this.initialShotTime;
-      Utils.playSoundUrl(this.soundUrl);
+      if (this.soundUrl){
+        Utils.playSoundUrl(this.soundUrl);
+      }
     }
   }
 

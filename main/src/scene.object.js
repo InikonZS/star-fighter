@@ -30,7 +30,7 @@ class Scene{
    // this.
     //this.enemy.weapon = new Weapon(0.75, 5.2, 6.1, 'assets/sounds/laser.mp3');
     this.enList =[];
-    for (let i=0; i<3; i++){
+    for (let i=0; i<1; i++){
       let enemy = new Enemy(gl, new Vector3d(50, calc.rand(400)-200, 50), new Vector3d(0,0,0));
       this.enList.push(enemy);
     }
@@ -148,6 +148,7 @@ class Scene{
     let plpos = this.glCanvas.camera.getPosVector();
     this.hs.matrix = m4.identity();
     this.hs.matrix = m4.translate(this.hs.matrix, plpos.x, plpos.y, plpos.z);
+    this.hs.matrix = m4.scale(this.hs.matrix, 5,5, 5);
     let phs = calc.transformVertexList(this.hs.vertexList, this.hs.matrix);
 
     this.bullets.forEach((it, i, arr)=>{
@@ -196,7 +197,7 @@ class Scene{
    // this.enemy.weapon.render(deltaTime);
    // this.enemy.render(shaderVariables, deltaTime);
    this.enList.forEach(it=>{
-     it.logic(this.glCanvas.camera.getPosVector());
+     it.logic(this.glCanvas.camera.getPosVector(), this.glCanvas.camera.getSpeedVector(), deltaTime);
      it.render(shaderVariables,deltaTime);
    })
   }

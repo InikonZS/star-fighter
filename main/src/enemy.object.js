@@ -12,7 +12,8 @@ class Enemy{
     //this.pos = new Vector3d(0,0,0);
     this.v = speedVector; 
 
-    this.weapon = new Weapon(0.75, 5.2, 6.1, 'assets/sounds/laser.mp3');
+    //this.weapon = new Weapon(0.75, 5.2, 6.1, 'assets/sounds/laser.mp3');
+    this.weapon = new Weapon(0.25, 5.2, 3.1);
 
     this.nv = new Vector3d(0, 0 ,1);
     this.aziV = new Vector3d (0,0,0);
@@ -58,12 +59,17 @@ class Enemy{
     this.model.render(shadersVariables);
   }
 
-  logic(playerPosition){
+  logic(playerPosition, playerSpeed, deltaTime){
     let dir;
     if (this.atack){
       if (this.pos.subVector(playerPosition).abs()>40){
-        dir = this.pos.subVector(playerPosition).normalize();
-        this.weapon.shot(this.gl, app.glCanvas.scene.bullets, this.pos.addVector(this.nv.mul(-3)), this.nv.mul(-1));
+        let dist = this.pos.subVector(playerPosition).abs();
+        let time = dist/this.weapon.bulletSpeed;
+        dir = this.pos.subVector(playerPosition.addVector(playerSpeed.mul(time))).normalize();
+        this.weapon.shot(this.gl, app.glCanvas.scene.bullets, this.pos.addVector(this.nv.mul(-3)), 
+        this.nv.mul(-1).addVector(this.v.mul(1/this.weapon.bulletSpeed))
+        );
+        ///this.nv.mul(-1) without speed;
       } else {
         dir = this.pos.subVector(playerPosition).mul(-1).normalize();
         this.atack = false;
@@ -98,6 +104,7 @@ class Enemy{
     //let orta = toPolar3d(dir);//toPolar3d(this.nv).subVector(toPolar3d(dir)).mul(0.005);
     let orta = toPolar3d(dir);
     let az = azimutDifference(orta.x, this.azi.x);
+    az = az>0 ? 1 : -1;
     //let ortas = orta.subVector()
    // let az = Math.min(Math.abs(orta.x - this.azi.x), Math.abs(orta.x - this.azi.x + Math.PI*2));
    /* if (Math.abs(orta.x - this.azi.x + Math.PI*2)<Math.abs(orta.x - this.azi.x)){az = orta.x - this.azi.x + Math.PI*2} else{
@@ -108,10 +115,11 @@ class Enemy{
     //if (Math.random()<0.01){console.log(orta, ortas, this.azi)};
     //this.azi = (this.azi.mul(120).addVector(orta)).mul(1/121);
     if (Math.abs(this.aziV.x)<0.2){
-      this.aziV.x = this.aziV.x +az/500;
+      this.aziV.x = this.aziV.x +az/50;
     }
     this.azi.x += this.aziV.x;//this.torq.mul(0.059).addVector(orta);
-    this.azi.y = ((this.azi.y*10)+orta.y)/11;
+    let kk=2;
+    this.azi.y = ((this.azi.y*kk)+orta.y)/(kk+1);
     this.aziV.x*=0.93;
     //this.azi = this.azi.addVector(ortas.mul(-1));
     //if (orta.y<Math.PI/2){ orta.y}
