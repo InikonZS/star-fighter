@@ -9,12 +9,13 @@ class Bullet{
     this.v = speedVector; 
     let mtx = m4.identity();
     mtx = m4.translate(mtx, this.pos.x, this.pos.y, this.pos.z);
-    this.model = new Basic(gl,boxModel , mtx, {r:200, g:20, b:60});
+    //this.model = new Basic(gl,boxModel , mtx, {r:200, g:20, b:60});
 
+    this.matrix = mtx;
     this.time = 1.2;
   }
 
-  render(shadersVariables, deltaTime){
+ /* render(shadersVariables, deltaTime){
     this.time-=deltaTime;
     
     //this.model.matrix = m4.translate(this.model.matrix, this.v.x, this.v.y, this.v.z);
@@ -23,7 +24,7 @@ class Bullet{
     mtx = m4.translate(mtx, this.pos.x, this.pos.y, this.pos.z);
     this.model.matrix = mtx;
     this.model.render(shadersVariables);
-  }
+  }*/
 
   react(obj, pos){
     return isCrossedSimple(pos, this.pos, this.v) && calc.isCrossedMeshByLine(obj, this.pos, this.pos.addVector(this.v));

@@ -13,6 +13,8 @@ let Enemy = require('./enemy.object.js');
 let Chunk = require('./static-chunk.object.js');
 let Message = require('./point-message.object.js');
 let Collect = require('./collectable.object.js');
+let CollectN = require('./collectable-new.object.js');
+let ObList = require('./object-list.object.js');
 
 const calc = require('./calc.utils.js');
 const anyutils = require('./any.utils.js');
@@ -35,6 +37,16 @@ class Scene{
       let enemy = new Enemy(gl, new Vector3d(50, calc.rand(400)-200, 50), new Vector3d(0,0,0));
       this.enList.push(enemy);
     }
+    
+    this.olist = new ObList(gl, boxModel);
+    let mtx = m4.identity();
+    mtx = m4.scale(mtx, 5,5,5);
+    this.olist.model.matrix = mtx;
+    for (let i=0; i<100; i++){
+      this.olist.addItem(new CollectN(gl, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), this.olist.model));
+    }
+
+    this.blist = new ObList(gl, boxModel);
 
     this.col = new Collect(gl, new Vector3d(50, calc.rand(140)-70, 50), new Vector3d(0,0,0));
 
@@ -121,7 +133,7 @@ class Scene{
  
     }
     this.bd.render(shaderVariables);
-    
+
     this.particles.forEach(it=>{
     //  if (this.glCanvas.camera.getPosVector().subVector(new Vector3d(it.matrix[12], it.matrix[13], it.matrix[14])).abs()<400){
         it.renderMany(shaderVariables,this.partMtx);
@@ -143,6 +155,13 @@ class Scene{
       cl.pos = new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50);
       cl.color = {r:rand(255),g:rand(255),b:100};
     });
+
+    this.olist.react(this.glCanvas.camera.getPosVector(), this.glCanvas.camera.getSpeedVector(), (it)=>{this.olist.deleteItem(it)});
+    this.bullets.forEach(jt=>{
+      this.olist.react(jt.pos, jt.v, (it)=>{this.olist.deleteItem(it); this.glCanvas.effects.addEffect(it.pos);});
+    });
+    this.olist.react(this.glCanvas.camera.getPosVector(), this.glCanvas.camera.getSpeedVector(), (it)=>{this.olist.deleteItem(it)});
+    this.olist.render(shaderVariables);
     ///
 
     //let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
@@ -161,8 +180,10 @@ class Scene{
     this.hs.matrix = m4.scale(this.hs.matrix, 5,5, 5);
     let phs = calc.transformVertexList(this.hs.vertexList, this.hs.matrix);
 
+    
+
     this.bullets.forEach((it, i, arr)=>{
-      it.render(shaderVariables, deltaTime);
+      //it.render(shaderVariables, deltaTime);
       if (it.time<=0 || it.time>=10000){
         arr[i] = undefined;
         reqFilter = true;
@@ -198,7 +219,12 @@ class Scene{
       
       }
     });
+
+    this.blist.matList = [];
+    this.blist.matList.push(it.model.matrix);
   });
+  this.blist.render(shaderVariables);
+
     if (reqFilter){
       this.bullets = this.bullets.filter(it=>it);
       reqFilter = false;
