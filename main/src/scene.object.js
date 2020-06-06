@@ -11,7 +11,8 @@ let Bullet = require('./bullet.object.js');
 let Weapon = require('./weapon.object.js');
 let Enemy = require('./enemy.object.js');
 let Chunk = require('./static-chunk.object.js');
-let Message = require('./point-message.object.js')
+let Message = require('./point-message.object.js');
+let Collect = require('./collectable.object.js');
 
 const calc = require('./calc.utils.js');
 const anyutils = require('./any.utils.js');
@@ -35,6 +36,8 @@ class Scene{
       this.enList.push(enemy);
     }
 
+    this.col = new Collect(gl, new Vector3d(50, calc.rand(140)-70, 50), new Vector3d(0,0,0));
+
     this.hs = new Basic(gl,boxModel , m4.identity(), {r:200, g:20, b:60});
     let plpos = glCanvas.camera.getPosVector();
     this.hs.matrix = m4.translate(this.hs.matrix, plpos.x, plpos.y, plpos.z);
@@ -52,6 +55,7 @@ class Scene{
 
     this.bd.matrix = m4.translate(this.bd.matrix, 30,30,40);
     this.bd.matrix = m4.scale(this.bd.matrix, 10,3,20);
+
 
     this.particles = [];
     this.partMtx= [];
@@ -124,7 +128,7 @@ class Scene{
     //  }
     });
 
-    this.messages[0].refresh(this.glCanvas.viewMatrix, this.enList[0].pos, 'Enemy '+Math.round(glCanvas.camera.getPosVector().subVector(this.enList[0].pos).abs()*10)/10+ 'km');
+    this.messages[0].refresh(this.glCanvas.viewMatrix, this.col.pos, 'Enemy '+Math.round(glCanvas.camera.getPosVector().subVector(this.enList[0].pos).abs()*10)/10+ 'km');
     this.messages[1].refresh(this.glCanvas.viewMatrix, new Vector3d(0,0,0), 'Base '+Math.round(glCanvas.camera.getPosVector().abs()*10)/10+ 'km');
 
 
@@ -134,6 +138,12 @@ class Scene{
     this.tur.weapon.render(deltaTime);
     ////
 
+    this.col.render(shaderVariables, deltaTime);
+    this.col.react(this.glCanvas.camera.getPosVector(), this.glCanvas.camera.getSpeedVector(), (cl)=>{
+      cl.pos = new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50);
+      cl.color = {r:rand(255),g:rand(255),b:100};
+    });
+    ///
 
     //let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
     //let bsl1 = calc.transformVertexList(this.enemy.hitPoint.vertexList, this.enemy.model.matrix);

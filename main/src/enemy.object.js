@@ -13,7 +13,7 @@ class Enemy{
     this.v = speedVector; 
 
     //this.weapon = new Weapon(0.75, 5.2, 6.1, 'assets/sounds/laser.mp3');
-    this.weapon = new Weapon(0.25, 5.2, 3.1);
+    this.weapon = new Weapon(0.75, 5.2, 3.41);
 
     this.nv = new Vector3d(0, 0 ,1);
     this.aziV = new Vector3d (0,0,0);
@@ -59,16 +59,47 @@ class Enemy{
     this.model.render(shadersVariables);
   }
 
+  shot(){
+    let startPoint = this.pos.addVector(this.nv.mul(-3));
+    let targetPoint = this.nv.mul(-1).addVector(this.v.mul(1/this.weapon.bulletSpeed));
+    this.weapon.shot(this.gl, app.glCanvas.scene.bullets, startPoint, targetPoint);  
+  }
+
+  accelerate(){
+    this.v.subVector(this.nv.normalize().mul(0.02), true);
+    if (this.v.abs()>0.91){this.v = this.v.normalize().mul(0.91);}
+  }
+
+  directTo(dir){
+    let orta = toPolar3d(dir);
+    let az = azimutDifference(orta.x, this.azi.x);
+    az = az>0 ? 1 : -1;  
+    if (Math.abs(this.aziV.x)<0.2){
+      this.aziV.x = this.aziV.x +az/500;
+    }
+    this.azi.x += this.aziV.x;//this.torq.mul(0.059).addVector(orta);
+    let kk=12;
+    this.azi.y = ((this.azi.y*kk)+orta.y)/(kk+1);
+    this.aziV.x*=0.93;
+
+    if (this.azi.y>Math.PI-0.01){this.azi.y=Math.PI-0.01};
+    if (this.azi.y<0.01){this.azi.y=0.01};
+  }
+
   logic(playerPosition, playerSpeed, deltaTime){
     let dir;
     if (this.atack){
       if (this.pos.subVector(playerPosition).abs()>40){
         let dist = this.pos.subVector(playerPosition).abs();
         let time = dist/this.weapon.bulletSpeed;
-        dir = this.pos.subVector(playerPosition.addVector(playerSpeed.mul(time))).normalize();
-        this.weapon.shot(this.gl, app.glCanvas.scene.bullets, this.pos.addVector(this.nv.mul(-3)), 
-        this.nv.mul(-1).addVector(this.v.mul(1/this.weapon.bulletSpeed))
-        );
+       // dir = this.pos.subVector(playerPosition).normalize();
+        dir = this.pos.subVector(playerPosition.addVector(playerSpeed.subVector(this.v.mul(1)).mul(time))).normalize();
+        if (Math.abs(getAngleBetweenVectors(dir, this.nv))<Math.random()*0.61){
+          if (Math.random()<0.3) {this.shot();}
+        }
+        //this.weapon.shot(this.gl, app.glCanvas.scene.bullets, this.pos.addVector(this.nv.mul(-3)), 
+        //this.nv.mul(-1).addVector(this.v.mul(1/this.weapon.bulletSpeed))
+        //);
         ///this.nv.mul(-1) without speed;
       } else {
         dir = this.pos.subVector(playerPosition).mul(-1).normalize();
@@ -102,9 +133,12 @@ class Enemy{
     //this.v.subVector(dir.mul(0.05), true); //old
 
     //let orta = toPolar3d(dir);//toPolar3d(this.nv).subVector(toPolar3d(dir)).mul(0.005);
-    let orta = toPolar3d(dir);
+   
+ /*   let orta = toPolar3d(dir);
     let az = azimutDifference(orta.x, this.azi.x);
     az = az>0 ? 1 : -1;
+*/
+
     //let ortas = orta.subVector()
    // let az = Math.min(Math.abs(orta.x - this.azi.x), Math.abs(orta.x - this.azi.x + Math.PI*2));
    /* if (Math.abs(orta.x - this.azi.x + Math.PI*2)<Math.abs(orta.x - this.azi.x)){az = orta.x - this.azi.x + Math.PI*2} else{
@@ -114,27 +148,36 @@ class Enemy{
    // if(this.azi.x<orta.x){az=-az;}
     //if (Math.random()<0.01){console.log(orta, ortas, this.azi)};
     //this.azi = (this.azi.mul(120).addVector(orta)).mul(1/121);
-    if (Math.abs(this.aziV.x)<0.2){
-      this.aziV.x = this.aziV.x +az/50;
+  
+  
+ /*   if (Math.abs(this.aziV.x)<0.2){
+      this.aziV.x = this.aziV.x +az/500;
     }
     this.azi.x += this.aziV.x;//this.torq.mul(0.059).addVector(orta);
-    let kk=2;
+    let kk=12;
     this.azi.y = ((this.azi.y*kk)+orta.y)/(kk+1);
     this.aziV.x*=0.93;
+*/
+
+
     //this.azi = this.azi.addVector(ortas.mul(-1));
     //if (orta.y<Math.PI/2){ orta.y}
     //let kk = 20;
     //this.aziV = this.aziV.addVector(orta.mul(1/kk));
     //this.azi = this.azi.addVector(this.aziV.mul(-1));
     //this.aziV = this.aziV.mul(0.179);
-    if (this.azi.y>Math.PI-0.01){this.azi.y=Math.PI-0.01};
-    if (this.azi.y<0.01){this.azi.y=0.01};
+ //   if (this.azi.y>Math.PI-0.01){this.azi.y=Math.PI-0.01};
+ //   if (this.azi.y<0.01){this.azi.y=0.01};
     //if (this.azi.x>Math.PI){this.azi.x=-Math.PI+0.001};
     //if (this.azi.x<-Math.PI){this.azi.x=Math.PI-0.001};
 
    // if (orta.abs()>2){
-      this.v.subVector(this.nv.normalize().mul(0.02), true);
-      if (this.v.abs()>0.91){this.v = this.v.normalize().mul(0.91);}
+
+      this.directTo(dir);
+
+      if (Math.abs(getAngleBetweenVectors(dir, this.nv))<Math.PI/2){
+        this.accelerate();
+      }
     //} 
   //  } else {
    //   this.v.mul(0.8998, true);  
