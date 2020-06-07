@@ -6,6 +6,7 @@ const Textured = require('./textured.object.js');
 const boxModel = require('./box.model.js');
 const rocketModel = require('./tf.model.js');
 const rocketModel1 = require('./rocket.model.js');
+const selfModel = require('./models/self.model.js');
 const Vector3d = require('./vector3d.dev.js');
 let Bullet = require('./bullet.object.js');
 let Weapon = require('./weapon.object.js');
@@ -28,14 +29,15 @@ class Scene{
     let gl = this.gl;
 
     this.messages = [];
-    this.messages.push(new Message(glCanvas.overlay.node,'','fff'));
-    this.messages.push(new Message(glCanvas.overlay.node,'','f88'));
+    this.messages.push(new Message(glCanvas.gamePanel.view.node,'','fff'));
+    this.messages.push(new Message(glCanvas.gamePanel.view.node,'','8f8'));
+    this.messages.push(new Message(glCanvas.gamePanel.view.node,'','f88'));
 
    // this.
     //this.enemy.weapon = new Weapon(0.75, 5.2, 6.1, 'assets/sounds/laser.mp3');
     this.enList =[];
-    for (let i=0; i<1; i++){
-      let enemy = new Enemy(gl, new Vector3d(50, calc.rand(400)-200, 50), new Vector3d(0,0,0));
+    for (let i=0; i<2; i++){
+      let enemy = new Enemy(gl, new Vector3d(50, calc.rand(400)-200, calc.rand(400)-200), new Vector3d(0,0,0));
       this.enList.push(enemy);
     }
     
@@ -51,9 +53,16 @@ class Scene{
 
     this.col = new Collect(gl, new Vector3d(50, calc.rand(140)-70, 50), new Vector3d(0,0,0));
 
+    this.selmod = new Basic(gl, selfModel, m4.identity(), {r:200, g:20, b:60} );
+
+
     this.hs = new Basic(gl,boxModel , m4.identity(), {r:200, g:20, b:60});
     let plpos = glCanvas.camera.getPosVector();
     this.hs.matrix = m4.translate(this.hs.matrix, plpos.x, plpos.y, plpos.z);
+
+    this.hsn = new Basic(gl,boxModel , m4.identity(), {r:200, g:20, b:60});
+    //let plpos = glCanvas.camera.getPosVector();
+    this.hsn.matrix = m4.translate(this.hsn.matrix, plpos.x, plpos.y, plpos.z);
 
     this.bs = new Basic(gl,rocketModel , m4.identity(), {r:200, g:20, b:60});
     this.bs.matrix = m4.translate(this.bs.matrix, 30,3,40);
@@ -135,19 +144,35 @@ class Scene{
     }
     this.bd.render(shaderVariables);
 
+    let nvc = this.glCanvas.camera.getPosVector().addVector(this.glCanvas.camera.getCamNormal().mul(-1));
+    let mmt = m4.identity();
+    mmt[12]= nvc.x;
+    mmt[13]= nvc.y;
+    mmt[14]= nvc.z;
+
+    let mts = this.glCanvas.camera.getNormalMatrix();
+    mts = m4.xRotate(mts,Math.PI/2);
+    mts = m4.multiply(mmt, mts);
+    this.selmod.matrix = mts;
+
+    //this.selmod.matrix = m4.translate(this.selmod.matrix, this.glCanvas.camera.posX, this.glCanvas.camera.posY, this.glCanvas.camera.posZ -4);
+    //this.selmod.matrix = m4.multiply(mts, this.selmod.matrix);
+    this.selmod.render(shaderVariables);
+
     this.particles.forEach(it=>{
     //  if (this.glCanvas.camera.getPosVector().subVector(new Vector3d(it.matrix[12], it.matrix[13], it.matrix[14])).abs()<400){
         it.renderMany(shaderVariables,this.partMtx);
     //  }
     });
 
-    this.messages[0].refresh(this.glCanvas.viewMatrix, this.col.pos, 'Enemy '+Math.round(glCanvas.camera.getPosVector().subVector(this.enList[0].pos).abs()*10)/10+ 'km');
-    this.messages[1].refresh(this.glCanvas.viewMatrix, new Vector3d(0,0,0), 'Base '+Math.round(glCanvas.camera.getPosVector().abs()*10)/10+ 'km');
+    this.messages[0].refresh(this.glCanvas.viewMatrix, this.col.pos, 'Collect_It '+Math.round(glCanvas.camera.getPosVector().subVector(this.col.pos).abs()*10)/10+ 'km');
+    this.messages[1].refresh(this.glCanvas.viewMatrix, this.enList[0].pos, 'Kill_It '+Math.round(glCanvas.camera.getPosVector().subVector(this.enList[0].pos).abs()*10)/10+ 'km');
+    this.messages[2].refresh(this.glCanvas.viewMatrix, new Vector3d(0,0,0), 'Base '+Math.round(glCanvas.camera.getPosVector().abs()*10)/10+ 'km');
 
 
     //////
     this.tur.render(shaderVariables);
-    this.tur.weapon.shotTo(this.glCanvas.glContext, this.bullets, this.tur.getPosVector(), this.glCanvas.camera.getPosVector());
+    this.tur.weapon.shotTo(this.glCanvas.glContext, this.bullets, this.tur.getPosVector(), this.glCanvas.camera.getPosVector(), this.glCanvas.camera.getPosVector());
     this.tur.weapon.render(deltaTime);
     ////
 
@@ -178,11 +203,17 @@ class Scene{
     let plpos = this.glCanvas.camera.getPosVector();
     this.hs.matrix = m4.identity();
     this.hs.matrix = m4.translate(this.hs.matrix, plpos.x, plpos.y, plpos.z);
-    this.hs.matrix = m4.scale(this.hs.matrix, 5,5, 5);
+    this.hs.matrix = m4.scale(this.hs.matrix, 3,3, 3);
     let phs = calc.transformVertexList(this.hs.vertexList, this.hs.matrix);
+
+    this.hsn.matrix = m4.identity();
+    this.hsn.matrix = m4.translate(this.hsn.matrix, plpos.x, plpos.y, plpos.z);
+    this.hsn.matrix = m4.scale(this.hsn.matrix, 6,6, 6);
+    let phsn = calc.transformVertexList(this.hsn.vertexList, this.hsn.matrix);
 
     
     this.blist.matList = [];
+    this.glCanvas.effects.bulletlist.list=[];
     this.bullets.forEach((it, i, arr)=>{
       it.render(shaderVariables, deltaTime);
       if (it.time<=0 || it.time>=10000){
@@ -192,7 +223,15 @@ class Scene{
 
       if (it && (it.react(phs, plpos))){
         this.glCanvas.effects.addEffect(plpos);  
-        anyutils.playSoundUrl('assets/sounds/expl1.mp3');
+        //anyutils.playSoundUrl('assets/sounds/expl1.mp3');
+        rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
+      } else {
+
+        if (it && (it.react(phsn, plpos))){
+         // this.glCanvas.effects.addEffect(plpos);  
+          //anyutils.playSoundUrl('assets/sounds/expl1.mp3');
+          rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/near1.mp3') : anyutils.playSoundUrl('assets/sounds/near2.mp3');
+        }
       }
 
     /*  if (it && (it.react(bsl1, this.enemy.pos))){
@@ -212,19 +251,24 @@ class Scene{
       let enobj = this.enList[j];
       if (it && (it.react(enemy, enobj.pos))){
         this.glCanvas.effects.addEffect(enobj.pos);
+        let vol = 130/(enobj.pos.subVector(this.glCanvas.camera.getPosVector()).abs());
         enobj.model.color={r:rand(255), g:rand(155)+100, b:60};  
         enobj.pos = new Vector3d(Math.random()*140-70, Math.random()*140-80, Math.random()*140-70);
         arr[i] = undefined;
         reqFilter = true;
-        rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3') : anyutils.playSoundUrl('assets/sounds/expl2.mp3');
+
+        //let vol = 1;
+        
+
+        rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3', vol) : anyutils.playSoundUrl('assets/sounds/expl2.mp3', vol);
       
       }
     });
 
-    
-    this.blist.matList.push(it.matrix);
+    this.glCanvas.effects.addBullet(it.pos);
+    //this.blist.matList.push(it.matrix);
   });
-  this.blist.render(shaderVariables);
+  //this.blist.render(shaderVariables);
 
     if (reqFilter){
       this.bullets = this.bullets.filter(it=>it);

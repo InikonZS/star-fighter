@@ -4,7 +4,7 @@ function preloadSoundUrl(url){
   el.src = url;  
 }
 
-function playSoundUrl(url){
+function playSoundUrl(url, volume){
   let el = document.createElement('audio');
   document.body.appendChild(el);
   el.oncanplay = ()=>{
@@ -14,7 +14,13 @@ function playSoundUrl(url){
     document.body.removeChild(el); 
     el = undefined;
   }
-  el.src = url;  
+  el.src = url;
+
+  let vol = volume;
+  if (!vol || vol>=1){
+    vol = 1;
+  }
+  el.volume = vol; 
 }
 
 module.exports = {

@@ -13,20 +13,24 @@ class Weapon{
       Utils.preloadSoundUrl(soundUrl);
     }
   }
-  shot(gl, bulletList, point, direction){
+  shot(gl, bulletList, point, direction, playerPos){
     if (this.shotTime<=0 || this.shotTime>=1000){
       let bul = new Bullet(gl, point, direction.mul(this.bulletSpeed));
       bul.time = this.bulletLifeTime;
       bulletList.push(bul);
       this.shotTime = this.initialShotTime;
       if (this.soundUrl){
-        Utils.playSoundUrl(this.soundUrl);
+        let vol = 1;
+        if (playerPos) {
+          vol = 10/(point.subVector(playerPos).abs());
+        }
+        Utils.playSoundUrl(this.soundUrl, vol);
       }
     }
   }
 
-  shotTo(gl, bulletList, pointA, pointB){
-    this.shot(gl, bulletList, pointA, pointB.subVector(pointA).normalize());
+  shotTo(gl, bulletList, pointA, pointB, playerPos){
+    this.shot(gl, bulletList, pointA, pointB.subVector(pointA).normalize(), playerPos);
   }
 
   render(deltaTime){

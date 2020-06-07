@@ -5,8 +5,8 @@ class Camera{
   constructor(glCanvas){
     this.weapons=[
       new Weapon(0.15, 1.2, 3.1, 'assets/sounds/laser.mp3'),
-      new Weapon(0.08, 0.7, 3.1, 'assets/sounds/laser.mp3'),
-      new Weapon(0.35, 5.2, 3.1, 'assets/sounds/laser_power.mp3'),
+      new Weapon(0.08, 0.7, 3.1, 'assets/sounds/auto.mp3'),
+      new Weapon(0.35, 5.2, 3.1, 'assets/sounds/laser_med.mp3'),
       new Weapon(0.65, 1.2, 14.1, 'assets/sounds/laser_power.mp3'),
     ];
     this.intersect;
@@ -36,7 +36,7 @@ class Camera{
     matrix = m4.xRotate(matrix, this.camRY);
     matrix = m4.yRotate(matrix, this.camRZ);
     matrix = m4.zRotate(matrix, this.camRX);
-    matrix = m4.translate(matrix, px, py, pz);
+    matrix = m4.translate(matrix, this.posX, this.posY, this.posZ);
     return matrix;
   }
 

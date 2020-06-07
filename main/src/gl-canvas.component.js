@@ -9,6 +9,7 @@ const Skybox = require('./skybox.object.js');
 const Effects = require('./effects.object.js');
 const Controller = require('./controller.object.js');
 const GameMenu = require('./game-menu.component.js');
+const GamePanel = require('./game-panel.component.js');
 
 const calc = require('./calc.utils.js');
 
@@ -56,6 +57,7 @@ class GLCanvas extends Control{
       }
     });
     this.overlayRefresh();
+    this.gamePanel = new GamePanel(this.overlay.node, this);
 
     this.menu = new GameMenu(parentNode, this);
     this.menu.activate();
@@ -80,7 +82,7 @@ class GLCanvas extends Control{
     this.isPaused = false;
     this.isStarted = true;
     if (!res){
-      this.overlay.clear();
+      this.gamePanel.view.clear();
       glInitialize(this);
     }
     let lastTime = Date.now();
