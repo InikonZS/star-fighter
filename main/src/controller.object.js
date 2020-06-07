@@ -40,6 +40,13 @@ function keyDownHandler(glCanvas, e){
 }
 
 function keyUpHandler(glCanvas, e){
+  if (e.code == 'Backquote'){
+    if (!glCanvas.menu.isActive){
+      glCanvas.menu.activate();
+      document.exitPointerLock();
+    }
+  } 
+
   if (e.code == 'KeyW'){
     glCanvas.keyboardState.forward = false;
     //keyboardHandler(glCanvas, 'forward', false);

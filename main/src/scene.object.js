@@ -16,6 +16,7 @@ let Collect = require('./collectable.object.js');
 let CollectN = require('./collectable-new.object.js');
 let ObList = require('./object-list.object.js');
 
+let Mission1 = require('./mission.xz.js');
 const calc = require('./calc.utils.js');
 const anyutils = require('./any.utils.js');
 

@@ -20,6 +20,7 @@ class Effects{
     this.mesh = new Mesh(gl);
     this.mesh.loadFromSource(boxModel);
     let textureURL = 'https://raw.githubusercontent.com/InikonZS/textures/master/kisspng-sprite-explosion-animated-film-2d-computer-graphic-5b320d937c5263.6802436815300069315092.png';
+    //let textureURL = 'https://raw.githubusercontent.com/InikonZS/textures/master/lazer.png';
     GLUtils.createTexture(this.gl, textureURL, (tex)=>{this.texture = tex});
     this.color = {r:200, g:20, b:60};
 

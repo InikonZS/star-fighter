@@ -8,13 +8,14 @@ const AniShader = require('./ani-texture.shader.js');
 const Skybox = require('./skybox.object.js');
 const Effects = require('./effects.object.js');
 const Controller = require('./controller.object.js');
+const GameMenu = require('./game-menu.component.js');
 
 const calc = require('./calc.utils.js');
 
 class GLCanvas extends Control{
   constructor(parentNode, width, height){
     super (parentNode, 'canvas', '', '', ()=>{
-      this.node.requestPointerLock();
+      //this.node.requestPointerLock();
     });
     parentNode.style = 'position:relative';
     this.node.width = width;
@@ -38,17 +39,29 @@ class GLCanvas extends Control{
         this.node.width = screen.width;
         this.node.height = screen.height;   
         this.overlayRefresh();
+        this.menuRefresh();
       } else {
         this.node.width = 640;
         this.node.height = 480; 
         this.overlayRefresh();
+        this.menuRefresh();
       }
     });
+
+    
+
     this.overlay = new Control(parentNode, 'div', '', '', ()=>{
-      this.node.requestPointerLock();
+      if (!this.menu.isActive){
+        this.node.requestPointerLock();
+      }
     });
     this.overlayRefresh();
+
+    this.menu = new GameMenu(parentNode, this);
+    this.menu.activate();
+    this.menuRefresh();
   }
+
   overlayRefresh(){
     this.overlay.node.style = `
       position:absolute;
@@ -59,15 +72,19 @@ class GLCanvas extends Control{
     `;
   }
 
-  start(){
+  menuRefresh(){
+    this.menu.refresh();
+  }
+
+  start(res){
+    this.isPaused = false;
     this.isStarted = true;
-
-    setController(this);
-
-    glInitialize(this);
-
-    var lastTime = Date.now();
-    var drawScene = (currentTime)=>{
+    if (!res){
+      this.overlay.clear();
+      glInitialize(this);
+    }
+    let lastTime = Date.now();
+    let drawScene = (currentTime)=>{
       currentTime*= 0.001;
       var deltaTime = currentTime - lastTime;
       lastTime = currentTime;
@@ -83,6 +100,20 @@ class GLCanvas extends Control{
 
   stop(){
     this.isStarted = false;
+    this.isPaused = false;
+  }
+
+  pause(){
+    this.isStarted = false;
+    this.isPaused = true;
+  }
+
+  resume(){
+    this.start(true);
+  }
+
+  setController(){
+    setController(this);
   }
 }
 
