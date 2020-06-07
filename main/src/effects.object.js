@@ -1,5 +1,10 @@
 const Basic = require('./basic.object.js');
 const Textured = require('./textured-new.object.js');
+const Animation = require('./animation.object.js');
+const Sprite = require('./sprite.object.js');
+const SpriteList = require('./sprite-list.object.js');
+const Mesh = require('./mesh.object.js');
+const GLUtils = require('./gl-utils.js');
 
 const boxModel = require('./point-sprite.model.js');
 const Vector3d = require('./vector3d.dev.js');
@@ -11,19 +16,14 @@ class Effects{
     this.glCanvas = glCanvas;
     this.gl = glCanvas.glContext;
     let gl = this.gl;
-    this.frame = 0;
-    this.xmax = 5;
-    this.ymax = 4;
-    this.time = 0;
-    let mtx = m4.identity();
-    let model = new Textured(this.gl, boxModel, 'https://raw.githubusercontent.com/InikonZS/textures/master/kisspng-sprite-explosion-animated-film-2d-computer-graphic-5b320d937c5263.6802436815300069315092.png', mtx, {r:200, g:20, b:60});
-    this.model = model;
-    this.list = [];
-    this.matList = [];
 
-    /*let mtx = m4.identity();
-    this.model = new Textured(this.gl, boxModel, 'https://raw.githubusercontent.com/InikonZS/textures/master/kisspng-sprite-explosion-animated-film-2d-computer-graphic-5b320d937c5263.6802436815300069315092.png', mtx, {r:200, g:20, b:60});
-    this.model.frame=0;*/
+    this.mesh = new Mesh(gl);
+    this.mesh.loadFromSource(boxModel);
+    let textureURL = 'https://raw.githubusercontent.com/InikonZS/textures/master/kisspng-sprite-explosion-animated-film-2d-computer-graphic-5b320d937c5263.6802436815300069315092.png';
+    GLUtils.createTexture(this.gl, textureURL, (tex)=>{this.texture = tex});
+    this.color = {r:200, g:20, b:60};
+
+    this.spritelist = new SpriteList(gl, boxModel, textureURL);
   }
 
   addEffect(p){
@@ -32,48 +32,18 @@ class Effects{
     mtx[12]=p.x;
     mtx[13]=p.y;
     mtx[14]=p.z;
-    let model =new Textured(this.gl, boxModel, 'https://raw.githubusercontent.com/InikonZS/textures/master/kisspng-sprite-explosion-animated-film-2d-computer-graphic-5b320d937c5263.6802436815300069315092.png', mtx, {r:200, g:20, b:60});
-    model.frame=0;
-    this.list.push(model);
-    this.matList.push({matrix:mtx});
+    
+    let animation = new Animation(this.gl, 5, 4, 0.08);
+    animation.onFinished = (self) => {
+      this.spritelist.deleteItem(self);
+    }
+    let sprite = new Sprite(this.gl, this.spritelist.mesh, this.spritelist.texture, animation, mtx);
+    this.spritelist.addItem(sprite);
   }
 
   render(shaderVariables, deltaTime){
-   // let glCanvas = this.glCanvas;
-   // let cam = glCanvas.camera;
-   // let mtx = m4.identity();
-   // mtx = m4.translate(mtx -cam.posX, -cam.posY, -cam.posZ);
-   // mtx = m4.scale(mtx, 100,100,100);
-   // this.model.matrix = mtx;// 
-    
-    this.time-=deltaTime;
-    if (this.time<0||this.time>10000){
-      let reqFilter = false;
-      this.list.forEach((it)=>{
-        it.frame++;
-        if (it.frame>=this.xmax*this.ymax){it.frame=0; it.isFinished=true; reqFilter = true;}
-        it.time = 0.08;
-      });
-      this.frame++;
-      if (this.frame>=this.xmax*this.ymax){this.frame=0; this.isFinished=true;}
-      this.time = 0.03;
-      if (reqFilter){
-        this.list = this.list.filter(it=>!it.isFinished)
-      }
-    }
-    
-    
-
-    this.list.forEach((it)=>{
-      //this.gl.uniform4f(shaderVariables.posUniVec4, 1/this.xmax,1/this.ymax, it.frame%this.xmax, Math.trunc(it.frame/this.xmax));
-      
-      it.render(shaderVariables);    
-    });
+    this.spritelist.render(shaderVariables, deltaTime);
   }
-}
-
-function rand(lim){
-  return Math.trunc(Math.random()*lim);
 }
 
 module.exports = Effects;

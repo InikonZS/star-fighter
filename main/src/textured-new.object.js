@@ -13,7 +13,7 @@ class Textured extends Basic{
     this.xmax = 5;
     this.ymax = 4;
     this.time = 0;
-    
+
     GLUtils.createTexture(this.gl, textureURL, (tex)=>{this.texture = tex});
 
     this.texBuffer = GLUtils.createBuffer(gl, this.texList);
