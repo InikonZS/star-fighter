@@ -21,7 +21,8 @@ let Mission1 = require('./mission.xz.js');
 const calc = require('./calc.utils.js');
 const anyutils = require('./any.utils.js');
 
-let renItem = require('./renderable-item.new');
+let gmObject = require('./game-object.new.js');
+let renItem = require('./renderable-item.new.js');
 let renList = require('./renderable-model-list.new.js');
 
 
@@ -37,9 +38,25 @@ class Scene{
     for (let i=0; i<300; i++){
       let niMat = m4.identity();
       niMat = m4.translate(niMat, rand(100)-50, rand(100)-50, rand(100)-50);
-      neTest.createChild(niMat, calc.makeRGBA('00ff55'));
+      let ob = neTest.createChild(niMat, calc.makeRGBA('00ff55'));
+      ob.onProcess = (dt)=>{
+       // ob.matrix = m4.translate(ob.matrix, Math.random()-0.5, Math.random()-0.5, Math.random()-0.5);
+        ob.matrix = m4.xRotate(ob.matrix, Math.random()*dt);
+      }
+      ob.onReact = (o)=>{
+        //if (o.pos){
+          if (o.pos.subVector(new Vector3d(ob.matrix[12], ob.matrix[13], ob.matrix[14])).abs()<14){
+            ob.deleteSelf();
+          }  
+       // }
+      }
     }
     this.neTest = neTest;
+
+    this.plnew = new gmObject();
+    this.plnew.onProcess = (dt)=>{
+      this.plnew.pos = this.glCanvas.camera.getPosVector();
+    }
 
     this.messages = [];
     this.messages.push(new Message(glCanvas.gamePanel.view.node,'','fff'));
@@ -49,7 +66,7 @@ class Scene{
    // this.
     //this.enemy.weapon = new Weapon(0.75, 5.2, 6.1, 'assets/sounds/laser.mp3');
     this.enList =[];
-    for (let i=0; i<2; i++){
+    for (let i=0; i<1; i++){
       let enemy = new Enemy(gl, new Vector3d(50, calc.rand(400)-200, calc.rand(400)-200), new Vector3d(0,0,0));
       this.enList.push(enemy);
     }
@@ -127,8 +144,10 @@ class Scene{
         this.glCanvas.camera.shot(glCanvas, 3);
       }
     }
-
+    this.neTest.process(deltaTime);
+    this.plnew.process(deltaTime);
     this.neTest.render(this.gl);
+    this.neTest.react(this.plnew);
 
     //this.bs.matrix = m4.xRotate(this.bs.matrix, 0.5*deltaTime);
     let cam = glCanvas.camera;

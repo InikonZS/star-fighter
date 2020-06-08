@@ -7,7 +7,7 @@ class RenderableItem extends GameObject {
     this.matrix = matrix;
     this.count = meshPointer.vertexList.length / 3;
     this.color = color;
-    
+
     this.onRender = (gl)=>{
       gl.uniformMatrix4fv(this.shaderVariables.worldUniMat4, false, this.matrix); 
       let color = this.color;

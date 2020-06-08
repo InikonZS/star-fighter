@@ -19,6 +19,7 @@ class RenderableModelList extends GameObject {
   createChild(matrix, color){
     let ob = new RenderableItem(this.shaderVariables, this.mesh, matrix, color);
     this.addChild(ob);
+    return ob;
   }
 }
 
