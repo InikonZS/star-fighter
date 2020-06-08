@@ -1,3 +1,5 @@
+const calc = require('./calc.utils.js');
+
 function getModList(oob, genOwnNormal){
   let vreg=/[ \t]+/;
   let oreg=/[\n]+/;
@@ -11,6 +13,8 @@ function getModList(oob, genOwnNormal){
   let texList = [];
   let triangleList =[];
   let normalList = [];
+
+  let isNormalLoaded = false;
 
   for (let i=0; i< arr.length; i++){
     let spl = arr[i].split(vreg);
@@ -45,14 +49,15 @@ function getModList(oob, genOwnNormal){
           if (!genOwnNormal){
             sp = spj[2]-1;
             if (vertexListNorm[sp]){
-              normalList.push(vertexList[sp].x/10);
-              normalList.push(vertexList[sp].y/10);
-              normalList.push(vertexList[sp].z/10);
+              normalList.push(vertexListNorm[sp].x);
+              normalList.push(vertexListNorm[sp].y);
+              normalList.push(vertexListNorm[sp].z);
+              isNormalLoaded = true;
             }
           }
         }
 
-        if (normalList.length == 0){
+        if (!isNormalLoaded){
           for (let j=0; j<3; j++){
             let sp1 = spl[1].split('/')[0]-1;
             let sp2 = spl[2].split('/')[0]-1;

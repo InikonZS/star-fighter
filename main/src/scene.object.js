@@ -21,12 +21,26 @@ let Mission1 = require('./mission.xz.js');
 const calc = require('./calc.utils.js');
 const anyutils = require('./any.utils.js');
 
+let renItem = require('./renderable-item.new');
+let renList = require('./renderable-model-list.new.js');
+
+
+
 class Scene{
   constructor(glCanvas){
 
     this.glCanvas = glCanvas;
     this.gl = glCanvas.glContext;
     let gl = this.gl;
+
+    let neTest = new renList(gl, glCanvas.shaderVariables, boxModel, calc.makeRGBA('00ff55'));
+    for (let i=0; i<300; i++){
+      let niMat = m4.identity();
+      niMat = m4.translate(niMat, rand(100)-50, rand(100)-50, rand(100)-50);
+      let niTest = new renItem(neTest.shaderVariables, neTest.mesh, niMat);
+      neTest.addChild(niTest);
+    }
+    this.neTest = neTest;
 
     this.messages = [];
     this.messages.push(new Message(glCanvas.gamePanel.view.node,'','fff'));
@@ -114,6 +128,8 @@ class Scene{
         this.glCanvas.camera.shot(glCanvas, 3);
       }
     }
+
+    this.neTest.render(this.gl);
 
     //this.bs.matrix = m4.xRotate(this.bs.matrix, 0.5*deltaTime);
     let cam = glCanvas.camera;
