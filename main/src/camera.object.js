@@ -10,7 +10,9 @@ class Camera{
       new Weapon(0.65, 1.2, 14.1, 'assets/sounds/laser_power.mp3'),
     ];
     this.intersect;
-    this.glCanvas = this.glCanvas
+    this.glCanvas = this.glCanvas;
+    this.health = 100;
+    this.bullets = 50;
   }
   getPosVector(){
     return new Vector3d(-this.posX, -this.posY, -this.posZ);
@@ -87,9 +89,13 @@ class Camera{
   }
 
   shot(glCanvas, weaponIndex){
-    this.weapons[weaponIndex].shot(glCanvas.glContext, glCanvas.scene.bullets, this.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), 
+    
+    if (this.weapons[weaponIndex].shot(glCanvas.glContext, glCanvas.scene.bullets, this.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), 
     this.getCamNormal().mul(-1).addVector(this.getSpeedVector().mul(1/this.weapons[weaponIndex].bulletSpeed))
-    );
+    )){
+      this.bullets--;
+      glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.bullets;
+    }
   }
 
   rotateCamg(dx, dy){

@@ -24,13 +24,15 @@ class Weapon{
         if (playerPos) {
           vol = 10/(point.subVector(playerPos).abs());
         }
-        Utils.playSoundUrl(this.soundUrl, vol);
+        Utils.playSoundUrl(this.soundUrl, vol); 
       }
+      return true;
     }
+    return false;
   }
 
   shotTo(gl, bulletList, pointA, pointB, playerPos){
-    this.shot(gl, bulletList, pointA, pointB.subVector(pointA).normalize(), playerPos);
+    return this.shot(gl, bulletList, pointA, pointB.subVector(pointA).normalize(), playerPos);
   }
 
   render(deltaTime){

@@ -38,8 +38,11 @@ function getScreenPos(viewMatrix, vector, clipRect){
   clipspace[0] /= clipspace[3];
   clipspace[1] /= clipspace[3];
   // конвертация из пространства отсечения в пиксели
-  var pixelX = (clipspace[0] *  0.5 + 0.5) * clipRect.right;
-  var pixelY = (clipspace[1] * -0.5 + 0.5) * clipRect.bottom;
+  //var pixelX = (clipspace[0] *  0.5 + 0.5) * clipRect.right;
+  //var pixelY = (clipspace[1] * -0.5 + 0.5) * clipRect.bottom;
+  var pixelX = (clipspace[0] *  0.5 + 0.5) * window.app.glCanvas.node.width;
+  var pixelY = (clipspace[1] * -0.5 + 0.5) * window.app.glCanvas.node.height;
+
   if (clipspace[3]<0){
     pixelX*=-10000;
     pixelY*=-10000;

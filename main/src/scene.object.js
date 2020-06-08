@@ -222,7 +222,9 @@ class Scene{
       }
 
       if (it && (it.react(phs, plpos))){
-        this.glCanvas.effects.addEffect(plpos);  
+        this.glCanvas.effects.addEffect(plpos);
+        this.glCanvas.camera.health-= Math.trunc(Math.random(5)+3); 
+        this.glCanvas.gamePanel.health.node.textContent =  'health: '+this.glCanvas.camera.health;
         //anyutils.playSoundUrl('assets/sounds/expl1.mp3');
         rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
       } else {

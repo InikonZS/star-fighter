@@ -36,3 +36,10 @@
   position: relative;
   display: flex;
 }
+
+.panel_item{
+  color:#fff;
+  background-color: #00000088;
+  padding:10px;
+  margin:5px;
+}
