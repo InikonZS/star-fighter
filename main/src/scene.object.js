@@ -21,10 +21,11 @@ let Mission1 = require('./mission.xz.js');
 const calc = require('./calc.utils.js');
 const anyutils = require('./any.utils.js');
 
+/*
 let gmObject = require('./game-object.new.js');
 let renItem = require('./renderable-item.new.js');
 let renList = require('./renderable-model-list.new.js');
-
+*/
 
 
 class Scene{
@@ -34,7 +35,7 @@ class Scene{
     this.gl = glCanvas.glContext;
     let gl = this.gl;
 
-    let neTest = new renList(gl, glCanvas.shaderVariables, rocketModel);
+   /* let neTest = new renList(gl, glCanvas.shaderVariables, rocketModel);
     for (let i=0; i<300; i++){
       let niMat = m4.identity();
       niMat = m4.translate(niMat, rand(100)-50, rand(100)-50, rand(100)-50);
@@ -57,7 +58,7 @@ class Scene{
     this.plnew.onProcess = (dt)=>{
       this.plnew.pos = this.glCanvas.camera.getPosVector();
     }
-
+*/
     this.messages = [];
     this.messages.push(new Message(glCanvas.gamePanel.view.node,'','fff'));
     this.messages.push(new Message(glCanvas.gamePanel.view.node,'','8f8'));
@@ -144,10 +145,10 @@ class Scene{
         this.glCanvas.camera.shot(glCanvas, 3);
       }
     }
-    this.neTest.process(deltaTime);
+  /*  this.neTest.process(deltaTime);
     this.plnew.process(deltaTime);
     this.neTest.render(this.gl);
-    this.neTest.react(this.plnew);
+    this.neTest.react(this.plnew);*/
 
     //this.bs.matrix = m4.xRotate(this.bs.matrix, 0.5*deltaTime);
     let cam = glCanvas.camera;

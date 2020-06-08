@@ -11,6 +11,8 @@ const Controller = require('./controller.object.js');
 const GameMenu = require('./game-menu.component.js');
 const GamePanel = require('./game-panel.component.js');
 
+const World = require('./engine/world.new.js');
+
 const calc = require('./calc.utils.js');
 
 class GLCanvas extends Control{
@@ -156,6 +158,9 @@ function glInitialize(glCanvas){
   glCanvas.aniVariables = AniShader.getShaderVariables(glCanvas.glContext, glCanvas.aniProgramm);
   
   glCanvas.camera.init();
+
+  glCanvas.world = new World(glCanvas.glContext);
+
   glCanvas.scene = new Scene(glCanvas);
   glCanvas.skybox = new Skybox(glCanvas);
   glCanvas.effects = new Effects(glCanvas);
@@ -194,6 +199,8 @@ function glRender(glCanvas, deltaTime){
   AniShader.initShader(glCanvas.glContext, aniProgramm, aniVariables.positionAttr, aniVariables.texAttr);
   glCanvas.glContext.uniformMatrix4fv(glCanvas.aniVariables.viewUniMat4, false, viewMatrix);
   glCanvas.effects.render(glCanvas.aniVariables, deltaTime);
+
+  glCanvas.world.render(viewMatrix);
 
 /*  renderWithShader(glCanvas, deltaTime, glCanvas.skyProgramm, glCanvas.skyVariables, glCanvas.skybox);
   renderWithShader(glCanvas, deltaTime, glCanvas.shaderProgramm, glCanvas.shaderVariables, glCanvas.scene);
