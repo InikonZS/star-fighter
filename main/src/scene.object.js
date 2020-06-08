@@ -33,12 +33,11 @@ class Scene{
     this.gl = glCanvas.glContext;
     let gl = this.gl;
 
-    let neTest = new renList(gl, glCanvas.shaderVariables, boxModel, calc.makeRGBA('00ff55'));
+    let neTest = new renList(gl, glCanvas.shaderVariables, rocketModel);
     for (let i=0; i<300; i++){
       let niMat = m4.identity();
       niMat = m4.translate(niMat, rand(100)-50, rand(100)-50, rand(100)-50);
-      let niTest = new renItem(neTest.shaderVariables, neTest.mesh, niMat);
-      neTest.addChild(niTest);
+      neTest.createChild(niMat, calc.makeRGBA('00ff55'));
     }
     this.neTest = neTest;
 
