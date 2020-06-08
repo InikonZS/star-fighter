@@ -16,6 +16,7 @@ class GameObject{
     }
     if (this.reqFilter){
       this.childList = this.childList.filter(it=>it.isExists);
+      this.reqFilter = false;
     }
     this.childList.forEach(it=>{
       it.render(gl);
@@ -28,6 +29,7 @@ class GameObject{
     }
     if (this.reqFilter){
       this.childList = this.childList.filter(it=>it.isExists);
+      this.reqFilter = false;
     }
     this.childList.forEach(it=>{
       it.process(deltaTime);

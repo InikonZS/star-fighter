@@ -230,6 +230,12 @@ function makeRGBA(color){
     }
   return result;
   }
+  return result;
+}
+
+function makeNormRGBA(color){
+  let res = makeRGBA(color);
+  return {r:res.r/255, g:res.g/255, b:res.b/255, a:res.a/255}
 }
 
 module.exports = {
@@ -251,5 +257,6 @@ module.exports = {
   radToDeg,
   degToRad,
   rand,
-  makeRGBA
+  makeRGBA,
+  makeNormRGBA
 }

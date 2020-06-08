@@ -1,5 +1,8 @@
 const GameObject = require('./game-object.new.js');
 
+const GLUtils = require('../gl-utils.js');
+
+
 class RenderableItem extends GameObject {
   constructor(shaderVariables, meshPointer, matrix, color){
     super();
@@ -11,7 +14,7 @@ class RenderableItem extends GameObject {
     this.onRender = (gl)=>{
       gl.uniformMatrix4fv(this.shaderVariables.worldUniMat4, false, this.matrix); 
       let color = this.color;
-      gl.uniform4f(shaderVariables.colorUniVec4, color.r/255, color.g/255, color.b/255, color.a/255); 
+      gl.uniform4f(shaderVariables.colorUniVec4, color.r, color.g, color.b, color.a); 
       gl.drawArrays(gl.TRIANGLES, 0, this.count);  
     }
   }

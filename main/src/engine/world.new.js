@@ -13,10 +13,10 @@ class World{
 
     let neTest = this.obList.createChild(rocketModel);
     //let neTest = new renList(gl, glCanvas.shaderVariables, rocketModel);
-    for (let i=0; i<300; i++){
+    for (let i=0; i<3000; i++){
       let niMat = m4.identity();
       niMat = m4.translate(niMat, rand(100)-50, rand(100)-50, rand(100)-50);
-      let ob = neTest.createChild(niMat, calc.makeRGBA('00ff55'));
+      let ob = neTest.createChild(niMat, calc.makeNormRGBA('00ff55'));
     }
   }
 
