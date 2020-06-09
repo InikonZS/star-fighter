@@ -1,5 +1,5 @@
 const GameObject = require('./game-object.new.js');
-const RenderableItem = require('./renderable-item.new.js');
+const BulletItem = require('./bullet-item.new.js');
 const Mesh = require('../mesh.object.js');
 const GLUtils = require('../gl-utils.js');
 
@@ -16,8 +16,8 @@ class RenderableModelList extends GameObject {
     }
   }
 
-  createChild(matrix, color){
-    let ob = new RenderableItem(this.shaderVariables, this.mesh, matrix, color);
+  createChild(color, startVector, speedVector){
+    let ob = new BulletItem(this.shaderVariables, this.mesh, color, startVector, speedVector);
     this.addChild(ob);
     return ob;
   }

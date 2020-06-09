@@ -238,6 +238,22 @@ function makeNormRGBA(color){
   return {r:res.r/255, g:res.g/255, b:res.b/255, a:res.a/255}
 }
 
+function getMaxDistance(vertexList){
+  let max = 0;
+  for (let i=0; i<vertexList.length; i+=3){
+    let v = new Vector3d(vertexList[i+0], vertexList[i+1], vertexList[i+2]);
+    let dist = v.abs();
+    if (dist>max){
+      max = dist;
+    }
+  }
+  return max;
+}
+
+function getPosFromMatrix(matrix){
+  return new Vector3d(matrix[12], matrix[13], matrix[14]);
+}
+
 module.exports = {
   makeCameraMatrix,
   getNormal,
@@ -258,5 +274,7 @@ module.exports = {
   degToRad,
   rand,
   makeRGBA,
-  makeNormRGBA
+  makeNormRGBA,
+  getMaxDistance,
+  getPosFromMatrix
 }

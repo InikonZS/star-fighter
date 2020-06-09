@@ -8,6 +8,7 @@ class GameObject{
     this.onProcess;
     this.onRender;
     this.onReact;
+    this.parents = [];
   }
 
   render(gl){
@@ -49,14 +50,15 @@ class GameObject{
   }
 
   addChild(gameObject){
-    gameObject.parentObject = this;
+    gameObject.parents.push(this);
     this.childList.push(gameObject);
   }
 
   deleteSelf(){
-    if (this.parentObject){
+    if (this.parents.length){
       this.isExists = false;
-      this.parentObject.reqFilter = true;
+      this.parents.forEach(it => {it.reqFilter = true});
+      //this.mesh.deleteBuffers();
     }
   }
 }

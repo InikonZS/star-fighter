@@ -28,7 +28,7 @@ class Mesh{
     return this;
   }
 
-  getTransformedMesh(matrix){
+  getTransformedMesh(matrix){ //bad it eats much memory
     let mesh = new Mesh(this.gl);
     let newVertexList = calc.transformVertexList(this.vertexList, matrix);
     let trMatrix = m4.transpose(matrix);
@@ -36,11 +36,22 @@ class Mesh{
     return mesh.loadFromLists(newVertexList, newNormList, this.texList);  
   }
 
+  getTransformedVertexList(matrix){
+    return calc.transformVertexList(this.vertexList, matrix);
+  }
+
   makeBuffers(){
     let gl = this.gl;
     this.positionBuffer = GLUtils.createBuffer(gl, this.vertexList);
     this.normBuffer = GLUtils.createBuffer(gl, this.normalList);
     this.texBuffer = GLUtils.createBuffer(gl, this.texList);  
+  }
+
+  deleteBuffers(){
+    let gl = this.gl;
+    gl.deleteBuffer(this.positionBuffer);
+    gl.deleteBuffer(this.normBuffer);
+    gl.deleteBuffer(this.texBuffer);
   }
 }
 

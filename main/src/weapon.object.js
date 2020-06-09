@@ -18,6 +18,13 @@ class Weapon{
       let bul = new Bullet(gl, point, direction.mul(this.bulletSpeed));
       bul.time = this.bulletLifeTime;
       bulletList.push(bul);
+
+      //
+      let bl =app.glCanvas.world.bulList.createChild({r:100/255,g:100/255,b:250/255}, point, direction.mul(this.bulletSpeed));
+      bl.time = this.bulletLifeTime;
+      app.glCanvas.world.bule.addChild(bl);
+      //
+
       this.shotTime = this.initialShotTime;
       if (this.soundUrl){
         let vol = 1;

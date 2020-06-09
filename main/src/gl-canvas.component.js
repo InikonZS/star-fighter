@@ -200,7 +200,7 @@ function glRender(glCanvas, deltaTime){
   glCanvas.glContext.uniformMatrix4fv(glCanvas.aniVariables.viewUniMat4, false, viewMatrix);
   glCanvas.effects.render(glCanvas.aniVariables, deltaTime);
 
-  glCanvas.world.render(viewMatrix);
+  glCanvas.world.render(viewMatrix, deltaTime);
 
 /*  renderWithShader(glCanvas, deltaTime, glCanvas.skyProgramm, glCanvas.skyVariables, glCanvas.skybox);
   renderWithShader(glCanvas, deltaTime, glCanvas.shaderProgramm, glCanvas.shaderVariables, glCanvas.scene);
