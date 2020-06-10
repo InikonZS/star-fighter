@@ -95,121 +95,73 @@ class World{
     this.gl = gl;
     this.viewMatrix = m4.identity();
 
-    
-
-    this.graphicList = new GameObject();
+    //making list for rendering with shader
     this.solidUntexturedShaderList = new SolidUntexturedShaderList(gl, solidUntexturedShaderUnit);
-    let bList = this.solidUntexturedShaderList.createModelList(boxModel);
-    let oList = this.solidUntexturedShaderList.createModelList(rocketModel);
-    this.bulList = bList;
+
+    //loading models and making lists
+    this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
+    this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
+
+    //combine all list in root
+    this.graphicList = new GameObject();
+    this.graphicList.addChild(this.solidUntexturedShaderList);
     
+    //making physics
     this.physicsList = new GameObject();
-    this.bulListP = new GameObject();
-    this.tarList = new GameObject();
 
-    this.createBullet = (pos, speed, color)=>{
-      let el = this.bulList.createMovingItem(pos, speed, color);
-      attachBulletPhysics(el);
-      this.bulListP.addChild(el);
-    }
+    //all game classes
+    this.bulletList = new GameObject();
+    this.breakableList = new GameObject();
 
-    function attachBulletPhysics(el){
-      el.onReact=(ob)=>{
-        if (ob.hitTransformed){
-          if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
-            if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVector))){
-              ob.deleteSelf();
-            };  
-          };
-        }
-      }
-      return el;
-    }
-
-    function isCrossedSimple(pos, a, v, d){
-      return (pos.subVector(a).abs()<(v.abs()+d));
-    }
+    
 
     for (let i=0; i<100; i++){
       let niMat = m4.identity();
       niMat = m4.translate(niMat, rand(100)-50, rand(100)-50, rand(100)-50);
        niMat = m4.scale(niMat, 5,5,5);
-      let ob = bList.createStaticItem(niMat, {r:Math.random(),g:Math.random(),b:0.5});
-      this.tarList.addChild(ob);
+      let ob = this.boxModelList.createStaticItem(niMat, {r:Math.random(),g:Math.random(),b:0.5});
+      this.breakableList.addChild(ob);
     }
+
     for (let i=0; i<100; i++){
-      let ob = bList.createRotatingItem({x: rand(100)-50, y:  rand(100)-50, z: rand(100)-50}, 10,20,30, {r:Math.random(),g:Math.random(),b:0.5});
+      let ob = this.boxModelList.createRotatingItem({x: rand(100)-50, y:  rand(100)-50, z: rand(100)-50}, 10,20,30, {r:Math.random(),g:Math.random(),b:0.5});
     }
+    
     for (let i=0; i<100; i++){
-      let ob = oList.createRotatingItem({x: rand(100)-50, y:  rand(100)-50, z: rand(100)-50}, 0.1,0.4,0.1, {r:Math.random(),g:Math.random(),b:0.5});
+      let ob = this.tieModelList.createRotatingItem({x: rand(100)-50, y:  rand(100)-50, z: rand(100)-50}, 0.1,0.4,0.1, {r:Math.random(),g:Math.random(),b:0.5});
     }
-    /*new RenderableShaderList(this.gl, solidUntexturedShaderUnit, 
-      (gl, props, shader, vars)=>{
-        this.shaderUnit.initShader(gl, shader, vars.positionAttr, vars.normalAttr);
-        gl.uniformMatrix4fv(vars.viewUniMat4, false, props.viewMatrix);
-      }
-    );*/
-
-    //this.boxModelList = new RenderableModelList(this.gl,)
-    
-    /*GLUtils.setBuffer(gl, this.mesh.positionBuffer, shaderVariables.positionAttr,3);
-      GLUtils.setBuffer(gl, this.mesh.normBuffer, shaderVariables.normalAttr,3); 
-      */
-
-    //this.skyboxShader = new RenderableShaderList(this.gl, SkyboxShader);
-    //this.transparentAnimatedShader = new RenderableShaderList(this.gl, AniTextureShader);
-    /*
-    this.physList = new GameObject();
-    this.bule = new GameObject();
-    this.cras = new GameObject();
-    this.cras1 = new GameObject();
-    
-    this.physList.addChild(this.bule);
-    this.physList.addChild(this.cras);
-
-    this.obList = new RenderableShaderList(gl, Shaders);
-
-    let neTest = this.obList.createChild(boxModel);
-    //let neTest = new renList(gl, glCanvas.shaderVariables, rocketModel);
-    for (let i=0; i<1000; i++){
-      let niMat = m4.identity();
-     
-      niMat = m4.translate(niMat, rand(100)-50, rand(100)-50, rand(100)-50);
-       niMat = m4.scale(niMat, 5,5,5);
-      let ob = neTest.createChild(niMat, calc.makeNormRGBA('00ff55'));
-      this.cras.addChild(ob);
-    }
-
-    for (let i=0; i<1000; i++){
-      let niMat = m4.identity();
-     
-      niMat = m4.translate(niMat, rand(100)-50, rand(100)-50 + 200, rand(100)-50);
-       niMat = m4.scale(niMat, 5,5,5);
-      let ob = neTest.createChild(niMat, calc.makeNormRGBA('ff0055'));
-      this.cras1.addChild(ob);
-    }
-    this.hitList = neTest;
-
-    this.bulList = new BulletList(this.gl, this.obList.shaderVariables, boxModel);
-    this.obList.addChild(this.bulList);*/
+  
   }
 
   render(viewMatrix, deltaTime){
-   // this.graphicList.render(this.gl, {viewMatrix, deltaTime});
     this.solidUntexturedShaderList.process(deltaTime);
-    this.bulListP.react(this.tarList);
+    this.bulletList.react(this.breakableList);
     this.solidUntexturedShaderList.render(this.gl, {viewMatrix, deltaTime});
-    //this.obList.process(deltaTime);
-    //this.bulList.react(this.hitList);
-    //this.obList.react(this.obList);
- /*   this.obList.viewMatrix = viewMatrix;
-    this.obList.render(this.gl);
-
-    this.physList.process(deltaTime);
-    this.bule.react(this.cras);
-    this.bule.react(this.cras1);
-  }*/
   }
+
+  createBullet (pos, speed, color){
+    let el = this.boxModelList.createMovingItem(pos, speed, color);
+    attachBulletPhysics(el);
+    this.bulletList.addChild(el);
+  }
+
+}
+
+function attachBulletPhysics(el){
+  el.onReact=(ob)=>{
+    if (ob.hitTransformed){
+      if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
+        if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVector))){
+          ob.deleteSelf();
+        };  
+      };
+    }
+  }
+  return el;
+}
+
+function isCrossedSimple(pos, a, v, d){
+  return (pos.subVector(a).abs()<(v.abs()+d));
 }
 
 module.exports = World;
