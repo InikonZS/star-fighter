@@ -11,29 +11,29 @@ class GameObject{
     this.parents = [];
   }
 
-  render(gl){
+  render(gl, props){
     if (this.onRender){
-      this.onRender(gl);
+      this.onRender(gl, props);
     }
     if (this.reqFilter){
       this.childList = this.childList.filter(it=>it.isExists);
       this.reqFilter = false;
     }
     this.childList.forEach(it=>{
-      it.render(gl);
+      it.render(gl, props);
     });
   }
 
-  process(deltaTime){
+  process(deltaTime, props){
     if (this.onProcess){
-      this.onProcess(deltaTime);
+      this.onProcess(deltaTime, props);
     }
     if (this.reqFilter){
       this.childList = this.childList.filter(it=>it.isExists);
       this.reqFilter = false;
     }
     this.childList.forEach(it=>{
-      it.process(deltaTime);
+      it.process(deltaTime, props);
     });
   }
 
@@ -52,6 +52,7 @@ class GameObject{
   addChild(gameObject){
     gameObject.parents.push(this);
     this.childList.push(gameObject);
+    return gameObject;
   }
 
   deleteSelf(){

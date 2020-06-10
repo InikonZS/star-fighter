@@ -10,9 +10,9 @@ class RenderableItem extends GameObject {
     this.count = meshPointer.vertexList.length / 3;
     this.color = color;
 
-    this.hitTransformed = this.meshPointer.getTransformedVertexList(this.matrix);
+   /* this.hitTransformed = this.meshPointer.getTransformedVertexList(this.matrix);
     this.hitPosition = calc.getPosFromMatrix(this.matrix);
-    this.hitDist = this.meshPointer.maxDistance*5;
+    this.hitDist = this.meshPointer.maxDistance*5;*/
     
 
     this.onRender = (gl)=>{
