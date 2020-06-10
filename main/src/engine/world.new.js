@@ -14,6 +14,7 @@ const rocketModel = require('../tf.model.js');
 const boxModel = require('../box.model.js');
 const calc = require('../calc.utils.js');
 const rand = calc.rand;
+const Vector3d = require('../vector3d.dev.js');
 
 /*class SolidUntexturedStaticItem extends RenderableItem{
   constructor(gl, shaderVariables, modelSource){
@@ -56,6 +57,20 @@ class SolidUntexturedModelList extends RenderableModelList{
       mt = m4.zRotate(mt, el.sz);
       el.matrix = mt;
     }
+    return el;
+  }
+  
+  createMovingItem(posVector, speedVector, color){
+    let el = this.addChild(new RenderableItem(this.shaderVariables, this.mesh, m4.identity(), color));
+    el.position = posVector.mul(1);
+    el.speedVector = speedVector.mul(1);
+    el.onProcess = (deltaTime) => {
+      let mt = m4.identity();
+      el.position = el.position.addVector(el.speedVector.mul(1)); //add deltaTime
+      mt = m4.translate(mt,  el.position.x, el.position.y, el.position.z);
+      el.matrix = mt;
+    }
+    return el;
   }
 }
 
@@ -80,19 +95,47 @@ class World{
     this.gl = gl;
     this.viewMatrix = m4.identity();
 
-    this.physicsList = new GameObject();
+    
 
     this.graphicList = new GameObject();
     this.solidUntexturedShaderList = new SolidUntexturedShaderList(gl, solidUntexturedShaderUnit);
     let bList = this.solidUntexturedShaderList.createModelList(boxModel);
     let oList = this.solidUntexturedShaderList.createModelList(rocketModel);
+    this.bulList = bList;
+    
+    this.physicsList = new GameObject();
+    this.bulListP = new GameObject();
+    this.tarList = new GameObject();
 
+    this.createBullet = (pos, speed, color)=>{
+      let el = this.bulList.createMovingItem(pos, speed, color);
+      attachBulletPhysics(el);
+      this.bulListP.addChild(el);
+    }
+
+    function attachBulletPhysics(el){
+      el.onReact=(ob)=>{
+        if (ob.hitTransformed){
+          if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
+            if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVector))){
+              ob.deleteSelf();
+            };  
+          };
+        }
+      }
+      return el;
+    }
+
+    function isCrossedSimple(pos, a, v, d){
+      return (pos.subVector(a).abs()<(v.abs()+d));
+    }
 
     for (let i=0; i<100; i++){
       let niMat = m4.identity();
       niMat = m4.translate(niMat, rand(100)-50, rand(100)-50, rand(100)-50);
        niMat = m4.scale(niMat, 5,5,5);
       let ob = bList.createStaticItem(niMat, {r:Math.random(),g:Math.random(),b:0.5});
+      this.tarList.addChild(ob);
     }
     for (let i=0; i<100; i++){
       let ob = bList.createRotatingItem({x: rand(100)-50, y:  rand(100)-50, z: rand(100)-50}, 10,20,30, {r:Math.random(),g:Math.random(),b:0.5});
@@ -154,6 +197,7 @@ class World{
   render(viewMatrix, deltaTime){
    // this.graphicList.render(this.gl, {viewMatrix, deltaTime});
     this.solidUntexturedShaderList.process(deltaTime);
+    this.bulListP.react(this.tarList);
     this.solidUntexturedShaderList.render(this.gl, {viewMatrix, deltaTime});
     //this.obList.process(deltaTime);
     //this.bulList.react(this.hitList);
