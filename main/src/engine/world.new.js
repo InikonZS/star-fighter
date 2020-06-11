@@ -71,6 +71,13 @@ class World{
     this.graphicList.render(this.gl, {viewMatrix, deltaTime});
   }
 
+  createExplosion (pos, scale){
+    let mt = m4.identity();
+    mt = m4.translate(mt, pos.x, pos.y, pos.z);
+    mt = m4.scale(mt, scale, scale, scale);
+    let el = this.explosions.createStaticItem(mt, 5, 4, 0.1);
+  }
+
   createBullet (pos, speed, color){
     let el = this.boxModelList.createMovingItem(pos, speed, color);
     attachBulletPhysics(el);

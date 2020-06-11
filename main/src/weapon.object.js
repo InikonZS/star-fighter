@@ -21,7 +21,8 @@ class Weapon{
 
       //
         let bl =app.glCanvas.game.world.createBullet(point, direction.mul(this.bulletSpeed),{r:100/255,g:100/255,b:250/255});
-     // bl.time = this.bulletLifeTime;
+        let bl12 =app.glCanvas.game.world.createExplosion(point, 3);
+        // bl.time = this.bulletLifeTime;
      // app.glCanvas.world.bule.addChild(bl);
       //
 
