@@ -38,15 +38,19 @@ class GameObject{
   }
 
   react(gameObject){
-    if (this.onReact){
-      this.onReact(gameObject);
-      gameObject.childList.forEach(it=>{
-        this.onReact(it);
+    if (gameObject.isExists){
+      if (this.onReact){
+        this.onReact(gameObject);
+        gameObject.childList.forEach(it=>{
+          if (it.isExists){
+            this.onReact(it);
+          }
+        });
+      }
+      this.childList.forEach(it=>{
+        it.react(gameObject);
       });
     }
-    this.childList.forEach(it=>{
-      it.react(gameObject);
-    });
   }
 
   addChild(gameObject){
@@ -58,6 +62,7 @@ class GameObject{
   deleteSelf(){
     if (this.parents.length){
       this.isExists = false;
+      //console.log('delet', this.parents[0]);
       this.parents.forEach(it => {it.reqFilter = true});
       if (this.onDelete){
         this.onDelete();

@@ -32,7 +32,7 @@ class World{
     this.viewMatrix = m4.identity();
 
     this.skyboxShaderList = new SkyboxShaderList(gl, skyboxShaderUnit);
-    this.skyboxModelList = this.skyboxShaderList.createModelList(skyboxModel, 'assets/skybox.png');
+    this.skyboxModelList = this.skyboxShaderList.createModelList(skyboxModel, 'assets/textures/skybox.png');
     let skyboxElement = this.skyboxModelList.createStaticItem(m4.identity());
     skyboxElement.onProcess = (deltaTime)=>{
       let mt = m4.identity();
@@ -41,7 +41,7 @@ class World{
     }
 
     this.animatedShaderList = new AnimatedShaderList(gl, animatedShaderUnit);
-    this.explosions = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/skybox.png');
+    this.explosions = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/explosion.png');
 
     //making list for rendering with shader
     this.solidUntexturedShaderList = new SolidUntexturedShaderList(gl, solidUntexturedShaderUnit);
@@ -75,12 +75,43 @@ class World{
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
-    let el = this.explosions.createStaticItem(mt, 5, 4, 0.1);
+    let el = this.explosions.createStaticItem(mt, 5, 4, 0.05);
+    el.animation.onFinished = ()=>{
+      el.deleteSelf();
+    }
   }
 
-  createBullet (pos, speed, color){
-    let el = this.boxModelList.createMovingItem(pos, speed, color);
-    attachBulletPhysics(el);
+  createBullet (pos, speed, lifetime,  color){
+    let el = this.boxModelList.createStaticItem(m4.identity(), color);
+
+    el.position = pos.mul(1);
+    el.speedVector = speed.mul(1);
+    el.lifetime = lifetime;
+
+    el.onProcess = (deltaTime) => {
+      el.lifetime-=deltaTime;
+      if (isTimeout(el.lifetime)){
+        el.deleteSelf();
+      } else {
+        let mt = m4.identity();
+        el.position = el.position.addVector(el.speedVector.mul(1)); //add deltaTime
+        mt = m4.translate(mt,  el.position.x, el.position.y, el.position.z);
+        el.matrix = mt;
+      }
+    }
+
+    el.onReact=(ob)=>{
+      if (ob.hitTransformed){
+        if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
+          if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVector))){
+            ob.deleteSelf();
+            el.deleteSelf();
+            this.createExplosion(ob.hitPosition, 15);
+          };  
+        };
+      }
+    }
+    //attachBulletPhysics(el);
     this.bulletList.addChild(el);
   }
 
@@ -98,7 +129,7 @@ class World{
 
 }
 
-function attachBulletPhysics(el){
+/*function attachBulletPhysics(el){
   el.onReact=(ob)=>{
     if (ob.hitTransformed){
       if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
@@ -110,7 +141,7 @@ function attachBulletPhysics(el){
   }
   return el;
 }
-
+*/
 function isCrossedSimple(pos, a, v, d){
   return (pos.subVector(a).abs()<(v.abs()+d));
 }
@@ -129,6 +160,10 @@ function makeExternalScript(parentNode, scriptURL, onLoad, onError) {
   //parentNode.appendChild(elem.node);
   elem.node.src = scriptURL;
   return elem;
+}
+
+function isTimeout(time){
+  return (time<0 || time>10000); 
 }
 
 module.exports = World;
