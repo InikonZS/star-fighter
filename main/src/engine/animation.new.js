@@ -1,3 +1,5 @@
+const calc = require('../calc.utils.js');
+
 class Animation{
   constructor(xmax, ymax, timeStep){
     //this.gl = gl;
@@ -27,7 +29,7 @@ class Animation{
         );
     if (!this.isFinished){
       this.time-=deltaTime;
-      if (isTimeout(this.time)){
+      if (calc.isTimeout(this.time)){
         this.frame++;
         if (this.frame>=this.count){
           this.isFinished = true;
@@ -39,10 +41,6 @@ class Animation{
       }
     }
   }
-}
-
-function isTimeout(time){
-  return (time<0 || time>10000); 
 }
 
 module.exports = Animation;

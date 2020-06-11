@@ -4,9 +4,9 @@ const calc = require('../calc.utils.js');
 const rand = calc.rand;
 
 class Game{
-  constructor(gl){
+  constructor(gl, glCanvas){
     this.gl = gl;
-    let world = new World(gl);
+    let world = new World(gl, glCanvas.camera);
     this.world = world;
 
     for (let i=0; i<100; i++){

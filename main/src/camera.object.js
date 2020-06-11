@@ -4,10 +4,10 @@ const Weapon = require('./weapon.object.js');
 class Camera{
   constructor(glCanvas){
     this.weapons=[
-      new Weapon(0.15, 1.2, 3.1, 'assets/sounds/laser.mp3'),
-      new Weapon(0.08, 0.7, 3.1, 'assets/sounds/auto.mp3'),
-      new Weapon(0.35, 5.2, 3.1, 'assets/sounds/laser_med.mp3'),
-      new Weapon(0.65, 1.2, 14.1, 'assets/sounds/laser_power.mp3'),
+      new Weapon(0.15, 1.2, 30.1, 'assets/sounds/laser.mp3'),
+      new Weapon(0.08, 0.7, 30.1, 'assets/sounds/auto.mp3'),
+      new Weapon(0.35, 5.2, 60.1, 'assets/sounds/laser_med.mp3'),
+      new Weapon(0.65, 1.2, 140.1, 'assets/sounds/laser_power.mp3'),
     ];
     this.intersect;
     this.glCanvas = this.glCanvas;
@@ -42,6 +42,10 @@ class Camera{
     return matrix;
   }
 
+  getSelfModelMatrix(){
+    return getCameraSelfMatrix(this);
+  }
+
   init(){
     this.camRX=0;
     this.camRY=0;
@@ -66,9 +70,27 @@ class Camera{
   process(glCanvas, deltaTime){
     this.weapons.forEach(it=>it.render(deltaTime));
 
+    if (glCanvas.keyboardState.shot){
+      if (glCanvas.weapon ==1){
+        this.shot(glCanvas, 0);
+      }
+
+      if (glCanvas.weapon ==2){
+        this.shot(glCanvas, 1);
+      }
+
+      if (glCanvas.weapon ==3){
+        this.shot(glCanvas, 2);
+      }
+
+      if (glCanvas.weapon ==4){
+        this.shot(glCanvas, 3);
+      }
+    }
+
     this.dt = deltaTime;
     if (glCanvas.keyboardState.forward){
-      let moveSpeed = 0.3;
+      let moveSpeed = 10.3;
       trueVolumeCamera(this, moveSpeed, deltaTime);
     }
     let cam = glCanvas.camera;
@@ -78,19 +100,19 @@ class Camera{
     cam.vZ*=0.999;
     if (this.intersect){
       let nv = this.intersect(this.getPosVector(), this.getSpeedVector());
-      cam.posX+=nv.x;
-      cam.posY+=nv.y;
-      cam.posZ+=nv.z;
+      cam.posX+=nv.x*deltaTime;
+      cam.posY+=nv.y*deltaTime;
+      cam.posZ+=nv.z*deltaTime;
     } else {
-    cam.posX+=cam.vX;
-    cam.posY+=cam.vY;
-    cam.posZ+=cam.vZ;
+    cam.posX+=cam.vX*deltaTime;
+    cam.posY+=cam.vY*deltaTime;
+    cam.posZ+=cam.vZ*deltaTime;
     }
   }
 
   shot(glCanvas, weaponIndex){
     
-    if (this.weapons[weaponIndex].shot(glCanvas.glContext, glCanvas.scene.bullets, this.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), 
+    if (this.weapons[weaponIndex].shot(glCanvas.glContext,/* glCanvas.scene.bullets*/false, this.getPosVector().subVector(glCanvas.camera.getCamNormal().mul(2.10)), 
     this.getCamNormal().mul(-1).addVector(this.getSpeedVector().mul(1/this.weapons[weaponIndex].bulletSpeed))
     )){
       this.bullets--;
@@ -174,4 +196,18 @@ function getCameraNormal(cam){
   let nv = new Vector3d(0,0,0).fromList(nvv, 0);//.mul(-1 * moveSpeed * deltaTime);
   return new Vector3d(nv.x, nv.y, nv.z);  
 }
+
+function getCameraSelfMatrix(cam){
+  let nvc = cam.getPosVector().addVector(cam.getCamNormal().mul(-1));
+  let mmt = m4.identity();
+  mmt[12]= nvc.x;
+  mmt[13]= nvc.y;
+  mmt[14]= nvc.z;
+
+  let mts = cam.getNormalMatrix();
+  mts = m4.xRotate(mts,Math.PI/2);
+  mts = m4.multiply(mmt, mts);
+  return mts;
+}
+
 module.exports = Camera;

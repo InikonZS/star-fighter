@@ -27,7 +27,7 @@ const animatedShaderUnit = require('./shaders/ani-textured.shader.js');
 const {AnimatedShaderList} = require('./ani-textured.new.js');
 
 class World{
-  constructor(gl){
+  constructor(gl, camera){
     this.gl = gl;
     this.viewMatrix = m4.identity();
 
@@ -36,7 +36,10 @@ class World{
     let skyboxElement = this.skyboxModelList.createStaticItem(m4.identity());
     skyboxElement.onProcess = (deltaTime)=>{
       let mt = m4.identity();
+      let pos = camera.getPosVector();
+      mt = m4.translate(mt, pos.x, pos.y, pos.z);
       mt = m4.scale(mt, 300,300,300);
+
       skyboxElement.matrix = mt;
     }
 
@@ -91,11 +94,12 @@ class World{
 
     el.onProcess = (deltaTime) => {
       el.lifetime-=deltaTime;
-      if (isTimeout(el.lifetime)){
+      if (calc.isTimeout(el.lifetime)){
         el.deleteSelf();
       } else {
         let mt = m4.identity();
-        el.position = el.position.addVector(el.speedVector.mul(1)); //add deltaTime
+        el.speedVectorSync = el.speedVector.mul(deltaTime);
+        el.position = el.position.addVector(el.speedVectorSync); //add deltaTime
         mt = m4.translate(mt,  el.position.x, el.position.y, el.position.z);
         el.matrix = mt;
       }
@@ -103,8 +107,8 @@ class World{
 
     el.onReact=(ob)=>{
       if (ob.type == 'breakable'){
-        if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
-          if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVector))){
+        if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
+          if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVectorSync))){
             ob.deleteSelf();
             el.deleteSelf();
             this.createExplosion(ob.hitPosition, 15);
@@ -113,8 +117,8 @@ class World{
       }
 
       if (ob.type == 'solid'){
-        if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
-          let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVector);
+        if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
+          let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
           if (reflected){
             el.speedVector = reflected.normalize().mul(el.speedVector.abs());  
           };  
@@ -122,8 +126,8 @@ class World{
       }
 
       if (ob.type == 'danger'){
-        if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
-          let hp = calc.hitMeshPoint(ob.hitTransformed, el.position, el.speedVector);
+        if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
+          let hp = calc.hitMeshPoint(ob.hitTransformed, el.position, el.speedVectorSync);
           if (hp){
             el.deleteSelf();
             this.createExplosion(hp, 5);
@@ -134,15 +138,16 @@ class World{
     this.bulletList.addChild(el);
   }
 
-  createBreakable (pos, color){
+  createBreakable (pos, scale, color){
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
+    niMat = m4.scale(niMat, scale, scale, scale);
     let el = this.boxModelList.createStaticItem(niMat, color);
     el.type = 'breakable';
 
     el.hitTransformed = el.meshPointer.getTransformedVertexList(el.matrix);
     el.hitPosition = calc.getPosFromMatrix(el.matrix);
-    el.hitDist = el.meshPointer.maxDistance;
+    el.hitDist = el.meshPointer.maxDistance*scale;
     //el.pos = pos;
     this.breakableList.addChild(el);
   }
@@ -177,23 +182,6 @@ class World{
 
 }
 
-/*function attachBulletPhysics(el){
-  el.onReact=(ob)=>{
-    if (ob.hitTransformed){
-      if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
-        if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVector))){
-          ob.deleteSelf();
-        };  
-      };
-    }
-  }
-  return el;
-}
-*/
-function isCrossedSimple(pos, a, v, d){
-  return (pos.subVector(a).abs()<(v.abs()+d));
-}
-
 function makeExternalScript(parentNode, scriptURL, onLoad, onError) {
   const elem = new Control(parentNode, 'script');
   elem.node.onload = () => {
@@ -210,8 +198,5 @@ function makeExternalScript(parentNode, scriptURL, onLoad, onError) {
   return elem;
 }
 
-function isTimeout(time){
-  return (time<0 || time>10000); 
-}
 
 module.exports = World;

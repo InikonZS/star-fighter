@@ -1,23 +1,23 @@
 
 
 const Basic = require('./basic.object.js');
-const Textured = require('./textured.object.js');
+//const Textured = require('./textured.object.js');
 
 const boxModel = require('./box.model.js');
 const rocketModel = require('./tf.model.js');
-const rocketModel1 = require('./rocket.model.js');
+//const rocketModel1 = require('./rocket.model.js');
 const selfModel = require('./models/self.model.js');
 const Vector3d = require('./vector3d.dev.js');
-let Bullet = require('./bullet.object.js');
+//let Bullet = require('./bullet.object.js');
 let Weapon = require('./weapon.object.js');
 let Enemy = require('./enemy.object.js');
 let Chunk = require('./static-chunk.object.js');
 let Message = require('./point-message.object.js');
-let Collect = require('./collectable.object.js');
-let CollectN = require('./collectable-new.object.js');
+//let Collect = require('./collectable.object.js');
+//let CollectN = require('./collectable-new.object.js');
 let ObList = require('./object-list.object.js');
 
-let Mission1 = require('./mission.xz.js');
+//let Mission1 = require('./mission.xz.js');
 const calc = require('./calc.utils.js');
 const anyutils = require('./any.utils.js');
 
@@ -72,17 +72,17 @@ class Scene{
       this.enList.push(enemy);
     }
     
-    this.olist = new ObList(gl, boxModel);
+  /*  this.olist = new ObList(gl, boxModel);
     let mtx = m4.identity();
     mtx = m4.scale(mtx, 5,5,5);
     this.olist.model.matrix = mtx;
     for (let i=0; i<100; i++){
       this.olist.addItem(new CollectN(gl, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), this.olist.model));
-    }
+    }*/
 
     this.blist = new ObList(gl, boxModel);
 
-    this.col = new Collect(gl, new Vector3d(50, calc.rand(140)-70, 50), new Vector3d(0,0,0));
+    //this.col = new Collect(gl, new Vector3d(50, calc.rand(140)-70, 50), new Vector3d(0,0,0));
 
     this.selmod = new Basic(gl, selfModel, m4.identity(), {r:200, g:20, b:60} );
 
@@ -165,7 +165,7 @@ class Scene{
     //this.bd.matrix = m4.xRotate(this.bd.matrix, 0.5*deltaTime);
     let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
     glCanvas.camera.intersect = (p, v) =>{
-      let dtt = mirrorVector(bsl, p, v);
+      let dtt = calc.mirrorVectorFromMesh(bsl, p, v);
       if (dtt){
         let k=-0.6;
         glCanvas.camera.vX = dtt.x*k;
@@ -179,7 +179,7 @@ class Scene{
     }
     this.bd.render(shaderVariables);
 
-    let nvc = this.glCanvas.camera.getPosVector().addVector(this.glCanvas.camera.getCamNormal().mul(-1));
+   /* let nvc = this.glCanvas.camera.getPosVector().addVector(this.glCanvas.camera.getCamNormal().mul(-1));
     let mmt = m4.identity();
     mmt[12]= nvc.x;
     mmt[13]= nvc.y;
@@ -187,8 +187,8 @@ class Scene{
 
     let mts = this.glCanvas.camera.getNormalMatrix();
     mts = m4.xRotate(mts,Math.PI/2);
-    mts = m4.multiply(mmt, mts);
-    this.selmod.matrix = mts;
+    mts = m4.multiply(mmt, mts);*/
+    this.selmod.matrix = this.glCanvas.camera.getSelfModelMatrix();
 
     //this.selmod.matrix = m4.translate(this.selmod.matrix, this.glCanvas.camera.posX, this.glCanvas.camera.posY, this.glCanvas.camera.posZ -4);
     //this.selmod.matrix = m4.multiply(mts, this.selmod.matrix);
@@ -200,7 +200,7 @@ class Scene{
     //  }
     });
 
-    this.messages[0].refresh(this.glCanvas.viewMatrix, this.col.pos, 'Collect_It '+Math.round(glCanvas.camera.getPosVector().subVector(this.col.pos).abs()*10)/10+ 'km');
+    //this.messages[0].refresh(this.glCanvas.viewMatrix, this.col.pos, 'Collect_It '+Math.round(glCanvas.camera.getPosVector().subVector(this.col.pos).abs()*10)/10+ 'km');
     this.messages[1].refresh(this.glCanvas.viewMatrix, this.enList[0].pos, 'Kill_It '+Math.round(glCanvas.camera.getPosVector().subVector(this.enList[0].pos).abs()*10)/10+ 'km');
     this.messages[2].refresh(this.glCanvas.viewMatrix, new Vector3d(0,0,0), 'Base '+Math.round(glCanvas.camera.getPosVector().abs()*10)/10+ 'km');
 
@@ -211,19 +211,19 @@ class Scene{
     this.tur.weapon.render(deltaTime);
     ////
 
-    this.col.render(shaderVariables, deltaTime);
+   /* this.col.render(shaderVariables, deltaTime);
     this.col.react(this.glCanvas.camera.getPosVector(), this.glCanvas.camera.getSpeedVector(), (cl)=>{
       cl.pos = new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50);
       cl.color = {r:rand(255),g:rand(255),b:100};
-    });
+    });*/
 
-    this.olist.react(this.glCanvas.camera.getPosVector(), this.glCanvas.camera.getSpeedVector(), (it)=>{this.olist.deleteItem(it)});
+   /* this.olist.react(this.glCanvas.camera.getPosVector(), this.glCanvas.camera.getSpeedVector(), (it)=>{this.olist.deleteItem(it)});
     this.bullets.forEach(jt=>{
       this.olist.react(jt.pos, jt.v, (it)=>{this.olist.deleteItem(it); this.glCanvas.effects.addEffect(it.pos);});
     });
     this.olist.react(this.glCanvas.camera.getPosVector(), this.glCanvas.camera.getSpeedVector(), (it)=>{this.olist.deleteItem(it)});
     this.olist.render(shaderVariables);
-    ///
+    ///*/
 
     //let bsl = calc.transformVertexList(this.bd.vertexList, this.bd.matrix);
     //let bsl1 = calc.transformVertexList(this.enemy.hitPoint.vertexList, this.enemy.model.matrix);
@@ -247,7 +247,7 @@ class Scene{
     let phsn = calc.transformVertexList(this.hsn.vertexList, this.hsn.matrix);
 
     
-    this.blist.matList = [];
+  /*  this.blist.matList = [];
     this.glCanvas.effects.bulletlist.list=[];
     this.bullets.forEach((it, i, arr)=>{
       it.render(shaderVariables, deltaTime);
@@ -284,7 +284,7 @@ class Scene{
         rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3') : anyutils.playSoundUrl('assets/sounds/expl2.mp3');
       };
     });*/
-    hpl.forEach((enemy, j)=>{
+  /*  hpl.forEach((enemy, j)=>{
       let enobj = this.enList[j];
       if (it && (it.react(enemy, enobj.pos))){
         this.glCanvas.effects.addEffect(enobj.pos);
@@ -304,13 +304,13 @@ class Scene{
 
     this.glCanvas.effects.addBullet(it.pos);
     //this.blist.matList.push(it.matrix);
-  });
+  });*/
   //this.blist.render(shaderVariables);
 
-    if (reqFilter){
+  /*  if (reqFilter){
       this.bullets = this.bullets.filter(it=>it);
       reqFilter = false;
-    }
+    }*/
    // this.enemy.logic(this.glCanvas.camera.getPosVector());
    // this.enemy.weapon.render(deltaTime);
    // this.enemy.render(shaderVariables, deltaTime);
@@ -321,7 +321,7 @@ class Scene{
   }
 }
 
-function mirrorVector(vertexList, p, v){
+/*function mirrorVector(vertexList, p, v){
   let b = p.addVector(v);
   let cpl = calc.crossMeshByLineT(vertexList,p,b);
   if (cpl.length){///reflection
@@ -332,7 +332,7 @@ function mirrorVector(vertexList, p, v){
     return dtt;
   }
   return false;
-}
+}*/
 
 /*function preloadSoundUrl(url){
   let el = document.createElement('audio');

@@ -15,9 +15,9 @@ class Weapon{
   }
   shot(gl, bulletList, point, direction, playerPos){
     if (this.shotTime<=0 || this.shotTime>=1000){
-      let bul = new Bullet(gl, point, direction.mul(this.bulletSpeed));
+    /*  let bul = new Bullet(gl, point, direction.mul(this.bulletSpeed));
       bul.time = this.bulletLifeTime;
-      bulletList.push(bul);
+      bulletList.push(bul);*/
 
       //
         let bl =app.glCanvas.game.world.createBullet(point, direction.mul(this.bulletSpeed), this.bulletLifeTime, {r:100/255,g:100/255,b:250/255});

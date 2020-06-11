@@ -1,5 +1,5 @@
-const Basic = require('./basic.object.js');
-const Textured = require('./textured-new.object.js');
+//const Basic = require('./basic.object.js');
+//const Textured = require('./textured-new.object.js');
 const Animation = require('./animation.object.js');
 const Sprite = require('./sprite.object.js');
 const SpriteList = require('./sprite-list.object.js');

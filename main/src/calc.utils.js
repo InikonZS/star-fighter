@@ -147,7 +147,7 @@ function crossMeshByLineT(vertexList, lineVectorA, lineVectorB){
   return res;
 }
 
-function mirrorVectorFromMesh(vertexList, p, v){
+function mirrorVectorFromMesh(vertexList, p, v){ //abs of result differents
   let b = p.addVector(v);
   let cpl = crossMeshByLineT(vertexList,p,b);
   if (cpl.length){///reflection
@@ -196,6 +196,10 @@ function isCrossedMeshByLine(vertexList, lineVectorA, lineVectorB){
     if (dv) {return true;}
   }
   return false;
+}
+
+function isCrossedSimple(pos, a, v, d){
+  return (pos.subVector(a).abs()<(v.abs()+d));
 }
 
 function matFromM4(m){
@@ -264,6 +268,10 @@ function getPosFromMatrix(matrix){
   return new Vector3d(matrix[12], matrix[13], matrix[14]);
 }
 
+function isTimeout(time){
+  return (time<0 || time>10000); 
+}
+
 module.exports = {
   makeCameraMatrix,
   getNormal,
@@ -287,5 +295,7 @@ module.exports = {
   makeNormRGBA,
   getMaxDistance,
   getPosFromMatrix,
-  hitMeshPoint
+  hitMeshPoint,
+  isCrossedSimple,
+  isTimeout
 }

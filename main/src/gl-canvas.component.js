@@ -88,11 +88,12 @@ class GLCanvas extends Control{
       this.gamePanel.view.clear();
       glInitialize(this);
     }
-    let lastTime = Date.now();
+    //let lastTime = Date.now();
     let drawScene = (currentTime)=>{
       currentTime*= 0.001;
-      var deltaTime = currentTime - lastTime;
-      lastTime = currentTime;
+      if (!this.lastTime){this.lastTime=currentTime};
+      var deltaTime = currentTime - this.lastTime;
+      this.lastTime = currentTime;
       
       glRender(this, deltaTime);
 
@@ -106,14 +107,17 @@ class GLCanvas extends Control{
   stop(){
     this.isStarted = false;
     this.isPaused = false;
+    this.lastTime = undefined;
   }
 
   pause(){
     this.isStarted = false;
     this.isPaused = true;
+    this.lastTime = undefined;
   }
 
   resume(){
+    this.lastTime=undefined;
     this.start(true);
   }
 
@@ -145,7 +149,7 @@ function setController(glCanvas){
 }
 
 function glInitialize(glCanvas){
-  let shaderProgramm = GLUtils.createShaderFromSource(glCanvas.glContext, Shaders.vertexShaderSource, Shaders.fragmentShaderSource);
+ /* let shaderProgramm = GLUtils.createShaderFromSource(glCanvas.glContext, Shaders.vertexShaderSource, Shaders.fragmentShaderSource);
   let shaderVariables = Shaders.getShaderVariables(glCanvas.glContext, shaderProgramm);
   glCanvas.shaderProgramm = shaderProgramm;
   glCanvas.shaderVariables = shaderVariables;
@@ -157,15 +161,17 @@ function glInitialize(glCanvas){
 
   glCanvas.aniProgramm = GLUtils.createShaderFromSource(glCanvas.glContext, AniShader.vertexShaderSource, AniShader.fragmentShaderSource);
   glCanvas.aniVariables = AniShader.getShaderVariables(glCanvas.glContext, glCanvas.aniProgramm);
-  
+  */
   glCanvas.camera.init();
 
-  glCanvas.game = new Game(glCanvas.glContext);
+  glCanvas.game = new Game(glCanvas.glContext, glCanvas);
+  //glCanvas.game.camera = glCanvas.camera;
 
+  /*
   glCanvas.scene = new Scene(glCanvas);
   glCanvas.skybox = new Skybox(glCanvas);
   glCanvas.effects = new Effects(glCanvas);
-
+  */
 }
 
 function glRender(glCanvas, deltaTime){
@@ -183,7 +189,7 @@ function glRender(glCanvas, deltaTime){
   var viewMatrix = calc.makeCameraMatrix(aspect, camera.camRX, camera.camRY, camera.camRZ, camera.posX, camera.posY, camera.posZ);
   glCanvas.viewMatrix = viewMatrix;
   
-  
+  /*
   let skyProgramm = glCanvas.skyProgramm;
   let skyVariables = glCanvas.skyVariables;
   SkyShader.initShader(glCanvas.glContext, skyProgramm, skyVariables.positionAttr, skyVariables.normalAttr, skyVariables.texAttr);
