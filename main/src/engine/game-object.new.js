@@ -38,11 +38,11 @@ class GameObject{
   }
 
   react(gameObject){
-    if (gameObject.isExists){
+    if (gameObject.isExists && this.isExists){
       if (this.onReact){
         this.onReact(gameObject);
         gameObject.childList.forEach(it=>{
-          if (it.isExists){
+          if (it.isExists && this.isExists){
             this.onReact(it);
           }
         });

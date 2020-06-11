@@ -10,7 +10,7 @@ class Game{
     this.world = world;
 
     for (let i=0; i<100; i++){
-      world.createBreakable(new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), {r:Math.random(),g:Math.random(),b:0.5});
+      world.createDanger(new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 15, {r:Math.random(),g:Math.random(),b:0.5});
     }
   }
 

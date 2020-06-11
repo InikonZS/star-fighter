@@ -83,6 +83,7 @@ class World{
 
   createBullet (pos, speed, lifetime,  color){
     let el = this.boxModelList.createStaticItem(m4.identity(), color);
+    el.type = 'bullet';
 
     el.position = pos.mul(1);
     el.speedVector = speed.mul(1);
@@ -101,7 +102,7 @@ class World{
     }
 
     el.onReact=(ob)=>{
-      if (ob.hitTransformed){
+      if (ob.type == 'breakable'){
         if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
           if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVector))){
             ob.deleteSelf();
@@ -110,8 +111,26 @@ class World{
           };  
         };
       }
+
+      if (ob.type == 'solid'){
+        if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
+          let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVector);
+          if (reflected){
+            el.speedVector = reflected.normalize().mul(el.speedVector.abs());  
+          };  
+        };
+      }
+
+      if (ob.type == 'danger'){
+        if (isCrossedSimple(ob.hitPosition, el.position, el.speedVector, ob.hitDist)){
+          let hp = calc.hitMeshPoint(ob.hitTransformed, el.position, el.speedVector);
+          if (hp){
+            el.deleteSelf();
+            this.createExplosion(hp, 5);
+          };  
+        };
+      }
     }
-    //attachBulletPhysics(el);
     this.bulletList.addChild(el);
   }
 
@@ -119,10 +138,39 @@ class World{
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
     let el = this.boxModelList.createStaticItem(niMat, color);
+    el.type = 'breakable';
 
     el.hitTransformed = el.meshPointer.getTransformedVertexList(el.matrix);
     el.hitPosition = calc.getPosFromMatrix(el.matrix);
     el.hitDist = el.meshPointer.maxDistance;
+    //el.pos = pos;
+    this.breakableList.addChild(el);
+  }
+
+  createSolid (pos, scale, color){
+    let niMat = m4.identity();
+    niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
+    niMat = m4.scale(niMat, scale, scale, scale);
+    let el = this.boxModelList.createStaticItem(niMat, color);
+    el.type='solid';
+
+    el.hitTransformed = el.meshPointer.getTransformedVertexList(el.matrix);
+    el.hitPosition = calc.getPosFromMatrix(el.matrix);
+    el.hitDist = el.meshPointer.maxDistance*scale;
+    //el.pos = pos;
+    this.breakableList.addChild(el);
+  }
+
+  createDanger (pos, scale, color){
+    let niMat = m4.identity();
+    niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
+    niMat = m4.scale(niMat, scale, scale, scale);
+    let el = this.boxModelList.createStaticItem(niMat, color);
+    el.type='danger';
+
+    el.hitTransformed = el.meshPointer.getTransformedVertexList(el.matrix);
+    el.hitPosition = calc.getPosFromMatrix(el.matrix);
+    el.hitDist = el.meshPointer.maxDistance*scale;
     //el.pos = pos;
     this.breakableList.addChild(el);
   }

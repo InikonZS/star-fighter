@@ -175,6 +175,16 @@ function getNearest(point, list){
   return minit;
 }
 
+function hitMeshPoint(vertexList, p, v){
+  let b = p.addVector(v);
+  let cpl = crossMeshByLineT(vertexList,p,b);
+  if (cpl.length){
+    let cp = getNearest(p, cpl);
+    return cp.dv;
+  }
+  return false;
+}
+
 function isCrossedMeshByLine(vertexList, lineVectorA, lineVectorB){
   let res =[];
   for (let i=0; i<vertexList.length; i+=9){
@@ -276,5 +286,6 @@ module.exports = {
   makeRGBA,
   makeNormRGBA,
   getMaxDistance,
-  getPosFromMatrix
+  getPosFromMatrix,
+  hitMeshPoint
 }
