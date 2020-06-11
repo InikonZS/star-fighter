@@ -1,55 +1,65 @@
 let vertexShaderSource = `
   attribute vec4 a_position;
-  attribute vec4 a_normal;
+  attribute vec2 a_texcoord;
+  
   uniform mat4 u_view;
   uniform mat4 u_world;
+  uniform vec4 u_texpos;
+
   varying vec4 v_position;
-  varying vec4 v_normal;
+  varying vec2 v_texcoord;
+
   void main() {
     gl_Position = u_view * u_world * a_position;
     v_position = gl_Position;
-    v_normal = vec4(mat3(u_world) * vec3(a_normal), 1);
+    v_texcoord = vec2((a_texcoord.x+u_texpos.z)*u_texpos.x, (a_texcoord.y+u_texpos.a)*u_texpos.y);
   }
 `;
 
 let fragmentShaderSource =`
   precision mediump float;
+
   uniform vec4 u_color;
+  uniform sampler2D u_texture;
+
   varying vec4 v_position;
-  varying vec4 v_normal;
+  varying vec2 v_texcoord;
+  
   void main() {
-    float light = dot(normalize(v_normal.xyz),normalize(vec3(1,1,0)));
-    light = light+1.0;
-    gl_FragColor = vec4(light*u_color.r, light*u_color.g, light*u_color.b, 1);
+    gl_FragColor = texture2D(u_texture, v_texcoord);
   }
 `;
 
-//gl_FragColor = vec4((light.x+0.0)*0.95*u_color.r, (light.y+0.0)*0.95*u_color.r, (light.z+0.0)*0.95*u_color.r, 1);
-
 function getShaderVariables(gl, program){
   var positionAttr = gl.getAttribLocation(program, "a_position");
-  var normalAttr = gl.getAttribLocation(program, "a_normal");
+  var texAttr = gl.getAttribLocation(program, "a_texcoord");
   var colorUniVec4 = gl.getUniformLocation(program, "u_color");
+  var posUniVec4 = gl.getUniformLocation(program, "u_texpos");
   var viewUniMat4 = gl.getUniformLocation(program, "u_view");
   var worldUniMat4 = gl.getUniformLocation(program, "u_world");
+  var texture = gl.getUniformLocation(program, "u_texture");
+
   return {
     positionAttr,
-    normalAttr,
+    texAttr,
     colorUniVec4,
     viewUniMat4,
-    worldUniMat4
+    worldUniMat4,
+    posUniVec4,
+    texture
   }
 }
 
-function initShader(gl, shaderProgram, shaderVariables){
+function initShader(gl, program, vars){
   gl.clearColor(0, 0, 0, 0);
-  gl.enable(gl.DEPTH_TEST);
-  gl.depthMask(true);
-  gl.disable(gl.BLEND);
+  //gl.disable(gl.DEPTH_TEST);
+  gl.depthMask(false);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+  gl.enable(gl.BLEND);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-  gl.useProgram(shaderProgram);
-  gl.enableVertexAttribArray(shaderVariables.positionAttr);
-  gl.enableVertexAttribArray(shaderVariables.normalAttr);
+  gl.useProgram(program);
+  gl.enableVertexAttribArray(vars.positionAttr);
+  gl.enableVertexAttribArray(vars.texAttr);
 }
 
 module.exports = {

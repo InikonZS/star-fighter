@@ -59,7 +59,9 @@ class GameObject{
     if (this.parents.length){
       this.isExists = false;
       this.parents.forEach(it => {it.reqFilter = true});
-      //this.mesh.deleteBuffers();
+      if (this.onDelete){
+        this.onDelete();
+      }
     }
   }
 }

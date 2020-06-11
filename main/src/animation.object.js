@@ -27,10 +27,7 @@ class Animation{
         );
     if (!this.isFinished){
       this.time-=deltaTime;
-      if (this.time<0||this.time>10000){
-
-        
-
+      if (isTimeout(this.time)){
         this.frame++;
         if (this.frame>=this.count){
           this.isFinished = true;
@@ -42,6 +39,10 @@ class Animation{
       }
     }
   }
+}
+
+function isTimeout(time){
+  return (time<0 || time>10000); 
 }
 
 module.exports = Animation;

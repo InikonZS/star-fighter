@@ -12,6 +12,7 @@ const GameMenu = require('./game-menu.component.js');
 const GamePanel = require('./game-panel.component.js');
 
 const World = require('./engine/world.new.js');
+const Game = require('./engine/game.new.js');
 
 const calc = require('./calc.utils.js');
 
@@ -159,7 +160,7 @@ function glInitialize(glCanvas){
   
   glCanvas.camera.init();
 
-  glCanvas.world = new World(glCanvas.glContext);
+  glCanvas.game = new Game(glCanvas.glContext);
 
   glCanvas.scene = new Scene(glCanvas);
   glCanvas.skybox = new Skybox(glCanvas);
@@ -182,6 +183,7 @@ function glRender(glCanvas, deltaTime){
   var viewMatrix = calc.makeCameraMatrix(aspect, camera.camRX, camera.camRY, camera.camRZ, camera.posX, camera.posY, camera.posZ);
   glCanvas.viewMatrix = viewMatrix;
   
+  
   let skyProgramm = glCanvas.skyProgramm;
   let skyVariables = glCanvas.skyVariables;
   SkyShader.initShader(glCanvas.glContext, skyProgramm, skyVariables.positionAttr, skyVariables.normalAttr, skyVariables.texAttr);
@@ -199,8 +201,8 @@ function glRender(glCanvas, deltaTime){
   AniShader.initShader(glCanvas.glContext, aniProgramm, aniVariables.positionAttr, aniVariables.texAttr);
   glCanvas.glContext.uniformMatrix4fv(glCanvas.aniVariables.viewUniMat4, false, viewMatrix);
   glCanvas.effects.render(glCanvas.aniVariables, deltaTime);
-
-  glCanvas.world.render(viewMatrix, deltaTime);
+//*/
+  glCanvas.game.render(viewMatrix, deltaTime);
 
 /*  renderWithShader(glCanvas, deltaTime, glCanvas.skyProgramm, glCanvas.skyVariables, glCanvas.skybox);
   renderWithShader(glCanvas, deltaTime, glCanvas.shaderProgramm, glCanvas.shaderVariables, glCanvas.scene);

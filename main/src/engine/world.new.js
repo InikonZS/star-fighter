@@ -2,98 +2,46 @@ const GameObject = require('./game-object.new.js');
 const RenderableShaderList = require('./renderable-shader-list.new.js');
 const RenderableModelList = require('./renderable-model-list.new.js');
 const RenderableItem = require('./renderable-item.new.js');
-const BulletList = require('./bullet-list.new.js');
+//const BulletList = require('./bullet-list.new.js');
 const GLUtils = require('../gl-utils.js');
 
-const solidUntexturedShaderUnit = require('./solid-untextured.shader.js');
+
 
 const SkyboxShader = require('../skybox.shader.js');
 const AniTextureShader = require('../ani-texture.shader.js');
 
-const rocketModel = require('../tf.model.js');
-const boxModel = require('../box.model.js');
+const rocketModel = require('../models/tf.model.js');
+const boxModel = require('../models/box.model.js');
+const skyboxModel = require('../models/skybox.model.js');
+const pointSpriteModel = require('../models/point-sprite.model.js');
+
 const calc = require('../calc.utils.js');
 const rand = calc.rand;
 const Vector3d = require('../vector3d.dev.js');
 
-/*class SolidUntexturedStaticItem extends RenderableItem{
-  constructor(gl, shaderVariables, modelSource){
-    super(gl, shaderVariables, modelSource, 
-      (gl, props, mesh, vars)=>{
-        GLUtils.setBuffer(gl, mesh.positionBuffer, vars.positionAttr,3);
-        GLUtils.setBuffer(gl, mesh.normBuffer, vars.normalAttr,3); 
-      }
-    );
-  }
-}*/
-
-class SolidUntexturedModelList extends RenderableModelList{
-  constructor(gl, shaderVariables, modelSource){
-    super(gl, shaderVariables, modelSource); 
-    this.onRender = (gl, props)=>{
-      GLUtils.setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
-      GLUtils.setBuffer(gl, this.mesh.normBuffer, this.shaderVariables.normalAttr, 3); 
-    }
-  }
-
-  createStaticItem(matrix, color){
-    return this.addChild(new RenderableItem(this.shaderVariables, this.mesh, matrix, color));  
-  }
-
-  createRotatingItem(position, sx, sy, sz, color){
-    let el = this.addChild(new RenderableItem(this.shaderVariables, this.mesh, m4.identity(), color)); 
-    el.position = position;
-    el.sx = 0;
-    el.sy = 0;
-    el.sz = 0;
-    el.onProcess = (deltaTime)=>{
-      let mt = m4.identity();
-      mt = m4.translate(mt, el.position.x, el.position.y, el.position.z);
-      el.sx +=sx*deltaTime;
-      el.sy +=sy*deltaTime;
-      el.sz +=sz*deltaTime;
-      mt = m4.xRotate(mt, el.sx);
-      mt = m4.yRotate(mt, el.sy);
-      mt = m4.zRotate(mt, el.sz);
-      el.matrix = mt;
-    }
-    return el;
-  }
-  
-  createMovingItem(posVector, speedVector, color){
-    let el = this.addChild(new RenderableItem(this.shaderVariables, this.mesh, m4.identity(), color));
-    el.position = posVector.mul(1);
-    el.speedVector = speedVector.mul(1);
-    el.onProcess = (deltaTime) => {
-      let mt = m4.identity();
-      el.position = el.position.addVector(el.speedVector.mul(1)); //add deltaTime
-      mt = m4.translate(mt,  el.position.x, el.position.y, el.position.z);
-      el.matrix = mt;
-    }
-    return el;
-  }
-}
-
-class SolidUntexturedShaderList extends RenderableShaderList{
-  constructor(gl, shaderUnit){
-    super(gl, shaderUnit);
-    this.onRender = (gl, props)=>{
-      shaderUnit.initShader(gl, this.shaderProgram, this.shaderVariables);
-      gl.uniformMatrix4fv(this.shaderVariables.viewUniMat4, false, props.viewMatrix);
-    }
-  }
-
-  createModelList(modelSource){
-    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource));
-  }
-}
-
-
+const solidUntexturedShaderUnit = require('./shaders/solid-untextured.shader.js');
+const {SolidUntexturedShaderList} = require('./solid-untextured.new.js');
+const skyboxShaderUnit = require('./shaders/skybox.shader.js');
+const {SkyboxShaderList} = require('./skybox.new.js');
+const animatedShaderUnit = require('./shaders/ani-textured.shader.js');
+const {AnimatedShaderList} = require('./ani-textured.new.js');
 
 class World{
   constructor(gl){
     this.gl = gl;
     this.viewMatrix = m4.identity();
+
+    this.skyboxShaderList = new SkyboxShaderList(gl, skyboxShaderUnit);
+    this.skyboxModelList = this.skyboxShaderList.createModelList(skyboxModel, 'assets/skybox.png');
+    let skyboxElement = this.skyboxModelList.createStaticItem(m4.identity());
+    skyboxElement.onProcess = (deltaTime)=>{
+      let mt = m4.identity();
+      mt = m4.scale(mt, 300,300,300);
+      skyboxElement.matrix = mt;
+    }
+
+    this.animatedShaderList = new AnimatedShaderList(gl, animatedShaderUnit);
+    this.explosions = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/skybox.png');
 
     //making list for rendering with shader
     this.solidUntexturedShaderList = new SolidUntexturedShaderList(gl, solidUntexturedShaderUnit);
@@ -104,7 +52,9 @@ class World{
 
     //combine all list in root
     this.graphicList = new GameObject();
+    this.graphicList.addChild(this.skyboxShaderList);
     this.graphicList.addChild(this.solidUntexturedShaderList);
+    this.graphicList.addChild(this.animatedShaderList);
     
     //making physics
     this.physicsList = new GameObject();
@@ -113,36 +63,30 @@ class World{
     this.bulletList = new GameObject();
     this.breakableList = new GameObject();
 
-    
-
-    for (let i=0; i<100; i++){
-      let niMat = m4.identity();
-      niMat = m4.translate(niMat, rand(100)-50, rand(100)-50, rand(100)-50);
-       niMat = m4.scale(niMat, 5,5,5);
-      let ob = this.boxModelList.createStaticItem(niMat, {r:Math.random(),g:Math.random(),b:0.5});
-      this.breakableList.addChild(ob);
-    }
-
-    for (let i=0; i<100; i++){
-      let ob = this.boxModelList.createRotatingItem({x: rand(100)-50, y:  rand(100)-50, z: rand(100)-50}, 10,20,30, {r:Math.random(),g:Math.random(),b:0.5});
-    }
-    
-    for (let i=0; i<100; i++){
-      let ob = this.tieModelList.createRotatingItem({x: rand(100)-50, y:  rand(100)-50, z: rand(100)-50}, 0.1,0.4,0.1, {r:Math.random(),g:Math.random(),b:0.5});
-    }
-  
   }
 
   render(viewMatrix, deltaTime){
-    this.solidUntexturedShaderList.process(deltaTime);
+    this.graphicList.process(deltaTime);
     this.bulletList.react(this.breakableList);
-    this.solidUntexturedShaderList.render(this.gl, {viewMatrix, deltaTime});
+    this.graphicList.render(this.gl, {viewMatrix, deltaTime});
   }
 
   createBullet (pos, speed, color){
     let el = this.boxModelList.createMovingItem(pos, speed, color);
     attachBulletPhysics(el);
     this.bulletList.addChild(el);
+  }
+
+  createBreakable (pos, color){
+    let niMat = m4.identity();
+    niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
+    let el = this.boxModelList.createStaticItem(niMat, color);
+
+    el.hitTransformed = el.meshPointer.getTransformedVertexList(el.matrix);
+    el.hitPosition = calc.getPosFromMatrix(el.matrix);
+    el.hitDist = el.meshPointer.maxDistance;
+    //el.pos = pos;
+    this.breakableList.addChild(el);
   }
 
 }
@@ -162,6 +106,22 @@ function attachBulletPhysics(el){
 
 function isCrossedSimple(pos, a, v, d){
   return (pos.subVector(a).abs()<(v.abs()+d));
+}
+
+function makeExternalScript(parentNode, scriptURL, onLoad, onError) {
+  const elem = new Control(parentNode, 'script');
+  elem.node.onload = () => {
+    //console.log(elem.node);
+    onLoad(elem.node.textContent);
+  };
+  elem.node.onerror = () => {
+    onError();
+  };
+  elem.node.type = 'model-source';
+  elem.node.async = true;
+  //parentNode.appendChild(elem.node);
+  elem.node.src = scriptURL;
+  return elem;
 }
 
 module.exports = World;

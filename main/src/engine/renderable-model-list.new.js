@@ -9,8 +9,11 @@ class RenderableModelList extends GameObject {
     this.shaderVariables = shaderVariables;
     this.mesh = new Mesh(gl);
     this.mesh.loadFromSource(modelSource);
+    
+    this.onDelete = ()=>{
+      this.mesh.deleteBuffers();  
+    }
   }
-
 }
 
 module.exports = RenderableModelList;

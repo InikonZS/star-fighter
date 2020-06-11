@@ -13,11 +13,4 @@ class RenderableShaderList extends GameObject {
   }
 }
 
-/*
- this.onRender = (gl, viewMatrix)=>{
-      this.shaderUnit.initShader(gl, shaderProgramm, shaderVariables.positionAttr, shaderVariables.normalAttr);
-      gl.uniformMatrix4fv(shaderVariables.viewUniMat4, false, viewMatrix);
-    }
-    */
-
 module.exports = RenderableShaderList;
