@@ -4,6 +4,9 @@ const Vector3d = require('../vector3d.dev.js');
 const calc = require('../calc.utils.js');
 const rand = calc.rand;
 
+const tst = require('./testclass.dev.js');
+const Enemy = require('./enemy.new.js');
+
 class Game{
   constructor(gl, glCanvas){
     this.gl = gl;
@@ -11,14 +14,20 @@ class Game{
     this.world = world;
     this.player = new Player(gl, this, glCanvas.keyboardState);
 
+    //this.tst = new tst(this);
+
+    this.enemy = new Enemy(gl, this, new Vector3d(0,0,0), new Vector3d(0,0,0));
+
     for (let i=0; i<100; i++){
-      world.createDanger(new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 15, {r:Math.random(),g:Math.random(),b:0.5});
+    //  world.createDanger(new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 15, {r:Math.random(),g:Math.random(),b:0.5});
     }
   }
 
   render(viewMatrix, deltaTime){
     this.world.render(viewMatrix, deltaTime);
     this.player.render(false, deltaTime);
+    //this.enemy.render(deltaTime);
+    //this.enemy.logic(this.player.camera.getPosVector(), this.player.camera.getSpeedVector(), deltaTime);
   }
 }
 

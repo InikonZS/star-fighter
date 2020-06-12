@@ -8,12 +8,15 @@ class RenderableItem extends GameObject {
     this.matrix = matrix || m4.identity();
     this.count = meshPointer.vertexList.length / 3;
     this.color = color || randomColor();
+    this.visible = true;
 
     this.onRender = (gl)=>{
-      gl.uniformMatrix4fv(this.shaderVariables.worldUniMat4, false, this.matrix); 
-      let color = this.color;
-      gl.uniform4f(shaderVariables.colorUniVec4, color.r, color.g, color.b, color.a); 
-      gl.drawArrays(gl.TRIANGLES, 0, this.count);  
+      if (this.visible){
+        gl.uniformMatrix4fv(this.shaderVariables.worldUniMat4, false, this.matrix); 
+        let color = this.color;
+        gl.uniform4f(shaderVariables.colorUniVec4, color.r, color.g, color.b, color.a); 
+        gl.drawArrays(gl.TRIANGLES, 0, this.count);  
+      }
     }
   }
 }

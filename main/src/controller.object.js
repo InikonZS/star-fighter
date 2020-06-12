@@ -1,4 +1,4 @@
-let Bullet = require('./bullet.object.js')
+//let Bullet = require('./bullet.object.js')
 
 function mouseMoveHandler(glCanvas, dx, dy){
   //glCanvas.camera.rotateCam(dx, dy);
@@ -74,19 +74,19 @@ function keyUpHandler(glCanvas, e){
   }  
 
   if (e.code == 'Digit1'){
-    glCanvas.game.player.weapon = 1;
+    glCanvas.game.player.setWeapon(1);
   } 
 
   if (e.code == 'Digit2'){
-    glCanvas.game.player.weapon = 2;
+    glCanvas.game.player.setWeapon(2);
   } 
 
   if (e.code == 'Digit3'){
-    glCanvas.game.player.weapon = 3;
+    glCanvas.game.player.setWeapon(3);
   } 
 
   if (e.code == 'Digit4'){
-    glCanvas.game.player.weapon = 4;
+    glCanvas.game.player.setWeapon(4);
   } 
 }
 

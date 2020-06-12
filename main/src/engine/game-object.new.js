@@ -37,6 +37,13 @@ class GameObject{
     });
   }
 
+  tryFilter(){
+    if (this.reqFilter){
+      this.childList = this.childList.filter(it=>it.isExists);
+      this.reqFilter = false;
+    }
+  }
+
   react(gameObject){
     if (gameObject.isExists && this.isExists){
       if (this.onReact){

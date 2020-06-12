@@ -4,10 +4,8 @@ const Vector3d = require('../vector3d.dev.js');
 class Camera{
   constructor(world, keyboardState){
     this.keyboardState = keyboardState;
-    this.intersect;
-    this.glCanvas = this.glCanvas;
-    this.health = 100;
-    this.bullets = 50;
+    //this.intersect;
+    //this.glCanvas = this.glCanvas;
   }
   getPosVector(){
     return new Vector3d(-this.posX, -this.posY, -this.posZ);
@@ -63,8 +61,6 @@ class Camera{
   }
 
   process(deltaTime){
-    
-
     this.dt = deltaTime;
     if (this.keyboardState.forward){
       let moveSpeed = 10.3;
@@ -76,16 +72,9 @@ class Camera{
     cam.vX*=0.999;
     cam.vY*=0.999;
     cam.vZ*=0.999;
-    if (this.intersect){
-      let nv = this.intersect(this.getPosVector(), this.getSpeedVector());
-      cam.posX+=nv.x*deltaTime;
-      cam.posY+=nv.y*deltaTime;
-      cam.posZ+=nv.z*deltaTime;
-    } else {
     cam.posX+=cam.vX*deltaTime;
     cam.posY+=cam.vY*deltaTime;
     cam.posZ+=cam.vZ*deltaTime;
-    }
   }
 }
 

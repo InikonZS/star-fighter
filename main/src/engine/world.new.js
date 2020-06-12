@@ -5,18 +5,12 @@ const RenderableItem = require('./renderable-item.new.js');
 //const BulletList = require('./bullet-list.new.js');
 const GLUtils = require('../gl-utils.js');
 
-
-
-const SkyboxShader = require('../skybox.shader.js');
-const AniTextureShader = require('../ani-texture.shader.js');
-
 const rocketModel = require('../models/tf.model.js');
 const boxModel = require('../models/box.model.js');
 const skyboxModel = require('../models/skybox.model.js');
 const pointSpriteModel = require('../models/point-sprite.model.js');
 
 const calc = require('../calc.utils.js');
-const rand = calc.rand;
 const Vector3d = require('../vector3d.dev.js');
 
 const solidUntexturedShaderUnit = require('./shaders/solid-untextured.shader.js');
@@ -65,12 +59,19 @@ class World{
     //all game classes
     this.bulletList = new GameObject();
     this.breakableList = new GameObject();
+    this.objectList = new GameObject();
 
   }
 
   render(viewMatrix, deltaTime){
     this.graphicList.process(deltaTime);
+
+    this.objectList.process(deltaTime);
+    this.bulletList.tryFilter();
+    this.breakableList.tryFilter();
+
     this.bulletList.react(this.breakableList);
+    //this.bulletList.react(this.objectList);
     this.graphicList.render(this.gl, {viewMatrix, deltaTime});
   }
 
@@ -106,6 +107,16 @@ class World{
     }
 
     el.onReact=(ob)=>{
+      if (!(el && el.speedVectorSync)){ return;}
+
+      if (ob.type == 'object'){
+        if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
+          if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVectorSync))){
+            ob.onHit(el);
+          };  
+        };
+      }
+
       if (ob.type == 'breakable'){
         if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
           if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVectorSync))){
@@ -144,12 +155,14 @@ class World{
     niMat = m4.scale(niMat, scale, scale, scale);
     let el = this.boxModelList.createStaticItem(niMat, color);
     el.type = 'breakable';
+    //el.scale=scale;
 
     el.hitTransformed = el.meshPointer.getTransformedVertexList(el.matrix);
     el.hitPosition = calc.getPosFromMatrix(el.matrix);
     el.hitDist = el.meshPointer.maxDistance*scale;
     //el.pos = pos;
     this.breakableList.addChild(el);
+    return el;
   }
 
   createSolid (pos, scale, color){
@@ -180,6 +193,7 @@ class World{
     this.breakableList.addChild(el);
   }
 
+  
 }
 
 

@@ -10,7 +10,10 @@ class Player{
     this.game = game;
     this.keyStates = keyStates;
     let world = this.game.world
-    this.weapon = 1;
+    this.currentWeaponIndex = 1;
+
+    this.health = 100;
+    this.bullets = 50;
 
     this.weapons=[
       new Weapon(world, 0.15, 1.2, 30.1, 'assets/sounds/laser.mp3'),
@@ -29,20 +32,21 @@ class Player{
     this.weapons.forEach(it=>it.render(deltaTime));
 
     if (this.keyStates.shot){
-      this.shot(this.weapon-1);
+      this.shot(this.currentWeaponIndex-1);
     }
-
-
   }
 
   shot(weaponIndex){
-    
     if (this.weapons[weaponIndex].shot(this.camera.getPosVector().subVector(this.camera.getCamNormal().mul(2.10)), 
     this.camera.getCamNormal().mul(-1).addVector(this.camera.getSpeedVector().mul(1/this.weapons[weaponIndex].bulletSpeed))
     )){
-      //this.bullets--;
+      this.bullets--;
       //glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.bullets;
     }
+  }
+
+  setWeapon(weaponIndex){
+    this.currentWeaponIndex = weaponIndex;
   }
 }
 

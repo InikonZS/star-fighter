@@ -1,4 +1,4 @@
-const Control = require('./control.component.js');
+const Control = require('./control-js/control.component.js');
 
 class GameMenu extends Control{
   constructor(parentNode, glCanvas){
