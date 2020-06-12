@@ -1,15 +1,9 @@
 const Vector3d = require('../vector3d.dev.js');
-const Weapon = require('./weapon.new.js');
+
 
 class Camera{
   constructor(world, keyboardState){
     this.keyboardState = keyboardState;
-    /* this.weapons=[
-     new Weapon(0.15, 1.2, 30.1, 'assets/sounds/laser.mp3'),
-      new Weapon(0.08, 0.7, 30.1, 'assets/sounds/auto.mp3'),
-      new Weapon(0.35, 5.2, 60.1, 'assets/sounds/laser_med.mp3'),
-      new Weapon(0.65, 1.2, 140.1, 'assets/sounds/laser_power.mp3'),
-    ];*/
     this.intersect;
     this.glCanvas = this.glCanvas;
     this.health = 100;
@@ -69,25 +63,7 @@ class Camera{
   }
 
   process(deltaTime){
-   /* this.weapons.forEach(it=>it.render(deltaTime));
-
-    if (glCanvas.keyboardState.shot){
-      if (glCanvas.weapon ==1){
-        this.shot(glCanvas, 0);
-      }
-
-      if (glCanvas.weapon ==2){
-        this.shot(glCanvas, 1);
-      }
-
-      if (glCanvas.weapon ==3){
-        this.shot(glCanvas, 2);
-      }
-
-      if (glCanvas.weapon ==4){
-        this.shot(glCanvas, 3);
-      }
-    }*/
+    
 
     this.dt = deltaTime;
     if (this.keyboardState.forward){

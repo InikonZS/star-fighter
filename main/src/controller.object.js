@@ -74,19 +74,19 @@ function keyUpHandler(glCanvas, e){
   }  
 
   if (e.code == 'Digit1'){
-    glCanvas.weapon = 1;
+    glCanvas.game.player.weapon = 1;
   } 
 
   if (e.code == 'Digit2'){
-    glCanvas.weapon = 2;
+    glCanvas.game.player.weapon = 2;
   } 
 
   if (e.code == 'Digit3'){
-    glCanvas.weapon = 3;
+    glCanvas.game.player.weapon = 3;
   } 
 
   if (e.code == 'Digit4'){
-    glCanvas.weapon = 4;
+    glCanvas.game.player.weapon = 4;
   } 
 }
 
