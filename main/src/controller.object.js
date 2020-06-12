@@ -1,7 +1,8 @@
 let Bullet = require('./bullet.object.js')
 
 function mouseMoveHandler(glCanvas, dx, dy){
-  glCanvas.camera.rotateCam(dx, dy);
+  //glCanvas.camera.rotateCam(dx, dy);
+  glCanvas.game.player.camera.rotateCam(dx, dy);
 }
 
 function mouseUpHandler(glCanvas, event){

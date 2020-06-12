@@ -23,7 +23,24 @@ function playSoundUrl(url, volume){
   el.volume = vol; 
 }
 
+function makeExternalScript(parentNode, scriptURL, onLoad, onError) {
+  const elem = new Control(parentNode, 'script');
+  elem.node.onload = () => {
+    //console.log(elem.node);
+    onLoad(elem.node.textContent);
+  };
+  elem.node.onerror = () => {
+    onError();
+  };
+  elem.node.type = 'model-source';
+  elem.node.async = true;
+  //parentNode.appendChild(elem.node);
+  elem.node.src = scriptURL;
+  return elem;
+}
+
 module.exports = {
   preloadSoundUrl,
-  playSoundUrl
+  playSoundUrl,
+  makeExternalScript
 }

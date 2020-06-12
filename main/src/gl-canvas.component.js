@@ -27,8 +27,8 @@ class GLCanvas extends Control{
     this.glContext = this.node.getContext('webgl');
     this.isStarted = false;
     this.keyboardState = {};
-    this.camera = new Camera(this);
-    this.weapon=1;
+    //this.camera = new Camera(this);
+    //this.weapon=1;
 
     this.averageRenderTime =0;
     this.info = new Control(parentNode,'div');
@@ -162,7 +162,7 @@ function glInitialize(glCanvas){
   glCanvas.aniProgramm = GLUtils.createShaderFromSource(glCanvas.glContext, AniShader.vertexShaderSource, AniShader.fragmentShaderSource);
   glCanvas.aniVariables = AniShader.getShaderVariables(glCanvas.glContext, glCanvas.aniProgramm);
   */
-  glCanvas.camera.init();
+  //glCanvas.camera.init();
 
   glCanvas.game = new Game(glCanvas.glContext, glCanvas);
   //glCanvas.game.camera = glCanvas.camera;
@@ -181,9 +181,9 @@ function glRender(glCanvas, deltaTime){
   glCanvas.info.node.textContent = 'FPS: '+ Math.round(1/glCanvas.averageRenderTime);
 
   var aspect = glCanvas.glContext.canvas.clientWidth / glCanvas.glContext.canvas.clientHeight;
-  glCanvas.camera.process(glCanvas, deltaTime);
-  var camera = glCanvas.camera;
-
+  //glCanvas.camera.process(glCanvas, deltaTime);
+  //var camera = glCanvas.camera;
+  var camera = glCanvas.game.player.camera;
   //let matrix = m4.perspective(1, aspect, 0.1, 2000);
   //matrix = m4.multiply(matrix, glCanvas.scene.bs.matrix)
   var viewMatrix = calc.makeCameraMatrix(aspect, camera.camRX, camera.camRY, camera.camRZ, camera.posX, camera.posY, camera.posZ);

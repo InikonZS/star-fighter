@@ -27,7 +27,7 @@ const animatedShaderUnit = require('./shaders/ani-textured.shader.js');
 const {AnimatedShaderList} = require('./ani-textured.new.js');
 
 class World{
-  constructor(gl, camera){
+  constructor(gl, game){
     this.gl = gl;
     this.viewMatrix = m4.identity();
 
@@ -36,7 +36,7 @@ class World{
     let skyboxElement = this.skyboxModelList.createStaticItem(m4.identity());
     skyboxElement.onProcess = (deltaTime)=>{
       let mt = m4.identity();
-      let pos = camera.getPosVector();
+      let pos = game.player.camera.getPosVector();
       mt = m4.translate(mt, pos.x, pos.y, pos.z);
       mt = m4.scale(mt, 300,300,300);
 
@@ -125,7 +125,7 @@ class World{
         };
       }
 
-      if (ob.type == 'danger'){
+      if (ob.type == 'danger'){//bug with incorrect near point
         if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
           let hp = calc.hitMeshPoint(ob.hitTransformed, el.position, el.speedVectorSync);
           if (hp){
@@ -180,22 +180,6 @@ class World{
     this.breakableList.addChild(el);
   }
 
-}
-
-function makeExternalScript(parentNode, scriptURL, onLoad, onError) {
-  const elem = new Control(parentNode, 'script');
-  elem.node.onload = () => {
-    //console.log(elem.node);
-    onLoad(elem.node.textContent);
-  };
-  elem.node.onerror = () => {
-    onError();
-  };
-  elem.node.type = 'model-source';
-  elem.node.async = true;
-  //parentNode.appendChild(elem.node);
-  elem.node.src = scriptURL;
-  return elem;
 }
 
 
