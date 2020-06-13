@@ -75,6 +75,7 @@ class World{
     this.breakableList.tryFilter();
 
     this.bulletList.react(this.breakableList);
+    this.objectList.react(this.breakableList);
     //this.bulletList.react(this.objectList);
     this.graphicList.render(this.gl, {viewMatrix, deltaTime});
   }

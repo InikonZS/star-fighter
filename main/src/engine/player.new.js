@@ -49,8 +49,23 @@ class Player extends GameObject {
       hitbox.hitTransformed = hitbox.meshPointer.getTransformedVertexList(hitbox.matrix);
       hitbox.hitPosition = calc.getPosFromMatrix(hitbox.matrix);
       hitbox.hitDist = hitbox.meshPointer.maxDistance;;//*hitbox.scale;
+      this.speedVectorSync = this.camera.getSpeedVector().mul(deltaTime);
       this.render_(deltaTime);
     }
+
+    this.onReact = (ob)=>{
+    //if (!(el && el.speedVectorSync)){ return;}
+      if (ob.type == 'solid'){
+        if (calc.isCrossedSimple(ob.hitPosition, this.camera.getPosVector(), this.speedVectorSync, ob.hitDist)){
+          let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, this.camera.getPosVector(), this.speedVectorSync);
+          if (reflected){
+            this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()));  
+          };  
+        };
+      }
+    }
+
+
     this.hitbox = hitbox;
     this.game.world.objectList.addChild(this);
     /////////

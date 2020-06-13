@@ -13,6 +13,13 @@ class Camera{
   getSpeedVector(){
     return new Vector3d(-this.vX, -this.vY, -this.vZ);
   }
+
+  setSpeedVector(v){
+    this.vX=-v.x;
+    this.vY=-v.y;
+    this.vZ=-v.z;
+  }
+
   getCamNormal(){
     return getCameraNormal(this);
   }
