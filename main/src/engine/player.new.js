@@ -5,6 +5,7 @@ const calc = require('../calc.utils.js');
 const rand = calc.rand;
 const Weapon = require('./weapon.new.js');
 const GameObject = require('./game-object.new.js');
+const anyutils = require('../any.utils.js');
 
 class Player extends GameObject {
   constructor(gl, game, keyStates){
@@ -31,7 +32,7 @@ class Player extends GameObject {
     ///as gameobject
     let mtx = this.camera.getSelfModelMatrix();
     this.model = this.game.world.selfModelList.createStaticItem(mtx);
-    let hitbox = this.game.world.createBreakable(this.camera.getPosVector(), 5);
+   /* let hitbox = this.game.world.createBreakable(this.camera.getPosVector(), 5);
     hitbox.type = 'object';
     hitbox.visible = false;
     hitbox.scale = 5;
@@ -51,6 +52,33 @@ class Player extends GameObject {
       hitbox.hitDist = hitbox.meshPointer.maxDistance;;//*hitbox.scale;
       this.speedVectorSync = this.camera.getSpeedVector().mul(deltaTime);
       this.render_(deltaTime);
+    }*/
+   /* let vol = 130/(enobj.pos.subVector(this.glCanvas.camera.getPosVector()).abs());
+          rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
+            rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3', vol) : anyutils.playSoundUrl('assets/sounds/expl2.mp3', vol);
+          rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/near1.mp3') : anyutils.playSoundUrl('assets/sounds/near2.mp3');
+*/
+    let hitbox = makeHitBox(this, 2, (bullet)=>{
+      console.log('dead');
+      bullet.deleteSelf();
+      //let vol = 130/(bullet.position.subVector(this.camera.getPosVector()).abs());
+      rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
+    });
+    this.hitbox = hitbox;
+    
+    let nearbox = makeHitBox(this, 5, (bullet)=>{
+      console.log('near');
+      rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/near1.mp3') : anyutils.playSoundUrl('assets/sounds/near2.mp3');
+    });
+    this.nearbox = nearbox;
+
+    this.onProcess = (deltaTime) =>{
+      this.model.matrix = this.camera.getSelfModelMatrix();
+      hitbox.process_(deltaTime);
+      nearbox.process_(deltaTime);
+
+      this.speedVectorSync = this.camera.getSpeedVector().mul(deltaTime);
+      this.render_(deltaTime);
     }
 
     this.onReact = (ob)=>{
@@ -66,7 +94,7 @@ class Player extends GameObject {
     }
 
 
-    this.hitbox = hitbox;
+    
     this.game.world.objectList.addChild(this);
     /////////
   }
@@ -94,6 +122,31 @@ class Player extends GameObject {
   setWeapon(weaponIndex){
     this.currentWeaponIndex = weaponIndex;
   }
+}
+
+function makeHitBox(gameObject, scale_, onHit){
+  let hitbox = gameObject.game.world.createBreakable(gameObject.camera.getPosVector(), scale_);
+  hitbox.type = 'object';
+  hitbox.visible = false;
+  hitbox.scale = scale_;
+  
+  hitbox.onHit = onHit;
+  hitbox.process_ = (deltaTime)=>{
+   // hitbox.matrix = gameObject.model.matrix;
+    let mt = m4.identity();
+    let pos = gameObject.camera.getPosVector();
+    mt = m4.translate(mt, pos.x, pos.y, pos.z);
+    mt = m4.scale(mt, scale_, scale_, scale_);
+
+    hitbox.matrix = mt;
+
+    hitbox.hitTransformed = hitbox.meshPointer.getTransformedVertexList(hitbox.matrix);
+    hitbox.hitPosition = calc.getPosFromMatrix(hitbox.matrix);
+    hitbox.hitDist = hitbox.meshPointer.maxDistance*hitbox.scale;//;
+    //gameObject.speedVectorSync = gameObject.camera.getSpeedVector().mul(deltaTime);
+    //gameObject.render_(deltaTime);
+  }  
+  return hitbox;
 }
 
 module.exports = Player;

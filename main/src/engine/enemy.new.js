@@ -3,10 +3,13 @@
 //const boxModel = require('./rocket.model.js');
 const calc = require('../calc.utils.js');
 const Vector3d = require('../vector3d.dev.js');
-let Weapon = require('./weapon.new.js');
+const Weapon = require('./weapon.new.js');
 
 const GameObject = require('./game-object.new.js');
 const Message = require('./point-msg.new.js');
+
+const rand = calc.rand;
+const anyutils = require('../any.utils.js');
 
 class Enemy extends GameObject{
   constructor(gl, game, startPoint, speedVector){
@@ -47,6 +50,9 @@ class Enemy extends GameObject{
       bullet.deleteSelf();
       this.msg.deleteSelf();
       this.deleteSelf();
+      this.game.world.createExplosion(this.hitbox.pos,30);
+      let vol = 130/(this.hitbox.pos.subVector(this.game.player.camera.getPosVector()).abs());
+      rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3', vol) : anyutils.playSoundUrl('assets/sounds/expl2.mp3', vol);
     }
     this.onProcess = (deltaTime)=>{
       hitbox.matrix = this.model.matrix;

@@ -26,7 +26,7 @@ class Game{
 
     for (let i=0; i<10; i++){new Enemy(gl, this, new Vector3d(0,0,0), new Vector3d(0,0,0));}
 
-    for (let i=0; i<100; i++){
+    for (let i=0; i<20; i++){
       world.createSolid(new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 10, {r:Math.random(),g:Math.random(),b:0.5});
     }
 
