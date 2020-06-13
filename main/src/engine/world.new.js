@@ -2,7 +2,6 @@ const GameObject = require('./game-object.new.js');
 const RenderableShaderList = require('./renderable-shader-list.new.js');
 const RenderableModelList = require('./renderable-model-list.new.js');
 const RenderableItem = require('./renderable-item.new.js');
-//const BulletList = require('./bullet-list.new.js');
 const GLUtils = require('../gl-utils.js');
 
 const rocketModel = require('../models/tf.model.js');
