@@ -18,6 +18,12 @@ class Game{
     for (let i=0; i<100; i++){
       world.createSolid(new Vector3d(rand(1000)-500, rand(1000)-500, rand(1000)-500), 10, {r:Math.random(),g:Math.random(),b:0.5});
     }
+
+    for (let i=0; i<100; i++){
+      let mt = m4.identity();
+      mt = m4.translate(mt, rand(1000)-500, rand(1000)-500, rand(1000)-500);
+      world.chunkList.createStaticItem(mt, {r:Math.random(),g:Math.random(),b:0.5});
+    }
   }
 
   render(aspect, deltaTime){

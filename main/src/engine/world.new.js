@@ -12,6 +12,7 @@ const boxModel = require('../models/box.model.js');
 const skyboxModel = require('../models/skybox.model.js');
 const pointSpriteModel = require('../models/point-sprite.model.js');
 
+const getChunked = require('../chunked-mesh.func.js');
 const calc = require('../calc.utils.js');
 const Vector3d = require('../vector3d.dev.js');
 
@@ -50,6 +51,14 @@ class World{
     this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
     this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
     this.selfModelList = this.solidUntexturedShaderList.createModelList(selfModel);
+
+    let chunkMesh = getChunked(gl, boxModel, 130, (i)=>{
+      mtx = m4.identity();
+      mtx = m4.translate(mtx, calc.rand(400)-200, calc.rand(400)-200, calc.rand(400)-20);
+      return mtx;
+    });
+    this.chunkList = this.solidUntexturedShaderList.createModelList(boxModel);
+    this.chunkList.mesh = chunkMesh;
 
     //combine all list in root
     this.graphicList = new GameObject();
