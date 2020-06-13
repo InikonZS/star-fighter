@@ -1,6 +1,5 @@
 //const Vector3d = require('./vector3d.dev.js');
-//let Bullet = require('./bullet.object.js');
-let Utils = require('../any.utils.js');
+const Utils = require('../any.utils.js');
 const calc = require('../calc.utils.js');
 
 class Weapon{

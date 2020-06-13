@@ -6,6 +6,8 @@ const RenderableItem = require('./renderable-item.new.js');
 const GLUtils = require('../gl-utils.js');
 
 const rocketModel = require('../models/tf.model.js');
+const rocketModel1 = require('../models/rocket.model.js');
+const selfModel = require('../models/self.model.js');
 const boxModel = require('../models/box.model.js');
 const skyboxModel = require('../models/skybox.model.js');
 const pointSpriteModel = require('../models/point-sprite.model.js');
@@ -46,6 +48,8 @@ class World{
     //loading models and making lists
     this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
     this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
+    this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
+    this.selfModelList = this.solidUntexturedShaderList.createModelList(selfModel);
 
     //combine all list in root
     this.graphicList = new GameObject();
@@ -64,8 +68,6 @@ class World{
   }
 
   render(viewMatrix, deltaTime){
-    
-    
     this.graphicList.process(deltaTime);
 
     this.objectList.process(deltaTime);

@@ -4,9 +4,11 @@ const Camera = require('./camera.new.js');
 const calc = require('../calc.utils.js');
 const rand = calc.rand;
 const Weapon = require('./weapon.new.js');
+const GameObject = require('./game-object.new.js');
 
-class Player{
+class Player extends GameObject {
   constructor(gl, game, keyStates){
+    super();
     this.game = game;
     this.keyStates = keyStates;
     let world = this.game.world
@@ -24,9 +26,37 @@ class Player{
 
     this.camera = new Camera(game.world, keyStates);
     this.camera.init();
+
+
+    ///as gameobject
+    let mtx = this.camera.getSelfModelMatrix();
+    this.model = this.game.world.selfModelList.createStaticItem(mtx);
+    let hitbox = this.game.world.createBreakable(this.camera.getPosVector(), 5);
+    hitbox.type = 'object';
+    hitbox.visible = false;
+    hitbox.scale = 5;
+    hitbox.pos = this.camera.getPosVector();
+    hitbox.onHit = (bullet)=>{
+      console.log('dead');
+      //this.hitbox.deleteSelf();
+      //this.model.deleteSelf();
+      bullet.deleteSelf();
+      //this.deleteSelf();
+    }
+    this.onProcess = (deltaTime)=>{
+      this.model.matrix = this.camera.getSelfModelMatrix();
+      hitbox.matrix = this.model.matrix;
+      hitbox.hitTransformed = hitbox.meshPointer.getTransformedVertexList(hitbox.matrix);
+      hitbox.hitPosition = calc.getPosFromMatrix(hitbox.matrix);
+      hitbox.hitDist = hitbox.meshPointer.maxDistance;;//*hitbox.scale;
+      this.render_(deltaTime);
+    }
+    this.hitbox = hitbox;
+    this.game.world.objectList.addChild(this);
+    /////////
   }
 
-  render(viewMatrix, deltaTime){
+  render_(deltaTime){
     if (this.keyStates.shot){
       this.shot(this.currentWeaponIndex-1);
     }
