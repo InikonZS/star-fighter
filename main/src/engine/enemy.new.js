@@ -6,6 +6,7 @@ const Vector3d = require('../vector3d.dev.js');
 let Weapon = require('./weapon.new.js');
 
 const GameObject = require('./game-object.new.js');
+const Message = require('./point-msg.new.js');
 
 class Enemy extends GameObject{
   constructor(gl, game, startPoint, speedVector){
@@ -26,6 +27,14 @@ class Enemy extends GameObject{
     mtx = m4.translate(mtx, this.pos.x, this.pos.y, this.pos.z);
 
     ///as gameobject
+    let msg = new Message(game.glCanvas, '', 'f99', new Vector3d(0,0,0));
+    msg.onProcess = ()=>{
+      msg.vector = this.pos;
+      msg.text = 'enemy '+Math.round(game.player.camera.getPosVector().subVector(msg.vector).abs()*10)/10+ 'km';
+    }
+    game.messageList.addChild(msg);
+    this.msg = msg;
+
     this.model = this.game.world.tieModelList.createStaticItem(mtx);
     let hitbox = this.game.world.createBreakable(this.pos, 5);
     hitbox.type = 'object';
@@ -36,6 +45,7 @@ class Enemy extends GameObject{
       this.hitbox.deleteSelf();
       this.model.deleteSelf();
       bullet.deleteSelf();
+      this.msg.deleteSelf();
       this.deleteSelf();
     }
     this.onProcess = (deltaTime)=>{

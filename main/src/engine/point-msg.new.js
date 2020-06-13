@@ -1,7 +1,7 @@
 const Control = require('../control-js/control.component.js');
 const calc = require('../calc.utils.js');
 //const getScreenPos = calc.getScreenPos;
-//const GameObject = require('./game-object.new.js');
+const GameObject = require('./game-object.new.js');
 
 class Message extends Control{
   constructor(parentNode, text, colorHex){
@@ -31,6 +31,23 @@ class Message extends Control{
   }
 }
 
+class MessageGamed extends GameObject{
+  constructor(glCanvas, text, colorHex, vector){
+    super();
+    let parentNode = glCanvas.gamePanel.view.node;
+    this.messageNode = new Message(parentNode, text, colorHex);
+    this.vector = vector;
+    this.text = text;
+    this.onRender = (gl, props) =>{
+      this.messageNode.refresh(props.viewMatrix, this.vector, this.text);
+    }
+    this.onDelete = () =>{
+      parentNode.removeChild(this.messageNode.node);
+    }
+  }
+}
+
+
 function getScreenPos(viewMatrix, vector, clipRect){
   var point = [vector.x, vector.y, vector.z, 1];  
   // это верхний правый угол фронтальной части
@@ -57,4 +74,4 @@ function getScreenPos(viewMatrix, vector, clipRect){
   return {x:pixelX, y:pixelY, back:(clipspace[3]<0)}
 }
 
-module.exports = Message;
+module.exports = MessageGamed;
