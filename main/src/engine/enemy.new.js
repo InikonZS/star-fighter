@@ -16,7 +16,7 @@ class Enemy extends GameObject{
 
     this.v = speedVector; 
 
-    this.weapon = new Weapon(game.world, 0.75, 5.2, 500.41);
+    this.weapon = new Weapon(game.world, 0.75, 1.2, 500.41);
 
     this.nv = new Vector3d(0, 0 ,1);
     this.aziV = new Vector3d (0,0,0);
@@ -43,8 +43,21 @@ class Enemy extends GameObject{
       hitbox.hitTransformed = hitbox.meshPointer.getTransformedVertexList(hitbox.matrix);
       hitbox.hitPosition = calc.getPosFromMatrix(hitbox.matrix);
       hitbox.hitDist = hitbox.meshPointer.maxDistance;;//*hitbox.scale;
+      this.speedVectorSync = this.v;
       this.render_(deltaTime);
     }
+    this.onReact = (ob)=>{
+    //if (!(el && el.speedVectorSync)){ return;}
+      if (ob.type == 'solid'){
+        if (calc.isCrossedSimple(ob.hitPosition, this.pos, this.speedVectorSync, ob.hitDist)){
+          let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, this.pos, this.speedVectorSync);
+          if (reflected){
+            this.v = (reflected.normalize().mul(this.pos.abs()));  
+          };  
+        };
+      }
+    }
+
     this.hitbox = hitbox;
     this.game.world.objectList.addChild(this);
     /////////
