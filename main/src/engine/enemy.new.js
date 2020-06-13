@@ -56,6 +56,8 @@ class Enemy extends GameObject{
 
   render_( deltaTime){
    // this.time-=deltaTime;
+    this.logic(this.game.player.camera.getPosVector(), this.game.player.camera.getSpeedVector(), deltaTime);
+    
     this.weapon.render(deltaTime);
     
     this.pos.addVector(this.v.mul(deltaTime), true);
@@ -71,7 +73,7 @@ class Enemy extends GameObject{
     //this.model.render(shadersVariables);
     this.nv = toDecart(this.azi);
     //this.shot();
-    this.logic(this.game.player.camera.getPosVector(), this.game.player.camera.getSpeedVector(), deltaTime);
+    
   }
 
   shot(){

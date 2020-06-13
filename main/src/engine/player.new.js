@@ -27,13 +27,14 @@ class Player{
   }
 
   render(viewMatrix, deltaTime){
+    if (this.keyStates.shot){
+      this.shot(this.currentWeaponIndex-1);
+    }
     this.camera.process(deltaTime);  
 
     this.weapons.forEach(it=>it.render(deltaTime));
 
-    if (this.keyStates.shot){
-      this.shot(this.currentWeaponIndex-1);
-    }
+    
   }
 
   shot(weaponIndex){

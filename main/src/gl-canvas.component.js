@@ -145,12 +145,8 @@ function glRender(glCanvas, deltaTime){
   glCanvas.info.node.textContent = 'FPS: '+ Math.round(1/glCanvas.averageRenderTime);
 
   var aspect = glCanvas.glContext.canvas.clientWidth / glCanvas.glContext.canvas.clientHeight;
-
-  var camera = glCanvas.game.player.camera;
-  var viewMatrix = calc.makeCameraMatrix(aspect, camera.camRX, camera.camRY, camera.camRZ, camera.posX, camera.posY, camera.posZ);
-  glCanvas.viewMatrix = viewMatrix;
   
-  glCanvas.game.render(viewMatrix, deltaTime);
+  glCanvas.game.render(aspect, deltaTime);
 
 }
 

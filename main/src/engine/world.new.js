@@ -64,7 +64,7 @@ class World{
   }
 
   render(viewMatrix, deltaTime){
-    this.graphicList.render(this.gl, {viewMatrix, deltaTime});
+    
     
     this.graphicList.process(deltaTime);
 
@@ -74,7 +74,7 @@ class World{
 
     this.bulletList.react(this.breakableList);
     //this.bulletList.react(this.objectList);
-    
+    this.graphicList.render(this.gl, {viewMatrix, deltaTime});
   }
 
   createExplosion (pos, scale){
