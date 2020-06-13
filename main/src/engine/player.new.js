@@ -16,10 +16,10 @@ class Player{
     this.bullets = 50;
 
     this.weapons=[
-      new Weapon(world, 0.15, 1.2, 30.1, 'assets/sounds/laser.mp3'),
-      new Weapon(world, 0.08, 0.7, 30.1, 'assets/sounds/auto.mp3'),
-      new Weapon(world, 0.35, 5.2, 60.1, 'assets/sounds/laser_med.mp3'),
-      new Weapon(world, 0.65, 1.2, 140.1, 'assets/sounds/laser_power.mp3'),
+      new Weapon(world, 0.15, 1.2, 130.1, 'assets/sounds/laser.mp3'),
+      new Weapon(world, 0.08, 0.7, 130.1, 'assets/sounds/auto.mp3'),
+      new Weapon(world, 0.35, 5.2, 260.1, 'assets/sounds/laser_med.mp3'),
+      new Weapon(world, 0.65, 1.2, 440.1, 'assets/sounds/laser_power.mp3'),
     ];
 
     this.camera = new Camera(game.world, keyStates);

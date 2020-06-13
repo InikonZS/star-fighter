@@ -269,7 +269,7 @@ function getPosFromMatrix(matrix){
 }
 
 function isTimeout(time){
-  return (time<0 || time>10000); 
+  return (time<0 || time>1000); 
 }
 
 module.exports = {

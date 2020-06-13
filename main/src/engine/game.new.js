@@ -16,10 +16,10 @@ class Game{
 
     //this.tst = new tst(this);
 
-    this.enemy = new Enemy(gl, this, new Vector3d(0,0,0), new Vector3d(0,0,0));
+    for (let i=0; i<10; i++){new Enemy(gl, this, new Vector3d(0,0,0), new Vector3d(0,0,0));}
 
-    for (let i=0; i<100; i++){
-    //  world.createDanger(new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 15, {r:Math.random(),g:Math.random(),b:0.5});
+    for (let i=0; i<1000; i++){
+      world.createSolid(new Vector3d(rand(1000)-500, rand(1000)-500, rand(1000)-500), 10, {r:Math.random(),g:Math.random(),b:0.5});
     }
   }
 

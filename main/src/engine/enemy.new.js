@@ -16,7 +16,7 @@ class Enemy extends GameObject{
 
     this.v = speedVector; 
 
-    this.weapon = new Weapon(game.world, 0.75, 5.2, 300.41);
+    this.weapon = new Weapon(game.world, 0.75, 5.2, 500.41);
 
     this.nv = new Vector3d(0, 0 ,1);
     this.aziV = new Vector3d (0,0,0);
@@ -82,7 +82,7 @@ class Enemy extends GameObject{
 
   accelerate(deltaTime){
     this.v.subVector(this.nv.normalize().mul(deltaTime * 10), true);
-    if (this.v.abs()>10.91){this.v = this.v.normalize().mul(30.91);}
+    if (this.v.abs()>30.91){this.v = this.v.normalize().mul(30.91);}
   }
 
   directTo(dir){
