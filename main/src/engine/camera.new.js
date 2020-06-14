@@ -76,10 +76,10 @@ class Camera{
     //let cam = glCanvas.camera;
     let cam = this;
     //todo SYNC it with game time!!!
-   
-    cam.vX*=0.999;
-    cam.vY*=0.999;
-    cam.vZ*=0.999;
+    let friction = 0.997;
+    cam.vX*=friction;
+    cam.vY*=friction;
+    cam.vZ*=friction;
     cam.posX+=cam.vX*deltaTime;
     cam.posY+=cam.vY*deltaTime;
     cam.posZ+=cam.vZ*deltaTime;
@@ -125,6 +125,7 @@ function getCameraSelfMatrix(cam){
 
   let mts = cam.getNormalMatrix();
   mts = m4.xRotate(mts,Math.PI/2);
+  mts = m4.yRotate(mts,Math.PI/2);
   mts = m4.multiply(mmt, mts);
   return mts;
 }

@@ -14,35 +14,14 @@ class Game{
   constructor(gl, glCanvas){
     this.gl = gl;
     this.glCanvas = glCanvas;
-    let world = new World(gl, this);
-    this.world = world;
+
+    this.world = new World(gl, this);
     this.player = new Player(gl, this, glCanvas.keyboardState);
-
     this.timers = new GameObject();
-    let wsp = this.weaponSpawner = new Timer(5, ()=>{
-      new Collectable(gl, this, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), Math.random()<0.5? 'bullets':'health'); 
-    });
-    this.timers.addChild(wsp);
-
     this.messageList = new GameObject();
-    let msg = new Message(glCanvas, '', 'f4f', new Vector3d(0,0,0));
-    msg.onProcess = ()=>{
-      msg.text = 'startPoint '+Math.round(this.player.camera.getPosVector().subVector(msg.vector).abs()*10)/10+ 'km';
-    }
-    this.messageList.addChild(msg);
-    //this.message = new Message(glCanvas.gamePanel.view.node, 'label', 'fff');
+    
+    mission1(this);
 
-    for (let i=0; i<10; i++){new Enemy(gl, this, new Vector3d(0,0,0), new Vector3d(0,0,0));}
-
-    for (let i=0; i<20; i++){
-      world.createSolid(new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 10, {r:Math.random(),g:Math.random(),b:0.5});
-    }
-
-    for (let i=0; i<100; i++){
-      let mt = m4.identity();
-      mt = m4.translate(mt, rand(1000)-500, rand(1000)-500, rand(1000)-500);
-      world.chunkList.createStaticItem(mt, {r:Math.random(),g:Math.random(),b:0.5});
-    }
   }
 
   render(aspect, deltaTime){
@@ -57,6 +36,70 @@ class Game{
     this.messageList.render(this.gl, {viewMatrix});
 
   }
+
+  addTimer(interval, onTimeout){
+    let tm = new Timer(interval, onTimeout);
+    this.timers.addChild(tm);
+    return tm;
+  }
+
+  addLabel(text, vector){
+    let msg = new Message(this.glCanvas, '', 'f4f', vector);
+    msg.onProcess = ()=>{
+      let dist = this.getPlayerPos().subVector(msg.vector).abs()*10;
+      msg.text = text+ ': '+Math.round(dist)/10+ 'km';
+    }
+    this.messageList.addChild(msg);
+  }
+
+  getPlayerPos(){
+    return this.player.camera.getPosVector();
+  }
+}
+
+function starChunk(game, center, size, count){
+  for (let i=0; i<count; i++){
+    
+    let a = new Vector3d(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5);
+   // a = a.normalize();
+    a = a.mul(size).addVector(center);
+    
+    let mt = m4.identity();
+    mt = m4.translate(mt, a.x, a.y, a.z);
+    mt = m4.xRotate(mt, Math.random()*Math.PI*2);
+    mt = m4.yRotate(mt, Math.random()*Math.PI);
+    game.world.chunkList.createStaticItem(mt, {r:Math.random(),g:Math.random(),b:0.5});
+  }  
+}
+
+function randVector(center, size){
+  let a = new Vector3d(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5);
+  a = a.mul(size).addVector(center);  
+  return a;
+}
+
+function mission1(game){
+  let baseSpawner = game.addTimer(15, ()=>{
+    new Collectable(
+      game.gl, game, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 
+      Math.random()<0.5? 'bullets':'health'
+    ); 
+  });
+
+  let baseLabel = game.addLabel('StartPoint', new Vector3d(0, 0, 0));
+
+  let enBasePos = new Vector3d(2000, 0, 0);
+
+  for (let i=0; i<10; i++){new Enemy(game.gl, game, randVector(enBasePos, 500), new Vector3d(0,0,0));}
+
+  let solidsPos = new Vector3d(1000, 0, 0);
+  for (let i=0; i<160; i++){
+    game.world.createSolid(randVector(solidsPos, 500), rand(60)+10, {r:Math.random(),g:Math.random(),b:0.5});
+  }
+
+  starChunk(game, new Vector3d(0,0,0), 500, 100);
+  starChunk(game, enBasePos, 500, 100);
+  game.addLabel('target', enBasePos,);
 }
 
 module.exports = Game;

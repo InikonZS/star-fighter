@@ -19,6 +19,9 @@ class Player extends GameObject {
     this.health = 100;
     this.bullets = 50;
 
+    this.shieldEnergy = 100;
+    this.shieldTime = 2;
+
     //this.domStates = 
 
     this.weapons=[
@@ -37,6 +40,7 @@ class Player extends GameObject {
     this.model = this.game.world.selfModelList.createStaticItem(mtx);
  
     let hitbox = makeHitBox(this, 2, (bullet)=>{
+      if (this.shieldActivated) {return;}
       console.log('hit');
       bullet.deleteSelf();
       rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
@@ -57,10 +61,18 @@ class Player extends GameObject {
     });
     this.nearbox = nearbox;
 
+    let shieldbox = makeHitBox(this, 3, (bullet)=>{
+      if (!this.shieldActivated) {return;}
+      console.log('shielded');
+      rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/error.mp3') : anyutils.playSoundUrl('assets/sounds/error.mp3');
+    });
+    this.nearbox = nearbox;
+
     this.onProcess = (deltaTime) =>{
       this.model.matrix = this.camera.getSelfModelMatrix();
       hitbox.process_(deltaTime);
       nearbox.process_(deltaTime);
+      shieldbox.process_(deltaTime);
 
       this.speedVectorSync = this.camera.getSpeedVector().mul(deltaTime);
       this.render_(deltaTime);
@@ -69,7 +81,9 @@ class Player extends GameObject {
     this.onReact = (ob)=>{
     //if (!(el && el.speedVectorSync)){ return;}
       if (ob.type == 'solid'){
-        if (calc.isCrossedSimple(ob.hitPosition, this.camera.getPosVector(), this.speedVectorSync, ob.hitDist)){
+        if (calc.isCrossedSimple(ob.hitPosition, this.camera.getPosVector(), this.speedVectorSync, ob.hitDist*1.2)){
+          let spv = this.speedVectorSync;
+          if (this.speedVectorSync.abs()<0.01){spv = this.camera.getSpeedVector().normalize().mul(0.01); }
           let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, this.camera.getPosVector(), this.speedVectorSync);
           if (reflected){
             this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()));  
@@ -109,6 +123,14 @@ class Player extends GameObject {
     if (this.keyStates.shot){
       this.shot(this.currentWeaponIndex-1);
     }
+
+    this.shieldTime-=deltaTime;
+    if (this.keyStates.space){
+      this.shieldActivate(deltaTime);
+    } else {
+      this.shieldActivated = false;
+    }
+
     this.camera.process(deltaTime);  
 
     this.weapons.forEach(it=>it.render(deltaTime));
@@ -124,6 +146,21 @@ class Player extends GameObject {
         this.bullets--;
         this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.bullets;
       }
+    }
+  }
+  
+  shieldActivate(deltaTime){
+    if (this.shieldEnergy>0){
+      //console.log(this.shieldTime);
+      this.shieldActivated = true;
+      if (calc.isTimeout(this.shieldTime)){
+        this.shieldEnergy-=1;
+        this.shieldTime = 0.5;
+        this.game.glCanvas.gamePanel.shield.node.textContent = 'shield: '+this.shieldEnergy;
+      }
+    } else {
+      this.shieldActivated = false;
+      //this.shieldTime = 0;  
     }
   }
 

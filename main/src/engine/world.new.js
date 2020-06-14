@@ -6,7 +6,7 @@ const GLUtils = require('../gl-utils.js');
 
 const rocketModel = require('../models/tf.model.js');
 const rocketModel1 = require('../models/rocket.model.js');
-const selfModel = require('../models/self.model.js');
+const selfModel = require('../models/self1.model.js');
 const boxModel = require('../models/box.model.js');
 const skyboxModel = require('../models/skybox.model.js');
 const pointSpriteModel = require('../models/point-sprite.model.js');
