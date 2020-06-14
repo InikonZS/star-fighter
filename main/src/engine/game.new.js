@@ -97,6 +97,9 @@ function mission1(game){
     game.world.createSolid(randVector(solidsPos, 500), rand(60)+10, {r:Math.random(),g:Math.random(),b:0.5});
   }
 
+  let big = game.world.createSolid(new Vector3d (500,0,0), 10, {r:Math.random(),g:Math.random(),b:0.5}, 'bigModel');
+  //big.matrix = m4.xRotate(big.matrix, Math.PI/2);
+
   starChunk(game, new Vector3d(0,0,0), 500, 100);
   starChunk(game, enBasePos, 500, 100);
   game.addLabel('target', enBasePos,);

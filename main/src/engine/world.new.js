@@ -7,6 +7,8 @@ const GLUtils = require('../gl-utils.js');
 const rocketModel = require('../models/tf.model.js');
 const rocketModel1 = require('../models/rocket.model.js');
 const selfModel = require('../models/self1.model.js');
+const selfModel1 = require('../models/self.model.js');
+const bigModel = require('../models/big.model.js');
 const boxModel = require('../models/box.model.js');
 const skyboxModel = require('../models/skybox.model.js');
 const pointSpriteModel = require('../models/point-sprite.model.js');
@@ -50,6 +52,7 @@ class World{
     this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
     this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
     this.selfModelList = this.solidUntexturedShaderList.createModelList(selfModel);
+    this.bigModelList = this.solidUntexturedShaderList.createModelList(bigModel);
 
     let chunkMesh = getChunked(gl, boxModel, 130, (i)=>{
       mtx = m4.identity();
@@ -178,11 +181,15 @@ class World{
     return el;
   }
 
-  createSolid (pos, scale, color){
+  createSolid (pos, scale, color, bm){
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
     niMat = m4.scale(niMat, scale, scale, scale);
-    let el = this.boxModelList.createStaticItem(niMat, color);
+    if (!bm){ ///kostil'
+      var el = this.boxModelList.createStaticItem(niMat, color);
+    } else {
+      var el = this.bigModelList.createStaticItem(niMat, color);
+    }
     el.type='solid';
 
     el.hitTransformed = el.meshPointer.getTransformedVertexList(el.matrix);
