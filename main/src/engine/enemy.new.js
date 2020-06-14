@@ -14,13 +14,20 @@ const anyutils = require('../any.utils.js');
 class Enemy extends GameObject{
   constructor(gl, game, startPoint, speedVector){
     super();
+    this.MAX_SPEED = 30;
+    this.ACCELARATION = 5;
+    this.FRICTION = 0.999;
+    this.TORQUE = 0.03;
+    this.RADIAL_FRICTION = 0.93;
+    this.THETA_VAL=52;
+
     this.gl = gl;
     this.game = game;
     this.pos = startPoint;
 
     this.v = speedVector; 
 
-    this.weapon = new Weapon(game.world, 0.75, 1.2, 500.41);
+    this.weapon = new Weapon(game.world, 0.75, 1.2, 200.41);
 
     this.nv = new Vector3d(0, 0 ,1);
     this.aziV = new Vector3d (0,0,0);
@@ -41,6 +48,7 @@ class Enemy extends GameObject{
     this.model = this.game.world.tieModelList.createStaticItem(mtx);
     let hitbox = this.game.world.createBreakable(this.pos, 5);
     hitbox.type = 'object';
+    hitbox.visible = false;
     hitbox.scale = 5;
     hitbox.pos = this.pos;
     hitbox.onHit = (bullet)=>{
@@ -84,25 +92,11 @@ class Enemy extends GameObject{
   }
 
   render_( deltaTime){
-   // this.time-=deltaTime;
     this.logic(this.game.player.camera.getPosVector(), this.game.player.camera.getSpeedVector(), deltaTime);
-    
     this.weapon.render(deltaTime);
-    
     this.pos.addVector(this.v.mul(deltaTime), true);
-
-    this.model.matrix = m4.identity();
-    this.model.matrix = m4.translate(this.model.matrix, this.pos.x, this.pos.y, this.pos.z);
-    this.model.matrix = m4.zRotate(this.model.matrix, this.azi.x+Math.PI/2);
-    this.model.matrix = m4.xRotate(this.model.matrix, this.azi.y+Math.PI/2);
-    this.model.matrix = m4.yRotate(this.model.matrix, Math.PI);
-
-    
-
-    //this.model.render(shadersVariables);
+    this.model.matrix = polarToMatrix(this.pos, this.azi.x, this.azi.y)
     this.nv = toDecart(this.azi);
-    //this.shot();
-    
   }
 
   shot(){
@@ -112,21 +106,23 @@ class Enemy extends GameObject{
   }
 
   accelerate(deltaTime){
-    this.v.subVector(this.nv.normalize().mul(deltaTime * 10), true);
-    if (this.v.abs()>30.91){this.v = this.v.normalize().mul(30.91);}
+    this.v.subVector(this.nv.normalize().mul(deltaTime * this.ACCELARATION), true);
+    if (this.v.abs()>this.MAX_SPEED){this.v = this.v.normalize().mul(this.MAX_SPEED);}
   }
 
-  directTo(dir){
+  directTo(dir, deltaTime){
     let orta = toPolar3d(dir);
     let az = azimutDifference(orta.x, this.azi.x);
     az = az>0 ? 1 : -1;  
     if (Math.abs(this.aziV.x)<0.2){
-      this.aziV.x = this.aziV.x +az/500;
+      this.aziV.x = this.aziV.x +az * this.TORQUE * deltaTime;
     }
     this.azi.x += this.aziV.x;//this.torq.mul(0.059).addVector(orta);
-    let kk=12;
+    this.aziV.x*=this.RADIAL_FRICTION;
+
+    let kk=this.THETA_VAL;//1/(this.TORQUE * deltaTime);
     this.azi.y = ((this.azi.y*kk)+orta.y)/(kk+1);
-    this.aziV.x*=0.93;
+    
 
     if (this.azi.y>Math.PI-0.01){this.azi.y=Math.PI-0.01};
     if (this.azi.y<0.01){this.azi.y=0.01};
@@ -166,13 +162,22 @@ class Enemy extends GameObject{
 
     /////////this.hitPoint.matrix = this.model.matrix;
    
-    this.directTo(dir);
+    this.directTo(dir, deltaTime);
 
     if (Math.abs(getAngleBetweenVectors(dir, this.nv))<Math.PI/2){
       this.accelerate(deltaTime);
     }
-    this.v.mul(0.999, true);
+    this.v.mul(this.FRICTION, true);
   }
+}
+
+function polarToMatrix(point, azimuth, theta){
+  let mt = m4.identity();
+  mt = m4.translate(mt, point.x, point.y, point.z);
+  mt = m4.zRotate(mt, azimuth+Math.PI/2);
+  mt = m4.xRotate(mt, theta+Math.PI/2);
+  mt = m4.yRotate(mt, Math.PI);  
+  return mt;
 }
 
 function azimutDifference(a, b){

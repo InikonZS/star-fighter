@@ -190,6 +190,7 @@ class World{
     el.hitDist = el.meshPointer.maxDistance*scale;
     //el.pos = pos;
     this.breakableList.addChild(el);
+    return el;
   }
 
   createDanger (pos, scale, color){
@@ -204,6 +205,7 @@ class World{
     el.hitDist = el.meshPointer.maxDistance*scale;
     //el.pos = pos;
     this.breakableList.addChild(el);
+    return el;
   }
 
   

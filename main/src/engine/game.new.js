@@ -7,6 +7,8 @@ const rand = calc.rand;
 const Enemy = require('./enemy.new.js');
 const Message = require('./point-msg.new.js');
 const GameObject = require('./game-object.new.js');
+const Timer = require('./timer.new.js');
+const Collectable = require('./collectable.new.js');
 
 class Game{
   constructor(gl, glCanvas){
@@ -15,6 +17,12 @@ class Game{
     let world = new World(gl, this);
     this.world = world;
     this.player = new Player(gl, this, glCanvas.keyboardState);
+
+    this.timers = new GameObject();
+    let wsp = this.weaponSpawner = new Timer(5, ()=>{
+      new Collectable(gl, this, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), Math.random()<0.5? 'bullets':'health'); 
+    });
+    this.timers.addChild(wsp);
 
     this.messageList = new GameObject();
     let msg = new Message(glCanvas, '', 'f4f', new Vector3d(0,0,0));
@@ -44,7 +52,8 @@ class Game{
 
     this.world.render(viewMatrix, deltaTime);
     //this.message.refresh(viewMatrix, new Vector3d(0,0,0), 'Kill_It '+Math.round(this.player.camera.getPosVector().subVector(new Vector3d(0,0,0)).abs()*10)/10+ 'km');
-    this.messageList.process();
+    this.messageList.process(deltaTime);
+    this.timers.process(deltaTime);
     this.messageList.render(this.gl, {viewMatrix});
 
   }
