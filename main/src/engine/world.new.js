@@ -13,6 +13,8 @@ const boxModel = require('../models/box.model.js');
 const skyboxModel = require('../models/skybox.model.js');
 const pointSpriteModel = require('../models/point-sprite.model.js');
 
+const Physic = require('./physic.new.js');
+
 const anyutils = require('../any.utils.js');
 
 const getChunked = require('../chunked-mesh.func.js');
@@ -175,18 +177,18 @@ class World{
 
       if (ob.type == 'solid'){
         if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
-          let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
+          let reflected = ob.physicList.mirrorVector(el.position, el.speedVectorSync);//calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
           let mx =10;
           let npos = el.position;
           if (reflected){
             let vol = 130/(el.position.subVector(this.game.player.camera.getPosVector()).abs());
-            anyutils.playSoundUrl('assets/sounds/hit1.mp3', vol)  
+            //anyutils.playSoundUrl('assets/sounds/hit1.mp3', vol)  
           }
           while (reflected && mx>=0){
             mx--;
             el.speedVector = reflected.normalize().mul(el.speedVector.abs()*0.5);
             npos = npos.addVector(reflected);
-            reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, npos, reflected);
+            reflected = ob.physicList.mirrorVector(npos, reflected)//calc.mirrorVectorFromMesh(ob.hitTransformed, npos, reflected);
             if (mx==0){
               this.createExplosion(npos, 5);
             }  
@@ -237,6 +239,7 @@ class World{
     el.hitTransformed = el.meshPointer.getTransformedVertexList(el.matrix);
     el.hitPosition = calc.getPosFromMatrix(el.matrix);
     el.hitDist = el.meshPointer.maxDistance*scale;
+    el.physicList = new Physic (el.hitTransformed);
     //el.pos = pos;
     this.breakableList.addChild(el);
     return el;

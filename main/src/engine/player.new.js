@@ -86,8 +86,8 @@ class Player extends GameObject {
           if (this.speedVectorSync.abs()<0.01){spv = this.camera.getSpeedVector().normalize().mul(0.01); }
           let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, this.camera.getPosVector(), this.speedVectorSync);
           if (reflected){
-            this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()));  
-          };  
+            this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()*0.3));  
+          }
         };
       }
 
@@ -195,5 +195,46 @@ function incLim(val, inc, lim){
   let nv = val+=inc;
   return nv < lim ? nv : lim;
 }
+
+function qubeLines(size, pos){
+  p = [
+    new Vector3d(-1, -1, -1).mul(size).addVector(pos),
+    new Vector3d(-1, -1, 1).mul(size).addVector(pos),
+    new Vector3d(-1, 1, -1).mul(size).addVector(pos),
+    new Vector3d(-1, 1, 1).mul(size).addVector(pos),
+    new Vector3d(1, -1, -1).mul(size).addVector(pos),
+    new Vector3d(1, -1, 1).mul(size).addVector(pos),
+    new Vector3d(1, 1, -1).mul(size).addVector(pos),
+    new Vector3d(1, 1, 1).mul(size).addVector(pos),
+  ];
+  lines = [
+    p[0], p[1],
+    p[1], p[3],
+    p[3], p[2],
+    p[2], p[0],
+    p[4], p[5],
+    p[5], p[7],
+    p[7], p[6],
+    p[6], p[4],
+    p[0], p[4],
+    p[1], p[5],
+    p[2], p[6],
+    p[3], p[7],
+  ];
+  return lines;
+}
+
+/*
+else { 
+
+  let po = qubeLines(1, this.camera.getPosVector());
+  for (let i=0; i<po.length/2; i++){
+    reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, po[i*2], po[i*2+1]);
+    if (reflected){
+      this.camera.setSpeedVector (this.camera.getSpeedVector().mul(-1));  
+      break;
+    }
+  }
+}*/
 
 module.exports = Player;
