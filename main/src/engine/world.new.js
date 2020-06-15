@@ -13,12 +13,16 @@ const boxModel = require('../models/box.model.js');
 const skyboxModel = require('../models/skybox.model.js');
 const pointSpriteModel = require('../models/point-sprite.model.js');
 
+const anyutils = require('../any.utils.js');
+
 const getChunked = require('../chunked-mesh.func.js');
 const calc = require('../calc.utils.js');
 const Vector3d = require('../vector3d.dev.js');
 
 const solidUntexturedShaderUnit = require('./shaders/solid-untextured.shader.js');
 const {SolidUntexturedShaderList} = require('./solid-untextured.new.js');
+const solidTexturedShaderUnit = require('./shaders/solid-textured.shader.js');
+const {SolidTexturedShaderList} = require('./solid-textured.new.js');
 const skyboxShaderUnit = require('./shaders/skybox.shader.js');
 const {SkyboxShaderList} = require('./skybox.new.js');
 const animatedShaderUnit = require('./shaders/ani-textured.shader.js');
@@ -27,6 +31,7 @@ const {AnimatedShaderList} = require('./ani-textured.new.js');
 class World{
   constructor(gl, game){
     this.gl = gl;
+    this.game = game;
     this.viewMatrix = m4.identity();
 
     this.skyboxShaderList = new SkyboxShaderList(gl, skyboxShaderUnit);
@@ -46,13 +51,15 @@ class World{
 
     //making list for rendering with shader
     this.solidUntexturedShaderList = new SolidUntexturedShaderList(gl, solidUntexturedShaderUnit);
+    this.solidTexturedShaderList = new SolidTexturedShaderList(gl, solidTexturedShaderUnit);
 
     //loading models and making lists
     this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
     this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
     this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
     this.selfModelList = this.solidUntexturedShaderList.createModelList(selfModel);
-    this.bigModelList = this.solidUntexturedShaderList.createModelList(bigModel);
+    this.bigModelList = this.solidTexturedShaderList.createModelList(bigModel, 'assets/textures/Trident_UV_Dekol_Color.png');
+    //Trident_UV_Dekol_Color.tif
 
     let chunkMesh = getChunked(gl, boxModel, 130, (i)=>{
       mtx = m4.identity();
@@ -66,6 +73,7 @@ class World{
     this.graphicList = new GameObject();
     this.graphicList.addChild(this.skyboxShaderList);
     this.graphicList.addChild(this.solidUntexturedShaderList);
+    this.graphicList.addChild(this.solidTexturedShaderList);
     this.graphicList.addChild(this.animatedShaderList);
     
     //making physics
@@ -142,13 +150,47 @@ class World{
           };  
         };
       }
+      /*
+
+      let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
+          if(reflected){
+            el.speedVector = reflected.normalize().mul(el.speedVector.abs()*0.5);
+            let vol = 130/(el.position.subVector(this.game.player.camera.getPosVector()).abs());
+            calc.rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3', vol) : anyutils.playSoundUrl('assets/sounds/hit2.mp3', vol);
+          };  
+
+          
+      let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
+          let mx =100;
+          let npos = el.position;
+          while (reflected && mx>=0){
+            mx--;
+            el.speedVector = reflected.normalize().mul(el.speedVector.abs());
+            npos = npos.addVector(reflected);
+            reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, npos, reflected);
+            if (mx==0){
+              this.createExplosion(npos, 5);
+            }
+            */
 
       if (ob.type == 'solid'){
         if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
           let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
+          let mx =10;
+          let npos = el.position;
           if (reflected){
-            el.speedVector = reflected.normalize().mul(el.speedVector.abs());  
-          };  
+            let vol = 130/(el.position.subVector(this.game.player.camera.getPosVector()).abs());
+            anyutils.playSoundUrl('assets/sounds/hit1.mp3', vol)  
+          }
+          while (reflected && mx>=0){
+            mx--;
+            el.speedVector = reflected.normalize().mul(el.speedVector.abs()*0.5);
+            npos = npos.addVector(reflected);
+            reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, npos, reflected);
+            if (mx==0){
+              this.createExplosion(npos, 5);
+            }  
+          }
         };
       }
 

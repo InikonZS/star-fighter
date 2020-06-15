@@ -17,7 +17,7 @@ class Player extends GameObject {
     this.currentWeaponIndex = 1;
     this.isAlive = true;
     this.health = 100;
-    this.bullets = 50;
+    this.bullets = 5000;
 
     this.shieldEnergy = 100;
     this.shieldTime = 2;

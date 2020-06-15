@@ -82,14 +82,14 @@ function inTriangle(a, b, c, p){
   let pr = (al+bl+cl)/2;
   let s = Math.sqrt(pr*(pr-al)*(pr-bl)*(pr-cl));
 
-  return (sa+sb+sc)<=(s+0.01);
+  return (sa+sb+sc)<=(s+0.00001);
 }
 
 function onLine(a, b, p){
   let al = a.subVector(b).abs();
   let ap = a.subVector(p).abs();  
   let bp = b.subVector(p).abs();
-  return (ap+bp)<=(al+0.01);
+  return (ap+bp)<=(al+0.00001);
 }
 
 function lineCrossTriangle(a, b, u, v, w){

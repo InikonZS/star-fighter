@@ -25,6 +25,7 @@ class GameObject{
   }
 
   process(deltaTime, props){
+  
     if (this.onProcess){
       this.onProcess(deltaTime, props);
     }

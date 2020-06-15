@@ -90,7 +90,7 @@ function mission1(game){
 
   let enBasePos = new Vector3d(2000, 0, 0);
 
-  for (let i=0; i<10; i++){new Enemy(game.gl, game, randVector(enBasePos, 500), new Vector3d(0,0,0));}
+  //for (let i=0; i<10; i++){new Enemy(game.gl, game, randVector(enBasePos, 500), new Vector3d(0,0,0));}
 
   let solidsPos = new Vector3d(1000, 0, 0);
   for (let i=0; i<160; i++){
