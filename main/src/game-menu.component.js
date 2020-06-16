@@ -9,26 +9,53 @@ class GameMenu extends Control{
     //this.isActive = true;
     this.background = new Control(this.node, 'div', 'menu_background');
 
-    this.startButton = new Control(this.background.node, 'div', 'menu_item', 'start',()=>{
-      this.glCanvas.start();
-      this.isActive = false;
-      this.refresh();
+    this.startButton = new Control(this.background.node, 'div', 'menu_item', 'start new',()=>{
+      this.background2.show();
+      this.background.hide();
+      this.background3.hide();
      // this.deactivate();
     });
 
-    this.m1Button = new Control(this.background.node, 'div', 'menu_item', 'mission1',()=>{
+
+    ////
+    this.background2 = new Control(this.node, 'div', 'menu_background');
+    this.background2.hide();
+    this.m1Button = new Control(this.background2.node, 'div', 'menu_item', 'mission1',()=>{
+      this.glCanvas.start();
       this.glCanvas.game.loadMission('1');
-      this.deactivate();
+      this.isActive = false;
+      this.refresh();
+      this.background3.show();
+      this.background2.hide();
+      this.background.hide();
+      //this.deactivate();
     });
 
-    this.m2Button = new Control(this.background.node, 'div', 'menu_item', 'mission2',()=>{
+    this.m2Button = new Control(this.background2.node, 'div', 'menu_item', 'mission2',()=>{
+      this.glCanvas.start();
       this.glCanvas.game.loadMission('');
-      this.deactivate();
+      this.isActive = false;
+      this.refresh();
+      this.background3.show();
+      this.background2.hide();
+      this.background.hide();
     });
 
-    this.resumeButton = new Control(this.background.node, 'div', 'menu_item', 'resume',()=>{
+
+    ///3
+    this.background3 = new Control(this.node, 'div', 'menu_background');
+    this.resumeButton = new Control(this.background3.node, 'div', 'menu_item', 'continue',()=>{
       this.deactivate();
     });
+    this.mainMenuButton = new Control(this.background3.node, 'div', 'menu_item', 'to main menu',()=>{
+      this.background.show();
+      this.background3.hide();
+      this.background2.hide();
+      //this.deactivate();
+    });
+    this.background2.hide();
+      this.background.show();
+      this.background3.hide();
     this.refresh();
   }
 
