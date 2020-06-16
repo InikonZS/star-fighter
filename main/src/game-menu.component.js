@@ -16,6 +16,16 @@ class GameMenu extends Control{
      // this.deactivate();
     });
 
+    this.m1Button = new Control(this.background.node, 'div', 'menu_item', 'mission1',()=>{
+      this.glCanvas.game.loadMission('1');
+      this.deactivate();
+    });
+
+    this.m2Button = new Control(this.background.node, 'div', 'menu_item', 'mission2',()=>{
+      this.glCanvas.game.loadMission('');
+      this.deactivate();
+    });
+
     this.resumeButton = new Control(this.background.node, 'div', 'menu_item', 'resume',()=>{
       this.deactivate();
     });

@@ -88,6 +88,10 @@ class World{
 
   }
 
+  clear(){
+    this.graphicList.clear();
+  }
+
   render(viewMatrix, deltaTime){
     this.graphicList.process(deltaTime);
 
@@ -182,7 +186,7 @@ class World{
           let npos = el.position;
           if (reflected){
             let vol = 130/(el.position.subVector(this.game.player.camera.getPosVector()).abs());
-            //anyutils.playSoundUrl('assets/sounds/hit1.mp3', vol)  
+            anyutils.playSoundUrl('assets/sounds/hit1.mp3', vol)  
           }
           while (reflected && mx>=0){
             mx--;

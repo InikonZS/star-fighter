@@ -60,8 +60,10 @@ class Camera{
   }
 
   rotateCam(dx, dy){
-    this.camRX += (dx / 100);
-    this.camRY += (dy / 100);
+    //this.camRX += (dx*Math.abs(dx) / 1000);
+    //this.camRY += (dy*Math.abs(dy) / 1000);
+    this.camRX += (dx / 200);
+    this.camRY += (dy / 200);
     this.camRZ += 0;
     if (this.camRY>0){ this.camRY=0 }
     if (this.camRY<-Math.PI){ this.camRY=-Math.PI}

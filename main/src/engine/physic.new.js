@@ -5,10 +5,12 @@ class Physic{
   constructor(vertexList){
     this.triangles = [];
     let v;
+    let ind;
     for (let i=0; i<vertexList.length; i+=9){
       v=[];
       for (let j=0; j<3; j+=1){
-        v[j] = new Vector3d(vertexList[i+j*3+0], vertexList[i+j*3+1], vertexList[i+j*3+2]);
+        ind = i+j*3;
+        v[j] = new Vector3d(vertexList[ind+0], vertexList[ind+1], vertexList[ind+2]);
       }
       let tri = new Triangle(v[0], v[1], v[2]);  
       this.triangles.push(tri);
@@ -41,10 +43,10 @@ class Physic{
 
 function getNearest(p, list){
   let minit;
-  let minlen = 999999;
+  let minlen = 9999999;
   let dist;
   list.forEach(it=>{
-    dist = p.subVector(it.dv).abs();
+    dist = p.subVector(it.dv).abq();
     if (dist<minlen){
       dist = minlen;
       minit = it;
@@ -69,6 +71,7 @@ class Triangle{
     this.cl = w.subVector(u).abs();
     this.pr = (this.al+this.bl+this.cl)/2;
     let pr = this.pr;
+    this.prq = (pr*pr/4);
     this.s = Math.sqrt(pr*(pr-this.al)*(pr-this.bl)*(pr-this.cl));
     this.center = u.addVector(v).addVector(w).mul(1/3);
   }
@@ -82,7 +85,7 @@ class Triangle{
   }
 
   inTriangle(p){
-    if (p.subVector(this.center).abs()>this.pr) {return false;}
+    if (p.subVector(this.center).abq()>this.prq) {return false;}
 
     let ap = this.a.subVector(p).abs();
     let bp = this.b.subVector(p).abs();

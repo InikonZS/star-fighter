@@ -75,16 +75,16 @@ class Player extends GameObject {
       shieldbox.process_(deltaTime);
 
       this.speedVectorSync = this.camera.getSpeedVector().mul(deltaTime);
-      this.render_(deltaTime);
+      //this.render_(deltaTime);
     }
 
     this.onReact = (ob)=>{
     //if (!(el && el.speedVectorSync)){ return;}
       if (ob.type == 'solid'){
         if (calc.isCrossedSimple(ob.hitPosition, this.camera.getPosVector(), this.speedVectorSync, ob.hitDist*1.2)){
-          let spv = this.speedVectorSync;
-          if (this.speedVectorSync.abs()<0.01){spv = this.camera.getSpeedVector().normalize().mul(0.01); }
-          let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, this.camera.getPosVector(), this.speedVectorSync);
+          //let spv = this.speedVectorSync;
+          //if (this.speedVectorSync.abs()<0.01){spv = this.camera.getSpeedVector().normalize().mul(0.01); }
+          let reflected = ob.physicList.mirrorVector(this.camera.getPosVector(), this.speedVectorSync);
           if (reflected){
             this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()*0.3));  
           }

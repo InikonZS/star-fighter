@@ -77,6 +77,12 @@ class GameObject{
       }
     }
   }
+
+  clear(){
+    this.childList.forEach(it=>{
+      it.deleteSelf();
+    });
+  }
 }
 
 module.exports = GameObject;
