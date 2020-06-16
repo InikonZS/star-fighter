@@ -10,6 +10,7 @@ class GameMenu extends Control{
     this.health = new Control(this.tool.node, 'div', 'panel_item' ,'health: ');
     this.bullets = new Control(this.tool.node, 'div', 'panel_item','bullets: ');
     this.shield = new Control(this.tool.node, 'div', 'panel_item','shield: ');
+    this.missionTarget = new Control(this.tool.node, 'div', 'panel_item','targets: ');
   }
 
 }

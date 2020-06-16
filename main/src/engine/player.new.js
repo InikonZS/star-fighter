@@ -111,6 +111,10 @@ class Player extends GameObject {
             anyutils.playSoundUrl('assets/sounds/error.mp3')
             ob.deleteSelf();
           }
+          
+          if (ob.onCollect){
+            ob.onCollect();
+          }
         };
       }
     }

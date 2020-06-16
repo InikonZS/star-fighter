@@ -9,6 +9,7 @@ const Message = require('./point-msg.new.js');
 const GameObject = require('./game-object.new.js');
 const Timer = require('./timer.new.js');
 const Collectable = require('./collectable.new.js');
+const TargetList = require('./mission-target.new.js');
 
 class Game{
   constructor(gl, glCanvas){
@@ -19,6 +20,15 @@ class Game{
     this.player = new Player(gl, this, glCanvas.keyboardState);
     this.timers = new GameObject();
     this.messageList = new GameObject();
+  /*  this.targets = new GameObject();
+    this.targets.onChange = ()=>{
+      let msg = '';
+      this.targets.childList.forEach(it=>{
+         msg += '<div>'+it.text +' ' +it.status +'</div>';
+      });
+      this.glCanvas.gamePanel.missionTarget.node.innerHTML = msg;
+    }*/
+    this.targets = new TargetList(this);
     
     mission1(this);
 
@@ -26,6 +36,7 @@ class Game{
 
   render(aspect, deltaTime){
     this.player.render_(deltaTime);
+    //this.targets.render(deltaTime);
     var camera = this.player.camera;
 
     var viewMatrix = calc.makeCameraMatrix(aspect, camera.camRX, camera.camRY, camera.camRZ, camera.posX, camera.posY, camera.posZ);
@@ -62,6 +73,7 @@ class Game{
     //this.player.camera.init();
     //this.timers.clear();
     this.messageList.clear();
+    this.targets.clear();
     this.world = new World(this.gl, this);  
     this.player = new Player(this.gl, this, this.glCanvas.keyboardState);
   }
@@ -139,7 +151,20 @@ function mission2(game){
 
   let enBasePos = new Vector3d(2000, 0, 0);
 
-  for (let i=0; i<10; i++){new Enemy(game.gl, game, randVector(enBasePos, 500), new Vector3d(0,0,0));}
+  for (let i=0; i<10; i++){
+    let en = new Enemy(game.gl, game, randVector(enBasePos, 500), new Vector3d(0,0,0));
+    let target = game.targets.addTarget('kill enemy '+i);//new GameObject();
+    //target.text = 'kill enemy '+i;
+    //target.status = 'pending';
+    //game.targets.addChild(target);
+    en.targetPointer = target;
+    en.onKilled = ()=>{
+      en.targetPointer.setComplete();
+      //en.targetPointer.status = 'completed';
+      //game.targets.onChange();    
+    }
+  }
+  game.targets.onChange();
 
   let solidsPos = new Vector3d(1500, 0, 0);
   for (let i=0; i<20; i++){
