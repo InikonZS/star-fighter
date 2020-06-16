@@ -74,6 +74,7 @@ class Game{
     //this.timers.clear();
     this.messageList.clear();
     this.targets.clear();
+    this.targets.refresh();
     this.world = new World(this.gl, this);  
     this.player = new Player(this.gl, this, this.glCanvas.keyboardState);
   }
@@ -133,8 +134,8 @@ function mission1(game){
   }
   //big.matrix = m4.xRotate(big.matrix, Math.PI/2);
 
-  starChunk(game, new Vector3d(0,0,0), 500, 1000);
-  starChunk(game, enBasePos, 500, 1000);
+  starChunk(game, new Vector3d(0,0,0), 500, 200);
+  starChunk(game, enBasePos, 500, 200);
   game.addLabel('target', enBasePos,);
 }
 

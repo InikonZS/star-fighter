@@ -82,6 +82,7 @@ class GameObject{
     this.childList.forEach(it=>{
       it.deleteSelf();
     });
+    this.tryFilter();
   }
 }
 
