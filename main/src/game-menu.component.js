@@ -49,10 +49,10 @@ class GameMenu extends Control{
 
     this.mainMenuButtonM = new Control(this.missionMenu.node, 'div', 'menu_item', 'to main menu',()=>{
       this.menu.selectPage(this.mainMenu);
-     // this.background.show();
-     // this.background3.hide();
-     // this.background2.hide();
-      //this.deactivate();
+    });
+
+    this.mainMenuButtonO = new Control(this.gameOverMenu.node, 'div', 'menu_item', 'to main menu',()=>{
+      this.menu.selectPage(this.mainMenu);
     });
 
     ///3

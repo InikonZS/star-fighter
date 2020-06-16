@@ -44,13 +44,19 @@ class Player extends GameObject {
       console.log('hit');
       bullet.deleteSelf();
       rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
-      this.health-=rand(15)+3;
+      this.health-=rand(150)+3;
       this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
       if (this.health<0){
         console.log('dead');
         this.isAlive = false;
         this.game.world.createExplosion(this.camera.getPosVector().subVector(this.camera.getCamNormal().mul(2.10)),40);
         rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3') : anyutils.playSoundUrl('assets/sounds/expl2.mp3');
+       
+        setTimeout(()=>{
+          this.game.glCanvas.menu.activate();
+          this.game.glCanvas.menu.menu.selectPage(this.game.glCanvas.menu.gameOverMenu);
+          document.exitPointerLock();
+        },10);
       }
     });
     this.hitbox = hitbox;
