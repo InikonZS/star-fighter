@@ -3,7 +3,8 @@ const Utils = require('../any.utils.js');
 const calc = require('../calc.utils.js');
 
 class Weapon{
-  constructor(world, shotTime, bulletLifeTime, bulletSpeed, soundUrl){
+  constructor(world, shotTime, bulletLifeTime, bulletSpeed, soundUrl, name='gun'){
+    this.weaponName = name;
     this.initialShotTime = shotTime;
     this.shotTime = shotTime;
     this.bulletLifeTime = bulletLifeTime;

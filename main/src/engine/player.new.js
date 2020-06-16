@@ -14,7 +14,8 @@ class Player extends GameObject {
     this.keyStates = keyStates;
     let world = this.game.world
 
-    this.currentWeaponIndex = 1;
+    //this.currentWeaponIndex = 1;
+    
     this.isAlive = true;
     this.health = 100;
     this.bullets = 5000;
@@ -25,12 +26,13 @@ class Player extends GameObject {
     //this.domStates = 
 
     this.weapons=[
-      new Weapon(world, 0.15, 1.2, 130.1, 'assets/sounds/laser.mp3'),
-      new Weapon(world, 0.08, 0.7, 130.1, 'assets/sounds/auto.mp3'),
-      new Weapon(world, 0.35, 5.2, 260.1, 'assets/sounds/laser_med.mp3'),
-      new Weapon(world, 0.65, 1.2, 440.1, 'assets/sounds/laser_power.mp3'),
+      new Weapon(world, 0.15, 1.2, 130.1, 'assets/sounds/laser.mp3', 'laser'),
+      new Weapon(world, 0.08, 0.7, 130.1, 'assets/sounds/auto.mp3', 'auto'),
+      new Weapon(world, 0.35, 5.2, 260.1, 'assets/sounds/laser_med.mp3', 'phaser'),
+      new Weapon(world, 0.65, 1.2, 440.1, 'assets/sounds/laser_power.mp3', 'railgun'),
     ];
-
+    this.setWeapon(1);
+    
     this.camera = new Camera(game.world, keyStates);
     this.camera.init();
 
@@ -56,7 +58,7 @@ class Player extends GameObject {
           this.game.glCanvas.menu.activate();
           this.game.glCanvas.menu.menu.selectPage(this.game.glCanvas.menu.gameOverMenu);
           document.exitPointerLock();
-        },10);
+        },50);
       }
     });
     this.hitbox = hitbox;
@@ -176,6 +178,7 @@ class Player extends GameObject {
 
   setWeapon(weaponIndex){
     this.currentWeaponIndex = weaponIndex;
+    this.game.glCanvas.gamePanel.weapon.node.textContent = this.weapons[this.currentWeaponIndex-1].weaponName;
   }
 }
 
