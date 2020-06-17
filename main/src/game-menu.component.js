@@ -11,6 +11,7 @@ class GameMenu extends Control{
     this.menu = new Pager(this.node, '', 'menu_background');
 
     this.mainMenu = this.menu.addPage('Main Menu');
+    this.optionsMenu = this.menu.addPage('Options');
     this.missionMenu = this.menu.addPage('Select Mission');
     this.gameMenu = this.menu.addPage('Paused');
     this.gameOverMenu = this.menu.addPage('Game Over');
@@ -20,6 +21,13 @@ class GameMenu extends Control{
       this.menu.selectPage(this.missionMenu);
     });
 
+    this.optionsButton = new Control(this.mainMenu.node, 'div', 'menu_item', 'options',()=>{
+      this.menu.selectPage(this.optionsMenu);
+    });
+    new Control(this.optionsMenu.node, 'div', 'menu_item', 'to main menu',()=>{
+      this.menu.selectPage(this.mainMenu);
+    });
+
 
     ////
     //this.background2 = new Control(this.node, 'div', 'menu_background');
@@ -27,24 +35,27 @@ class GameMenu extends Control{
     this.m1Button = new Control(this.missionMenu.node, 'div', 'menu_item', 'mission1',()=>{
       this.glCanvas.start();
       this.glCanvas.game.loadMission('1');
-      this.isActive = false;
-      this.refresh();
+      //this.isActive = false;
+      //this.deactivate();
+      //this.refresh();
       this.menu.selectPage(this.gameMenu);
      // this.background3.show();
       //this.background2.hide();
      // this.background.hide();
-      //this.deactivate();
+      this.deactivate(true);
     });
 
     this.m2Button = new Control(this.missionMenu.node, 'div', 'menu_item', 'mission2',()=>{
       this.glCanvas.start();
       this.glCanvas.game.loadMission('');
-      this.isActive = false;
-      this.refresh();
+      
+      //this.isActive = false;
+      //this.refresh();
       this.menu.selectPage(this.gameMenu);
      /* this.background3.show();
       this.background2.hide();
       this.background.hide();*/
+      this.deactivate(true);
     });
 
     this.mainMenuButtonM = new Control(this.missionMenu.node, 'div', 'menu_item', 'to main menu',()=>{
@@ -77,12 +88,16 @@ class GameMenu extends Control{
     if (this.glCanvas.isStarted){
       this.glCanvas.pause();
     }
+    this.glCanvas.gamePanel.hide();
     this.isActive = true;
     this.refresh();
   }
 
-  deactivate(){
-    this.glCanvas.resume();
+  deactivate(res){
+    if (!res){
+      this.glCanvas.resume();
+    }
+    this.glCanvas.gamePanel.show();
     this.isActive = false;
     this.refresh();
   }

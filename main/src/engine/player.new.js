@@ -18,7 +18,7 @@ class Player extends GameObject {
     
     this.isAlive = true;
     this.health = 100;
-    this.bullets = 5000;
+    //this.bullets = 5000;
 
     this.shieldEnergy = 100;
     this.shieldTime = 2;
@@ -26,13 +26,13 @@ class Player extends GameObject {
     //this.domStates = 
 
     this.weapons=[
-      new Weapon(world, 0.15, 1.2, 130.1, 'assets/sounds/laser.mp3', 'laser'),
-      new Weapon(world, 0.08, 0.7, 130.1, 'assets/sounds/auto.mp3', 'auto'),
-      new Weapon(world, 0.35, 5.2, 260.1, 'assets/sounds/laser_med.mp3', 'phaser'),
-      new Weapon(world, 0.65, 1.2, 440.1, 'assets/sounds/laser_power.mp3', 'railgun'),
+      new Weapon(world, 0.15, 1.2, 130.1, 'assets/sounds/laser.mp3', 'laser',100),
+      new Weapon(world, 0.08, 0.7, 130.1, 'assets/sounds/auto.mp3', 'auto', 1000),
+      new Weapon(world, 0.35, 5.2, 260.1, 'assets/sounds/laser_med.mp3', 'phaser', 60),
+      new Weapon(world, 0.65, 1.2, 440.1, 'assets/sounds/laser_power.mp3', 'railgun',70),
     ];
     this.setWeapon(1);
-    
+
     this.camera = new Camera(game.world, keyStates);
     this.camera.init();
 
@@ -46,7 +46,7 @@ class Player extends GameObject {
       console.log('hit');
       bullet.deleteSelf();
       rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
-      this.health-=rand(150)+3;
+      this.health-=rand(15)+3;
       this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
       if (this.health<0){
         console.log('dead');
@@ -102,10 +102,11 @@ class Player extends GameObject {
       if (ob.type == 'collectable'){
         if (calc.isCrossedSimple(ob.hitPosition, this.camera.getPosVector(), this.speedVectorSync, ob.hitDist)){
           if (ob.bonus == 'bullets'){
-            this.bullets+=ob.bonus_count;
+            this.weapons[this.currentWeaponIndex-1].bulletCount+=ob.bonus_count;
             anyutils.playSoundUrl('assets/sounds/reload.mp3')
             ob.deleteSelf();
-            this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.bullets;
+            this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.weapons[this.currentWeaponIndex-1].bulletCount;
+            
           }
 
           if (ob.bonus == 'health'){
@@ -151,14 +152,15 @@ class Player extends GameObject {
   }
 
   shot(weaponIndex){
-    if (this.bullets>0){
+
+    //if (this.bullets>0){
       if (this.weapons[weaponIndex].shot(this.camera.getPosVector().subVector(this.camera.getCamNormal().mul(2.10)), 
       this.camera.getCamNormal().mul(-1).addVector(this.camera.getSpeedVector().mul(1/this.weapons[weaponIndex].bulletSpeed))
       )){
-        this.bullets--;
-        this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.bullets;
+        //this.bullets--;
+        this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.weapons[weaponIndex].bulletCount;
       }
-    }
+    //}
   }
   
   shieldActivate(deltaTime){
@@ -179,6 +181,7 @@ class Player extends GameObject {
   setWeapon(weaponIndex){
     this.currentWeaponIndex = weaponIndex;
     this.game.glCanvas.gamePanel.weapon.node.textContent = this.weapons[this.currentWeaponIndex-1].weaponName;
+    this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.weapons[weaponIndex-1].bulletCount;
   }
 }
 

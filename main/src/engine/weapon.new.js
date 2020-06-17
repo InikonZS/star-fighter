@@ -3,8 +3,10 @@ const Utils = require('../any.utils.js');
 const calc = require('../calc.utils.js');
 
 class Weapon{
-  constructor(world, shotTime, bulletLifeTime, bulletSpeed, soundUrl, name='gun'){
+  constructor(world, shotTime, bulletLifeTime, bulletSpeed, soundUrl, name='gun', bulletCount=100){
     this.weaponName = name;
+    this.bulletCount = bulletCount;
+
     this.initialShotTime = shotTime;
     this.shotTime = shotTime;
     this.bulletLifeTime = bulletLifeTime;
@@ -16,7 +18,11 @@ class Weapon{
     }
   }
   shot(point, direction, playerPos){
+    
+
     if (calc.isTimeout(this.shotTime)){
+    if (this.bulletCount<=0){return;}
+    this.bulletCount--;
       this.world.createBullet(point, direction.mul(this.bulletSpeed), this.bulletLifeTime);
       this.shotTime = this.initialShotTime;
       if (this.soundUrl){
