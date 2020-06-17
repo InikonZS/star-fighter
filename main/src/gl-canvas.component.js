@@ -9,7 +9,7 @@ const calc = require('./calc.utils.js');
 
 class GLCanvas extends Control{
   constructor(parentNode, width, height){
-    super (parentNode, 'canvas', '', '', ()=>{
+    super (parentNode, 'canvas', 'canvas_style', '', ()=>{
       //this.node.requestPointerLock();
     });
     parentNode.style = 'position:relative';
@@ -126,10 +126,12 @@ function setController(glCanvas){
   });
 
   document.addEventListener('keydown', (e)=>{
+    e.preventDefault();
     Controller.keyDownHandler(glCanvas, e)
   });
 
   document.addEventListener('keyup', (e)=>{
+    e.preventDefault();
     Controller.keyUpHandler(glCanvas, e);
   });
 }
