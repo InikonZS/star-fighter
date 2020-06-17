@@ -71,10 +71,33 @@ class Camera{
 
   process(deltaTime){
     this.dt = deltaTime;
+    if (this.keyboardState.left){
+      this.camRX -= (1 / 200);
+      let moveSpeed =0.3;
+      let matrix = m4.identity(); 
+      matrix = m4.zRotate(matrix, moveSpeed * deltaTime);
+      let spd = this.getSpeedVector().toVec4();
+      let sp = m4.transformVector(matrix, spd);
+      this.setSpeedVector(new Vector3d(0,0,0).fromList(sp, 0));
+      //let moveSpeed = 5;
+      //trueVolumeCamera(this, moveSpeed, deltaTime, [1,0,0,0]); 
+    }
+    if (this.keyboardState.right){
+      this.camRX += (1 / 200);
+      let moveSpeed =-0.3;
+      let matrix = m4.identity(); 
+      matrix = m4.zRotate(matrix, moveSpeed * deltaTime);
+      let spd = this.getSpeedVector().toVec4();
+      let sp = m4.transformVector(matrix, spd);
+      this.setSpeedVector(new Vector3d(0,0,0).fromList(sp, 0));
+      //let moveSpeed = 5;
+      //trueVolumeCamera(this, moveSpeed, deltaTime, [-1,0,0,0]); 
+    }
     if (this.keyboardState.forward){
       let moveSpeed = 10.3;
-      trueVolumeCamera(this, moveSpeed, deltaTime);
+      trueVolumeCamera(this, moveSpeed, deltaTime, [0,0,1,0]);
     }
+
     //let cam = glCanvas.camera;
     let cam = this;
     //todo SYNC it with game time!!!
@@ -88,8 +111,8 @@ class Camera{
   }
 }
 
-function trueVolumeCamera(cam, moveSpeed, deltaTime){
-  let nvv =[0,0,1,0];
+function trueVolumeCamera(cam, moveSpeed, deltaTime, accv){
+  let nvv =accv;//[0,0,1,0];
   let matrix = m4.identity(); 
   matrix = m4.xRotate(matrix, cam.camRY);
   matrix = m4.yRotate(matrix, cam.camRZ);

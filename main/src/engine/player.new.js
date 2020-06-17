@@ -29,7 +29,7 @@ class Player extends GameObject {
       new Weapon(world, 0.15, 1.2, 130.1, 'assets/sounds/laser.mp3', 'laser',100),
       new Weapon(world, 0.08, 0.7, 130.1, 'assets/sounds/auto.mp3', 'auto', 1000),
       new Weapon(world, 0.35, 5.2, 260.1, 'assets/sounds/laser_med.mp3', 'phaser', 60),
-      new Weapon(world, 0.65, 1.2, 440.1, 'assets/sounds/laser_power.mp3', 'railgun',70),
+      new Weapon(world, 0.65, 3.2, 740.1, 'assets/sounds/laser_power.mp3', 'railgun',70),
     ];
     this.setWeapon(1);
 
