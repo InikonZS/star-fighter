@@ -22,7 +22,7 @@ class GLCanvas extends Control{
     this.averageRenderTime =0;
     this.info = new Control(parentNode,'div');
 
-    this.fullScreenButton = new Control(parentNode, 'div', '', 'fullScreen', ()=>{
+    this.fullScreenButton = new Control(parentNode, 'div', 'fullscreen_button', 'fullScreen', ()=>{
       parentNode.requestFullscreen();
     });
 

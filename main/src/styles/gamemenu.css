@@ -8,10 +8,23 @@
 }
 
 .menu_item{
-  color:#fff;
-  background-color: #00000088;
-  padding:10px;
-  margin:5px;
+  color: #f53;
+  background-color: #444;
+  padding: 10px;
+  margin: 5px;
+  width: max-content;
+  border-radius: 10px;
+  font-size: 11pt;
+  min-width: 200px;
+  font-family: sans-serif;
+  font-weight: 600;
+  transform-origin: center left;
+transition-duration: 300ms;
+}
+
+.menu_item:hover{
+  background-color: #474747;  
+  transform: scaleX(1.05) scaleY(1.1);
 }
 
 .view_panel{
