@@ -22,17 +22,7 @@ class Game{
     this.player = new Player(gl, this, glCanvas.keyboardState);
     this.timers = new GameObject();
     this.messageList = new GameObject();
-  /*  this.targets = new GameObject();
-    this.targets.onChange = ()=>{
-      let msg = '';
-      this.targets.childList.forEach(it=>{
-         msg += '<div>'+it.text +' ' +it.status +'</div>';
-      });
-      this.glCanvas.gamePanel.missionTarget.node.innerHTML = msg;
-    }*/
     this.targets = new TargetList(this);
-    
-   // mission1(this);
 
   }
 
@@ -156,15 +146,10 @@ function mission2(game){
 
   for (let i=0; i<10; i++){
     let en = new Enemy(game.gl, game, randVector(enBasePos, 500), new Vector3d(0,0,0));
-    let target = game.targets.addTarget('kill enemy '+i);//new GameObject();
-    //target.text = 'kill enemy '+i;
-    //target.status = 'pending';
-    //game.targets.addChild(target);
+    let target = game.targets.addTarget('kill enemy '+i);
     en.targetPointer = target;
     en.onKilled = ()=>{
-      en.targetPointer.setComplete();
-      //en.targetPointer.status = 'completed';
-      //game.targets.onChange();    
+      en.targetPointer.setComplete();   
     }
   }
   game.targets.onChange();

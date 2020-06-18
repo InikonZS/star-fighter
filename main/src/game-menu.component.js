@@ -28,33 +28,21 @@ class GameMenu extends Control{
       this.menu.selectPage(this.mainMenu);
     });
 
+    this.exitButton = new Control(this.mainMenu.node, 'div', 'menu_item', 'exit',()=>{
+      document.exitFullscreen();
+    });
 
-    ////
-    //this.background2 = new Control(this.node, 'div', 'menu_background');
-    //this.background2.hide();
     this.m1Button = new Control(this.missionMenu.node, 'div', 'menu_item', 'mission1',()=>{
       this.glCanvas.start();
       this.glCanvas.game.loadMission('1');
-      //this.isActive = false;
-      //this.deactivate();
-      //this.refresh();
       this.menu.selectPage(this.gameMenu);
-     // this.background3.show();
-      //this.background2.hide();
-     // this.background.hide();
       this.deactivate(true);
     });
 
     this.m2Button = new Control(this.missionMenu.node, 'div', 'menu_item', 'mission2',()=>{
       this.glCanvas.start();
       this.glCanvas.game.loadMission('');
-      
-      //this.isActive = false;
-      //this.refresh();
       this.menu.selectPage(this.gameMenu);
-     /* this.background3.show();
-      this.background2.hide();
-      this.background.hide();*/
       this.deactivate(true);
     });
 
@@ -66,21 +54,12 @@ class GameMenu extends Control{
       this.menu.selectPage(this.mainMenu);
     });
 
-    ///3
-    //this.background3 = new Control(this.node, 'div', 'menu_background');
     this.resumeButton = new Control(this.gameMenu.node, 'div', 'menu_item', 'continue',()=>{
       this.deactivate();
     });
     this.mainMenuButton = new Control(this.gameMenu.node, 'div', 'menu_item', 'to main menu',()=>{
       this.menu.selectPage(this.mainMenu);
-     // this.background.show();
-     // this.background3.hide();
-     // this.background2.hide();
-      //this.deactivate();
     });
-  //  this.background2.hide();
-  //    this.background.show();
-  //    this.background3.hide();
     this.refresh();
   }
 
