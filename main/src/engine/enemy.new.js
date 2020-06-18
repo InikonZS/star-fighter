@@ -130,6 +130,15 @@ class Enemy extends GameObject{
     if (this.azi.y>Math.PI-0.01){this.azi.y=Math.PI-0.01};
     if (this.azi.y<0.01){this.azi.y=0.01};
   }
+  
+  /*shotMovingTarget(targetPos, targetSpeed){
+    let dist = this.pos.subVector(targetPos).abs();
+    let time = dist/this.weapon.bulletSpeed;
+    let dir = this.pos.subVector(targetPos.addVector(targetSpeed.subVector(this.v.mul(1)).mul(time))).normalize();
+    if (Math.abs(getAngleBetweenVectors(dir, this.nv))<Math.random()*0.61){
+      if (Math.random()<0.3) {this.shot();}
+    }
+  }*/
 
   logic(playerPosition, playerSpeed, deltaTime){
     let dir;
@@ -142,6 +151,8 @@ class Enemy extends GameObject{
         if (Math.abs(getAngleBetweenVectors(dir, this.nv))<Math.random()*0.61){
           if (Math.random()<0.3) {this.shot();}
         }
+
+        //this.shotMovingTarget(playerPosition, playerSpeed);
         //this.weapon.shot(this.gl, app.glCanvas.scene.bullets, this.pos.addVector(this.nv.mul(-3)), 
         //this.nv.mul(-1).addVector(this.v.mul(1/this.weapon.bulletSpeed))
         //);

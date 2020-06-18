@@ -150,7 +150,7 @@ function getCameraSelfMatrix(cam){
 
   let mts = cam.getNormalMatrix();
   mts = m4.xRotate(mts,Math.PI/2);
-  mts = m4.yRotate(mts,Math.PI/2);
+  //mts = m4.yRotate(mts,Math.PI/2);
   mts = m4.multiply(mmt, mts);
   return mts;
 }

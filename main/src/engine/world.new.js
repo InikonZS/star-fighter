@@ -7,7 +7,7 @@ const GLUtils = require('../gl-utils.js');
 //const meteModel = require('../models/mete.model.js');
 const rocketModel = require('../models/tf.model.js');
 const rocketModel1 = require('../models/rocket.model.js');
-const selfModel = require('../models/self1.model.js');
+//const selfModel = require('../models/self1.model.js');
 const selfModel1 = require('../models/self.model.js');
 const bigModel = require('../models/big.model.js');
 const boxModel = require('../models/box.model.js');
@@ -38,6 +38,7 @@ class World{
   constructor(gl, game){
     //dynamic loaded res
     const meteModel = window.gameResource.list[0].source;
+    const selfModel = window.gameResource.list[calc.rand(3)+2].source;
     //
 
     console.log('making world');
