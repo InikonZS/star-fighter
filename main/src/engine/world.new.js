@@ -39,6 +39,12 @@ class World{
     //dynamic loaded res
     const meteModel = window.gameResource.list[0].source;
     const selfModel = window.gameResource.list[calc.rand(3)+2].source;
+    const ships = [
+      window.gameResource.list[5],
+      window.gameResource.list[6],
+      window.gameResource.list[7],
+      window.gameResource.list[8]
+    ];
     //
 
     console.log('making world');
@@ -72,6 +78,12 @@ class World{
     this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
     this.selfModelList = this.solidUntexturedShaderList.createModelList(selfModel);
     this.bigModelList = this.solidTexturedShaderList.createModelList(bigModel, 'assets/textures/Trident_UV_Dekol_Color.png');
+
+    this.shipLists = [];
+    for (let i = 0; i<ships.length; i++){
+      let ship = this.solidTexturedShaderList.createModelList(ships[i].source, ships[i].tex);
+      this.shipLists.push(ship);
+    }
     //Trident_UV_Dekol_Color.tif
 
     let chunkMesh = getChunked(gl, boxModel, 130, (i)=>{

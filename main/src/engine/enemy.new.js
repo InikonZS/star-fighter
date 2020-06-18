@@ -45,7 +45,8 @@ class Enemy extends GameObject{
     game.messageList.addChild(msg);
     this.msg = msg;
 
-    this.model = this.game.world.tieModelList.createStaticItem(mtx);
+    //this.model = this.game.world.tieModelList.createStaticItem(mtx);
+    this.model = this.game.world.shipLists[calc.rand(this.game.world.shipLists.length)].createStaticItem(mtx);
     let hitbox = this.game.world.createBreakable(this.pos, 5);
     hitbox.type = 'object';
     hitbox.visible = false;
