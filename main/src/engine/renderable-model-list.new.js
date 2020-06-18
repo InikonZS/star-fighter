@@ -9,7 +9,9 @@ class RenderableModelList extends GameObject {
     this.shaderVariables = shaderVariables;
     this.mesh = new Mesh(gl);
     this.mesh.loadFromSource(modelSource);
-    
+    //this.mesh.center = this.mesh.getCenter();
+    //console.log(this.mesh.center)
+
     this.onDelete = ()=>{
       this.mesh.deleteBuffers();  
     }

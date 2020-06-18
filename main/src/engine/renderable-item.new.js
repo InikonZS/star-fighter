@@ -1,7 +1,8 @@
 const GameObject = require('./game-object.new.js');
+const Vector3d = require('../vector3d.dev.js');
 
 class RenderableItem extends GameObject {
-  constructor(shaderVariables, meshPointer, matrix, color){
+  constructor(shaderVariables, meshPointer, matrix, color, maxVisibleDist){
     super();
     this.meshPointer = meshPointer;
     this.shaderVariables = shaderVariables;
@@ -9,8 +10,14 @@ class RenderableItem extends GameObject {
     this.count = meshPointer.vertexList.length / 3;
     this.color = color || randomColor();
     this.visible = true;
+    this.maxVisibleDistance = maxVisibleDist;
 
-    this.onRender = (gl)=>{
+    this.pos_ = new Vector3d(this.matrix[12], this.matrix[13], this.matrix[14]);
+
+    this.onRender = (gl, props)=>{
+      if (this.maxVisibleDistance && (props.game.player.camera.getPosVector().subVector(this.pos_).abs()>this.maxVisibleDistance)){
+        return;
+      }
       if (this.visible){
         gl.uniformMatrix4fv(this.shaderVariables.worldUniMat4, false, this.matrix); 
         let color = this.color;

@@ -113,7 +113,7 @@ class World{
     this.bulletList.react(this.breakableList);
     this.objectList.react(this.breakableList);
     //this.bulletList.react(this.objectList);
-    this.graphicList.render(this.gl, {viewMatrix, deltaTime});
+    this.graphicList.render(this.gl, {viewMatrix, deltaTime, game:this.game});
   }
 
   createExplosion (pos, scale){

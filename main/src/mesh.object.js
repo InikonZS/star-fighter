@@ -15,6 +15,7 @@ class Mesh{
     this.normalList = modelObject.normalList;
     this.texList = modelObject.texList;
     this.maxDistance = getMaxDistance(this.vertexList);
+    //this.center = this.getCenter();
     this.makeBuffers();
     return this;
   }
@@ -53,6 +54,10 @@ class Mesh{
     gl.deleteBuffer(this.normBuffer);
     gl.deleteBuffer(this.texBuffer);
   }
+
+  getCenter(){
+    return getCenter(this.vertexList);
+  }
 }
 
 function getMaxDistance(vertexList){
@@ -65,6 +70,19 @@ function getMaxDistance(vertexList){
     }
   }
   return max;
+}
+
+function getCenter(vertexList){
+  let res;
+  for (let i=0; i<vertexList.length; i+=3){
+    let v = new Vector3d(vertexList[i+0], vertexList[i+1], vertexList[i+2]);
+    if (!res){
+      res = v;
+    } else {
+      res = res.addVector(v).mul(0.5);
+    }
+  }
+  return res;
 }
 
 module.exports = Mesh;

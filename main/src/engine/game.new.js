@@ -102,7 +102,7 @@ function starChunk(game, center, size, count){
     mt = m4.translate(mt, a.x, a.y, a.z);
     mt = m4.xRotate(mt, Math.random()*Math.PI*2);
     mt = m4.yRotate(mt, Math.random()*Math.PI);
-    game.world.chunkList.createStaticItem(mt, {r:Math.random(),g:Math.random(),b:0.5});
+    game.world.chunkList.createStaticItem(mt, {r:Math.random(),g:Math.random(),b:0.5}, 1000);//del magic num
   }  
 }
 

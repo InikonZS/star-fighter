@@ -12,8 +12,8 @@ class SolidUntexturedModelList extends RenderableModelList{
     }
   }
 
-  createStaticItem(matrix, color){
-    return this.addChild(new RenderableItem(this.shaderVariables, this.mesh, matrix, color));  
+  createStaticItem(matrix, color, maxVisibleDist){
+    return this.addChild(new RenderableItem(this.shaderVariables, this.mesh, matrix, color, maxVisibleDist));  
   }
 
   createRotatingItem(position, sx, sy, sz, color){
