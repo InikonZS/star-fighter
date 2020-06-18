@@ -11,6 +11,8 @@ const Timer = require('./timer.new.js');
 const Collectable = require('./collectable.new.js');
 const TargetList = require('./mission-target.new.js');
 
+const utils = require('../any.utils.js');
+
 class Game{
   constructor(gl, glCanvas){
     this.gl = gl;
@@ -30,7 +32,7 @@ class Game{
     }*/
     this.targets = new TargetList(this);
     
-    mission1(this);
+   // mission1(this);
 
   }
 
@@ -78,7 +80,7 @@ class Game{
     this.world = new World(this.gl, this);  
     this.player = new Player(this.gl, this, this.glCanvas.keyboardState);
   }
-
+  
   loadMission(name){
     this.clear();
     if (name=='1'){
@@ -129,7 +131,7 @@ function mission1(game){
     game.world.createSolid(randVector(solidsPos, 500), rand(60)+10, {r:Math.random(),g:Math.random(),b:0.5});
   }
 
-  for (let i=0; i<16; i++){
+  for (let i=0; i<1; i++){
     let big = game.world.createSolid(randVector(new Vector3d (500,0,0),500), 10, {r:Math.random(),g:Math.random(),b:0.5}, 'bigModel');
   }
   //big.matrix = m4.xRotate(big.matrix, Math.PI/2);

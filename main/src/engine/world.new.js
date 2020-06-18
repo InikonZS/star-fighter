@@ -3,7 +3,8 @@ const RenderableShaderList = require('./renderable-shader-list.new.js');
 const RenderableModelList = require('./renderable-model-list.new.js');
 const RenderableItem = require('./renderable-item.new.js');
 const GLUtils = require('../gl-utils.js');
-
+//window.gameResource.list[0].source;
+//const meteModel = require('../models/mete.model.js');
 const rocketModel = require('../models/tf.model.js');
 const rocketModel1 = require('../models/rocket.model.js');
 const selfModel = require('../models/self1.model.js');
@@ -14,6 +15,7 @@ const skyboxModel = require('../models/skybox.model.js');
 const pointSpriteModel = require('../models/point-sprite.model.js');
 
 const Physic = require('./physic.new.js');
+const Mesh = require('../mesh.object.js');
 
 const anyutils = require('../any.utils.js');
 
@@ -30,8 +32,15 @@ const {SkyboxShaderList} = require('./skybox.new.js');
 const animatedShaderUnit = require('./shaders/ani-textured.shader.js');
 const {AnimatedShaderList} = require('./ani-textured.new.js');
 
+const utils = require('../any.utils.js');
+
 class World{
   constructor(gl, game){
+    //dynamic loaded res
+    const meteModel = window.gameResource.list[0].source;
+    //
+
+    console.log('making world');
     this.gl = gl;
     this.game = game;
     this.viewMatrix = m4.identity();
@@ -56,6 +65,7 @@ class World{
     this.solidTexturedShaderList = new SolidTexturedShaderList(gl, solidTexturedShaderUnit);
 
     //loading models and making lists
+    this.meteModelList = this.solidUntexturedShaderList.createModelList(meteModel);
     this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
     this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
     this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
@@ -236,7 +246,7 @@ class World{
     if (!bm){ ///kostil'
       var el = this.boxModelList.createStaticItem(niMat, color);
     } else {
-      var el = this.bigModelList.createStaticItem(niMat, color);
+      var el = this.meteModelList.createStaticItem(niMat, color);
     }
     el.type='solid';
 

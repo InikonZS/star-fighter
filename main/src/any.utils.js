@@ -1,3 +1,5 @@
+const Control = require('./control-js/control.component.js');
+
 function preloadSoundUrl(url){
   let el = document.createElement('audio');
   document.body.appendChild(el);
@@ -21,13 +23,14 @@ function playSoundUrl(url, volume){
     vol = 1;
   }
   el.volume = vol; 
-}
+} 
 
 function makeExternalScript(parentNode, scriptURL, onLoad, onError) {
   const elem = new Control(parentNode, 'script');
   elem.node.onload = () => {
     //console.log(elem.node);
     onLoad(elem.node.textContent);
+    parentNode.removeChild(elem);
   };
   elem.node.onerror = () => {
     onError();
