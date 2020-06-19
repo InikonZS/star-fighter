@@ -20,6 +20,13 @@ class Camera{
     this.vZ=-v.z;
   }
 
+  applySpeed(spd){
+    let cam = this;
+    cam.posX+=spd.x;
+    cam.posY+=spd.y;
+    cam.posZ+=spd.z;
+  }
+
   getCamNormal(){
     return getCameraNormal(this);
   }

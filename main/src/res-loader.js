@@ -1,22 +1,12 @@
 const modelConfig = {
-  /*TIE_IN_Diff
-TIE_LN_Diff
-TIE_sa_Diff
-Z-95_Diff
-
-Tie_Bomber
-Tie_Fighter
-Tie_Interceptor
-Z-95_Headhunter */
   list:[
     {
       name: "mete",
       url: "assets/models/mete-scaled.obj",
     },
     {
-      name: "tie_interceptor",
-      url: "assets/models/Tie_Interceptor.obj",
-      tex: "assets/textures/TIE_IN_Diff.png"
+      name: "ship_user",
+      url: "assets/models/Ship_user.obj",
     },
     {
       name: "cab1",

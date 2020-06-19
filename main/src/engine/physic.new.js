@@ -39,6 +39,22 @@ class Physic{
     }
     return false;
   }
+
+  isCrossedByTriangle(tr){
+    for (let i = 0; i<this.triangles.length; i++){
+      if (this.triangles[i].isCrossedByTriangle(tr)){
+        return true;
+      }
+    }  
+  }
+
+  isCrossedByPhys(ms){
+    for (let i = 0; i<ms.triangles.length; i++){
+      if (this.isCrossedByTriangle(ms.triangles[i])){
+        return true;
+      }
+    }    
+  }
 }
 
 function getNearest(p, list){
@@ -108,6 +124,14 @@ class Triangle{
       if (calc.onLine(a, b, dVector)){
         res = dVector;
       }
+    }
+    return res;
+  }
+
+  isCrossedByTriangle(tr){
+    let res = false;
+    if (this.crossByLine(tr.a, tr.b) || this.crossByLine(tr.b, tr.c) || this.crossByLine(tr.c, tr.a)){
+      res = true;
     }
     return res;
   }

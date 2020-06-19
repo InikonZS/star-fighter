@@ -7,6 +7,8 @@ const Weapon = require('./weapon.new.js');
 const GameObject = require('./game-object.new.js');
 const anyutils = require('../any.utils.js');
 
+const Phys = require('./physic.new.js');
+
 class Player extends GameObject {
   constructor(gl, game, keyStates){
     super();
@@ -62,6 +64,8 @@ class Player extends GameObject {
       }
     });
     this.hitbox = hitbox;
+
+    
     
     let nearbox = makeHitBox(this, 5, (bullet)=>{
       console.log('near');
@@ -75,13 +79,14 @@ class Player extends GameObject {
       rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/error.mp3') : anyutils.playSoundUrl('assets/sounds/error.mp3');
     });
     this.nearbox = nearbox;
-
+//this.touch = new Phys(this.nearbox.mesh.vertexList);
     this.onProcess = (deltaTime) =>{
       this.model.matrix = this.camera.getSelfModelMatrix();
       hitbox.process_(deltaTime);
       nearbox.process_(deltaTime);
       shieldbox.process_(deltaTime);
 
+      this.touch = new Phys(this.hitbox.hitTransformed);
       this.speedVectorSync = this.camera.getSpeedVector().mul(deltaTime);
       //this.render_(deltaTime);
     }
@@ -92,10 +97,16 @@ class Player extends GameObject {
         if (calc.isCrossedSimple(ob.hitPosition, this.camera.getPosVector(), this.speedVectorSync, ob.hitDist*1.2)){
           //let spv = this.speedVectorSync;
           //if (this.speedVectorSync.abs()<0.01){spv = this.camera.getSpeedVector().normalize().mul(0.01); }
-          let reflected = ob.physicList.mirrorVector(this.camera.getPosVector(), this.speedVectorSync);
-          if (reflected){
-            this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()*0.3));  
+          if (ob.physicList.isCrossedByPhys(this.touch)){
+            let reflected = ob.physicList.mirrorVector(this.camera.getPosVector(), this.speedVectorSync.mul(1000));
+            if (reflected){
+              this.camera.applySpeed(this.speedVectorSync);
+              this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()*0.93));  
+            } else {
+              //this.camera.setSpeedVector(this.camera.getSpeedVector().mul(-1));
+            }
           }
+         /* */
         };
       }
 
