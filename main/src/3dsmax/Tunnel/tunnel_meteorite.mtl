@@ -1,5 +1,5 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
-# File Created: 19.06.2020 23:15:02
+# File Created: 21.06.2020 00:50:49
 
 newmtl 7___Default
 	Ns 10.0000
@@ -12,7 +12,7 @@ newmtl 7___Default
 	Kd 0.3098 0.2863 0.2706
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka E:\3d heaven\ALENA\Play\UVW_meteorite.png
-	map_Kd E:\3d heaven\ALENA\Play\UVW_meteorite.png
-	map_bump E:\3d heaven\ALENA\Play\UVW_meteorite.png
-	bump E:\3d heaven\ALENA\Play\UVW_meteorite.png
+	map_Ka E:\3d heaven\ALENA\Play\Tunnel\UVW_meteorite.png
+	map_Kd E:\3d heaven\ALENA\Play\Tunnel\UVW_meteorite.png
+	map_bump E:\3d heaven\ALENA\Play\Tunnel\UVW_meteorite.png
+	bump E:\3d heaven\ALENA\Play\Tunnel\UVW_meteorite.png
