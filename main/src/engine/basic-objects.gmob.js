@@ -37,15 +37,29 @@ function makeCollactable(world, pos, scale, modelList, onCollect){
   return ob;
 }
 
-function makeCollactable1(){
-  let ob = game.world.createSolid(startPoint, 5, calc.makeNormRGBA('0f0'));
-  ob.type = 'collectable';
-  ob.bonus = 'bullets';
-  ob.bonus_count = 30;
+function makeBreakable(world, pos, scale, modelList, onHit){
+  let ob = makePhysical(world, pos, scale, modelList, true, 'solid', false, onHit);
+  return ob;
+}
+
+function makeBreakableStrong(world, pos, scale, modelList, health, onKilled){
+  let ob = makePhysical(world, pos, scale, modelList, true, 'solid', false, (bullet)=>{
+    if (bullet.damage!==undefined){
+      ob.health-=bullet.damage;
+    } else {
+      ob.health--;
+    }
+    if (ob.health<=0){
+      onKilled();
+    }
+  });
+  ob.health = health;
   return ob;
 }
 
 module.exports = {
   makePhysical,
-  makeCollactable
+  makeCollactable,
+  makeBreakable,
+  makeBreakableStrong
 };

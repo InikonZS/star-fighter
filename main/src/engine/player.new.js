@@ -30,10 +30,10 @@ class Player extends GameObject {
     //this.domStates = 
 
     this.weapons=[
-      new Weapon(world, 0.15, 1.2, 130.1, 'assets/sounds/laser.mp3', 'laser',100),
-      new Weapon(world, 0.08, 0.7, 130.1, 'assets/sounds/auto.mp3', 'auto', 1000),
-      new Weapon(world, 0.35, 5.2, 260.1, 'assets/sounds/laser_med.mp3', 'phaser', 60),
-      new Weapon(world, 0.65, 3.2, 740.1, 'assets/sounds/laser_power.mp3', 'railgun',70),
+      new Weapon(world, 0.15, 1.2, 130.1, 'assets/sounds/laser.mp3', 'laser',100 , 2),
+      new Weapon(world, 0.08, 0.7, 130.1, 'assets/sounds/auto.mp3', 'auto', 1000, 1),
+      new Weapon(world, 0.35, 5.2, 260.1, 'assets/sounds/laser_med.mp3', 'phaser', 60, 4),
+      new Weapon(world, 0.65, 3.2, 740.1, 'assets/sounds/laser_power.mp3', 'railgun',70, 6),
     ];
     this.setWeapon(1);
 
@@ -137,7 +137,7 @@ class Player extends GameObject {
           }
           
           if (ob.onCollect){
-            ob.onCollect();
+            ob.onCollect(this);
           }
         };
       }

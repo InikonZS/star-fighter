@@ -5,8 +5,8 @@ const Message = require('./point-msg.new.js');
 const rand = calc.rand;
 const anyutils = require('../any.utils.js');
 
-class Bullet extends GameObject{
-  constructor(game, pos, speed, lifetime, color, weaponName){
+class Bullet extends GameObject{ //very bad class!!!refactor it or make func
+  constructor(game, pos, speed, lifetime, color, weaponName, damage){
     super();
     let world = game.world;
     let el;
@@ -28,6 +28,7 @@ class Bullet extends GameObject{
     }
 
     el.type = 'bullet';
+    el.damage = damage;
     el.weaponName = weaponName
 
     el.position = pos.mul(1);
@@ -75,8 +76,11 @@ class Bullet extends GameObject{
           let reflected = ob.physicList.mirrorVector(el.position, el.speedVectorSync);//calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
           let mx =10;
           let npos = el.position;
+          let hp;
+          let hitted;
           if (weaponName === 'phaser'){
             if (reflected){
+              hitted = true;
               let vol = 130/(el.position.subVector(game.player.camera.getPosVector()).abs());
               anyutils.playSoundUrl('assets/sounds/hit1.mp3', vol)  
             }
@@ -90,7 +94,8 @@ class Bullet extends GameObject{
               }  
             }
           } else {
-            let hp = calc.hitMeshPoint(ob.hitTransformed, el.position, el.speedVectorSync);
+            hp = calc.hitMeshPoint(ob.hitTransformed, el.position, el.speedVectorSync);
+            
             if (hp){
               el.deleteSelf();
               if (weaponName == 'railgun'){
@@ -103,7 +108,14 @@ class Bullet extends GameObject{
             };  
             
           }
+          if(hp||hitted){
+            if (ob.onHit){
+              ob.onHit(el);
+            }
+         }
         };
+        
+        
       }
 
       if (ob.type == 'danger'){//bug with incorrect near point

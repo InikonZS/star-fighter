@@ -193,7 +193,11 @@ function mission3(game){
   starChunk(game, enBasePos, 500, 50);
   //let point1 = new Collectable(game, enBasePos, ''); 
   let point1 = basics.makeCollactable(game.world, enBasePos, 10, game.world.boxModelList);
-  
+
+  let brp = basics.makeBreakableStrong(game.world, new Vector3d(50, 0, 0), 1, game.world.bigModelList, 10, (bullet)=>{
+    brp.deleteSelf();  
+  });
+
   let target = game.targets.addTarget('come to target');
   point1.onCollect = ()=>{
     console.log('collected!!!');

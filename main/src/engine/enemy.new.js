@@ -12,7 +12,7 @@ const rand = calc.rand;
 const anyutils = require('../any.utils.js');
 
 class Enemy extends GameObject{
-  constructor(gl, game, startPoint, speedVector){
+  constructor(gl, game, startPoint, speedVector, modelList, extLogic){
     super();
     this.MAX_SPEED = 30;
     this.ACCELARATION = 5;
@@ -20,6 +20,8 @@ class Enemy extends GameObject{
     this.TORQUE = 0.03;
     this.RADIAL_FRICTION = 0.93;
     this.THETA_VAL=52;
+
+    this.extLogic = extLogic;
 
     this.gl = gl;
     this.game = game;
@@ -46,7 +48,12 @@ class Enemy extends GameObject{
     this.msg = msg;
 
     //this.model = this.game.world.tieModelList.createStaticItem(mtx);
-    this.model = this.game.world.shipLists[calc.rand(this.game.world.shipLists.length)].createStaticItem(mtx);
+    if (modelList){
+      this.model = modelList.createStaticItem(mtx);
+    } else {
+      this.model = this.game.world.shipLists[calc.rand(this.game.world.shipLists.length)].createStaticItem(mtx);
+    }
+    
     let hitbox = this.game.world.createBreakable(this.pos, 5);
     hitbox.type = 'object';
     hitbox.visible = false;
@@ -96,7 +103,11 @@ class Enemy extends GameObject{
   }
 
   render_( deltaTime){
-    this.logic(this.game.player.camera.getPosVector(), this.game.player.camera.getSpeedVector(), deltaTime);
+    if (this.extLogic){
+      this.extLogic(this);
+    } else {
+      this.logic(this.game.player.camera.getPosVector(), this.game.player.camera.getSpeedVector(), deltaTime);
+    }
     this.weapon.render(deltaTime);
     this.pos.addVector(this.v.mul(deltaTime), true);
     this.model.matrix = polarToMatrix(this.pos, this.azi.x, this.azi.y)

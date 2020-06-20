@@ -4,10 +4,11 @@ const calc = require('../calc.utils.js');
 const Bullet = require('./bullet.gmob.js');
 
 class Weapon{
-  constructor(world, shotTime, bulletLifeTime, bulletSpeed, soundUrl, name='gun', bulletCount=100){
+  constructor(world, shotTime, bulletLifeTime, bulletSpeed, soundUrl, name='gun', bulletCount=100, damage){
     this.weaponName = name;
     this.bulletCount = bulletCount;
 
+    this.damage = damage;
     this.initialShotTime = shotTime;
     this.shotTime = shotTime;
     this.bulletLifeTime = bulletLifeTime;
@@ -26,7 +27,7 @@ class Weapon{
     this.bulletCount--;
       //this.world.createBullet(point, direction.mul(this.bulletSpeed), this.bulletLifeTime, false, this.weaponName);
       //console.log('blt ', Bullet);
-      new Bullet(this.world.game, point, direction.mul(this.bulletSpeed), this.bulletLifeTime, calc.makeNormRGBA(), this.weaponName);
+      new Bullet(this.world.game, point, direction.mul(this.bulletSpeed), this.bulletLifeTime, calc.makeNormRGBA(), this.weaponName, this.damage);
       this.shotTime = this.initialShotTime;
       if (this.soundUrl){
         let vol = 1;

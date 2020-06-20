@@ -15,6 +15,7 @@ class GameMenu extends Control{
     this.missionMenu = this.menu.addPage('Select Mission');
     this.gameMenu = this.menu.addPage('Paused');
     this.gameOverMenu = this.menu.addPage('Game Over');
+    this.gameWinMenu = this.menu.addPage('Mission Complete');
     this.menu.selectPage(this.mainMenu);
 
     this.startButton = new Control(this.mainMenu.node, 'div', 'menu_item', 'start new',()=>{
@@ -51,6 +52,10 @@ class GameMenu extends Control{
     });
 
     this.mainMenuButtonO = new Control(this.gameOverMenu.node, 'div', 'menu_item', 'to main menu',()=>{
+      this.menu.selectPage(this.mainMenu);
+    });
+
+    this.mainMenuButtonW = new Control(this.gameWinMenu.node, 'div', 'menu_item', 'to main menu',()=>{
       this.menu.selectPage(this.mainMenu);
     });
 

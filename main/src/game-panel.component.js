@@ -5,7 +5,11 @@ class GameMenu extends Control{
     super(parentNode, 'div', 'overlay_panel', '', ()=>{
 
     });
+
+    this.center = new Control(this.node, 'div', 'overlay_center');
+
     this.view = new Control(this.node, 'div', 'view_panel');
+
     this.tool = new Control(this.node, 'div', 'machine_panel');
 
     this.group = new Control(this.tool.node, 'div', 'panel_group' ,'');
