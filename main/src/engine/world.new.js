@@ -69,6 +69,8 @@ class World{
     this.animatedShaderList = new AnimatedShaderList(gl, animatedShaderUnit);
     this.explosions = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/explosion.png');
 
+    this.bulPlasm = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/bul1.png');
+
     //making list for rendering with shader
     this.solidUntexturedShaderList = new SolidUntexturedShaderList(gl, solidUntexturedShaderUnit);
     this.solidTexturedShaderList = new SolidTexturedShaderList(gl, solidTexturedShaderUnit);
@@ -140,7 +142,16 @@ class World{
     }
   }
 
- 
+ /* createPlasm (pos, scale){
+    let mt = m4.identity();
+    mt = m4.translate(mt, pos.x, pos.y, pos.z);
+    mt = m4.scale(mt, scale, scale, scale);
+    let el = this.explosions.createStaticItem(mt, 5, 4, 0.05);
+    el.animation.onFinished = ()=>{
+      el.deleteSelf();
+    }
+  }
+*/
 
   createBreakable (pos, scale, color){
     let niMat = m4.identity();

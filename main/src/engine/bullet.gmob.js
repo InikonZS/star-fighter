@@ -9,7 +9,24 @@ class Bullet extends GameObject{
   constructor(game, pos, speed, lifetime, color, weaponName){
     super();
     let world = game.world;
-    let el = world.boxModelList.createStaticItem(m4.identity(), color);
+    let el;
+    if (weaponName=="laser"){
+      el = world.boxModelList.createStaticItem(m4.identity(), color);
+      el.scale = 1;
+    } else {
+      let mt = m4.identity();
+      el = world.bulPlasm.createStaticItem(mt, 3, 1, 0.05);
+      el.scale = 5;
+    }
+
+    if (weaponName == 'phaser'){
+      el.scale =15;
+    }
+
+    if (weaponName == 'railgun'){
+      el.scale =45;
+    }
+
     el.type = 'bullet';
     el.weaponName = weaponName
 
@@ -23,9 +40,11 @@ class Bullet extends GameObject{
         el.deleteSelf();
       } else {
         let mt = m4.identity();
+        
         el.speedVectorSync = el.speedVector.mul(deltaTime);
         el.position = el.position.addVector(el.speedVectorSync); //add deltaTime
         mt = m4.translate(mt,  el.position.x, el.position.y, el.position.z);
+        mt = m4.scale(mt, el.scale, el.scale, el.scale);
         el.matrix = mt;
       }
     }
@@ -74,7 +93,11 @@ class Bullet extends GameObject{
             let hp = calc.hitMeshPoint(ob.hitTransformed, el.position, el.speedVectorSync);
             if (hp){
               el.deleteSelf();
-              world.createExplosion(hp, 35); 
+              if (weaponName == 'railgun'){
+                world.createExplosion(hp, 435); 
+              } else {
+                world.createExplosion(hp, 35); 
+              }
               let vol = 130/(hp.subVector(game.player.camera.getPosVector()).abs());
               anyutils.playSoundUrl('assets/sounds/hit2.mp3', vol)    
             };  
