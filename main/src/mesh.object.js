@@ -9,8 +9,8 @@ class Mesh{
     this.maxDistance = 0;  
   }
 
-  loadFromSource(modelSource){
-    let modelObject = ObjUtils.getModList(modelSource);
+  loadFromSource(modelSource, preScaler){
+    let modelObject = ObjUtils.getModList(modelSource, false , preScaler);
     this.vertexList = modelObject.triangleList;
     this.normalList = modelObject.normalList;
     this.texList = modelObject.texList;

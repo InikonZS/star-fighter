@@ -23,6 +23,8 @@ const getChunked = require('../chunked-mesh.func.js');
 const calc = require('../calc.utils.js');
 const Vector3d = require('../vector3d.dev.js');
 
+const Bullet = require('./bullet.gmob.js');
+
 const solidUntexturedShaderUnit = require('./shaders/solid-untextured.shader.js');
 const {SolidUntexturedShaderList} = require('./solid-untextured.new.js');
 const solidTexturedShaderUnit = require('./shaders/solid-textured.shader.js');
@@ -37,7 +39,7 @@ const utils = require('../any.utils.js');
 class World{
   constructor(gl, game){
     //dynamic loaded res
-    const meteModel = window.gameResource.list[0].source;
+    const meteModel = window.gameResource.list[0];
     const selfModel = window.gameResource.list[calc.rand(3)+2].source;
     const ships = [
       window.gameResource.list[5],
@@ -72,7 +74,7 @@ class World{
     this.solidTexturedShaderList = new SolidTexturedShaderList(gl, solidTexturedShaderUnit);
 
     //loading models and making lists
-    this.meteModelList = this.solidUntexturedShaderList.createModelList(meteModel);
+    this.meteModelList = this.solidTexturedShaderList.createModelList(meteModel.source, meteModel.tex, 1);
     this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
     this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
     this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
@@ -138,103 +140,7 @@ class World{
     }
   }
 
-  createBullet (pos, speed, lifetime,  color){
-    let el = this.boxModelList.createStaticItem(m4.identity(), color);
-    el.type = 'bullet';
-
-    el.position = pos.mul(1);
-    el.speedVector = speed.mul(1);
-    el.lifetime = lifetime;
-
-    el.onProcess = (deltaTime) => {
-      el.lifetime-=deltaTime;
-      if (calc.isTimeout(el.lifetime)){
-        el.deleteSelf();
-      } else {
-        let mt = m4.identity();
-        el.speedVectorSync = el.speedVector.mul(deltaTime);
-        el.position = el.position.addVector(el.speedVectorSync); //add deltaTime
-        mt = m4.translate(mt,  el.position.x, el.position.y, el.position.z);
-        el.matrix = mt;
-      }
-    }
-
-    el.onReact=(ob)=>{
-      if (!(el && el.speedVectorSync)){ return;}
-
-      if (ob.type == 'object'){
-        if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
-          if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVectorSync))){
-            ob.onHit(el);
-          };  
-        };
-      }
-
-      if (ob.type == 'breakable'){
-        if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
-          if (calc.isCrossedMeshByLine(ob.hitTransformed, el.position, el.position.addVector(el.speedVectorSync))){
-            ob.deleteSelf();
-            el.deleteSelf();
-            this.createExplosion(ob.hitPosition, 15);
-          };  
-        };
-      }
-      /*
-
-      let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
-          if(reflected){
-            el.speedVector = reflected.normalize().mul(el.speedVector.abs()*0.5);
-            let vol = 130/(el.position.subVector(this.game.player.camera.getPosVector()).abs());
-            calc.rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3', vol) : anyutils.playSoundUrl('assets/sounds/hit2.mp3', vol);
-          };  
-
-          
-      let reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
-          let mx =100;
-          let npos = el.position;
-          while (reflected && mx>=0){
-            mx--;
-            el.speedVector = reflected.normalize().mul(el.speedVector.abs());
-            npos = npos.addVector(reflected);
-            reflected = calc.mirrorVectorFromMesh(ob.hitTransformed, npos, reflected);
-            if (mx==0){
-              this.createExplosion(npos, 5);
-            }
-            */
-
-      if (ob.type == 'solid'){
-        if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
-          let reflected = ob.physicList.mirrorVector(el.position, el.speedVectorSync);//calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
-          let mx =10;
-          let npos = el.position;
-          if (reflected){
-            let vol = 130/(el.position.subVector(this.game.player.camera.getPosVector()).abs());
-            anyutils.playSoundUrl('assets/sounds/hit1.mp3', vol)  
-          }
-          while (reflected && mx>=0){
-            mx--;
-            el.speedVector = reflected.normalize().mul(el.speedVector.abs()*0.5);
-            npos = npos.addVector(reflected);
-            reflected = ob.physicList.mirrorVector(npos, reflected)//calc.mirrorVectorFromMesh(ob.hitTransformed, npos, reflected);
-            if (mx==0){
-              this.createExplosion(npos, 5);
-            }  
-          }
-        };
-      }
-
-      if (ob.type == 'danger'){//bug with incorrect near point
-        if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
-          let hp = calc.hitMeshPoint(ob.hitTransformed, el.position, el.speedVectorSync);
-          if (hp){
-            el.deleteSelf();
-            this.createExplosion(hp, 5);
-          };  
-        };
-      }
-    }
-    this.bulletList.addChild(el);
-  }
+ 
 
   createBreakable (pos, scale, color){
     let niMat = m4.identity();

@@ -29,8 +29,8 @@ class TexturedItem extends GameObject {
 }
 
 class SolidUntexturedModelList extends RenderableModelList{
-  constructor(gl, shaderVariables, modelSource, textureURL){
-    super(gl, shaderVariables, modelSource); 
+  constructor(gl, shaderVariables, modelSource, textureURL, preScaler){
+    super(gl, shaderVariables, modelSource, preScaler); 
     GLUtils.createTexture(gl, textureURL, (tex)=>{this.texture = tex});
 
     this.onRender = (gl, props)=>{
@@ -41,6 +41,7 @@ class SolidUntexturedModelList extends RenderableModelList{
 
     this.onDelete = ()=>{
       this.mesh.deleteBuffers();
+      gl.deleteTexture(this.texture);
       //deleteTexture
     }
   }
@@ -92,8 +93,8 @@ class SolidUntexturedShaderList extends RenderableShaderList{
     }
   }
 
-  createModelList(modelSource, textureURL){
-    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource, textureURL));
+  createModelList(modelSource, textureURL, preScaler){
+    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource, textureURL, preScaler));
   }
 }
 

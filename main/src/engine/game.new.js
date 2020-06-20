@@ -31,7 +31,7 @@ class Game{
     //this.targets.render(deltaTime);
     var camera = this.player.camera;
 
-    var viewMatrix = calc.makeCameraMatrix(aspect, camera.camRX, camera.camRY, camera.camRZ, camera.posX, camera.posY, camera.posZ);
+    var viewMatrix = calc.makeCameraMatrix(aspect, camera.getMatrix());//camera.camRX, camera.camRY, camera.camRZ, camera.posX, camera.posY, camera.posZ);
 
     this.world.render(viewMatrix, deltaTime);
     //this.message.refresh(viewMatrix, new Vector3d(0,0,0), 'Kill_It '+Math.round(this.player.camera.getPosVector().subVector(new Vector3d(0,0,0)).abs()*10)/10+ 'km');
@@ -122,7 +122,7 @@ function mission1(game){
   }
 
   for (let i=0; i<1; i++){
-    let big = game.world.createSolid(randVector(new Vector3d (500,0,0),500), 10, {r:Math.random(),g:Math.random(),b:0.5}, 'bigModel');
+    let big = game.world.createSolid(randVector(new Vector3d (500,0,0),500), 1, {r:Math.random(),g:Math.random(),b:0.5}, 'bigModel');
   }
   //big.matrix = m4.xRotate(big.matrix, Math.PI/2);
 
@@ -155,15 +155,15 @@ function mission2(game){
   game.targets.onChange();
 
   let solidsPos = new Vector3d(1500, 0, 0);
-  for (let i=0; i<20; i++){
-    game.world.createSolid(randVector(solidsPos, 500), rand(60)+10, {r:Math.random(),g:Math.random(),b:0.5});
+  for (let i=0; i<120; i++){
+    game.world.createSolid(randVector(solidsPos, 1500), (rand(60)+10)/500, {r:Math.random(),g:Math.random(),b:0.5}, 'bigModel');
   }
 
   for (let i=0; i<1; i++){
-    let big = game.world.createSolid(randVector(new Vector3d (500,0,0),500), 10, {r:Math.random(),g:Math.random(),b:0.5}, 'bigModel');
+    let big = game.world.createSolid(randVector(new Vector3d (500,500,0),500), 1, {r:Math.random(),g:Math.random(),b:0.5}, 'bigModel');
   }
   //big.matrix = m4.xRotate(big.matrix, Math.PI/2);
-
+ 
   starChunk(game, new Vector3d(0,0,0), 500, 100);
   starChunk(game, enBasePos, 500, 100);
   game.addLabel('target', enBasePos,);

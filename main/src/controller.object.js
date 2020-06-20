@@ -44,6 +44,7 @@ function keyUpHandler(glCanvas, e){
   if (e.code == 'Backquote'){
     if (!glCanvas.menu.isActive){
       glCanvas.menu.activate();
+      glCanvas.keyboardState.shot = false;
       document.exitPointerLock();
     }
   } 

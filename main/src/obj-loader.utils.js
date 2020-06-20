@@ -1,6 +1,6 @@
 const calc = require('./calc.utils.js');
 
-function getModList(oob, genOwnNormal){
+function getModList(oob, genOwnNormal, preScaler=1){
   let vreg=/[ \t]+/;
   let oreg=/[\n]+/;
 
@@ -42,8 +42,8 @@ function getModList(oob, genOwnNormal){
 
           sp = spj[1]-1;
           if (vertexListUV[sp]){
-            texList.push(vertexListUV[sp].u);
-            texList.push(1-vertexListUV[sp].v);
+            texList.push(vertexListUV[sp].u*preScaler);
+            texList.push(1-vertexListUV[sp].v*preScaler);
           }
 
           if (!genOwnNormal){

@@ -53,10 +53,12 @@ class Player extends GameObject {
       if (this.health<0){
         console.log('dead');
         this.isAlive = false;
+        this.game.glCanvas.keyboardState.shot = false;
         this.game.world.createExplosion(this.camera.getPosVector().subVector(this.camera.getCamNormal().mul(2.10)),40);
         rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3') : anyutils.playSoundUrl('assets/sounds/expl2.mp3');
        
         setTimeout(()=>{
+          this.game.glCanvas.keyboardState.shot = false;
           this.game.glCanvas.menu.activate();
           this.game.glCanvas.menu.menu.selectPage(this.game.glCanvas.menu.gameOverMenu);
           document.exitPointerLock();
@@ -85,8 +87,8 @@ class Player extends GameObject {
       hitbox.process_(deltaTime);
       nearbox.process_(deltaTime);
       shieldbox.process_(deltaTime);
-
-      this.touch = new Phys(this.hitbox.hitTransformed);
+      //this.camera.vZ+=1*deltaTime; GRAVITY
+      this.touch = new Phys(this.nearbox.hitTransformed);
       this.speedVectorSync = this.camera.getSpeedVector().mul(deltaTime);
       //this.render_(deltaTime);
     }
@@ -101,9 +103,9 @@ class Player extends GameObject {
             let reflected = ob.physicList.mirrorVector(this.camera.getPosVector(), this.speedVectorSync.mul(1000));
             if (reflected){
               this.camera.applySpeed(this.speedVectorSync);
-              this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()*0.93));  
+              this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()*0.73));  
             } else {
-              //this.camera.setSpeedVector(this.camera.getSpeedVector().mul(-1));
+              //this.camera.setSpeedVector(this.camera.getSpeedVector().mul(-1)); ???
             }
           }
          /* */

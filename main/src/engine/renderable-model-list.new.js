@@ -4,11 +4,11 @@ const Mesh = require('../mesh.object.js');
 const GLUtils = require('../gl-utils.js');
 
 class RenderableModelList extends GameObject {
-  constructor(gl, shaderVariables, modelSource){
+  constructor(gl, shaderVariables, modelSource, preScaler){
     super();
     this.shaderVariables = shaderVariables;
     this.mesh = new Mesh(gl);
-    this.mesh.loadFromSource(modelSource);
+    this.mesh.loadFromSource(modelSource, preScaler);
     //this.mesh.center = this.mesh.getCenter();
     //console.log(this.mesh.center)
 

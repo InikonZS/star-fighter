@@ -2,7 +2,8 @@ const modelConfig = {
   list:[
     {
       name: "mete",
-      url: "assets/models/mete-scaled.obj",
+      url: "assets/models/tunnel_meteorite.obj",
+      tex: "assets/textures/UVW_meteorite.png"
     },
     {
       name: "ship_user",
@@ -41,6 +42,12 @@ const modelConfig = {
       url: "assets/models/Z-95_Headhunter.obj",
       tex: "assets/textures/Z-95_Diff.png"
     },
+    {
+      name: "mete1",
+      url: "assets/models/tunnel_meteorite.obj",
+      tex: "assets/textures/UVW_meteorite.png"
+    }
+    
   ]
 }
 

@@ -54,6 +54,8 @@ class Camera{
   }
 
   init(){
+    //this.matrix = m4.identity();
+
     this.camRX=0;
     this.camRY=0;
     this.camRZ=0;
@@ -120,7 +122,7 @@ class Camera{
 
 function trueVolumeCamera(cam, moveSpeed, deltaTime, accv){
   let nvv =accv;//[0,0,1,0];
-  let matrix = m4.identity(); 
+  let matrix = m4.identity();//cam.matrix || m4.identity();//m4.identity(); 
   matrix = m4.xRotate(matrix, cam.camRY);
   matrix = m4.yRotate(matrix, cam.camRZ);
   matrix = m4.zRotate(matrix, cam.camRX);
@@ -133,6 +135,7 @@ function trueVolumeCamera(cam, moveSpeed, deltaTime, accv){
   cam.vX-=nv.x;
   cam.vY-=nv.y;
   cam.vZ-=nv.z;
+  //cam.matrix = matrix;
   return new Vector3d(-nv.x, -nv.y, -nv.z);
 }
 

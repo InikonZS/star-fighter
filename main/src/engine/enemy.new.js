@@ -150,7 +150,9 @@ class Enemy extends GameObject{
        // dir = this.pos.subVector(playerPosition).normalize();
         dir = this.pos.subVector(playerPosition.addVector(playerSpeed.subVector(this.v.mul(1)).mul(time))).normalize();
         if (Math.abs(getAngleBetweenVectors(dir, this.nv))<Math.random()*0.61){
-          if (Math.random()<0.3) {this.shot();}
+          if (dist<300){
+            if (Math.random()<0.3) {this.shot();}
+          }
         }
 
         //this.shotMovingTarget(playerPosition, playerSpeed);
