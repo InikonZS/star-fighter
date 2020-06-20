@@ -8,10 +8,12 @@ const Enemy = require('./enemy.new.js');
 const Message = require('./point-msg.new.js');
 const GameObject = require('./game-object.new.js');
 const Timer = require('./timer.new.js');
-const Collectable = require('./collectable.new.js');
+const Collectable = require('./collectable.new.js');//require('./collectable.new.js');
 const TargetList = require('./mission-target.new.js');
 const anyutils = require('../any.utils.js');
 const utils = require('../any.utils.js');
+
+const basics = require('./basic-objects.gmob.js');
 
 class Game{
   constructor(gl, glCanvas){
@@ -189,7 +191,8 @@ function mission3(game){
 
   let enBasePos = new Vector3d(100, 0, 0);
   starChunk(game, enBasePos, 500, 50);
-  let point1 = new Collectable(game, enBasePos, ''); 
+  //let point1 = new Collectable(game, enBasePos, ''); 
+  let point1 = basics.makeCollactable(game.world, enBasePos, 10, game.world.boxModelList);
   
   let target = game.targets.addTarget('come to target');
   point1.onCollect = ()=>{

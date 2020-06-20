@@ -19,6 +19,8 @@ const Mesh = require('../mesh.object.js');
 
 const anyutils = require('../any.utils.js');
 
+const basics = require('./basic-objects.gmob.js');
+
 const getChunked = require('../chunked-mesh.func.js');
 const calc = require('../calc.utils.js');
 const Vector3d = require('../vector3d.dev.js');
@@ -142,17 +144,6 @@ class World{
     }
   }
 
- /* createPlasm (pos, scale){
-    let mt = m4.identity();
-    mt = m4.translate(mt, pos.x, pos.y, pos.z);
-    mt = m4.scale(mt, scale, scale, scale);
-    let el = this.explosions.createStaticItem(mt, 5, 4, 0.05);
-    el.animation.onFinished = ()=>{
-      el.deleteSelf();
-    }
-  }
-*/
-
   createBreakable (pos, scale, color){
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
@@ -203,7 +194,6 @@ class World{
     this.breakableList.addChild(el);
     return el;
   }
-
   
 }
 
