@@ -10,7 +10,7 @@ const GameObject = require('./game-object.new.js');
 const Timer = require('./timer.new.js');
 const Collectable = require('./collectable.new.js');
 const TargetList = require('./mission-target.new.js');
-
+const anyutils = require('../any.utils.js');
 const utils = require('../any.utils.js');
 
 class Game{
@@ -54,6 +54,7 @@ class Game{
       msg.text = text+ ': '+Math.round(dist)/10+ 'km';
     }
     this.messageList.addChild(msg);
+    return msg;
   }
 
   getPlayerPos(){
@@ -74,10 +75,17 @@ class Game{
   loadMission(name){
     this.clear();
     if (name=='1'){
-      mission1(this);
+      mission3(this);
     } else {
       mission2(this);
     }
+  }
+
+  finish(){
+    this.glCanvas.keyboardState.shot = false;
+    this.glCanvas.menu.activate();
+    this.glCanvas.menu.menu.selectPage(this.glCanvas.menu.gameOverMenu);
+    document.exitPointerLock();
   }
 }
 
@@ -105,14 +113,14 @@ function randVector(center, size){
 function mission1(game){
   let baseSpawner = game.addTimer(15, ()=>{
     new Collectable(
-      game.gl, game, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 
+      game, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 
       Math.random()<0.5? 'bullets':'health'
     ); 
   });
 
-  let baseLabel = game.addLabel('StartPoint', new Vector3d(0, 0, 0));
 
-  let enBasePos = new Vector3d(2000, 0, 0);
+
+  
 
   //for (let i=0; i<10; i++){new Enemy(game.gl, game, randVector(enBasePos, 500), new Vector3d(0,0,0));}
 
@@ -127,6 +135,10 @@ function mission1(game){
   //big.matrix = m4.xRotate(big.matrix, Math.PI/2);
 
   starChunk(game, new Vector3d(0,0,0), 500, 200);
+  
+  
+  let baseLabel = game.addLabel('StartPoint', new Vector3d(0, 0, 0));
+  let enBasePos = new Vector3d(2000, 0, 0);
   starChunk(game, enBasePos, 500, 200);
   game.addLabel('target', enBasePos,);
 }
@@ -135,7 +147,7 @@ function mission1(game){
 function mission2(game){
   let baseSpawner = game.addTimer(15, ()=>{
     new Collectable(
-      game.gl, game, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 
+      game, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 
       Math.random()<0.5? 'bullets':'health'
     ); 
   });
@@ -167,6 +179,41 @@ function mission2(game){
   starChunk(game, new Vector3d(0,0,0), 500, 100);
   starChunk(game, enBasePos, 500, 100);
   game.addLabel('target', enBasePos,);
+}
+
+
+function mission3(game){
+  starChunk(game, new Vector3d(0,0,0), 500, 50);
+  let baseLabel = game.addLabel('StartPoint', new Vector3d(0, 0, 0));
+
+
+  let enBasePos = new Vector3d(100, 0, 0);
+  starChunk(game, enBasePos, 500, 50);
+  let point1 = new Collectable(game, enBasePos, ''); 
+  
+  let target = game.targets.addTarget('come to target');
+  point1.onCollect = ()=>{
+    console.log('collected!!!');
+    anyutils.playSoundUrl('assets/sounds/correct.mp3');
+    target.setComplete();
+    label1.deleteSelf();
+
+    let en = new Enemy(game.gl, game, randVector(enBasePos, 500), new Vector3d(0,0,0));
+    en.targetPointer = game.targets.addTarget('kill enemy');
+    en.onKilled = ()=>{
+      anyutils.playSoundUrl('assets/sounds/correct.mp3');
+      en.targetPointer.setComplete();  
+      
+      let point1 = new Collectable(game, new Vector3d(0,0,0), ''); 
+      game.targets.addTarget('return to start');
+      point1.onCollect = ()=>{
+        anyutils.playSoundUrl('assets/sounds/success.mp3');
+        game.finish();
+      }
+    }
+  }
+  var label1 = game.addLabel('target', enBasePos);
+console.log (point1);
 }
 
 module.exports = Game;

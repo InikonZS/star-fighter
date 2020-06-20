@@ -4,10 +4,12 @@ const Camera = require('./camera.new.js');
 const calc = require('../calc.utils.js');
 const rand = calc.rand;
 const Weapon = require('./weapon.new.js');
+const Timer = require('./timer.new.js');
 const GameObject = require('./game-object.new.js');
 const anyutils = require('../any.utils.js');
 
 const Phys = require('./physic.new.js');
+
 
 class Player extends GameObject {
   constructor(gl, game, keyStates){
@@ -130,7 +132,7 @@ class Player extends GameObject {
           }
 
           if (ob.bonus == ''){
-            anyutils.playSoundUrl('assets/sounds/error.mp3')
+            //anyutils.playSoundUrl('assets/sounds/error.mp3');
             ob.deleteSelf();
           }
           
@@ -141,11 +143,17 @@ class Player extends GameObject {
       }
     }
 
+    this.refTimer = new Timer(0.1, ()=>{
+      this.game.glCanvas.gamePanel.speed.node.textContent = 'speed: '+Math.round(this.camera.getSpeedVector().abs()*10)/10;
+    });
+    //this.game.t
+
     this.game.world.objectList.addChild(this);
     /////////
   }
 
   render_(deltaTime){
+    this.refTimer.process(deltaTime);
     if (this.keyStates.shot){
       this.shot(this.currentWeaponIndex-1);
     }
@@ -225,7 +233,7 @@ function incLim(val, inc, lim){
   return nv < lim ? nv : lim;
 }
 
-function qubeLines(size, pos){
+/*function qubeLines(size, pos){
   p = [
     new Vector3d(-1, -1, -1).mul(size).addVector(pos),
     new Vector3d(-1, -1, 1).mul(size).addVector(pos),
@@ -252,7 +260,7 @@ function qubeLines(size, pos){
   ];
   return lines;
 }
-
+*/
 /*
 else { 
 

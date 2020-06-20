@@ -9,7 +9,7 @@ const rand = calc.rand;
 const anyutils = require('../any.utils.js');
 
 class Collectable extends GameObject{
-  constructor(gl, game, startPoint, type , count){
+  constructor(game, startPoint, type , count){
     super();
     this.game = game;
     if (type == 'bullets'){
@@ -17,8 +17,8 @@ class Collectable extends GameObject{
       ob.type = 'collectable';
       ob.bonus = 'bullets';
       ob.bonus_count = 30;
-      this.game.world.objectList.addChild(this);
-      return;
+      //this.game.world.objectList.addChild(this);
+      return ob;
     }
 
     if (type == 'health'){
@@ -26,8 +26,8 @@ class Collectable extends GameObject{
       ob.type = 'collectable';
       ob.bonus = 'health';
       ob.bonus_count = 25;
-      this.game.world.objectList.addChild(this);
-      return;
+      //this.game.world.objectList.addChild(this);
+      return ob;
     }
 
 //    if (){
@@ -35,7 +35,8 @@ class Collectable extends GameObject{
       ob.type = 'collectable';
       ob.bonus = '';
       ob.bonus_count = 0;
-      this.game.world.objectList.addChild(this);
+      //this.game.world.objectList.addChild(this);
+      return ob;
 //    }
   }
 }

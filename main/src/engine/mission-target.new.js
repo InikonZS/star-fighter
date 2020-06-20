@@ -47,6 +47,7 @@ class TargetList extends GameObject{
       this.refresh();
     }
     this.addChild(target);
+    this.refresh();
     return target;
   }
 
