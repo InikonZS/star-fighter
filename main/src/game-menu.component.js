@@ -13,6 +13,7 @@ class GameMenu extends Control{
     this.mainMenu = this.menu.addPage('Main Menu');
     this.optionsMenu = this.menu.addPage('Options');
     this.missionMenu = this.menu.addPage('Select Mission');
+    this.startMenu = this.menu.addPage('Start Mission');
     this.gameMenu = this.menu.addPage('Paused');
     this.gameOverMenu = this.menu.addPage('Game Over');
     this.gameWinMenu = this.menu.addPage('Mission Complete');
@@ -39,7 +40,7 @@ class GameMenu extends Control{
       this.menu.selectPage(this.gameMenu);
       this.deactivate(true);
     });
-
+   
     this.m2Button = new Control(this.missionMenu.node, 'div', 'menu_item', 'mission2',()=>{
       this.glCanvas.start();
       this.glCanvas.game.loadMission('');

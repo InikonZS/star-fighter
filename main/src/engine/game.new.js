@@ -26,6 +26,9 @@ class Game{
     this.messageList = new GameObject();
     this.targets = new TargetList(this);
 
+   /* document.addEventListener('beforeunload', ()=>{
+      this.clear();
+    })*/
   }
 
   render(aspect, deltaTime){

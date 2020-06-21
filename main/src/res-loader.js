@@ -6,8 +6,9 @@ const modelConfig = {
       tex: "assets/textures/UVW_meteorite.png"
     },
     {
-      name: "ship_user",
-      url: "assets/models/Ship_user.obj",
+      name: "cab0",
+      url: "assets/models/cabin_4.obj",
+      tex: "assets/textures/cabin_4UVW.png"
     },
     {
       name: "cab1",

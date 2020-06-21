@@ -42,7 +42,7 @@ class World{
   constructor(gl, game){
     //dynamic loaded res
     const meteModel = window.gameResource.list[0];
-    const selfModel = window.gameResource.list[calc.rand(3)+2].source;
+    const selfModel = window.gameResource.list[calc.rand(1)+1];
     const ships = [
       window.gameResource.list[5],
       window.gameResource.list[6],
@@ -82,7 +82,12 @@ class World{
     this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
     this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
     this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
-    this.selfModelList = this.solidUntexturedShaderList.createModelList(selfModel);
+    if (selfModel.tex){
+      this.selfModelList = this.solidTexturedShaderList.createModelList(selfModel.source, selfModel.tex);
+    } else {
+      this.selfModelList = this.solidUntexturedShaderList.createModelList(selfModel.source);  
+    }
+    
     this.bigModelList = this.solidTexturedShaderList.createModelList(bigModel, 'assets/textures/Trident_UV_Dekol_Color.png');
 
     this.shipLists = [];

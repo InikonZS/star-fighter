@@ -70,6 +70,7 @@ class GameObject{
   deleteSelf(){
     if (this.parents.length){
       this.isExists = false;
+      
       //console.log('delet', this.parents[0]);
       this.parents.forEach(it => {it.reqFilter = true});
       if (this.onDelete){

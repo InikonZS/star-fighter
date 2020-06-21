@@ -32,9 +32,9 @@ class SolidUntexturedModelList extends RenderableModelList{
   constructor(gl, shaderVariables, modelSource, textureURL, preScaler){
     super(gl, shaderVariables, modelSource, preScaler); 
     GLUtils.createTexture(gl, textureURL, (tex)=>{this.texture = tex});
-
     this.onRender = (gl, props)=>{
       GLUtils.setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
+      GLUtils.setBuffer(gl, this.mesh.normBuffer, this.shaderVariables.normalAttr, 3); 
       GLUtils.setBuffer(gl, this.mesh.texBuffer, this.shaderVariables.texAttr, 2); 
       gl.bindTexture(gl.TEXTURE_2D, this.texture);
     }
