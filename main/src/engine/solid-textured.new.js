@@ -39,11 +39,11 @@ class SolidUntexturedModelList extends RenderableModelList{
       gl.bindTexture(gl.TEXTURE_2D, this.texture);
     }
 
-    this.onDelete = ()=>{
+  /*  this.onDelete = ()=>{
       this.mesh.deleteBuffers();
       gl.deleteTexture(this.texture);
       //deleteTexture
-    }
+    }*/
   }
 
   createStaticItem(matrix, maxVisibleDist){

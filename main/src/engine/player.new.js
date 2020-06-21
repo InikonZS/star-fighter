@@ -44,6 +44,18 @@ class Player extends GameObject {
     ///as gameobject
     let mtx = this.camera.getSelfModelMatrix();
     this.model = this.game.world.selfModelList.createStaticItem(mtx);
+    this.shieldModelScaler = 0.008;
+    this.shieldModel = this.game.world.createMagicSphere(new Vector3d(0,0,0), this.shieldModelScaler, false);
+    this.shieldModel.visible = false;
+
+   /* this.shieldModel.process_ = (deltaTime)=>{
+      let mt = m4.identity();
+      let pos = this.camera.getPosVector();
+      mt = m4.translate(mt, pos.x, pos.y, pos.z);
+      let scale_ = this.shieldModelScaler;
+      mt = m4.scale(mt, scale_, scale_, scale_);
+      this.shieldModel.matrix = mt;
+    }*/
  
     let hitbox = makeHitBox(this, 2, (bullet)=>{
       if (this.shieldActivated) {return;}
@@ -86,10 +98,23 @@ class Player extends GameObject {
 //this.touch = new Phys(this.nearbox.mesh.vertexList);
     this.onProcess = (deltaTime) =>{
       this.model.matrix = this.camera.getSelfModelMatrix();
+
+      let mt = m4.identity();
+      let pos = this.camera.getPosVector();
+      mt = m4.translate(mt, pos.x, pos.y, pos.z);
+      let scale_ = this.shieldModelScaler;
+      mt = m4.scale(mt, scale_, scale_, scale_);
+      this.shieldModel.matrix = mt;
+      //this.shieldModel.matrix = m4.scale(this.camera.getSelfModelMatrix(), this.shieldModelScaler,this.shieldModelScaler,this.shieldModelScaler);
       hitbox.process_(deltaTime);
       nearbox.process_(deltaTime);
       shieldbox.process_(deltaTime);
+      //this.shieldModel.process_(deltaTime);
       //this.camera.vZ+=1*deltaTime; GRAVITY
+      if (this.touch){
+        this.touch.destroy();
+        this.touch = undefined;
+      }
       this.touch = new Phys(this.nearbox.hitTransformed);
       this.speedVectorSync = this.camera.getSpeedVector().mul(deltaTime);
       //this.render_(deltaTime);
@@ -161,8 +186,10 @@ class Player extends GameObject {
     this.shieldTime-=deltaTime;
     if (this.keyStates.space){
       this.shieldActivate(deltaTime);
+      this.shieldModel.visible = true;
     } else {
       this.shieldActivated = false;
+      this.shieldModel.visible = false;
     }
 
     this.camera.process(deltaTime);  
@@ -186,6 +213,7 @@ class Player extends GameObject {
   
   shieldActivate(deltaTime){
     if (this.shieldEnergy>0){
+     // this.shieldModel.visible = true;
       //console.log(this.shieldTime);
       this.shieldActivated = true;
       if (calc.isTimeout(this.shieldTime)){

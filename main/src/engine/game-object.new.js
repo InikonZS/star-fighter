@@ -9,6 +9,17 @@ class GameObject{
     this.onRender;
     this.onReact;
     this.parents = [];
+
+    this.onDelete = ()=>{
+      if (this.mesh){
+        this.mesh.deleteBuffers(); 
+        console.log('delbuffers');
+      }
+      if (this.texture){
+        app.glCanvas.glContext.deleteTexture(this.texture);
+        console.log('deltex'); 
+      } 
+    }
   }
 
   render(gl, props){
@@ -80,10 +91,23 @@ class GameObject{
   }
 
   clear(){
+    if (this.mesh){
+      this.mesh.deleteBuffers(); 
+      console.log('delbuffers');
+    }
+    if (this.texture){
+      app.glCanvas.glContext.deleteTexture(this.texture);
+      console.log('deltex'); 
+    }
+    if (this.shaderProgram){
+      //app.glCanvas.glContext.deleteProgram(this.shaderProgram);
+      console.log('delshader');
+    }
+
     this.childList.forEach(it=>{
-      it.deleteSelf();
+      it.clear();
     });
-    this.tryFilter();
+   // this.tryFilter();
   }
 }
 

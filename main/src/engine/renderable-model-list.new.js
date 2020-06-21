@@ -12,9 +12,13 @@ class RenderableModelList extends GameObject {
     //this.mesh.center = this.mesh.getCenter();
     //console.log(this.mesh.center)
 
-    this.onDelete = ()=>{
-      this.mesh.deleteBuffers();  
-    }
+  /*  this.onDelete = ()=>{
+      this.mesh.deleteBuffers(); 
+      if (this.texture){
+        gl.deleteTexture(this.texture);
+      }
+      console.log('delbuffers'); 
+    }*/
   }
 }
 

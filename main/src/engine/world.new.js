@@ -74,6 +74,7 @@ class World{
     this.animatedShaderList = new AnimatedShaderList(gl, animatedShaderUnit);
     this.explosions = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/explosion.png');
     this.magics = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/magic.png');
+    this.magicSpheres = this.animatedShaderList.createModelList(marsModel.source, 'assets/textures/magic.png');
 
     this.bulPlasm = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/bul1.png');
 
@@ -131,6 +132,7 @@ class World{
 
   clear(){
     this.graphicList.clear();
+    //this.objectList.clear();
   }
 
   render(viewMatrix, deltaTime){
@@ -161,6 +163,19 @@ class World{
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
     let el = this.magics.createStaticItem(mt, 5, 5, 0.05); 
+    if (single){
+      el.animation.onFinished = ()=>{
+        el.deleteSelf();
+      }
+    }
+    return el;
+  }
+
+  createMagicSphere (pos, scale, single){
+    let mt = m4.identity();
+    mt = m4.translate(mt, pos.x, pos.y, pos.z);
+    mt = m4.scale(mt, scale, scale, scale);
+    let el = this.magicSpheres.createStaticItem(mt, 5, 5, 0.05); 
     if (single){
       el.animation.onFinished = ()=>{
         el.deleteSelf();

@@ -139,6 +139,9 @@ function setController(glCanvas){
 }
 
 function glInitialize(glCanvas){
+  if (glCanvas.game){
+    glCanvas.game.clear();
+  }
   glCanvas.game = new Game(glCanvas.glContext, glCanvas);
 }
 

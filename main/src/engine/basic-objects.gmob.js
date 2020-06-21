@@ -57,9 +57,19 @@ function makeBreakableStrong(world, pos, scale, modelList, health, onKilled){
   return ob;
 }
 
+function makeBreakableExplosive(world, pos, scale, modelList, health, exscale, onKilled){
+  return makeBreakableStrong(world, pos, scale, modelList, health, (bullet)=>{
+    world.createExplosion(pos, exscale);
+    let vol = 130/(pos.subVector(world.game.player.camera.getPosVector()).abs());
+    rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3', vol) : anyutils.playSoundUrl('assets/sounds/expl2.mp3', vol);
+    onKilled();
+  });
+}
+
 module.exports = {
   makePhysical,
   makeCollactable,
   makeBreakable,
-  makeBreakableStrong
+  makeBreakableStrong,
+  makeBreakableExplosive
 };

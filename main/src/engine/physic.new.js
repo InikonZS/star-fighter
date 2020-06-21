@@ -17,6 +17,14 @@ class Physic{
     }
   }
 
+  destroy(){
+    this.triangles.forEach(it=>{
+      it.destroy();
+      it = undefined;
+    });
+    this.triangles = undefined;
+  }
+
   crossByLine (a, b){
     let res =[];
     let point;
@@ -90,6 +98,9 @@ class Triangle{
     this.prq = (pr*pr/4);
     this.s = Math.sqrt(pr*(pr-this.al)*(pr-this.bl)*(pr-this.cl));
     this.center = u.addVector(v).addVector(w).mul(1/3);
+  }
+  destroy(){
+    this.normal = undefined;
   }
 
   solveLinear(v1, v2){

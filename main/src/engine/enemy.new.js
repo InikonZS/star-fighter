@@ -53,7 +53,7 @@ class Enemy extends GameObject{
     } else {
       this.model = this.game.world.shipLists[calc.rand(this.game.world.shipLists.length)].createStaticItem(mtx);
     }
-    
+
     let hitbox = this.game.world.createBreakable(this.pos, 5);
     hitbox.type = 'object';
     hitbox.visible = false;
@@ -101,6 +101,9 @@ class Enemy extends GameObject{
 
    // this.time = 1.2;
   }
+ // onDelete(){
+ //   this.model.deleteBuffers();
+ // }
 
   render_( deltaTime){
     if (this.extLogic){
