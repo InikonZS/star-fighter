@@ -32,6 +32,7 @@ function makePhysical (world, pos, scale, modelList, visible = true, type = 'sol
 
 function makeCollactable(world, pos, scale, modelList, onCollect){
   let ob = makePhysical(world, pos, scale, modelList, true, 'collectable', onCollect);
+  ob.onCollect = onCollect;
   ob.bonus = '';
   ob.bonus_count = 0;
   return ob;

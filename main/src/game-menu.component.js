@@ -60,7 +60,21 @@ class GameMenu extends Control{
    
     this.m2Button = new Control(this.missionMenu.node, 'div', 'menu_item', 'mission2',()=>{
       this.glCanvas.start();
-      this.glCanvas.game.loadMission('');
+      this.glCanvas.game.loadMission('2');
+      this.menu.selectPage(this.gameMenu);
+      this.deactivate(true);
+    });
+
+    this.m3Button = new Control(this.missionMenu.node, 'div', 'menu_item', 'mission3',()=>{
+      this.glCanvas.start();
+      this.glCanvas.game.loadMission('3');
+      this.menu.selectPage(this.gameMenu);
+      this.deactivate(true);
+    });
+
+    this.m4Button = new Control(this.missionMenu.node, 'div', 'menu_item', 'mission4',()=>{
+      this.glCanvas.start();
+      this.glCanvas.game.loadMission('4');
       this.menu.selectPage(this.gameMenu);
       this.deactivate(true);
     });

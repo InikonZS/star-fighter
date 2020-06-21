@@ -12,18 +12,20 @@ class TexturedItem extends GameObject {
     this.matrix = matrix || m4.identity();
     this.count = meshPointer.vertexList.length / 3;
     //this.animation = new Animation(xmax, ymax, timeStep);
-
+    this.visible = true;
     this.onRender = (gl, props)=>{
-      //this.animation.render(gl, this.shaderVariables, props.deltaTime);
-      gl.uniform4f(this.shaderVariables.posUniVec4, 
-        1,
-        1, 
-        0, 
-        0
-      );
-      gl.uniformMatrix4fv(this.shaderVariables.worldUniMat4, false, this.matrix); 
-      //gl.uniform4f(shaderVariables.colorUniVec4, color.r, color.g, color.b, color.a); 
-      gl.drawArrays(gl.TRIANGLES, 0, this.count);  
+      if (this.visible){
+        //this.animation.render(gl, this.shaderVariables, props.deltaTime);
+        gl.uniform4f(this.shaderVariables.posUniVec4, 
+          1,
+          1, 
+          0, 
+          0
+        );
+        gl.uniformMatrix4fv(this.shaderVariables.worldUniMat4, false, this.matrix); 
+        //gl.uniform4f(shaderVariables.colorUniVec4, color.r, color.g, color.b, color.a); 
+        gl.drawArrays(gl.TRIANGLES, 0, this.count);
+      }  
     }
   }
 }

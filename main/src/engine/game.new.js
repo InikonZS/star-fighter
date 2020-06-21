@@ -81,9 +81,19 @@ class Game{
     //this.clear();
     if (name=='1'){
       mission3(this);
-    } else {
+    } 
+
+    if (name=='2'){
+      mission4(this);
+    } 
+
+    if (name=='3'){
       mission2(this);
-    }
+    } 
+
+    if (name=='4'){
+      mission1(this);
+    } 
   }
 
   finish(){
@@ -233,43 +243,72 @@ console.log (point1);
 
 
 function mission3(game){
-  starChunk(game, new Vector3d(0,0,0), 500, 50);
-  let baseLabel = game.addLabel('StartPoint', new Vector3d(0, 0, 0));
-  let enBasePos = new Vector3d(100, 0, 0);
-  starChunk(game, enBasePos, 500, 50);
+  let rou = makeRingSpline(1000);
+  game.player.camera.posY=-1050;
+  game.player.camera.posX=0;
+  game.player.camera.posZ=0;
 
-  //let point1 = new Collectable(game, enBasePos, ''); 
-  let point1 = basics.makeCollactable(game.world, enBasePos, 10, game.world.boxModelList);
-
-  let p2 = game.world.createMagic(new Vector3d(0,0,0), 100, false);
-
-  let brp = basics.makeBreakableExplosive(game.world, new Vector3d(50, 0, 0), 1, game.world.bigModelList, 10, 30, (bullet)=>{
-    brp.deleteSelf();  
+  basics.makePhysical(game.world, new Vector3d(0, 1050, 100), 10, game.world.bigModelList);
+  basics.makePhysical(game.world, new Vector3d(0, 0, -1000), 1, game.world.marsModelList);
+  let seczone = basics.makeCollactable(game.world, new Vector3d(0, 0, -1000), 1.25, game.world.marsModelList, ()=>{
+    for (let i=0; i<12; i++){
+      let en = new Enemy(game.gl, game, randVector(new Vector3d(0, -500, -500),500), new Vector3d(0,0,0), game.world.shipLists[rand(3)]);  
+    }
   });
+  seczone.visible=false;
 
-  let target = game.targets.addTarget('come to target');
-  point1.onCollect = ()=>{
-    console.log('collected!!!');
-    anyutils.playSoundUrl('assets/sounds/correct.mp3');
-    target.setComplete();
-    label1.deleteSelf();
+  rou.forEach(it=>{
+    starChunk(game, it, 100, 50);
+    let brp = basics.makeBreakableExplosive(game.world, it, 0.1, game.world.meteModelList, 10, 30, (bullet)=>{
+      brp.deleteSelf();  
+    });  
+  })
+  console.log(rou);
+  recCollectable(game, rou ,0);
+}
 
-    let en = new Enemy(game.gl, game, randVector(enBasePos, 500), new Vector3d(0,0,0));
-    en.targetPointer = game.targets.addTarget('kill enemy');
-    en.onKilled = ()=>{
-      anyutils.playSoundUrl('assets/sounds/correct.mp3');
-      en.targetPointer.setComplete();  
-      
-      let point1 = new Collectable(game, new Vector3d(0,0,0), ''); 
-      game.targets.addTarget('return to start');
-      point1.onCollect = ()=>{
+function recCollectable(game, rou, i){
+  console.log('recpoint '+i);
+  if (rou[i]){
+    let tg = game.addLabel('target', rou[i]);
+    let ele = game.world.createMagic(rou[i], 90, false);
+    let el = basics.makeCollactable(game.world, rou[i], 30, game.world.boxModelList, (player)=>{
+      ele.deleteSelf();
+      if (!rou[i+1]){
         anyutils.playSoundUrl('assets/sounds/success.mp3');
         game.finish();
       }
-    }
+      console.log('collected');
+      tg.deleteSelf();
+      anyutils.playSoundUrl('assets/sounds/correct.mp3');
+      let en = new Enemy(game.gl, game, randVector(rou[i],500), new Vector3d(0,0,0), game.world.shipLists[rand(3)]);
+      en.targetPointer = game.targets.addTarget('kill enemy');
+      en.onKilled = ()=>{
+        anyutils.playSoundUrl('assets/sounds/correct.mp3');
+        en.targetPointer.setComplete();
+      }  
+      recCollectable(game,rou, i+1);
+    }); 
+    el.visible=false; 
+    
   }
-  var label1 = game.addLabel('target', enBasePos);
-console.log (point1);
+}
+
+function makeRingSpline(r){
+  let ir;
+  let x;
+  let y;
+  let z;
+  res = [];
+  let n=9
+  for (let i=0; i<9; i++){
+    ir = calc.degToRad(i*360/n);
+    x = Math.sin(ir)*r;
+    y = Math.cos(ir)*r;
+    z = Math.sin(ir*4)*r/10;
+    res.push(new Vector3d(x,y,z));
+  }
+  return res;
 }
 
 module.exports = Game;
