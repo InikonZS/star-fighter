@@ -47,6 +47,17 @@ const modelConfig = {
       name: "mete1",
       url: "assets/models/tunnel_meteorite.obj",
       tex: "assets/textures/UVW_meteorite.png"
+    },
+
+    {
+      name: "mars",
+      url: "assets/models/mars.obj",
+      tex: "assets/textures/2k_mars.jpg"
+    },
+    {
+      name: "mercury",
+      url: "assets/models/mars.obj",
+      tex: "assets/textures/2k_mercury.jpg"
     }
     
   ]

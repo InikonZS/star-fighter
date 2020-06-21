@@ -49,6 +49,9 @@ class World{
       window.gameResource.list[7],
       window.gameResource.list[8]
     ];
+
+    const marsModel = window.gameResource.list[10];
+    const mercuryModel = window.gameResource.list[11];
     //
 
     console.log('making world');
@@ -70,6 +73,7 @@ class World{
 
     this.animatedShaderList = new AnimatedShaderList(gl, animatedShaderUnit);
     this.explosions = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/explosion.png');
+    this.magics = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/magic.png');
 
     this.bulPlasm = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/bul1.png');
 
@@ -79,6 +83,9 @@ class World{
 
     //loading models and making lists
     this.meteModelList = this.solidTexturedShaderList.createModelList(meteModel.source, meteModel.tex, 1);
+    this.mercuryModelList = this.solidTexturedShaderList.createModelList(mercuryModel.source, mercuryModel.tex, 1);
+    this.marsModelList = this.solidTexturedShaderList.createModelList(marsModel.source, marsModel.tex, 1);
+
     this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
     this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
     this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
@@ -147,6 +154,19 @@ class World{
     el.animation.onFinished = ()=>{
       el.deleteSelf();
     }
+  }
+
+  createMagic (pos, scale, single){
+    let mt = m4.identity();
+    mt = m4.translate(mt, pos.x, pos.y, pos.z);
+    mt = m4.scale(mt, scale, scale, scale);
+    let el = this.magics.createStaticItem(mt, 5, 5, 0.05); 
+    if (single){
+      el.animation.onFinished = ()=>{
+        el.deleteSelf();
+      }
+    }
+    return el;
   }
 
   createBreakable (pos, scale, color){
