@@ -28,6 +28,7 @@
 }
 
 .menu_item{
+  display: flex;
   color: #f53;
   background-color: #222;
   padding: 10px;

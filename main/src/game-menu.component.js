@@ -1,5 +1,6 @@
 const Control = require('./control-js/control.component.js');
 const Pager = require('./control-js/pager.component.js');
+const options = require('./options.utils.js');
 
 class GameMenu extends Control{
   constructor(parentNode, glCanvas){
@@ -23,12 +24,28 @@ class GameMenu extends Control{
       this.menu.selectPage(this.missionMenu);
     });
 
+
+    ///options
+    let curOptions = options.loadOptions();
     this.optionsButton = new Control(this.mainMenu.node, 'div', 'menu_item', 'options',()=>{
       this.menu.selectPage(this.optionsMenu);
+
     });
+    this.optionMouseSense = new Control(this.optionsMenu.node, 'input', 'menu_item');
+    this.optionMouseSense.node.type = 'range';
+    this.optionMouseSense.node.min=1;
+    this.optionMouseSense.node.max=100;
+    this.optionMouseSense.node.value = curOptions.mouseSens;
+    this.optionMouseSense.node.addEventListener('change', (e)=>{
+      curOptions.mouseSens = this.optionMouseSense.node.value;
+    })
+
     new Control(this.optionsMenu.node, 'div', 'menu_item', 'to main menu',()=>{
+      options.saveOptions(curOptions);
       this.menu.selectPage(this.mainMenu);
     });
+    ///
+
 
     this.exitButton = new Control(this.mainMenu.node, 'div', 'menu_item', 'exit',()=>{
       document.exitFullscreen();
