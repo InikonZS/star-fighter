@@ -54,10 +54,10 @@ class Enemy extends GameObject{
       this.model = this.game.world.shipLists[calc.rand(this.game.world.shipLists.length)].createStaticItem(mtx);
     }
 
-    let hitbox = this.game.world.createBreakable(this.pos, 5);
+    let hitbox = this.game.world.createBreakable(this.pos, 2);
     hitbox.type = 'object';
     hitbox.visible = false;
-    hitbox.scale = 5;
+    hitbox.scale = 2;
     hitbox.pos = this.pos;
     hitbox.onHit = (bullet)=>{
       console.log('killed');
@@ -75,9 +75,10 @@ class Enemy extends GameObject{
     }
     this.onProcess = (deltaTime)=>{
       hitbox.matrix = this.model.matrix;
+      hitbox.matrix  = m4.scale(hitbox.matrix, hitbox.scale, hitbox.scale, hitbox.scale);
       hitbox.hitTransformed = hitbox.meshPointer.getTransformedVertexList(hitbox.matrix);
       hitbox.hitPosition = calc.getPosFromMatrix(hitbox.matrix);
-      hitbox.hitDist = hitbox.meshPointer.maxDistance;;//*hitbox.scale;
+      hitbox.hitDist = hitbox.meshPointer.maxDistance*hitbox.scale;;//;
       this.speedVectorSync = this.v;
       this.render_(deltaTime);
     }
@@ -113,7 +114,8 @@ class Enemy extends GameObject{
     }
     this.weapon.render(deltaTime);
     this.pos.addVector(this.v.mul(deltaTime), true);
-    this.model.matrix = polarToMatrix(this.pos, this.azi.x, this.azi.y)
+    this.model.matrix = polarToMatrix(this.pos, this.azi.x, this.azi.y);
+    this.model.matrix = m4.scale(this.model.matrix, 1.5, 1.5, 1.5);
     this.nv = toDecart(this.azi);
   }
 

@@ -78,7 +78,7 @@ class Camera{
   rotateCam(dx, dy){
     //this.camRX += (dx*Math.abs(dx) / 1000);
     //this.camRY += (dy*Math.abs(dy) / 1000);
-    let crenSpeed = 0.0022;
+    let crenSpeed = 0.0032;
     this.dmat = m4.axisRotate(this.dmat, getCameraNormal(this, 1).toVec4(), crenSpeed*dx);
     this.dmat = m4.axisRotate(this.dmat, getCameraNormal(this, 2).toVec4(), crenSpeed*dy);
     //this.camRX += (dy / 200)* Math.sin(this.camRZ) + (dx / 200)* Math.cos(this.camRZ);
