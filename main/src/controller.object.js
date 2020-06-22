@@ -14,6 +14,16 @@ function mouseDownHandler(glCanvas, event){
 }
 
 function keyDownHandler(glCanvas, e){
+  if (e.code == 'KeyQ'){
+    glCanvas.keyboardState.crenleft = true;
+    //keyboardHandler(glCanvas, 'forward', true);
+  } 
+
+  if (e.code == 'KeyE'){
+    glCanvas.keyboardState.crenright = true;
+    //keyboardHandler(glCanvas, 'backward', true);
+  } 
+
   if (e.code == 'KeyW'){
     glCanvas.keyboardState.forward = true;
     //keyboardHandler(glCanvas, 'forward', true);
@@ -47,6 +57,16 @@ function keyUpHandler(glCanvas, e){
       glCanvas.keyboardState.shot = false;
       document.exitPointerLock();
     }
+  } 
+
+  if (e.code == 'KeyQ'){
+    glCanvas.keyboardState.crenleft = false;
+    //keyboardHandler(glCanvas, 'forward', true);
+  } 
+
+  if (e.code == 'KeyE'){
+    glCanvas.keyboardState.crenright = false;
+    //keyboardHandler(glCanvas, 'backward', true);
   } 
 
   if (e.code == 'KeyW'){

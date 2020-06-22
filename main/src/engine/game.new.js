@@ -259,7 +259,7 @@ function mission3(game){
   seczone.visible=false;
 
   rou.forEach(it=>{
-    starChunk(game, it, 100, 50);
+    starChunk(game, it, 400, 250);
     let brp = basics.makeBreakableExplosive(game.world, it, 0.1, game.world.meteModelList, 10, 30, (bullet)=>{
       brp.deleteSelf();  
     });  

@@ -107,9 +107,11 @@ class World{
     //Trident_UV_Dekol_Color.tif
 
     let chunkMesh = getChunked(gl, boxModel, 130, (i)=>{
+      let sz = 50;
+      let sc = 0.3
       mtx = m4.identity();
-      mtx = m4.translate(mtx, calc.rand(400)-200, calc.rand(400)-200, calc.rand(400)-20);
-      mtx = m4.scale(mtx, 0.4, 0.4, 0.4);
+      mtx = m4.translate(mtx, calc.rand(sz)-sz/2, calc.rand(sz)-sz/2, calc.rand(sz)-sz/2);
+      mtx = m4.scale(mtx, sc, sc, sc);
       return mtx;
     });
     this.chunkList = this.solidUntexturedShaderList.createModelList(boxModel);

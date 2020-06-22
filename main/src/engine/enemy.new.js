@@ -14,7 +14,7 @@ const anyutils = require('../any.utils.js');
 class Enemy extends GameObject{
   constructor(gl, game, startPoint, speedVector, modelList, extLogic){
     super();
-    this.MAX_SPEED = 30;
+    this.MAX_SPEED = 35;
     this.ACCELARATION = 5;
     this.FRICTION = 0.999;
     this.TORQUE = 0.03;
@@ -158,7 +158,7 @@ class Enemy extends GameObject{
   logic(playerPosition, playerSpeed, deltaTime){
     let dir;
     if (this.atack){
-      if (this.pos.subVector(playerPosition).abs()>40){
+      if (this.pos.subVector(playerPosition).abs()>30){
         let dist = this.pos.subVector(playerPosition).abs();
         let time = dist/this.weapon.bulletSpeed;
        // dir = this.pos.subVector(playerPosition).normalize();
@@ -179,7 +179,7 @@ class Enemy extends GameObject{
         this.atack = false;
       }
     } else {
-      if (this.pos.subVector(playerPosition).abs()>(calc.rand(150)+150)){
+      if (this.pos.subVector(playerPosition).abs()>(calc.rand(90)+50)){
         dir = this.pos.subVector(playerPosition).normalize();
         this.atack = true;
       } else {
