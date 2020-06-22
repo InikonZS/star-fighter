@@ -171,6 +171,17 @@ class Player extends GameObject {
     this.refTimer = new Timer(0.1, ()=>{
       this.game.glCanvas.gamePanel.speed.node.textContent = 'speed: '+Math.round(this.camera.getSpeedVector().abs()*10)/10;
     });
+
+    this.envTimer = new Timer(0.3, ()=>{
+      
+      let sv = this.camera.getSpeedVector().mul(4);
+      //console.log('entimer ', sv.abs());
+      if (sv.abs()>12){
+        starChunk(this.game, sv.addVector(this.camera.getPosVector()), 100, 3);  
+        //sv = this.camera.getSpeedVector().normalize().mul(40);  
+      }
+       
+    });
     //this.game.t
 
     this.game.world.objectList.addChild(this);
@@ -179,6 +190,7 @@ class Player extends GameObject {
 
   render_(deltaTime){
     this.refTimer.process(deltaTime);
+    this.envTimer.process(deltaTime);
     if (this.keyStates.shot){
       this.shot(this.currentWeaponIndex-1);
     }
@@ -254,6 +266,36 @@ function makeHitBox(gameObject, scale_, onHit){
     hitbox.hitDist = hitbox.meshPointer.maxDistance*hitbox.scale;
   }  
   return hitbox;
+}
+
+function starChunk(game, center, size, count){
+  for (let i=0; i<count; i++){
+    
+    let a = new Vector3d(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5);
+   // a = a.normalize();
+    a = a.mul(size).addVector(center);
+    
+    let mt = m4.identity();
+    mt = m4.translate(mt, a.x, a.y, a.z);
+    mt = m4.xRotate(mt, Math.random()*Math.PI*2);
+    mt = m4.yRotate(mt, Math.random()*Math.PI);
+
+    let fl = true;
+    game.world.chunkList.childList.forEach(it=>{
+      if (it.centerPoint && it.centerPoint.subVector(center).abs()<10){
+        fl = false;
+      }
+    });
+    if (fl){
+      let cl = game.world.chunkList.createStaticItem(mt, {r:Math.random(),g:Math.random(),b:0.5}, 500);//del magic num
+      cl.centerPoint=center;
+      cl.onProcess=()=>{
+        if (game.player.camera.getPosVector().subVector(center).abs()>300){
+          cl.deleteSelf();
+        }
+      }
+    }
+  }  
 }
 
 function incLim(val, inc, lim){

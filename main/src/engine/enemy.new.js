@@ -14,7 +14,7 @@ const anyutils = require('../any.utils.js');
 class Enemy extends GameObject{
   constructor(gl, game, startPoint, speedVector, modelList, extLogic){
     super();
-    this.MAX_SPEED = 35;
+    this.MAX_SPEED = 55;
     this.ACCELARATION = 5;
     this.FRICTION = 0.999;
     this.TORQUE = 0.03;
