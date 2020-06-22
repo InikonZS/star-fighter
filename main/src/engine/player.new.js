@@ -45,7 +45,7 @@ class Player extends GameObject {
     let mtx = this.camera.getSelfModelMatrix();
     this.model = this.game.world.selfModelList.createStaticItem(mtx);
     this.shieldModelScaler = 0.008;
-    this.shieldModel = this.game.world.createMagicSphere(new Vector3d(0,0,0), this.shieldModelScaler, false);
+    this.shieldModel = this.game.world.createFogMagicSphere(new Vector3d(0,0,0), this.shieldModelScaler, false);
     this.shieldModel.visible = false;
 
    /* this.shieldModel.process_ = (deltaTime)=>{

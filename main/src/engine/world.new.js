@@ -75,6 +75,7 @@ class World{
     this.explosions = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/explosion.png');
     this.magics = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/magic.png');
     this.magicSpheres = this.animatedShaderList.createModelList(marsModel.source, 'assets/textures/magic.png');
+    this.magicFogSpheres = this.animatedShaderList.createModelList(marsModel.source, 'assets/textures/fogmagic.png');
 
     this.bulPlasm = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/bul1.png');
 
@@ -108,6 +109,7 @@ class World{
     let chunkMesh = getChunked(gl, boxModel, 130, (i)=>{
       mtx = m4.identity();
       mtx = m4.translate(mtx, calc.rand(400)-200, calc.rand(400)-200, calc.rand(400)-20);
+      mtx = m4.scale(mtx, 0.4, 0.4, 0.4);
       return mtx;
     });
     this.chunkList = this.solidUntexturedShaderList.createModelList(boxModel);
@@ -176,6 +178,32 @@ class World{
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
     let el = this.magicSpheres.createStaticItem(mt, 5, 5, 0.05); 
+    if (single){
+      el.animation.onFinished = ()=>{
+        el.deleteSelf();
+      }
+    }
+    return el;
+  }
+
+  createFogMagicSphere (pos, scale, single){
+    let mt = m4.identity();
+    mt = m4.translate(mt, pos.x, pos.y, pos.z);
+    mt = m4.scale(mt, scale, scale, scale);
+    let el = this.magicFogSpheres.createStaticItem(mt, 5, 1, 0.10); 
+    if (single){
+      el.animation.onFinished = ()=>{
+        el.deleteSelf();
+      }
+    }
+    return el;
+  }
+
+  createGenericAnimated (modelList, pos, scale, xmax, ymax, frametime, single){
+    let mt = m4.identity();
+    mt = m4.translate(mt, pos.x, pos.y, pos.z);
+    mt = m4.scale(mt, scale, scale, scale);
+    let el = modelList.createStaticItem(mt, xmax, ymax, frametime); 
     if (single){
       el.animation.onFinished = ()=>{
         el.deleteSelf();

@@ -9,6 +9,30 @@ const Message = require('./point-msg.new.js');
 const rand = calc.rand;
 const anyutils = require('../any.utils.js');
 
+function makePhysicalAzi (world, pos, scale, azi, theta, modelList, visible = true, type = 'solid', onContact, onHit){
+  let niMat = m4.identity();
+  niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
+  niMat = m4.scale(niMat, scale, scale, scale);
+  niMat = m4.zRotate(niMat, azi);
+  niMat = m4.xRotate(niMat, theta);
+
+  var el = modelList.createStaticItem(niMat, calc.makeNormRGBA());
+  el.visible = visible;
+  el.type = type;
+
+  el.hitTransformed = el.meshPointer.getTransformedVertexList(el.matrix);
+  el.hitPosition = calc.getPosFromMatrix(el.matrix);
+  el.hitDist = el.meshPointer.maxDistance*scale;
+  el.physicList = new Physic (el.hitTransformed);
+
+  el.onContact = onContact;
+  el.onHit = onHit;
+
+  world.breakableList.addChild(el);
+  return el;
+}
+
+
 function makePhysical (world, pos, scale, modelList, visible = true, type = 'solid', onContact, onHit){
   let niMat = m4.identity();
   niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
@@ -68,6 +92,7 @@ function makeBreakableExplosive(world, pos, scale, modelList, health, exscale, o
 }
 
 module.exports = {
+  makePhysicalAzi,
   makePhysical,
   makeCollactable,
   makeBreakable,

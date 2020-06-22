@@ -248,7 +248,8 @@ function mission3(game){
   game.player.camera.posX=0;
   game.player.camera.posZ=0;
 
-  basics.makePhysical(game.world, new Vector3d(0, 1050, 100), 10, game.world.bigModelList);
+  basics.makePhysicalAzi(game.world, new Vector3d(0, 1050, 100), 10, Math.PI/2, Math.PI/2, game.world.bigModelList);
+  //basics.makePhysical(game.world, new Vector3d(0, 1050, 100), 10, game.world.bigModelList);
   basics.makePhysical(game.world, new Vector3d(0, 0, -1000), 1, game.world.marsModelList);
   let seczone = basics.makeCollactable(game.world, new Vector3d(0, 0, -1000), 1.25, game.world.marsModelList, ()=>{
     for (let i=0; i<12; i++){
