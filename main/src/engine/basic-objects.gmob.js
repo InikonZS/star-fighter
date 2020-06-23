@@ -22,7 +22,7 @@ function makePhysicalAzi (world, pos, scale, azi, theta, modelList, visible = tr
 
   el.hitTransformed = el.meshPointer.getTransformedVertexList(el.matrix);
   el.hitPosition = calc.getPosFromMatrix(el.matrix);
-  el.hitDist = el.meshPointer.maxDistance*scale;
+  el.hitDist = el.meshPointer.maxDistance*scale*1.1;
   el.physicList = new Physic (el.hitTransformed);
 
   el.onContact = onContact;
@@ -44,7 +44,7 @@ function makePhysical (world, pos, scale, modelList, visible = true, type = 'sol
 
   el.hitTransformed = el.meshPointer.getTransformedVertexList(el.matrix);
   el.hitPosition = calc.getPosFromMatrix(el.matrix);
-  el.hitDist = el.meshPointer.maxDistance*scale;
+  el.hitDist = el.meshPointer.maxDistance*scale*1.1;
   el.physicList = new Physic (el.hitTransformed);
 
   el.onContact = onContact;
