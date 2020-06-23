@@ -1,6 +1,7 @@
 let vertexShaderSource = `
   attribute vec4 a_position;
   attribute vec4 a_normal;
+  
   uniform mat4 u_view;
   uniform mat4 u_world;
   varying vec4 v_position;

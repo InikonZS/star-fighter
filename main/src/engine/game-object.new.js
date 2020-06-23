@@ -9,6 +9,17 @@ class GameObject{
     this.onRender;
     this.onReact;
     this.parents = [];
+
+    this.onDelete = ()=>{
+      if (this.mesh){
+        this.mesh.deleteBuffers(); 
+        console.log('delbuffers');
+      }
+      if (this.texture){
+        app.glCanvas.glContext.deleteTexture(this.texture);
+        console.log('deltex'); 
+      } 
+    }
   }
 
   render(gl, props){
@@ -25,6 +36,7 @@ class GameObject{
   }
 
   process(deltaTime, props){
+  
     if (this.onProcess){
       this.onProcess(deltaTime, props);
     }
@@ -69,12 +81,33 @@ class GameObject{
   deleteSelf(){
     if (this.parents.length){
       this.isExists = false;
+      
       //console.log('delet', this.parents[0]);
       this.parents.forEach(it => {it.reqFilter = true});
       if (this.onDelete){
         this.onDelete();
       }
     }
+  }
+
+  clear(){
+    if (this.mesh){
+      this.mesh.deleteBuffers(); 
+      console.log('delbuffers');
+    }
+    if (this.texture){
+      app.glCanvas.glContext.deleteTexture(this.texture);
+      console.log('deltex'); 
+    }
+    if (this.shaderProgram){
+      //app.glCanvas.glContext.deleteProgram(this.shaderProgram);
+      console.log('delshader');
+    }
+
+    this.childList.forEach(it=>{
+      it.clear();
+    });
+   // this.tryFilter();
   }
 }
 

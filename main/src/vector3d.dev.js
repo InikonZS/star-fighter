@@ -63,6 +63,10 @@ class Vector3d{
     return Math.hypot(this.x, this.y, this.z);
   }
 
+  abq(){
+    return this.x*this.x +this.y*this.y + this.z*this.z;
+  }
+
   normalize(){
     let len = this.abs();
     if (len!=0){

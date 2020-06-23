@@ -12,12 +12,15 @@ class AnimatedTextureItem extends GameObject {
     this.matrix = matrix || m4.identity();
     this.count = meshPointer.vertexList.length / 3;
     this.animation = new Animation(xmax, ymax, timeStep);
+    this.visible = true;
 
     this.onRender = (gl, props)=>{
-      this.animation.render(gl, this.shaderVariables, props.deltaTime);
-      gl.uniformMatrix4fv(this.shaderVariables.worldUniMat4, false, this.matrix); 
-      //gl.uniform4f(shaderVariables.colorUniVec4, color.r, color.g, color.b, color.a); 
-      gl.drawArrays(gl.TRIANGLES, 0, this.count);  
+      if (this.visible){
+        this.animation.render(gl, this.shaderVariables, props.deltaTime);
+        gl.uniformMatrix4fv(this.shaderVariables.worldUniMat4, false, this.matrix); 
+        //gl.uniform4f(shaderVariables.colorUniVec4, color.r, color.g, color.b, color.a); 
+        gl.drawArrays(gl.TRIANGLES, 0, this.count);  
+      }
     }
   }
 }
@@ -34,10 +37,11 @@ class ModelList extends RenderableModelList{
       gl.bindTexture(gl.TEXTURE_2D, this.texture);
     }
 
-    this.onDelete = ()=>{
+ /*   this.onDelete = ()=>{
       this.mesh.deleteBuffers();
+      gl.deleteTexture(this.texture);
       //deleteTexture
-    }
+    }*/
   }
 
   createStaticItem(matrix, xmax, ymax, timeStep){

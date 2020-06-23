@@ -14,10 +14,10 @@ class ModelList extends RenderableModelList{
       gl.bindTexture(gl.TEXTURE_2D, this.texture);
     }
 
-    this.onDelete = ()=>{
+  /*  this.onDelete = ()=>{
       this.mesh.deleteBuffers();
       //deleteTexture
-    }
+    }*/
   }
 
   createStaticItem(matrix, color){

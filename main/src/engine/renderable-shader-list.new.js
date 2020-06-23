@@ -9,7 +9,11 @@ class RenderableShaderList extends GameObject {
     let shaderVariables = shaderUnit.getShaderVariables(gl, shaderProgram);
     this.shaderProgram = shaderProgram;
     this.shaderVariables = shaderVariables;
-  
+    
+  /* this.onDelete = ()=>{
+      gl.deleteProgram(this.shaderProgram);
+      console.log('delshader');
+    }*/
   }
 }
 

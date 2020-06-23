@@ -1,13 +1,21 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
+<<<<<<< HEAD
 # File Created: 21.06.2020 00:50:49
 
 newmtl 7___Default
 	Ns 10.0000
+=======
+# File Created: 15.06.2020 14:48:43
+
+newmtl Cave_Material
+	Ns 5.0000
+>>>>>>> 127ac27cf13da62a59d135357f95c793fc242856
 	Ni 1.5000
 	d 1.0000
 	Tr 0.0000
 	Tf 1.0000 1.0000 1.0000 
 	illum 2
+<<<<<<< HEAD
 	Ka 0.3098 0.2863 0.2706
 	Kd 0.3098 0.2863 0.2706
 	Ks 0.0000 0.0000 0.0000
@@ -16,3 +24,11 @@ newmtl 7___Default
 	map_Kd E:\3d heaven\ALENA\Play\Tunnel\UVW_meteorite.png
 	map_bump E:\3d heaven\ALENA\Play\Tunnel\UVW_meteorite.png
 	bump E:\3d heaven\ALENA\Play\Tunnel\UVW_meteorite.png
+=======
+	Ka 0.5882 0.5882 0.5882
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.0000 0.0000 0.0000
+	Ke 0.0000 0.0000 0.0000
+	map_Ka cave_mix_Mix.tga
+	map_Kd cave_mix_Mix.tga
+>>>>>>> 127ac27cf13da62a59d135357f95c793fc242856

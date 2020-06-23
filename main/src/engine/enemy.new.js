@@ -12,14 +12,16 @@ const rand = calc.rand;
 const anyutils = require('../any.utils.js');
 
 class Enemy extends GameObject{
-  constructor(gl, game, startPoint, speedVector){
+  constructor(gl, game, startPoint, speedVector, modelList, extLogic){
     super();
-    this.MAX_SPEED = 30;
+    this.MAX_SPEED = 55;
     this.ACCELARATION = 5;
     this.FRICTION = 0.999;
     this.TORQUE = 0.03;
     this.RADIAL_FRICTION = 0.93;
     this.THETA_VAL=52;
+
+    this.extLogic = extLogic;
 
     this.gl = gl;
     this.game = game;
@@ -45,11 +47,17 @@ class Enemy extends GameObject{
     game.messageList.addChild(msg);
     this.msg = msg;
 
-    this.model = this.game.world.tieModelList.createStaticItem(mtx);
-    let hitbox = this.game.world.createBreakable(this.pos, 5);
+    //this.model = this.game.world.tieModelList.createStaticItem(mtx);
+    if (modelList){
+      this.model = modelList.createStaticItem(mtx);
+    } else {
+      this.model = this.game.world.shipLists[calc.rand(this.game.world.shipLists.length)].createStaticItem(mtx);
+    }
+
+    let hitbox = this.game.world.createBreakable(this.pos, 2);
     hitbox.type = 'object';
     hitbox.visible = false;
-    hitbox.scale = 5;
+    hitbox.scale = 2;
     hitbox.pos = this.pos;
     hitbox.onHit = (bullet)=>{
       console.log('killed');
@@ -61,12 +69,16 @@ class Enemy extends GameObject{
       this.game.world.createExplosion(this.hitbox.pos,30);
       let vol = 130/(this.hitbox.pos.subVector(this.game.player.camera.getPosVector()).abs());
       rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3', vol) : anyutils.playSoundUrl('assets/sounds/expl2.mp3', vol);
+      if (this.onKilled){
+        this.onKilled();
+      }
     }
     this.onProcess = (deltaTime)=>{
       hitbox.matrix = this.model.matrix;
+      hitbox.matrix  = m4.scale(hitbox.matrix, hitbox.scale, hitbox.scale, hitbox.scale);
       hitbox.hitTransformed = hitbox.meshPointer.getTransformedVertexList(hitbox.matrix);
       hitbox.hitPosition = calc.getPosFromMatrix(hitbox.matrix);
-      hitbox.hitDist = hitbox.meshPointer.maxDistance;;//*hitbox.scale;
+      hitbox.hitDist = hitbox.meshPointer.maxDistance*hitbox.scale;;//;
       this.speedVectorSync = this.v;
       this.render_(deltaTime);
     }
@@ -90,12 +102,20 @@ class Enemy extends GameObject{
 
    // this.time = 1.2;
   }
+ // onDelete(){
+ //   this.model.deleteBuffers();
+ // }
 
   render_( deltaTime){
-    this.logic(this.game.player.camera.getPosVector(), this.game.player.camera.getSpeedVector(), deltaTime);
+    if (this.extLogic){
+      this.extLogic(this);
+    } else {
+      this.logic(this.game.player.camera.getPosVector(), this.game.player.camera.getSpeedVector(), deltaTime);
+    }
     this.weapon.render(deltaTime);
     this.pos.addVector(this.v.mul(deltaTime), true);
-    this.model.matrix = polarToMatrix(this.pos, this.azi.x, this.azi.y)
+    this.model.matrix = polarToMatrix(this.pos, this.azi.x, this.azi.y);
+    this.model.matrix = m4.scale(this.model.matrix, 1.5, 1.5, 1.5);
     this.nv = toDecart(this.azi);
   }
 
@@ -127,18 +147,31 @@ class Enemy extends GameObject{
     if (this.azi.y>Math.PI-0.01){this.azi.y=Math.PI-0.01};
     if (this.azi.y<0.01){this.azi.y=0.01};
   }
+  
+  /*shotMovingTarget(targetPos, targetSpeed){
+    let dist = this.pos.subVector(targetPos).abs();
+    let time = dist/this.weapon.bulletSpeed;
+    let dir = this.pos.subVector(targetPos.addVector(targetSpeed.subVector(this.v.mul(1)).mul(time))).normalize();
+    if (Math.abs(getAngleBetweenVectors(dir, this.nv))<Math.random()*0.61){
+      if (Math.random()<0.3) {this.shot();}
+    }
+  }*/
 
   logic(playerPosition, playerSpeed, deltaTime){
     let dir;
     if (this.atack){
-      if (this.pos.subVector(playerPosition).abs()>40){
+      if (this.pos.subVector(playerPosition).abs()>30){
         let dist = this.pos.subVector(playerPosition).abs();
         let time = dist/this.weapon.bulletSpeed;
        // dir = this.pos.subVector(playerPosition).normalize();
         dir = this.pos.subVector(playerPosition.addVector(playerSpeed.subVector(this.v.mul(1)).mul(time))).normalize();
         if (Math.abs(getAngleBetweenVectors(dir, this.nv))<Math.random()*0.61){
-          if (Math.random()<0.3) {this.shot();}
+          if (dist<300){
+            if (Math.random()<0.3) {this.shot();}
+          }
         }
+
+        //this.shotMovingTarget(playerPosition, playerSpeed);
         //this.weapon.shot(this.gl, app.glCanvas.scene.bullets, this.pos.addVector(this.nv.mul(-3)), 
         //this.nv.mul(-1).addVector(this.v.mul(1/this.weapon.bulletSpeed))
         //);
@@ -148,7 +181,7 @@ class Enemy extends GameObject{
         this.atack = false;
       }
     } else {
-      if (this.pos.subVector(playerPosition).abs()>(calc.rand(150)+150)){
+      if (this.pos.subVector(playerPosition).abs()>(calc.rand(90)+50)){
         dir = this.pos.subVector(playerPosition).normalize();
         this.atack = true;
       } else {

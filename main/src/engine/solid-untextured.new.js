@@ -4,16 +4,16 @@ const RenderableItem = require('./renderable-item.new.js');
 const GLUtils = require('../gl-utils.js');
 
 class SolidUntexturedModelList extends RenderableModelList{
-  constructor(gl, shaderVariables, modelSource){
-    super(gl, shaderVariables, modelSource); 
+  constructor(gl, shaderVariables, modelSource, preScaler){
+    super(gl, shaderVariables, modelSource, preScaler); 
     this.onRender = (gl, props)=>{
       GLUtils.setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
       GLUtils.setBuffer(gl, this.mesh.normBuffer, this.shaderVariables.normalAttr, 3); 
     }
   }
 
-  createStaticItem(matrix, color){
-    return this.addChild(new RenderableItem(this.shaderVariables, this.mesh, matrix, color));  
+  createStaticItem(matrix, color, maxVisibleDist){
+    return this.addChild(new RenderableItem(this.shaderVariables, this.mesh, matrix, color, maxVisibleDist));  
   }
 
   createRotatingItem(position, sx, sy, sz, color){
@@ -59,8 +59,8 @@ class SolidUntexturedShaderList extends RenderableShaderList{
     }
   }
 
-  createModelList(modelSource){
-    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource));
+  createModelList(modelSource, preScaler){
+    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource, preScaler));
   }
 }
 
