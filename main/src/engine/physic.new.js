@@ -37,6 +37,11 @@ class Physic{
     return res;
   }
 
+  hitMeshPoint(p, v){
+    let b = p.addVector(v);
+    return getNearest(p, this.crossByLine(p, b));
+  }
+
   mirrorVector(p, v){
     let b = p.addVector(v);
     let cpl = this.crossByLine(p, b);

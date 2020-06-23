@@ -277,6 +277,15 @@ function isTimeout(time){
   return (time<0 || time>1000); 
 }
 
+function matrixFromPos(pos, scale=1, azi=0, theta=0){
+  let mt = m4.identity();
+  mt = m4.translate(mt, pos.x, pos.y, pos.z);
+  mt = m4.scale(mt, scale, scale, scale);
+  mt = m4.zRotate(mt, azi);
+  mt = m4.xRotate(mt, theta);
+  return mt;
+}
+
 module.exports = {
   makeCameraMatrix,
   getNormal,
@@ -302,5 +311,6 @@ module.exports = {
   getPosFromMatrix,
   hitMeshPoint,
   isCrossedSimple,
-  isTimeout
+  isTimeout,
+  matrixFromPos
 }
