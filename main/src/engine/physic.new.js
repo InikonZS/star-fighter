@@ -61,10 +61,27 @@ class Physic{
     }  
   }
 
+  crossByTriangle(tr){
+    for (let i = 0; i<this.triangles.length; i++){
+      if (this.triangles[i].isCrossedByTriangle(tr)){
+        return tr;
+      }
+    }  
+  }
+
   isCrossedByPhys(ms){
     for (let i = 0; i<ms.triangles.length; i++){
       if (this.isCrossedByTriangle(ms.triangles[i])){
         return true;
+      }
+    }    
+  }
+
+  crossByPhys(ms){
+    for (let i = 0; i<ms.triangles.length; i++){
+      let tr = this.crossByTriangle(ms.triangles[i]);
+      if (tr){
+        return tr;
       }
     }    
   }

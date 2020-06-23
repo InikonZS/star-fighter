@@ -11,7 +11,7 @@ function makeGenericBullet(game, basicObject, pos, scale=1, azi=0, theta=0, spee
   let world = game.world;
 
   el.reflectable = reflectable;
-  el.position = pos;
+  //el.position = pos;
   el.scale = scale;
   el.azi = azi;
   el.theta = theta;
@@ -31,14 +31,18 @@ function makeGenericBullet(game, basicObject, pos, scale=1, azi=0, theta=0, spee
 
   el.onProcess = (deltaTime) => {
     el.timer.process(deltaTime);
+    el.lastSpeedVectorSync = el.speedVectorSync;
+    el.lastPosition = el.position;
     el.speedVectorSync = el.speedVector.mul(deltaTime);
+    //if (el.lastSpeedVectorSync){
     el.position = el.position.addVector(el.speedVectorSync);
+    //}
     let mt = calc.matrixFromPos(el.position, el.scale, el.azi, el.theta);
     el.matrix = mt;
   }
 
   el.onReact=(ob)=>{
-    if (!(el && el.speedVectorSync)){ return;}
+    if (!(el && el.speedVectorSync&& el.lastPosition)){ return;}
 
     if (ob.type == 'object'){
       if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
@@ -58,9 +62,9 @@ function makeGenericBullet(game, basicObject, pos, scale=1, azi=0, theta=0, spee
       };
     }
 
-    if (ob.type == 'solid'){ //main modern func
-      if (calc.isCrossedSimple(ob.hitPosition, el.position, el.speedVectorSync, ob.hitDist)){
-        let reflected = ob.physicList.mirrorVector(el.position, el.speedVectorSync);//calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
+    if (ob.type == 'solid'){ //main modern func 
+      if (calc.isCrossedSimple(ob.hitPosition, el.lastPosition, el.position.subVector(el.lastPosition), ob.hitDist)){
+        let reflected = ob.physicList.mirrorVector(el.lastPosition, el.position.subVector(el.lastPosition));//calc.mirrorVectorFromMesh(ob.hitTransformed, el.position, el.speedVectorSync);
         let mx =10;
         let npos = el.position;
         let hp;
@@ -81,7 +85,7 @@ function makeGenericBullet(game, basicObject, pos, scale=1, azi=0, theta=0, spee
             }  
           }
         } else {
-          hp = ob.physicList.hitMeshPoint(el.position, el.speedVectorSync);
+          hp = ob.physicList.hitMeshPoint(el.lastPosition, el.position.subVector(el.lastPosition));
 
           if (hp&&hp.dv){
             el.deleteSelf();
@@ -92,6 +96,7 @@ function makeGenericBullet(game, basicObject, pos, scale=1, azi=0, theta=0, spee
           
         }
         if(hp||hitted){
+          el.position =el.lastPosition;
           if (ob.onHit){
             ob.onHit(el);
           }

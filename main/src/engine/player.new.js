@@ -110,15 +110,17 @@ class Player extends GameObject {
     this.onReact = (ob)=>{
     //if (!(el && el.speedVectorSync)){ return;}
       if (ob.type == 'solid'){
-        if (calc.isCrossedSimple(ob.hitPosition, this.camera.getPosVector(), this.speedVectorSync, ob.hitDist*1.2)){
+        if (calc.isCrossedSimple(ob.hitPosition, this.camera.lastPos, this.camera.getPosVector().subVector(this.camera.lastPos), ob.hitDist*1.2)){
+          //if (calc.rand(100)==1){console.log('shit!!!')}
           //let spv = this.speedVectorSync;
           //if (this.speedVectorSync.abs()<0.01){spv = this.camera.getSpeedVector().normalize().mul(0.01); }
           if (ob.physicList.isCrossedByPhys(this.touch)){
-            let reflected = ob.physicList.mirrorVector(this.camera.getPosVector(), this.speedVectorSync.mul(1000));
+            let reflected = ob.physicList.mirrorVector(this.camera.lastPos, this.camera.getPosVector().subVector(this.camera.lastPos).mul(100));
             if (reflected){
               this.camera.applySpeed(this.speedVectorSync);
               this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()*0.73));  
             } else {
+              //this.camera.applySpeed(this.speedVectorSync);
               //this.camera.setSpeedVector(this.camera.getSpeedVector().mul(-1)); ???
             }
           }

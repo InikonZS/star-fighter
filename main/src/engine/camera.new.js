@@ -153,6 +153,7 @@ class Camera{
     cam.vX*=friction;
     cam.vY*=friction;
     cam.vZ*=friction;
+    cam.lastPos = cam.getPosVector();
     cam.posX+=cam.vX*deltaTime;
     cam.posY+=cam.vY*deltaTime;
     cam.posZ+=cam.vZ*deltaTime;
