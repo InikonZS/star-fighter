@@ -109,4 +109,8 @@ class ModelLoader{
   
 }
 
-module.exports = loadAll;
+module.exports = {
+  ModelLoader,
+  loadAll,
+  modelConfig
+};

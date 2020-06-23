@@ -41,7 +41,7 @@ const utils = require('../any.utils.js');
 class World{
   constructor(gl, game){
     //dynamic loaded res
-    const meteModel = window.gameResource.list[0];
+    const meteModel = window.resBase.getByName('mete');
     const selfModel = window.gameResource.list[calc.rand(1)+1];
     const ships = [
       window.gameResource.list[5],
@@ -201,6 +201,7 @@ class World{
     return el;
   }
 
+  /// generics
   createGenericAnimated (modelList, pos, scale, xmax, ymax, frametime, single){
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
@@ -213,6 +214,22 @@ class World{
     }
     return el;
   }
+
+  createGenericAnimatedAzi (modelList, pos, scale, azi, theta,  xmax, ymax, frametime, single){
+    let mt = m4.identity();
+    mt = m4.translate(mt, pos.x, pos.y, pos.z);
+    mt = m4.scale(mt, scale, scale, scale);
+    mt = m4.zRotate(mt, azi);
+    mt = m4.xRotate(mt, theta);
+    let el = modelList.createStaticItem(mt, xmax, ymax, frametime); 
+    if (single){
+      el.animation.onFinished = ()=>{
+        el.deleteSelf();
+      }
+    }
+    return el;
+  }
+  //////
 
   createBreakable (pos, scale, color){
     let niMat = m4.identity();
