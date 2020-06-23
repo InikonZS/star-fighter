@@ -18,12 +18,8 @@ class Player extends GameObject {
     this.keyStates = keyStates;
     let world = this.game.world
 
-    //this.currentWeaponIndex = 1;
-    
     this.isAlive = true;
     this.health = 100;
-    //this.bullets = 5000;
-
     this.shieldEnergy = 100;
     this.shieldTime = 2;
 
@@ -40,22 +36,12 @@ class Player extends GameObject {
     this.camera = new Camera(game.world, keyStates);
     this.camera.init();
 
-
     ///as gameobject
     let mtx = this.camera.getSelfModelMatrix();
     this.model = this.game.world.selfModelList.createStaticItem(mtx);
     this.shieldModelScaler = 0.008;
     this.shieldModel = this.game.world.createFogMagicSphere(new Vector3d(0,0,0), this.shieldModelScaler, false);
     this.shieldModel.visible = false;
-
-   /* this.shieldModel.process_ = (deltaTime)=>{
-      let mt = m4.identity();
-      let pos = this.camera.getPosVector();
-      mt = m4.translate(mt, pos.x, pos.y, pos.z);
-      let scale_ = this.shieldModelScaler;
-      mt = m4.scale(mt, scale_, scale_, scale_);
-      this.shieldModel.matrix = mt;
-    }*/
  
     let hitbox = makeHitBox(this, 2, (bullet)=>{
       if (this.shieldActivated) {return;}
@@ -72,10 +58,11 @@ class Player extends GameObject {
         rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3') : anyutils.playSoundUrl('assets/sounds/expl2.mp3');
        
         setTimeout(()=>{
-          this.game.glCanvas.keyboardState.shot = false;
+         /* this.game.glCanvas.keyboardState.shot = false;
           this.game.glCanvas.menu.activate();
           this.game.glCanvas.menu.menu.selectPage(this.game.glCanvas.menu.gameOverMenu);
-          document.exitPointerLock();
+          document.exitPointerLock();*/
+          this.game.finish(false);
         },50);
       }
     });
@@ -173,16 +160,11 @@ class Player extends GameObject {
     });
 
     this.envTimer = new Timer(0.3, ()=>{
-      
       let sv = this.camera.getSpeedVector().mul(4);
-      //console.log('entimer ', sv.abs());
       if (sv.abs()>12){
         starChunk(this.game, sv.addVector(this.camera.getPosVector()), 100, 3);  
-        //sv = this.camera.getSpeedVector().normalize().mul(40);  
-      }
-       
+      } 
     });
-    //this.game.t
 
     this.game.world.objectList.addChild(this);
     /////////

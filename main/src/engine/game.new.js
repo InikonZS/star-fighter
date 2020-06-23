@@ -96,10 +96,14 @@ class Game{
     } 
   }
 
-  finish(){
+  finish(win){
     this.glCanvas.keyboardState.shot = false;
     this.glCanvas.menu.activate();
-    this.glCanvas.menu.menu.selectPage(this.glCanvas.menu.gameOverMenu);
+    if (win){
+      this.glCanvas.menu.menu.selectPage(this.glCanvas.menu.gameOverMenu); 
+    } else {
+      this.glCanvas.menu.menu.selectPage(this.glCanvas.menu.gameOverMenu);  
+    }
     document.exitPointerLock();
   }
 }
@@ -277,7 +281,7 @@ function recCollectable(game, rou, i){
       ele.deleteSelf();
       if (!rou[i+1]){
         anyutils.playSoundUrl('assets/sounds/success.mp3');
-        game.finish();
+        game.finish(true);
       }
       console.log('collected');
       tg.deleteSelf();

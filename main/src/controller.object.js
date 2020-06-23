@@ -2,7 +2,7 @@
 
 function mouseMoveHandler(glCanvas, dx, dy){
   //glCanvas.camera.rotateCam(dx, dy);
-  glCanvas.game.player.camera.rotateCam(dx, dy, true);
+  glCanvas.game.player.camera.rotateCam(dx, dy, false);
 }
 
 function mouseUpHandler(glCanvas, event){
