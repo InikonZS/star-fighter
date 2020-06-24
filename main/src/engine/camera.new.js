@@ -57,6 +57,12 @@ class Camera{
     this.vX=0;
     this.vY=0;
     this.vZ=0;    
+
+    this.roX=0;
+    this.roY=0;
+    this.crn=0;
+    this.acl=0;
+    this.moc=false;
   }
 
   rotateCam(dx, dy, shoter=false){
@@ -75,6 +81,24 @@ class Camera{
 
   process(deltaTime){
     this.dt = deltaTime;
+
+    //mobile
+    if (this.moc){
+      this.rotateCam(this.roX*deltaTime, this.roY*deltaTime, false);
+      this.dmat = m4.axisRotate(this.dmat, this.getCamNormal().toVec4(), this.crn*deltaTime);
+      if (this.acl>0){
+        this.keyboardState.backward=false;
+        if (this.acl>30){ this.acl=30}
+        trueVolumeCamera(this, this.acl, deltaTime, [0,0,1,0]);
+      }
+      if (this.acl<0){
+        this.keyboardState.backward =true;
+        //this.getSpeedVector().normalize().mul(-1)
+        //trueVolumeCamera(this, this.acl, deltaTime, [0,0,1,0]);
+      }
+    }
+    ///
+
     let crenSpeed = 0.62;
     if (this.keyboardState.crenleft){
       this.dmat = m4.axisRotate(this.dmat, this.getCamNormal().toVec4(), -crenSpeed*deltaTime);
@@ -147,7 +171,7 @@ class Camera{
     }
 
     if (this.getSpeedVector().abs()>30){
-      friction = 0.980;  
+      friction = 0.930;  
     }
 
     cam.vX*=friction;

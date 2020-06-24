@@ -1,10 +1,15 @@
 const Control = require('./control-js/control.component.js');
 
 class Joy extends Control{
-  constructor(parentNode,glCanvas, onChange){
+  constructor(parentNode,glCanvas, onChange, onChangeLeft){
     super(parentNode, 'div', 'joy_panel', '');
 
     let leftGroup = new Control(this.node, 'div', 'but_group');
+    leftGroup.node.style = 'justify-content: flex-start;';
+    let rightGroup = new Control(this.node, 'div', 'but_group');
+    rightGroup.node.style = 'justify-content: flex-end;';
+    let rightSubGroup = new Control(rightGroup.node, 'div', 'but_subgroup');
+
 
     let weaponSubGroup = new Control(leftGroup.node, 'div', 'but_subgroup');
     for (let i=0; i<4; i++){
@@ -13,7 +18,7 @@ class Joy extends Control{
       });
     }
 
-    let sub1 = new Control(leftGroup.node, 'div', 'but_subgroup');
+/*    let sub1 = new Control(leftGroup.node, 'div', 'but_subgroup');
 
     this.speedButton = new TouchButton (sub1.node, 'butg', (st)=>{
       glCanvas.keyboardState.forward = st;  
@@ -35,10 +40,17 @@ class Joy extends Control{
 
     this.shotButton = new TouchButton (this.node, 'but', (st)=>{
       glCanvas.keyboardState.shot = st;  
-    });
+    });*/
 
-    this.touchPad = new TouchPad(this.node, onChange);
+    this.leftPad = new TouchPad(leftGroup.node, onChangeLeft);
+
+    this.touchPad = new TouchPad(rightGroup.node, onChange);
     
+    let sub1 = new Control(leftGroup.node, 'div', 'but_subgroup');
+    this.shotButton = new TouchButton (sub1.node, 'butg', (st)=>{
+      glCanvas.keyboardState.shot= st;  
+    });
+    this.shotButton.node.style='width:100%';
   }
 }
 
@@ -60,7 +72,7 @@ class TouchButton extends Control{
 }
 
 class TouchPad extends Control{
-  constructor (parentNode, onChange){
+  constructor (parentNode, onChange, onClick){
     super (parentNode, 'div', 'but');
     let but = this;
     //let but = new Control(this.node, 'div', 'but');
@@ -68,23 +80,59 @@ class TouchPad extends Control{
     let ly =0;
     let ax =0;
     let ay =0;
+
+    let sx, sy;
+    let cx, cy;
     let lts;
+    let touchIndex =-1;
     this.onChange = onChange;
+
+    let tst;
+
+   // but.node.addEventListener('click', (e)=>{
+   //   onClick();
+    //});
 
     but.node.addEventListener('touchstart', (e)=>{
       e.preventDefault();
+      let br = but.node.getBoundingClientRect();
+      let it;
+      for (let i=0; i<e.touches.length; i++){
+        it=e.touches[i];
+        if (inBox(it.clientX, it.clientY, br)){
+          touchIndex = i;
+          break;
+        };  
+      }
+
+      let zt = e.touches[touchIndex];
+      if (zt){
+        sx = zt.clientX;
+        sy = zt.clientY;
+        this.onChange(0,0, 0, 0);
+      }
+
       lts = undefined;
+      
     });
 
     but.node.addEventListener('touchend', (e)=>{
       e.preventDefault();
+      this.onChange(0,0, 0, 0);
+      lts=undefined;
+    });
+
+    but.node.addEventListener('touchcancel', (e)=>{
+      e.preventDefault();
+      this.onChange(0,0, 0, 0);
       lts=undefined;
     });
 
     but.node.addEventListener('touchmove', (e)=>{
       e.preventDefault();
       let br = but.node.getBoundingClientRect();
-      let zt = e.touches[0];
+      let zt = e.touches[touchIndex];
+      //but.node.textContent = e.touches.length;
      // console.log (e);
       if (zt){
         lx = ax;
@@ -97,16 +145,31 @@ class TouchPad extends Control{
         
         ay = zt.clientY-br.top;
         ax = zt.clientX-br.left;
+
+        cx = -sx+zt.clientX;
+        cy = -sy+zt.clientY;
+
         let dt = e.timeStamp-lts;
         let dx = (ax-lx)/dt;
         let dy = (ay-ly)/dt;
         let sc = 0.00031;
+
+        let scc =2;
         if (Math.abs(dx)<0.1 && Math.abs(dy)<0.1){
-          this.onChange(dx/sc, dy/sc);
+          this.onChange(dx/sc, dy/sc, cx*scc, cy*scc);
         }
       }
     });
   }
+}
+
+function inBox(x, y, rect){
+  return (
+    y>rect.top &&
+    x>rect.left &&
+    y<rect.bottom &&
+    x<rect.right
+  );
 }
 
 module.exports = Joy;

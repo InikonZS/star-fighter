@@ -13,8 +13,17 @@ class GameMenu extends Control{
 
     this.tool = new Control(this.node, 'div', 'machine_panel');
 
-    this.joy = new Joy(this.node, glCanvas, (dx, dy)=>{
-      glCanvas.game.player.camera.rotateCam(dx, dy, false);
+    this.joy = new Joy(this.node, glCanvas, (dx, dy, cx, cy)=>{
+      //glCanvas.game.player.camera.rotateCam(dx, dy, false);
+      glCanvas.game.player.camera.moc=true;
+      glCanvas.game.player.camera.roX=cx*3;
+      glCanvas.game.player.camera.roY=cy*3;
+    },
+    (dx, dy, cx, cy)=>{
+      //glCanvas.game.player.camera.rotateCam(dx, dy, false);
+      glCanvas.game.player.camera.moc=true;
+      glCanvas.game.player.camera.crn=cx*0.004;
+      glCanvas.game.player.camera.acl=-cy*0.1;
     });
     this.joy.hide();
 
