@@ -12,12 +12,14 @@ class GameMenu extends Control{
     this.view = new Control(this.node, 'div', 'view_panel');
 
     this.tool = new Control(this.node, 'div', 'machine_panel');
-    let joy = new Joy(this.tool.node, glCanvas, (dx, dy)=>{
+
+    this.joy = new Joy(this.node, glCanvas, (dx, dy)=>{
       glCanvas.game.player.camera.rotateCam(dx, dy, false);
-    },
-    ()=>{
-      glCanvas.keyboardState.forward = true;
     });
+    this.joy.hide();
+
+
+    
     this.group = new Control(this.tool.node, 'div', 'panel_group' ,'');
 
     this.health = new Control(this.group.node, 'div', 'panel_item' ,'health: ');

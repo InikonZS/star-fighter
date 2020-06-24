@@ -4,6 +4,7 @@ const GameMenu = require('./game-menu.component.js');
 const GamePanel = require('./game-panel.component.js');
 
 const Game = require('./engine/game.new.js');
+const Timer = require('./engine/timer.new.js');
 
 
 
@@ -20,12 +21,22 @@ class GLCanvas extends Control{
     this.glContext = this.node.getContext('webgl');
     this.isStarted = false;
     this.keyboardState = {};
+    this.joyShow = false;
+    this.infoTimer = new Timer(0.1, ()=>{
+      this.info.node.textContent = 'FPS: '+ Math.round(1/this.averageRenderTime);
+    });
 
     this.averageRenderTime =0;
     this.info = new Control(parentNode,'div');
 
     this.fullScreenButton = new Control(parentNode, 'div', 'fullscreen_button', 'fullScreen', ()=>{
-      parentNode.requestFullscreen();
+        parentNode.requestFullscreen();
+    });
+
+    this.joyButton = new Control(parentNode, 'div', 'fullscreen_button', 'joystick', ()=>{
+      this.joyShow = !this.joyShow;
+      if (!this.joyShow) {this.gamePanel.joy.hide();}
+      else {this.gamePanel.joy.show();}
     });
 
     parentNode.addEventListener('fullscreenchange', (e)=>{
@@ -44,7 +55,9 @@ class GLCanvas extends Control{
 
     this.overlay = new Control(parentNode, 'div', '', '', ()=>{
       if (!this.menu.isActive){
-        //this.node.requestPointerLock();
+        if (!this.joyShow){
+          this.node.requestPointerLock();
+        }
       }
     });
     this.overlayRefresh();
@@ -149,7 +162,8 @@ function glRender(glCanvas, deltaTime){
   if (deltaTime<1000 && deltaTime>0){
     glCanvas.averageRenderTime =  (glCanvas.averageRenderTime * 31 + deltaTime)/32;
   }
-  glCanvas.info.node.textContent = 'FPS: '+ Math.round(1/glCanvas.averageRenderTime);
+  glCanvas.infoTimer.process(deltaTime);
+  //glCanvas.info.node.textContent = 'FPS: '+ Math.round(1/glCanvas.averageRenderTime);
 
   var aspect = glCanvas.glContext.canvas.clientWidth / glCanvas.glContext.canvas.clientHeight;
   
