@@ -1,0 +1,19 @@
+.but{
+  width:100px;
+  height: 100px;
+  background-color: aqua;
+}
+
+.cur{
+  width:10px;
+  height: 10px;
+  position: absolute;
+  background-color:#000;
+}
+
+.scre{
+  width:440px;
+  height: 340px;
+  position: relative;
+  background-color:#FFF;
+}

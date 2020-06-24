@@ -44,7 +44,7 @@ class GLCanvas extends Control{
 
     this.overlay = new Control(parentNode, 'div', '', '', ()=>{
       if (!this.menu.isActive){
-        this.node.requestPointerLock();
+        //this.node.requestPointerLock();
       }
     });
     this.overlayRefresh();

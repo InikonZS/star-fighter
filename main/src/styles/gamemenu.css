@@ -99,3 +99,10 @@
   height: 64px;
   background-image: url('../assets/cross.png');
 }
+
+.but{
+  width:100px;
+  height: 100px;
+  flex-shrink: 0;
+  background-color: aqua;
+}
