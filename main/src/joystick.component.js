@@ -3,10 +3,24 @@ const Control = require('./control-js/control.component.js');
 class Joy extends Control{
   constructor(parentNode,glCanvas, onChange, onChangeLeft){
     super(parentNode, 'div', 'joy_panel', '');
+    let headPanel = new Control(this.node, 'div', 'joy_panel');
+    headPanel.node.style='height:30px; top:0px';
+    this.menuButton = new TouchButton (headPanel.node, 'butg', (st)=>{
+      if (!glCanvas.menu.isActive){
+        glCanvas.menu.activate();
+        glCanvas.keyboardState.shot = false;
+        document.exitPointerLock();
+      } 
+    });
+    this.menuButton.node.style = 'width:30px';
 
-    let leftGroup = new Control(this.node, 'div', 'but_group');
+    let mainPanel = new Control(this.node, 'div', 'joy_panel');
+    mainPanel.node.style='height:calc(100% - 30px - 100px); top:30px';
+    
+
+    let leftGroup = new Control(mainPanel.node, 'div', 'but_group');
     leftGroup.node.style = 'justify-content: flex-start;';
-    let rightGroup = new Control(this.node, 'div', 'but_group');
+    let rightGroup = new Control(mainPanel.node, 'div', 'but_group');
     rightGroup.node.style = 'justify-content: flex-end;';
     let rightSubGroup = new Control(rightGroup.node, 'div', 'but_subgroup');
 
@@ -51,6 +65,11 @@ class Joy extends Control{
       glCanvas.keyboardState.shot= st;  
     });
     this.shotButton.node.style='width:100%';
+
+    this.shieldButton = new TouchButton (sub1.node, 'butg', (st)=>{
+      glCanvas.keyboardState.space= st;  
+    });
+    this.shieldButton.node.style='width:100%';
   }
 }
 
