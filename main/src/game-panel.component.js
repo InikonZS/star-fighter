@@ -1,5 +1,5 @@
 const Control = require('./control-js/control.component.js');
-const Joy = require('./joystick.component.js');
+const {Joy} = require('./joystick.component.js');
 
 class GameMenu extends Control{
   constructor(parentNode, glCanvas){

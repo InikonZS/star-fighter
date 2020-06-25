@@ -20,6 +20,10 @@ class Game{
     this.gl = gl;
     this.glCanvas = glCanvas;
 
+    this.props = {
+      shipIndex:0
+    }
+
     this.world = new World(gl, this);
     this.player = new Player(gl, this, glCanvas.keyboardState);
     this.timers = new GameObject();
@@ -77,8 +81,10 @@ class Game{
     this.player = new Player(this.gl, this, this.glCanvas.keyboardState);
   }
   
-  loadMission(name){
-    //this.clear();
+  loadMission(name, props){
+    this.clear();
+    this.props = props;
+    this.player.model.visible=true;
     if (name=='1'){
       mission3(this);
     } 
@@ -93,6 +99,10 @@ class Game{
 
     if (name=='4'){
       mission1(this);
+    } 
+
+    if (name=='garage'){
+      missionGarage(this);
     } 
   }
 
@@ -263,13 +273,64 @@ function mission3(game){
   seczone.visible=false;
 
   rou.forEach(it=>{
-    starChunk(game, it, 400, 250);
+    starChunk(game, it, 400, 50);
     let brp = basics.makeBreakableExplosive(game.world, it, 0.1, game.world.meteModelList, 10, 30, (bullet)=>{
       brp.deleteSelf();  
     });  
   })
   console.log(rou);
   recCollectable(game, rou ,0);
+}
+
+function missionGarage(game){
+  game.player.camera.posY=0;
+  game.player.camera.posX=0;
+  game.player.camera.posZ=-5;
+
+  let cx=0;
+  let cy=0;
+  let ks = 0.01;
+  game.glCanvas.menu.touchPad.onChange = (dx_, dy_, cx_, cy_)=>{
+    cx = cx_*ks;
+    cy = cy_*ks;  
+  }
+
+  let currentIndex =game.glCanvas.menu.missionOptions.shipIndex||0;
+  
+
+  game.glCanvas.menu.prevShip.click = ()=>{
+    currentIndex-=1;
+    if (currentIndex<0){
+      currentIndex = game.world.shipLists.length-1;
+    }
+    game.glCanvas.menu.missionOptions.shipIndex = currentIndex;
+  }
+
+  game.glCanvas.menu.nextShip.click = ()=>{
+    currentIndex+=1;
+    if (currentIndex>game.world.shipLists.length-1){
+      currentIndex = 0;
+    }
+    game.glCanvas.menu.missionOptions.shipIndex = currentIndex;
+  }
+
+  
+
+  for (let i=0; i< game.world.shipLists.length; i++){
+    let model = game.world.shipLists[i].createStaticItem(calc.matrixFromPos(new Vector3d(0,0,0), 1, 0, 0));
+    game.player.model.visible=false;
+    model.menuIndex = i;
+    model.onProcess = (deltaTime)=>{ //TODO use axis rotation
+      if (model.menuIndex!=currentIndex){
+        model.visible = false;
+      } else { 
+        model.visible = true;
+        model.matrix = m4.zRotate(model.matrix, cx*deltaTime);
+        model.matrix = m4.xRotate(model.matrix, cy*deltaTime);  
+      }
+    }
+  }
+
 }
 
 function recCollectable(game, rou, i){

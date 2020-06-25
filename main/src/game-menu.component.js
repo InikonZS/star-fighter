@@ -1,6 +1,7 @@
 const Control = require('./control-js/control.component.js');
 const Pager = require('./control-js/pager.component.js');
 const options = require('./options.utils.js');
+const joyUtils = require('./joystick.component.js');
 
 class GameMenu extends Control{
   constructor(parentNode, glCanvas){
@@ -18,7 +19,13 @@ class GameMenu extends Control{
     this.gameMenu = this.menu.addPage('Paused');
     this.gameOverMenu = this.menu.addPage('Game Over');
     this.gameWinMenu = this.menu.addPage('Mission Complete');
+    //this.detailMenu = this.menu.addPage('Detail');
     this.menu.selectPage(this.mainMenu);
+
+    this.missionOptions = {
+      missionName: '1',
+      shipIndex:0
+    }
 
     this.startButton = new Control(this.mainMenu.node, 'div', 'menu_item', 'start new',()=>{
       this.menu.selectPage(this.missionMenu);
@@ -48,10 +55,45 @@ class GameMenu extends Control{
 
 
     this.exitButton = new Control(this.mainMenu.node, 'div', 'menu_item', 'exit',()=>{
-      document.exitFullscreen();
+      if (document.fullscreenElement!=null){
+        document.exitFullscreen();
+      }
     });
 
-    this.m1Button = new Control(this.missionMenu.node, 'div', 'menu_item', 'mission1',()=>{
+    let missionCount = 4;
+    for (let i=0; i<missionCount; i++){
+      new Control(this.missionMenu.node, 'div', 'menu_item', 'mission'+(i+1),()=>{
+        
+        this.glCanvas.start();
+        this.glCanvas.game.loadMission('garage', this.missionOptions);
+        this.missionOptions.missionName=(i+1).toString();
+        this.glCanvas.useControls = false;
+        this.menu.selectPage(this.startMenu);
+      }); 
+    }
+
+    this.touchPad = new joyUtils.TouchPad(this.startMenu.node, ()=>{});
+
+    this.prevShip = new Control(this.startMenu.node, 'div', 'menu_item', 'prevShip',()=>{
+    });
+    this.nextShip = new Control(this.startMenu.node, 'div', 'menu_item', 'nextShip',()=>{
+    });
+
+    this.startMissionButton = new Control(this.startMenu.node, 'div', 'menu_item', 'Fight!',()=>{
+      //this.glCanvas.start();
+      this.glCanvas.useControls = true;
+      this.glCanvas.game.loadMission(this.missionOptions.missionName, this.missionOptions);
+      this.menu.selectPage(this.gameMenu);
+      this.deactivate(true);
+    });
+
+    new Control(this.startMenu.node, 'div', 'menu_item', 'to main menu',()=>{
+      this.activate();
+      this.menu.selectPage(this.mainMenu);
+    });
+   /* this.m1Button = new Control(this.missionMenu.node, 'div', 'menu_item', 'mission1',()=>{
+      this.menu.selectPage(this.startMenu);
+
       this.glCanvas.start();
       this.glCanvas.game.loadMission('1');
       this.menu.selectPage(this.gameMenu);
@@ -78,6 +120,7 @@ class GameMenu extends Control{
       this.menu.selectPage(this.gameMenu);
       this.deactivate(true);
     });
+    */
 
     this.mainMenuButtonM = new Control(this.missionMenu.node, 'div', 'menu_item', 'to main menu',()=>{
       this.menu.selectPage(this.mainMenu);

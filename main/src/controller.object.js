@@ -2,18 +2,22 @@
 
 function mouseMoveHandler(glCanvas, dx, dy){
   //glCanvas.camera.rotateCam(dx, dy);
+  if (!glCanvas.useControls){return;}
   glCanvas.game.player.camera.rotateCam(dx, dy, false);
 }
 
 function mouseUpHandler(glCanvas, event){
+  if (!glCanvas.useControls){return;}
   glCanvas.keyboardState.shot = false;
 }
 
 function mouseDownHandler(glCanvas, event){
+  if (!glCanvas.useControls){return;}
   glCanvas.keyboardState.shot = true;
 }
 
 function keyDownHandler(glCanvas, e){
+  if (!glCanvas.useControls){return;}
   if (e.code == 'KeyQ'){
     glCanvas.keyboardState.crenleft = true;
     //keyboardHandler(glCanvas, 'forward', true);
@@ -51,6 +55,8 @@ function keyDownHandler(glCanvas, e){
 }
 
 function keyUpHandler(glCanvas, e){
+  if (!glCanvas.useControls){return;}// TODO set to false all states when controls are disabled
+
   if (e.code == 'Backquote'){
     if (!glCanvas.menu.isActive){
       glCanvas.menu.activate();
@@ -94,6 +100,7 @@ function keyUpHandler(glCanvas, e){
     //keyboardHandler(glCanvas, 'space', false);
   }  
 
+  //if (!glCanvas.useControls){return;}
   if (e.code == 'Digit1'){
     glCanvas.game.player.setWeapon(1);
   } 

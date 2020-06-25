@@ -42,7 +42,7 @@ class World{
   constructor(gl, game){
     //dynamic loaded res
     const meteModel = window.resBase.getByName('mete');
-    const selfModel = window.gameResource.list[calc.rand(1)+1];
+    const selfModel = window.gameResource.list[calc.rand(1)+game.props.shipIndex+1];
     const ships = [
       window.gameResource.list[5],
       window.gameResource.list[6],

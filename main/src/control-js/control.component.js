@@ -27,6 +27,18 @@ class Control {
     }
   }
 
+  /*setClick(click){
+    if (this.click) {return;}
+    if (click) {
+      this.click = click;
+      this.node.addEventListener('click', (e) => {
+        if (!this.isDisabled) {
+          this.click(e);
+        }
+      });
+    }  
+  }*/
+
   clear() {
     this.node.innerHTML = '';
   }

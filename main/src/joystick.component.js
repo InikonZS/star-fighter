@@ -191,4 +191,8 @@ function inBox(x, y, rect){
   );
 }
 
-module.exports = Joy;
+module.exports = {
+  Joy,
+  TouchPad,
+  TouchButton
+};

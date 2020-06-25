@@ -20,6 +20,7 @@ class GLCanvas extends Control{
     this.node.height = height;
     this.glContext = this.node.getContext('webgl');
     this.isStarted = false;
+    this.useControls = true;
     this.keyboardState = {};
     this.joyShow = false;
     this.infoTimer = new Timer(0.1, ()=>{
