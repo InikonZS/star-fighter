@@ -2,8 +2,8 @@ const modelConfig = {
   list:[
     {
       name: "mete",
-      url: "assets/models/tunnel_meteorite.obj",
-      tex: "assets/textures/UVW_meteorite.png"
+      url: "assets/models/small_meteorite.obj",
+      tex: "assets/textures/small_meteorite.jpg"
     },
     {
       name: "cab0",

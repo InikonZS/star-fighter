@@ -304,7 +304,7 @@ function mission3(game) {
   let rou = makeRingSpline(1000);
   game.player.camera.posY = 0;
   game.player.camera.posX = 0;
-  game.player.camera.posZ = 0;
+  game.player.camera.posZ = -1200;
 
   basics.makePhysicalAzi(
     game.world,
@@ -314,13 +314,16 @@ function mission3(game) {
     Math.PI / 2,
     game.world.bigModelList
   );
+
+
   //basics.makePhysical(game.world, new Vector3d(0, 1050, 100), 10, game.world.bigModelList);
   basics.makePhysical(
     game.world,
     new Vector3d(0, 0, -1000),
     1,
-    game.world.marsModelList
+    game.world.marsModelList,
   );
+  
   let seczone = basics.makeCollactable(
     game.world,
     new Vector3d(0, 0, -1000),
@@ -341,10 +344,10 @@ function mission3(game) {
   seczone.visible = false;
 
   let solidsPos = new Vector3d(0, 0, 0);
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 1000; i++) {  
     game.world.createSolid(
-      randVector(solidsPos, 1500),
-      (rand(60) + 10) / 500,
+      randVector(solidsPos, 1000),
+      (rand(60) + 10) / 5,
       { r: Math.random(), g: Math.random(), b: 0.5 },
       "bigModel"
     );
