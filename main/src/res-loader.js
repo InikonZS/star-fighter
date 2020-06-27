@@ -1,3 +1,5 @@
+const glUtils = require('./gl-utils.js');
+
 const modelConfig = {
   list:[
     {
@@ -48,7 +50,6 @@ const modelConfig = {
       url: "assets/models/tunnel_meteorite.obj",
       tex: "assets/textures/UVW_meteorite.png"
     },
-
     {
       name: "mars",
       url: "assets/models/mars.obj",
@@ -58,8 +59,42 @@ const modelConfig = {
       name: "mercury",
       url: "assets/models/mars.obj",
       tex: "assets/textures/2k_mercury.jpg"
+    },
+    {
+      name: "bigShip",
+      url: "assets/models/big_ship.obj",
+      tex: "assets/textures/Trident_UV_Dekol_Color.png"
+    },
+
+    {
+      name: "box",
+      url: "assets/models/box.obj",
+    },
+    {
+      name: "skybox",
+      url: "assets/models/skybox.obj",
+      tex: "assets/textures/skybox.png"
+    },
+    {
+      name: "explosion",
+      url: "assets/models/point_sprite.obj",
+      tex: "assets/textures/explosion.png"
+    },
+    {
+      name: "magic",
+      url: "assets/models/point_sprite.obj",
+      tex: "assets/textures/magic.png"
+    },
+    {
+      name: "fogmagic",
+      url: "assets/models/mars.obj",
+      tex: "assets/textures/fogmagic.png"
+    },
+    {
+      name: "bulletSprite",
+      url: "assets/models/point_sprite.obj",
+      tex: "assets/textures/bul1.png"
     }
-    
   ]
 }
 
@@ -93,6 +128,31 @@ function loadModels(modelConfig, onLoadedAll){
   });
 }
 
+function loadImages(modelConfig, onLoadedAll){
+  //let max = modelConfig.list.length;
+  let texCount = 0;
+  modelConfig.list.forEach(it=>{
+    if (it.tex){
+      texCount++;
+    }
+  });
+
+  modelConfig.list.forEach(it=>{
+    if (it.tex){
+      let image = document.createElement('img');
+      image.addEventListener('load', function() {
+        console.log(it.tex);
+        texCount--;
+        it.texImage = image;
+        if (texCount===0){
+          onLoadedAll(modelConfig);
+        }
+      });
+      image.src = it.tex;
+    }
+  });
+}
+
 function loadAll(onLoad){
   loadModels(modelConfig, onLoad);
 }
@@ -100,7 +160,12 @@ function loadAll(onLoad){
 class ModelLoader{
   constructor(data, onLoad){
     this.data = data;
-    loadModels(this.data, onLoad);
+    console.log('loading models');
+    loadModels(this.data, ()=>{
+      console.log('loading textures');
+      loadImages(this.data, onLoad);
+    });
+    //loadModels(this.data, onLoad);
   }
 
   getByName(name){
@@ -112,5 +177,6 @@ class ModelLoader{
 module.exports = {
   ModelLoader,
   loadAll,
-  modelConfig
+  modelConfig,
+  getByName_
 };

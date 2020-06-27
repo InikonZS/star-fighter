@@ -4,7 +4,7 @@ const calc = require('../calc.utils.js');
 const bulletMaker = require('./bullet.gmob.js');
 
 class Weapon{
-  constructor(world, shotTime, bulletLifeTime, bulletSpeed, soundUrl, name='gun', bulletCount=100, damage){
+  constructor(world, shotTime, bulletLifeTime, bulletSpeed, soundClass, name='gun', bulletCount=100, damage){
     this.weaponName = name;
     this.bulletCount = bulletCount;
 
@@ -13,11 +13,12 @@ class Weapon{
     this.shotTime = shotTime;
     this.bulletLifeTime = bulletLifeTime;
     this.bulletSpeed = bulletSpeed;
-    this.soundUrl = soundUrl;
+    //this.soundUrl = soundUrl;
     this.world = world;
-    if (soundUrl){
-      Utils.preloadSoundUrl(soundUrl);
-    }
+    //if (soundUrl){
+    //  Utils.preloadSoundUrl(soundUrl);
+    //}
+    this.sndClass = soundClass;
   }
   shot(point, direction, playerPos){
     
@@ -51,12 +52,13 @@ class Weapon{
       }
       
       this.shotTime = this.initialShotTime;
-      if (this.soundUrl){
+      if (this.sndClass){
         let vol = 1;
         if (playerPos) {
           vol = 10/(point.subVector(playerPos).abs());
         }
-        Utils.playSoundUrl(this.soundUrl, vol); 
+        window.sndBase.playByClass(this.sndClass, vol);
+        //Utils.playSoundUrl(this.soundUrl, vol); 
       }
       return true;
     }

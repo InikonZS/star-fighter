@@ -9,10 +9,10 @@ const rocketModel = require('../models/tf.model.js');
 const rocketModel1 = require('../models/rocket.model.js');
 //const selfModel = require('../models/self1.model.js');
 const selfModel1 = require('../models/self.model.js');
-const bigModel = require('../models/big.model.js');
-const boxModel = require('../models/box.model.js');
+//const bigModel = require('../models/big.model.js');
+//const boxModel = require('../models/box.model.js');
 const skyboxModel = require('../models/skybox.model.js');
-const pointSpriteModel = require('../models/point-sprite.model.js');
+//const pointSpriteModel = require('../models/point-sprite.model.js');
 
 const Physic = require('./physic.new.js');
 const Mesh = require('../mesh.object.js');
@@ -41,7 +41,9 @@ const utils = require('../any.utils.js');
 class World{
   constructor(gl, game){
     //dynamic loaded res
+    const bigModel = window.resBase.getByName('bigShip');
     const meteModel = window.resBase.getByName('mete');
+    const boxModel = window.resBase.getByName('box').source;
     const selfModel = window.gameResource.list[calc.rand(1)+game.props.shipIndex+1];
     const ships = [
       window.gameResource.list[5],
@@ -72,36 +74,36 @@ class World{
     }
 
     this.animatedShaderList = new AnimatedShaderList(gl, animatedShaderUnit);
-    this.explosions = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/explosion.png');
-    this.magics = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/magic.png');
-    this.magicSpheres = this.animatedShaderList.createModelList(marsModel.source, 'assets/textures/magic.png');
-    this.magicFogSpheres = this.animatedShaderList.createModelList(marsModel.source, 'assets/textures/fogmagic.png');
+    this.explosions = this.animatedShaderList.createModelList(window.resBase.getByName('explosion'));
+    this.magics = this.animatedShaderList.createModelList(window.resBase.getByName('magic'));
+    //this.magicSpheres = this.animatedShaderList.createModelList(marsModel.source, 'assets/textures/magic.png');
+    this.magicFogSpheres = this.animatedShaderList.createModelList(window.resBase.getByName('fogmagic'));
 
-    this.bulPlasm = this.animatedShaderList.createModelList(pointSpriteModel, 'assets/textures/bul1.png');
+    this.bulPlasm = this.animatedShaderList.createModelList(window.resBase.getByName('bulletSprite'));
 
     //making list for rendering with shader
     this.solidUntexturedShaderList = new SolidUntexturedShaderList(gl, solidUntexturedShaderUnit);
     this.solidTexturedShaderList = new SolidTexturedShaderList(gl, solidTexturedShaderUnit);
 
     //loading models and making lists
-    this.meteModelList = this.solidTexturedShaderList.createModelList(meteModel.source, meteModel.tex, 1);
-    this.mercuryModelList = this.solidTexturedShaderList.createModelList(mercuryModel.source, mercuryModel.tex, 1);
-    this.marsModelList = this.solidTexturedShaderList.createModelList(marsModel.source, marsModel.tex, 1);
+    this.meteModelList = this.solidTexturedShaderList.createModelList(meteModel, 1);
+    this.mercuryModelList = this.solidTexturedShaderList.createModelList(mercuryModel, 1);
+    this.marsModelList = this.solidTexturedShaderList.createModelList(marsModel, 1);
 
     this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
     this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
     this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
     if (selfModel.tex){
-      this.selfModelList = this.solidTexturedShaderList.createModelList(selfModel.source, selfModel.tex);
+      this.selfModelList = this.solidTexturedShaderList.createModelList(selfModel);
     } else {
       this.selfModelList = this.solidUntexturedShaderList.createModelList(selfModel.source);  
     }
     
-    this.bigModelList = this.solidTexturedShaderList.createModelList(bigModel, 'assets/textures/Trident_UV_Dekol_Color.png');
+    this.bigModelList = this.solidTexturedShaderList.createModelList(bigModel)//, 'assets/textures/Trident_UV_Dekol_Color.png');
 
     this.shipLists = [];
     for (let i = 0; i<ships.length; i++){
-      let ship = this.solidTexturedShaderList.createModelList(ships[i].source, ships[i].tex);
+      let ship = this.solidTexturedShaderList.createModelList(ships[i]);
       this.shipLists.push(ship);
     }
     //Trident_UV_Dekol_Color.tif

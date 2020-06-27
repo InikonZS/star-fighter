@@ -26,10 +26,10 @@ class Player extends GameObject {
     //this.domStates = 
 
     this.weapons=[
-      new Weapon(world, 0.15, 1.2, 130.1, 'assets/sounds/laser.mp3', 'laser',100 , 2),
-      new Weapon(world, 0.08, 0.7, 130.1, 'assets/sounds/auto.mp3', 'auto', 1000, 1),
-      new Weapon(world, 0.35, 5.2, 260.1, 'assets/sounds/laser_med.mp3', 'phaser', 60, 4),
-      new Weapon(world, 0.65, 3.2, 740.1, 'assets/sounds/laser_power.mp3', 'railgun',70, 6),
+      new Weapon(world, 0.15, 1.2, 130.1, 'laserShot', 'laser',100 , 2),
+      new Weapon(world, 0.08, 0.7, 130.1, 'autoShot', 'auto', 1000, 1),
+      new Weapon(world, 0.35, 5.2, 260.1, 'phaserShot', 'phaser', 60, 4),
+      new Weapon(world, 0.65, 3.2, 740.1, 'railShot', 'railgun',70, 6),
     ];
     this.setWeapon(1);
 
@@ -47,7 +47,8 @@ class Player extends GameObject {
       if (this.shieldActivated) {return;}
       console.log('hit');
       bullet.deleteSelf();
-      rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
+      window.sndBase.playByClass('hit');
+      //rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
       this.health-=rand(15)+3;
       this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
       if (this.health<0){
@@ -55,7 +56,8 @@ class Player extends GameObject {
         this.isAlive = false;
         this.game.glCanvas.keyboardState.shot = false;
         this.game.world.createExplosion(this.camera.getPosVector().subVector(this.camera.getCamNormal().mul(2.10)),40);
-        rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3') : anyutils.playSoundUrl('assets/sounds/expl2.mp3');
+        window.sndBase.playByClass('explosion');
+        //rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3') : anyutils.playSoundUrl('assets/sounds/expl2.mp3');
        
         setTimeout(()=>{
          /* this.game.glCanvas.keyboardState.shot = false;
@@ -72,14 +74,16 @@ class Player extends GameObject {
     
     let nearbox = makeHitBox(this, 5, (bullet)=>{
       console.log('near');
-      rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/near1.mp3') : anyutils.playSoundUrl('assets/sounds/near2.mp3');
+      window.sndBase.playByClass('near');
+      //rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/near1.mp3') : anyutils.playSoundUrl('assets/sounds/near2.mp3');
     });
     this.nearbox = nearbox;
 
     let shieldbox = makeHitBox(this, 3, (bullet)=>{
       if (!this.shieldActivated) {return;}
       console.log('shielded');
-      rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/error.mp3') : anyutils.playSoundUrl('assets/sounds/error.mp3');
+      window.sndBase.playByClass('error');
+      //rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/error.mp3') : anyutils.playSoundUrl('assets/sounds/error.mp3');
     });
     this.nearbox = nearbox;
 //this.touch = new Phys(this.nearbox.mesh.vertexList);
@@ -132,7 +136,8 @@ class Player extends GameObject {
         if (calc.isCrossedSimple(ob.hitPosition, this.camera.getPosVector(), this.speedVectorSync, ob.hitDist)){
           if (ob.bonus == 'bullets'){
             this.weapons[this.currentWeaponIndex-1].bulletCount+=ob.bonus_count;
-            anyutils.playSoundUrl('assets/sounds/reload.mp3')
+            window.sndBase.playByClass('bulletBonus')
+            //anyutils.playSoundUrl('assets/sounds/reload.mp3')
             ob.deleteSelf();
             this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.weapons[this.currentWeaponIndex-1].bulletCount;
             
@@ -140,7 +145,8 @@ class Player extends GameObject {
 
           if (ob.bonus == 'health'){
             this.health = incLim(this.health, ob.bonus_count, 100);
-            anyutils.playSoundUrl('assets/sounds/correct.mp3')
+            //anyutils.playSoundUrl('assets/sounds/correct.mp3')
+            window.sndBase.playByClass('healthBonus');
             ob.deleteSelf();
             this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
           }

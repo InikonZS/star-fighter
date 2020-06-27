@@ -31,15 +31,19 @@ class TexturedItem extends GameObject {
 }
 
 class SolidUntexturedModelList extends RenderableModelList{
-  constructor(gl, shaderVariables, modelSource, textureURL, preScaler){
-    super(gl, shaderVariables, modelSource, preScaler); 
-    GLUtils.createTexture(gl, textureURL, (tex)=>{this.texture = tex});
+ // constructor(gl, shaderVariables, modelSource, textureURL, preScaler){
+  constructor(gl, shaderVariables, record, preScaler){
+    super(gl, shaderVariables, record.source, preScaler); 
+    //GLUtils.createTexture(gl, textureURL, (tex)=>{this.texture = tex});
+    GLUtils.createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
     this.onRender = (gl, props)=>{
       GLUtils.setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
       GLUtils.setBuffer(gl, this.mesh.normBuffer, this.shaderVariables.normalAttr, 3); 
       GLUtils.setBuffer(gl, this.mesh.texBuffer, this.shaderVariables.texAttr, 2); 
       gl.bindTexture(gl.TEXTURE_2D, this.texture);
     }
+
+    
 
   /*  this.onDelete = ()=>{
       this.mesh.deleteBuffers();
@@ -95,8 +99,8 @@ class SolidUntexturedShaderList extends RenderableShaderList{
     }
   }
 
-  createModelList(modelSource, textureURL, preScaler){
-    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource, textureURL, preScaler));
+  createModelList(record, preScaler){
+    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, record, preScaler));
   }
 }
 
