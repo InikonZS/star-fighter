@@ -111,8 +111,9 @@ function getByName_(config, name){
   return false;
 }
 
-function loadModels(modelConfig, onLoadedAll){
+function loadModels(modelConfig, onLoadedAll, onProgress){
   let max = modelConfig.list.length;
+  let counter =0;
   modelConfig.list.forEach(it=>{
     fetch(it.url).then((res)=>{
       return res.text();
@@ -120,6 +121,7 @@ function loadModels(modelConfig, onLoadedAll){
       it.source = res;
       it.ok = true;
       counter++;
+      onProgress('model', it, max, counter);
       console.log('Loaded['+counter+'] '+it.url);
       if (counter===max){
         onLoadedAll(modelConfig);
@@ -128,7 +130,7 @@ function loadModels(modelConfig, onLoadedAll){
   });
 }
 
-function loadImages(modelConfig, onLoadedAll){
+function loadImages(modelConfig, onLoadedAll, onProgress){
   //let max = modelConfig.list.length;
   let texCount = 0;
   modelConfig.list.forEach(it=>{
@@ -136,13 +138,14 @@ function loadImages(modelConfig, onLoadedAll){
       texCount++;
     }
   });
-
+  let texMax = texCount;
   modelConfig.list.forEach(it=>{
     if (it.tex){
       let image = document.createElement('img');
       image.addEventListener('load', function() {
         console.log(it.tex);
         texCount--;
+        onProgress('texture', it, texMax, texMax - texCount);
         it.texImage = image;
         if (texCount===0){
           onLoadedAll(modelConfig);
@@ -153,18 +156,19 @@ function loadImages(modelConfig, onLoadedAll){
   });
 }
 
-function loadAll(onLoad){
-  loadModels(modelConfig, onLoad);
-}
+//function loadAll(onLoad){
+//  loadModels(modelConfig, onLoad);
+//}
 
 class ModelLoader{
-  constructor(data, onLoad){
+  constructor(data, onLoad, onProgress){
     this.data = data;
     console.log('loading models');
     loadModels(this.data, ()=>{
       console.log('loading textures');
-      loadImages(this.data, onLoad);
-    });
+      loadImages(this.data, onLoad, onProgress);
+    },
+    onProgress);
     //loadModels(this.data, onLoad);
   }
 
@@ -176,7 +180,7 @@ class ModelLoader{
 
 module.exports = {
   ModelLoader,
-  loadAll,
+  //loadAll,
   modelConfig,
   getByName_
 };

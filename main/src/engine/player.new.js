@@ -20,7 +20,9 @@ class Player extends GameObject {
 
     this.isAlive = true;
     this.health = 100;
+    this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
     this.shieldEnergy = 100;
+    this.game.glCanvas.gamePanel.shield.node.textContent = 'shield: '+this.shieldEnergy;
     this.shieldTime = 2;
 
     //this.domStates = 

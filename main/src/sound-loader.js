@@ -83,13 +83,16 @@ function loadSoundBlob(url, onLoad){
   fetch(url).then((res)=>res.blob()).then(blob=>onLoad(blob));  
 }
 
-function loadSounds(modelConfig, onLoadedAll){
+function loadSounds(modelConfig, onLoadedAll, onProgress){
   let sndCount = modelConfig.list.length;
+  let max = sndCount;
   modelConfig.list.forEach(it=>{
     if (it.url){
       loadSoundBlob(it.url, function(blob) {
         console.log(it.url);
+        
         sndCount--;
+        onProgress('sound', it, max, max-sndCount);
         it.blob = blob;
         it.locURL = URL.createObjectURL(blob);
         if (sndCount===0){
@@ -119,9 +122,9 @@ function getByClass_(config, name){
 
 
 class Sounder {
-  constructor (soundConfig, onLoad){
+  constructor (soundConfig, onLoad, onProgress){
     this.data = soundConfig;
-    loadSounds(this.data, onLoad);
+    loadSounds(this.data, onLoad, onProgress);
   }
 
   getByName(name){

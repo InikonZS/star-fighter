@@ -9,6 +9,9 @@ class App{
     this.startScreen = new Control (parentNode, 'div', '', 'click to load', ()=>{
       this.loadApp(()=>{
         this.startScreen.hide();
+      },
+      (type, it, length, current)=>{
+        this.startScreen.node.textContent = `Loading ${type} ${current}/${length}, ${Math.round(100*current/length)}% done `;
       });
     });
     this.startScreen.node.style = `
@@ -17,7 +20,7 @@ class App{
     `;
   }
 
-  loadApp(onLoad){
+  loadApp(onLoad, onProgress){
     let parentNode = this.parentNode;
     var sndLoader = new SoundLoader.Sounder(SoundLoader.soundConfig, ()=>{
       var loader = new Loader.ModelLoader(Loader.modelConfig, (res)=>{
@@ -28,9 +31,11 @@ class App{
         window.addEventListener('resize',()=>{
         });
         onLoad();
-      });
+      },
+      onProgress);
       window.resBase = loader;
-    });
+    },
+    onProgress);
     window.sndBase = sndLoader;  
   }
 }
