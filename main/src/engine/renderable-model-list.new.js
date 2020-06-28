@@ -20,6 +20,12 @@ class RenderableModelList extends GameObject {
       console.log('delbuffers'); 
     }*/
   }
+ /* clear(){
+    this.childList.forEach(it=>{
+      it.deleteSelf();
+      console.log('deleted');
+    });  
+  }*/
 }
 
 module.exports = RenderableModelList;

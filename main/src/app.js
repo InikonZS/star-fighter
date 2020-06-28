@@ -1,9 +1,24 @@
 const GLCanvas = require('./gl-canvas.component.js');
+const Control = require('./control-js/control.component.js');
 const Loader = require('./res-loader.js');
 const SoundLoader = require('./sound-loader.js');
 
 class App{
   constructor(parentNode){
+    this.parentNode = parentNode;
+    this.startScreen = new Control (parentNode, 'div', '', 'click to load', ()=>{
+      this.loadApp(()=>{
+        this.startScreen.hide();
+      });
+    });
+    this.startScreen.node.style = `
+      width:640px;
+      height:480px;
+    `;
+  }
+
+  loadApp(onLoad){
+    let parentNode = this.parentNode;
     var sndLoader = new SoundLoader.Sounder(SoundLoader.soundConfig, ()=>{
       var loader = new Loader.ModelLoader(Loader.modelConfig, (res)=>{
         console.log('loaded', res);
@@ -12,10 +27,11 @@ class App{
         this.glCanvas.setController(this);
         window.addEventListener('resize',()=>{
         });
+        onLoad();
       });
       window.resBase = loader;
     });
-    window.sndBase = sndLoader;
+    window.sndBase = sndLoader;  
   }
 }
 

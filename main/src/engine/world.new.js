@@ -11,7 +11,7 @@ const rocketModel1 = require('../models/rocket.model.js');
 const selfModel1 = require('../models/self.model.js');
 //const bigModel = require('../models/big.model.js');
 //const boxModel = require('../models/box.model.js');
-const skyboxModel = require('../models/skybox.model.js');
+//const skyboxModel = require('../models/skybox.model.js');
 //const pointSpriteModel = require('../models/point-sprite.model.js');
 
 const Physic = require('./physic.new.js');
@@ -41,6 +41,7 @@ const utils = require('../any.utils.js');
 class World{
   constructor(gl, game){
     //dynamic loaded res
+    const skyboxModel = window.resBase.getByName('skybox');
     const bigModel = window.resBase.getByName('bigShip');
     const meteModel = window.resBase.getByName('mete');
     const boxModel = window.resBase.getByName('box').source;
@@ -62,7 +63,7 @@ class World{
     this.viewMatrix = m4.identity();
 
     this.skyboxShaderList = new SkyboxShaderList(gl, skyboxShaderUnit);
-    this.skyboxModelList = this.skyboxShaderList.createModelList(skyboxModel, 'assets/textures/skybox.png');
+    this.skyboxModelList = this.skyboxShaderList.createModelList(skyboxModel);
     let skyboxElement = this.skyboxModelList.createStaticItem(m4.identity());
     skyboxElement.onProcess = (deltaTime)=>{
       let mt = m4.identity();
@@ -138,6 +139,7 @@ class World{
 
   clear(){
     this.graphicList.clear();
+    //this.graphicList.tryFilter();
     //this.objectList.clear();
   }
 

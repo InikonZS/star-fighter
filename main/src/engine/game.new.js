@@ -71,6 +71,7 @@ class Game{
   }
 
   clear(){
+   // this.glCanvas.stop();
     this.world.clear();
     //this.player.camera.init();
     //this.timers.clear();
@@ -79,6 +80,7 @@ class Game{
     this.targets.refresh();
     this.world = new World(this.gl, this);  
     this.player = new Player(this.gl, this, this.glCanvas.keyboardState);
+   // this.glCanvas.start();
   }
   
   loadMission(name, props){

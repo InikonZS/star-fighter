@@ -4,9 +4,9 @@ const RenderableItem = require('./renderable-item.new.js');
 const GLUtils = require('../gl-utils.js');
 
 class ModelList extends RenderableModelList{
-  constructor(gl, shaderVariables, modelSource, textureURL){
-    super(gl, shaderVariables, modelSource); 
-    GLUtils.createTexture(gl, textureURL, (tex)=>{this.texture = tex});
+  constructor(gl, shaderVariables, record){
+    super(gl, shaderVariables, record.source); 
+    GLUtils.createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
 
     this.onRender = (gl, props)=>{
       GLUtils.setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
@@ -34,8 +34,8 @@ class ShaderList extends RenderableShaderList{
     }
   }
 
-  createModelList(modelSource, textureURL){
-    return this.addChild(new ModelList(this.gl, this.shaderVariables, modelSource, textureURL));
+  createModelList(record){
+    return this.addChild(new ModelList(this.gl, this.shaderVariables, record));
   }
 }
 

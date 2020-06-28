@@ -89,7 +89,7 @@ class GameObject{
       }
     }
   }
-
+  
   clear(){
     if (this.mesh){
       this.mesh.deleteBuffers(); 
@@ -109,6 +109,11 @@ class GameObject{
     });
    // this.tryFilter();
   }
+ /* clear(){
+    this.childList.forEach(it=>{
+      it.clear();
+    });  
+  }*/
 }
 
 module.exports = GameObject;
