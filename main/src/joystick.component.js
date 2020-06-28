@@ -108,11 +108,24 @@ class TouchPad extends Control{
 
     let tst;
 
+    let downed = false;
+
    // but.node.addEventListener('click', (e)=>{
    //   onClick();
     //});
+    but.node.addEventListener('mousedown', (e)=>{
+      e.preventDefault();
+      let zt = e;
+      downed = true;
+      if (zt){
+        sx = zt.clientX;
+        sy = zt.clientY;
+        this.onChange(0,0, 0, 0);
+      }
+      lts = undefined;  
+    });
 
-    but.node.addEventListener('touchstart', (e)=>{
+    let startHandler = (e)=>{
       e.preventDefault();
       let br = but.node.getBoundingClientRect();
       let it;
@@ -123,29 +136,27 @@ class TouchPad extends Control{
           break;
         };  
       }
-
       let zt = e.touches[touchIndex];
       if (zt){
         sx = zt.clientX;
         sy = zt.clientY;
         this.onChange(0,0, 0, 0);
       }
-
       lts = undefined;
-      
-    });
+    };
 
-    but.node.addEventListener('touchend', (e)=>{
+    let endHandler = (e)=>{
       e.preventDefault();
       this.onChange(0,0, 0, 0);
       lts=undefined;
-    });
+      downed = false;
+    }
 
-    but.node.addEventListener('touchcancel', (e)=>{
-      e.preventDefault();
-      this.onChange(0,0, 0, 0);
-      lts=undefined;
-    });
+    but.node.addEventListener('touchstart', startHandler);
+
+    but.node.addEventListener('touchend', endHandler);
+    document.addEventListener('mouseup', endHandler);
+    but.node.addEventListener('touchcancel', endHandler);
 
     but.node.addEventListener('touchmove', (e)=>{
       e.preventDefault();
@@ -178,6 +189,39 @@ class TouchPad extends Control{
           this.onChange(dx/sc, dy/sc, cx*scc, cy*scc);
         }
       }
+    });
+
+    but.node.addEventListener('mousemove', (e)=>{
+      e.preventDefault();
+      let br = but.node.getBoundingClientRect();
+      let zt = e;
+      //but.node.textContent = e.touches.length;
+     // console.log (e);
+      if (zt&&downed){
+        lx = ax;
+        ly = ay
+        if (!lts){
+          lts = e.timeStamp;
+          ly = zt.clientY-br.top;
+          lx = zt.clientX-br.left;
+        }
+        
+        ay = zt.clientY-br.top;
+        ax = zt.clientX-br.left;
+
+        cx = -sx+zt.clientX;
+        cy = -sy+zt.clientY;
+
+        let dt = e.timeStamp-lts;
+        let dx = (ax-lx)/dt;
+        let dy = (ay-ly)/dt;
+        let sc = 0.00031;
+
+        let scc =2;
+        if (Math.abs(dx)<0.1 && Math.abs(dy)<0.1){
+          this.onChange(dx/sc, dy/sc, cx*scc, cy*scc);
+        }
+      }  
     });
   }
 }
