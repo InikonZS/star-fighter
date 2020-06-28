@@ -47,7 +47,8 @@ class Player extends GameObject {
       if (this.shieldActivated) {return;}
       console.log('hit');
       bullet.deleteSelf();
-      window.sndBase.playByClass('hit');
+      this.damage(4, 12);
+    /*  window.sndBase.playByClass('hit');
       //rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
       this.health-=rand(15)+3;
       this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
@@ -64,9 +65,9 @@ class Player extends GameObject {
           this.game.glCanvas.menu.activate();
           this.game.glCanvas.menu.menu.selectPage(this.game.glCanvas.menu.gameOverMenu);
           document.exitPointerLock();*/
-          this.game.finish(false);
+    /*      this.game.finish(false);
         },50);
-      }
+      }*/
     });
     this.hitbox = hitbox;
 
@@ -122,7 +123,10 @@ class Player extends GameObject {
             let reflected = ob.physicList.mirrorVector(this.camera.lastPos, this.camera.getPosVector().subVector(this.camera.lastPos).mul(100));
             if (reflected){
               this.camera.applySpeed(this.speedVectorSync);
-              this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()*0.73));  
+              this.camera.setSpeedVector (reflected.normalize().mul(this.camera.getSpeedVector().abs()*0.73)); 
+              if (ob.onContact){
+                ob.onContact(this);
+              } 
             } else {
               //this.camera.applySpeed(this.speedVectorSync);
               //this.camera.setSpeedVector(this.camera.getSpeedVector().mul(-1)); ???
@@ -176,6 +180,24 @@ class Player extends GameObject {
 
     this.game.world.objectList.addChild(this);
     /////////
+  }
+
+  damage(pointsMin, pointsRand=0){
+    window.sndBase.playByClass('hit');
+    //rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
+    this.health-=rand(pointsRand)+pointsMin;
+    this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
+    if (this.health<0){
+      console.log('dead');
+      this.isAlive = false;
+      this.game.glCanvas.keyboardState.shot = false;
+      this.game.world.createExplosion(this.camera.getPosVector().subVector(this.camera.getCamNormal().mul(2.10)),40);
+      window.sndBase.playByClass('explosion');
+     
+      setTimeout(()=>{
+        this.game.finish(false);
+      },50);
+    }
   }
 
   render_(deltaTime){

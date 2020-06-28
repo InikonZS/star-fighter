@@ -98,7 +98,8 @@ class Game{
     this.props = props;
     this.player.model.visible=true;
     if (name=='1'){
-      mission3(this);
+      missionLabirint(this);
+     // mission3(this);
     } 
 
     if (name=='2'){
@@ -387,6 +388,49 @@ function makeRingSpline(r){
     res.push(new Vector3d(x,y,z));
   }
   return res;
+}
+
+
+
+function missionLabirint(game){
+  let len = 50;
+  recLabi(game, makeLineSpline(len, new Vector3d (0, 0, -10), new Vector3d(0,0,-10)), 0);
+}
+
+function makeLineSpline(cnt, startVector, stepVector){
+  let res =[];
+  let cp = startVector;
+  for (let i=0; i<cnt; i++){
+    res.push(cp);
+    cp=cp.addVector(stepVector);
+  }
+  return res;
+};
+
+function recLabi(game, rou, i){
+  console.log('recpoint '+i);
+  if (rou[i]){
+    let tg = game.addLabel('target', rou[i]);
+    let ele = game.world.createMagic(rou[i], 90, false);
+    let block = basics.makePhysical(game.world, rou[i].add(-10,0,0), 10, game.world.boxModelList); 
+    block.onContact = (player)=>{
+      player.damage(3, 6);
+    };
+    let el = basics.makeCollactable(game.world, rou[i], 10, game.world.boxModelList, (player)=>{
+      block.deleteSelf();
+      ele.deleteSelf();
+      if (!rou[i+1]){
+        anyutils.playSoundUrl('assets/sounds/success.mp3');
+        game.finish(true);
+      }
+      console.log('collected');
+      tg.deleteSelf();
+      anyutils.playSoundUrl('assets/sounds/correct.mp3');
+      recLabi(game,rou, i+1);
+    }); 
+    el.visible=false; 
+    
+  }
 }
 
 module.exports = Game;
