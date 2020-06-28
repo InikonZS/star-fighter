@@ -344,11 +344,11 @@ function mission3(game) {
   seczone.visible = false;
 
   let solidsPos = new Vector3d(0, 0, 0);
-  for (let i = 0; i < 1000; i++) {  
+  for (let i = 0; i < 1500; i++) {  
     game.world.createSolid(
       randVector(solidsPos, 1000),
-      (rand(60) + 10) / 5,
-      { r: Math.random(), g: Math.random(), b: 0.5 },
+      ((rand(60) +10) / 10) * (Math.random() + Math.random() + Math.random() + Math.random()),
+      { r: 255 * Math.random(), g: 255 * Math.random(), b: 0.5 * Math.random(), a: 1*  Math.random() },
       "bigModel"
     );
   }
