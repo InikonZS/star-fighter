@@ -112,7 +112,7 @@ class Player extends GameObject {
     }
 
     this.onReact = (ob)=>{
-    //if (!(el && el.speedVectorSync)){ return;}
+    if (!(this.camera.lastPos)){ return;}
       if (ob.type == 'solid'){
         if (calc.isCrossedSimple(ob.hitPosition, this.camera.lastPos, this.camera.getPosVector().subVector(this.camera.lastPos), ob.hitDist*1.2)){
           //if (calc.rand(100)==1){console.log('shit!!!')}

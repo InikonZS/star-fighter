@@ -82,6 +82,8 @@ class GameMenu extends Control{
     this.startMissionButton = new Control(this.startMenu.node, 'div', 'menu_item', 'Fight!',()=>{
       //this.glCanvas.start();
       this.glCanvas.useControls = true;
+      //this.glCanvas.stop();
+      //this.glCanvas.start();
       this.glCanvas.game.loadMission(this.missionOptions.missionName, this.missionOptions);
       this.menu.selectPage(this.gameMenu);
       this.deactivate(true);

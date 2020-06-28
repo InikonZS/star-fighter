@@ -19,12 +19,13 @@ class Game{
   constructor(gl, glCanvas){
     this.gl = gl;
     this.glCanvas = glCanvas;
-
+    console.log('restarting game');
     this.props = {
       shipIndex:0
     }
-
-    this.world = new World(gl, this);
+    if (!this.world){
+      this.world = new World(gl, this);
+    }
     this.player = new Player(gl, this, glCanvas.keyboardState);
     this.timers = new GameObject();
     this.messageList = new GameObject();
@@ -72,14 +73,23 @@ class Game{
 
   clear(){
    // this.glCanvas.stop();
-    this.world.clear();
+    //this.world.clear();
+  
+    this.world.graphicList.childList.forEach(it=>{
+      it.childList.forEach(jt=>{
+        jt.deleteAllChild();
+      });
+    });
+    this.world.createSkybox();
+    this.player = new Player(this.gl, this, this.glCanvas.keyboardState); 
     //this.player.camera.init();
     //this.timers.clear();
-    this.messageList.clear();
-    this.targets.clear();
-    this.targets.refresh();
-    this.world = new World(this.gl, this);  
-    this.player = new Player(this.gl, this, this.glCanvas.keyboardState);
+
+   // this.messageList.clear();
+   // this.targets.clear();
+   // this.targets.refresh();
+
+    //this.world = new World(this.gl, this);  
    // this.glCanvas.start();
   }
   

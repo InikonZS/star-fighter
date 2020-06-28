@@ -64,15 +64,7 @@ class World{
 
     this.skyboxShaderList = new SkyboxShaderList(gl, skyboxShaderUnit);
     this.skyboxModelList = this.skyboxShaderList.createModelList(skyboxModel);
-    let skyboxElement = this.skyboxModelList.createStaticItem(m4.identity());
-    skyboxElement.onProcess = (deltaTime)=>{
-      let mt = m4.identity();
-      let pos = game.player.camera.getPosVector();
-      mt = m4.translate(mt, pos.x, pos.y, pos.z);
-      mt = m4.scale(mt, 300,300,300);
-
-      skyboxElement.matrix = mt;
-    }
+    
 
     this.animatedShaderList = new AnimatedShaderList(gl, animatedShaderUnit);
     this.explosions = this.animatedShaderList.createModelList(window.resBase.getByName('explosion'));
@@ -141,6 +133,19 @@ class World{
     this.graphicList.clear();
     //this.graphicList.tryFilter();
     //this.objectList.clear();
+  }
+
+  createSkybox(){
+    let skyboxElement = this.skyboxModelList.createStaticItem(m4.identity());
+    skyboxElement.onProcess = (deltaTime)=>{
+      let mt = m4.identity();
+      let pos = this.game.player.camera.getPosVector();
+      mt = m4.translate(mt, pos.x, pos.y, pos.z);
+      mt = m4.scale(mt, 300,300,300);
+
+      skyboxElement.matrix = mt;
+    }
+    return skyboxElement;
   }
 
   render(viewMatrix, deltaTime){

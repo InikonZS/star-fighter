@@ -89,7 +89,13 @@ class GameObject{
       }
     }
   }
-  
+
+  deleteAllChild(){
+    this.childList.forEach(it=>{
+      it.deleteSelf();
+    });    
+  }
+
   clear(){
     if (this.mesh){
       this.mesh.deleteBuffers(); 
