@@ -46,7 +46,15 @@ class World{
     const bigModel = window.resBase.getByName('bigShip');
     const meteModel = window.resBase.getByName('mete');
     const boxModel = window.resBase.getByName('box').source;
-    const selfModel = window.gameResource.list[calc.rand(1)+game.props.shipIndex+1];
+    //const selfModel = window.gameResource.list[calc.rand(1)+game.props.shipIndex+1];
+
+    const selfModels = [
+      window.gameResource.list[1],
+      window.gameResource.list[2],
+      window.gameResource.list[3],
+      window.gameResource.list[4],
+    ];
+
     const ships = [
       window.gameResource.list[5],
       window.gameResource.list[6],
@@ -92,11 +100,22 @@ class World{
     this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
     this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
     this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
-    if (selfModel.tex){
+
+    this.selfModelLists=[];
+    selfModels.forEach(it=>{
+      let model;
+      if (it.tex){
+        model=this.solidTexturedShaderList.createModelList(it);
+      } else {
+        model=this.solidUntexturedShaderList.createModelList(it.source);  
+      }
+      this.selfModelLists.push(model);
+    });
+    /*if (selfModel.tex){
       this.selfModelList = this.solidTexturedShaderList.createModelList(selfModel);
     } else {
       this.selfModelList = this.solidUntexturedShaderList.createModelList(selfModel.source);  
-    }
+    }*/
     
     this.bigModelList = this.solidTexturedShaderList.createModelList(bigModel)//, 'assets/textures/Trident_UV_Dekol_Color.png');
 

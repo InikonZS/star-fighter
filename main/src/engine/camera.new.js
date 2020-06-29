@@ -6,6 +6,7 @@ class Camera{
     this.keyboardState = keyboardState;
     //this.tmat = m4.identity();
     this.dmat = m4.identity();
+    this.lmat = m4.identity();
   }
   getPosVector(){
     return new Vector3d(-this.posX, -this.posY, -this.posZ);
@@ -74,6 +75,7 @@ class Camera{
       if (this.camRY<-Math.PI){ this.camRY=-Math.PI}
     } else {
       let crenSpeed = 0.0032;
+      //this.lmat = m4.translate(this.dmat, 0,0,0);
       this.dmat = m4.axisRotate(this.dmat, getCameraNormal(this, 1).toVec4(), crenSpeed*dx);
       this.dmat = m4.axisRotate(this.dmat, getCameraNormal(this, 2).toVec4(), crenSpeed*dy);
     }
@@ -81,6 +83,11 @@ class Camera{
 
   process(deltaTime){
     this.dt = deltaTime;
+    
+    let k=4;
+    for (let i=0; i<16; i++){
+      this.lmat[i]=(this.lmat[i]*(k-1)+this.dmat[i])/k;
+    }
 
     //mobile
     if (this.moc){
@@ -213,6 +220,9 @@ function getCameraNormal(cam, ax){
   return new Vector3d(nv.x, nv.y, nv.z);  
 }
 
+
+
+let slowCam = true;
 function getCameraSelfMatrix(cam){
   let nvc = cam.getPosVector().addVector(cam.getCamNormal().mul(-1));
   let mmt = m4.identity();//m4.translate(cam.tmat,0,0,0);
@@ -221,7 +231,14 @@ function getCameraSelfMatrix(cam){
   mmt[13]= nvc.y;
   mmt[14]= nvc.z;
 
-  let mts = cam.getNormalMatrix();
+  let mts;
+  if(!slowCam){
+    mts = cam.getNormalMatrix();
+  } else {
+    mts = cam.lmat;
+    mts= m4.inverse(mts);
+  }
+
   mts = m4.xRotate(mts,Math.PI/2);
   //mts = m4.yRotate(mts,Math.PI/2);
   mts = m4.multiply(mmt, mts);

@@ -40,7 +40,8 @@ class Player extends GameObject {
 
     ///as gameobject
     let mtx = this.camera.getSelfModelMatrix();
-    this.model = this.game.world.selfModelList.createStaticItem(mtx);
+    //this.model = this.game.world.selfModelList.createStaticItem(mtx);
+    this.model = this.game.world.selfModelLists[game.props.shipIndex].createStaticItem(mtx);
     this.shieldModelScaler = 0.008;
     this.shieldModel = this.game.world.createFogMagicSphere(new Vector3d(0,0,0), this.shieldModelScaler, false);
     this.shieldModel.visible = false;
@@ -183,6 +184,10 @@ class Player extends GameObject {
     this.game.world.objectList.addChild(this);
     /////////
   }
+
+ // destructor(){
+
+ // }
 
   damage(pointsMin, pointsRand=0){
     window.sndBase.playByClass('hit');

@@ -78,6 +78,16 @@ class TouchButton extends Control{
     super (parentNode, 'div', className||'but', '');
     this.onChange = onChange;
     let sh = this;
+    sh.node.addEventListener('mousedown', (e)=>{
+      e.preventDefault();
+      this.onChange(true);
+      //glCanvas.keyboardState.shot = true;
+    });
+    sh.node.addEventListener('mouseup', (e)=>{
+      e.preventDefault();
+      this.onChange(false);
+    }); 
+
     sh.node.addEventListener('touchstart', (e)=>{
       e.preventDefault();
       this.onChange(true);
