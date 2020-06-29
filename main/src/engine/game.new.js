@@ -419,7 +419,7 @@ function missionLabirint(game){
     }
   });*/
   let spline = makeLineSpline(len, new Vector3d (0, 0, -200), -200);
-  recLabi(game, spline , 0);
+  recLabi(game, spline , 0, []);
 }
 
 function makeLineSpline(cnt, startVector, step){
@@ -459,11 +459,10 @@ function makeLineSpline(cnt, startVector, step){
   return res;
 };
 
-function recLabi(game, rou, i){
+function recLabi(game, rou, i, blocks){
   console.log('recpoint '+i);
   if (rou[i]){
-    let tg = game.addLabel('target', rou[i].cp);
-    let ele = game.world.createMagic(rou[i].cp, 90, false);
+    
     let block;
     let ci = i;
     if (rou[i].orot){
@@ -480,10 +479,22 @@ function recLabi(game, rou, i){
     block.onContact = (player)=>{
       player.damage(0, 1);
     };
+    blocks.push(block);
+
+    /*if (blocks.length<3){
+      recLabi(game,rou, i+1, blocks);
+      return;  
+    }*/
+
+    let tg = game.addLabel('target', rou[i].cp);
+    let ele = game.world.createMagic(rou[i].cp, 190, false);
     let el = basics.makeCollactable(game.world, rou[i].cp, 100, game.world.boxModelList, (player)=>{
-      if (ci-i>3){
-        block.deleteSelf();
+      //if (ci-i>3){
+      if(blocks.length>=3){
+        blocks[0].deleteSelf();
+        blocks.shift();
       }
+      //}
       ele.deleteSelf();
       if (!rou[i+1]){
         anyutils.playSoundUrl('assets/sounds/success.mp3');
@@ -492,11 +503,15 @@ function recLabi(game, rou, i){
       console.log('collected');
       tg.deleteSelf();
       anyutils.playSoundUrl('assets/sounds/correct.mp3');
-      recLabi(game,rou, i+1);
+      recLabi(game,rou, i+1, blocks);
     }); 
     el.visible=false; 
     
   }
+ /* if (blocks.length<3){
+    recLabi(game,rou, i+1, blocks);
+    return;  
+  }*/
 }
 
 module.exports = Game;
