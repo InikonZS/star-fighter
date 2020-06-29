@@ -393,16 +393,58 @@ function makeRingSpline(r){
 
 
 function missionLabirint(game){
-  let len = 50;
-  recLabi(game, makeLineSpline(len, new Vector3d (0, 0, -10), new Vector3d(0,0,-10)), 0);
+  let len = 10;
+  let spline = [
+    {cp:new Vector3d(0,100,0), orot:0, cur:0}, 
+    {cp:new Vector3d(0,200,0), orot:0, cur:0},
+    {cp:new Vector3d(0,300,0), orot:0, cur:0}, 
+    {cp:new Vector3d(0,400,0), orot:1, cur:-Math.PI+0*Math.PI/2 },
+    {cp:new Vector3d(-100,400,0), orot:0, cur:-Math.PI/2}, 
+    {cp:new Vector3d(-200,400,0), orot:0, cur:-Math.PI/2},  
+    {cp:new Vector3d(-300,400,0), orot:1, cur:-Math.PI-Math.PI/2-1*Math.PI/2 },
+    {cp:new Vector3d(-300,500,0), orot:0, cur:0}, 
+    {cp:new Vector3d(-300,600,0), orot:0, cur:0}, 
+  ];
+  //makeLineSpline(len, new Vector3d (0, 0, -100), -100);
+  spline.forEach(it=>{
+    if (it.orot){
+      block = basics.makePhysicalAzi(game.world, it.cp, 10, -it.cur, -Math.PI/2, game.world.tun2); 
+    } else {
+      block = basics.makePhysicalAzi(game.world, it.cp, 10, it.cur, Math.PI/2, game.world.tun1); 
+    }
+  });
+  recLabi(game, spline , 0);
 }
 
-function makeLineSpline(cnt, startVector, stepVector){
+function makeLineSpline(cnt, startVector, step){
   let res =[];
   let cp = startVector;
+  let rot = 0;
+  let cr = 0;
+  let stepVector = new Vector3d(0,step,0);
+
+  let orot =0;
   for (let i=0; i<cnt; i++){
-    res.push(cp);
+    res.push({cp, orot, cur:cr*Math.PI/2});
+    rt = calc.rand(3);
+    if (rt==1){
+      cr = cr-1;
+      if (cr<0){cr=3}
+      orot=1;
+    }
+    if (rt==2){
+      cr = cr+1;
+      if (cr>3){cr=0}
+      orot=1;
+    }
     cp=cp.addVector(stepVector);
+    
+    if (cr==0){stepVector = new Vector3d(0,step,0); }
+    if (cr==1){stepVector = new Vector3d(step,0,0); }
+    if (cr==2){stepVector = new Vector3d(0,-step,0); }
+    if (cr==3){stepVector = new Vector3d(-step,0,0); }
+    
+    
   }
   return res;
 };
@@ -410,13 +452,18 @@ function makeLineSpline(cnt, startVector, stepVector){
 function recLabi(game, rou, i){
   console.log('recpoint '+i);
   if (rou[i]){
-    let tg = game.addLabel('target', rou[i]);
-    let ele = game.world.createMagic(rou[i], 90, false);
-    let block = basics.makePhysical(game.world, rou[i].add(-10,0,0), 10, game.world.boxModelList); 
+    let tg = game.addLabel('target', rou[i].cp);
+    let ele = game.world.createMagic(rou[i].cp, 90, false);
+    let block;
+    if (rou[i].orot){
+      block = basics.makePhysicalAzi(game.world, rou[i].cp, 10, -rou[i].cur, -Math.PI/2, game.world.tun2); 
+    } else {
+      block = basics.makePhysicalAzi(game.world, rou[i].cp, 10, rou[i].cur, Math.PI/2, game.world.tun1); 
+    }
     block.onContact = (player)=>{
       player.damage(3, 6);
     };
-    let el = basics.makeCollactable(game.world, rou[i], 10, game.world.boxModelList, (player)=>{
+    let el = basics.makeCollactable(game.world, rou[i].cp, 20, game.world.boxModelList, (player)=>{
       block.deleteSelf();
       ele.deleteSelf();
       if (!rou[i+1]){

@@ -40,6 +40,7 @@ const utils = require('../any.utils.js');
 
 class World{
   constructor(gl, game){
+    
     //dynamic loaded res
     const skyboxModel = window.resBase.getByName('skybox');
     const bigModel = window.resBase.getByName('bigShip');
@@ -74,11 +75,16 @@ class World{
 
     this.bulPlasm = this.animatedShaderList.createModelList(window.resBase.getByName('bulletSprite'));
 
+    
+
     //making list for rendering with shader
     this.solidUntexturedShaderList = new SolidUntexturedShaderList(gl, solidUntexturedShaderUnit);
     this.solidTexturedShaderList = new SolidTexturedShaderList(gl, solidTexturedShaderUnit);
 
     //loading models and making lists
+    this.tun1 = this.solidUntexturedShaderList.createModelList(window.resBase.getByName('tun1').source);
+    this.tun2 = this.solidUntexturedShaderList.createModelList(window.resBase.getByName('tun2').source);
+
     this.meteModelList = this.solidTexturedShaderList.createModelList(meteModel, 1);
     this.mercuryModelList = this.solidTexturedShaderList.createModelList(mercuryModel, 1);
     this.marsModelList = this.solidTexturedShaderList.createModelList(marsModel, 1);

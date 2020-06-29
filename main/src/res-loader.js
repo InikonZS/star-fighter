@@ -94,6 +94,15 @@ const modelConfig = {
       name: "bulletSprite",
       url: "assets/models/point_sprite.obj",
       tex: "assets/textures/bul1.png"
+    },
+
+    {
+      name: "tun1",
+      url: "assets/models/tunnel_block_1.obj",
+    },
+    {
+      name: "tun2",
+      url: "assets/models/tunnel_block_2.obj",
     }
   ]
 }
