@@ -394,7 +394,7 @@ function makeRingSpline(r){
 
 function missionLabirint(game){
   let len = 10;
-  let spline = [
+  /*let spline = [
     {cp:new Vector3d(0,100,0), orot:0, cur:0}, 
     {cp:new Vector3d(0,200,0), orot:0, cur:0},
     {cp:new Vector3d(0,300,0), orot:0, cur:0}, 
@@ -404,15 +404,21 @@ function missionLabirint(game){
     {cp:new Vector3d(-300,400,0), orot:1, cur:-Math.PI-Math.PI/2-1*Math.PI/2 },
     {cp:new Vector3d(-300,500,0), orot:0, cur:0}, 
     {cp:new Vector3d(-300,600,0), orot:0, cur:0}, 
+  ];*/
+  /*let spline = [
+    {cp:new Vector3d(0,100,0), orot:1, cur:0},
+    {cp:new Vector3d(100,100,0), orot:0, cur:Math.PI/2},
+    {cp:new Vector3d(200,100,0), orot:-1, cur:0}  
   ];
-  //makeLineSpline(len, new Vector3d (0, 0, -100), -100);
+  
   spline.forEach(it=>{
     if (it.orot){
-      block = basics.makePhysicalAzi(game.world, it.cp, 10, -it.cur, -Math.PI/2, game.world.tun2); 
+      block = basics.makePhysicalAzi(game.world, it.cp, 10, it.cur -(it.orot<0)*Math.PI/2, Math.PI/2, game.world.tun2); 
     } else {
       block = basics.makePhysicalAzi(game.world, it.cp, 10, it.cur, Math.PI/2, game.world.tun1); 
     }
-  });
+  });*/
+  let spline = makeLineSpline(len, new Vector3d (0, 0, -200), -200);
   recLabi(game, spline , 0);
 }
 
@@ -422,11 +428,12 @@ function makeLineSpline(cnt, startVector, step){
   let rot = 0;
   let cr = 0;
   let stepVector = new Vector3d(0,step,0);
-
+  let seq = [0,2,2,1,2,0,1,1,2,0,0,2,0,0];
+  let cont =seq.length;
   let orot =0;
-  for (let i=0; i<cnt; i++){
+  for (let i=0; i<cont; i++){
     res.push({cp, orot, cur:cr*Math.PI/2});
-    rt = calc.rand(3);
+    rt = seq[i]//calc.rand(6);
     if (rt==1){
       cr = cr-1;
       if (cr<0){cr=3}
@@ -435,7 +442,10 @@ function makeLineSpline(cnt, startVector, step){
     if (rt==2){
       cr = cr+1;
       if (cr>3){cr=0}
-      orot=1;
+      orot=-1;
+    }
+    if (rt!=1 && rt!=2){
+      orot =0;
     }
     cp=cp.addVector(stepVector);
     
@@ -455,16 +465,25 @@ function recLabi(game, rou, i){
     let tg = game.addLabel('target', rou[i].cp);
     let ele = game.world.createMagic(rou[i].cp, 90, false);
     let block;
+    let ci = i;
     if (rou[i].orot){
-      block = basics.makePhysicalAzi(game.world, rou[i].cp, 10, -rou[i].cur, -Math.PI/2, game.world.tun2); 
+      if (rou[i].orot==1){
+      block = basics.makePhysicalAzi(game.world, rou[i].cp, 20, -rou[i].cur - +(rou[i].orot<0)*Math.PI/2, Math.PI/2, game.world.tun2); 
+      }
+      if (rou[i].orot==-1){
+      block = basics.makePhysicalAzi(game.world, rou[i].cp, 20, -rou[i].cur - +(rou[i].orot<0)*Math.PI/2, Math.PI/2, game.world.tun2); 
+      }
+
     } else {
-      block = basics.makePhysicalAzi(game.world, rou[i].cp, 10, rou[i].cur, Math.PI/2, game.world.tun1); 
+      block = basics.makePhysicalAzi(game.world, rou[i].cp, 20, rou[i].cur, Math.PI/2, game.world.tun1); 
     }
     block.onContact = (player)=>{
-      player.damage(3, 6);
+      player.damage(0, 1);
     };
-    let el = basics.makeCollactable(game.world, rou[i].cp, 20, game.world.boxModelList, (player)=>{
-      block.deleteSelf();
+    let el = basics.makeCollactable(game.world, rou[i].cp, 100, game.world.boxModelList, (player)=>{
+      if (ci-i>3){
+        block.deleteSelf();
+      }
       ele.deleteSelf();
       if (!rou[i+1]){
         anyutils.playSoundUrl('assets/sounds/success.mp3');
