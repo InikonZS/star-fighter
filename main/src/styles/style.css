@@ -1,6 +1,8 @@
 body{
   margin:0px;
   padding: 0px;
+  font-family: arial, sans-serif;
+  font-size: 12pt;
 }
 .global_wrapper{
   width: 100%;
@@ -11,9 +13,42 @@ body{
   width:100%;
   padding: 10px;
   min-height: 40px;
-  background-color: #999;
+  background-color: #333;
   box-sizing: border-box;
+  display:flex;
+  justify-content: space-between;
+  border-bottom: solid 6px #222;
+  background-image: url('../assets/site/dash.png');
+  background-size: 50px;
 }
+.logo{
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffa;
+  font-size: 20pt;
+  line-height: 8pt;
+  font-family: impact;
+  user-select: none;
+  cursor: default;
+  border-bottom: solid;
+  border-width: 3px;
+}
+.header_menu{
+  display:flex;
+}
+.header_menu_item{
+  margin-left: 10px;
+  background-color: #90c5;
+  padding: 10px;
+  border-radius: 5px;
+  color: #ffa;
+  font-weight: bold;
+}
+.header_menu_item:hover{
+  cursor: pointer;
+  background-color: #b3e5;
+}
+
 .footer{
   width: 100%;
   padding: 10px;

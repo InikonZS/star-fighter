@@ -16,19 +16,34 @@ class App{
 
     window.addEventListener('resize', ()=>{
       let brDetected = false;
-      if (document.documentElement.clientWidth<768){
-        if (this.stWidth!=320){
-          brDetected = true;  
-        }
-        this.stWidth = 320;
-        this.stHeight = 240; 
-      } else {
+      let nw;
+      let nh;
+      if (document.documentElement.clientWidth>=768){
         if (this.stWidth!=640){
           brDetected = true;  
         }
-        this.stWidth = 640;
-        this.stHeight = 480;  
+        nw = 640;
+        nh = 480;  
+      } 
+
+      else if (document.documentElement.clientWidth>=520){
+        if (this.stWidth!=480){
+          brDetected = true;  
+        }
+        nw = 480;
+        nh = 320; 
       }
+
+      else if (document.documentElement.clientWidth<520){
+        if (this.stWidth!=320){
+          brDetected = true;  
+        }
+        nw = 320;
+        nh = 240; 
+      }
+      this.stWidth = nw;
+      this.stHeight = nh; 
+      
 
       if (brDetected){
         if (!this.startScreen.isHidden){
