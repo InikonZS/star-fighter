@@ -2,22 +2,19 @@ const GLCanvas = require('./gl-canvas.component.js');
 const Control = require('./control-js/control.component.js');
 const Loader = require('./res-loader.js');
 const SoundLoader = require('./sound-loader.js');
+const StartScreen = require('./start-screen.component.js');
 
 class App{
   constructor(parentNode){
     this.parentNode = parentNode;
-    this.startScreen = new Control (parentNode, 'div', '', 'click to load', ()=>{
+    this.startScreen = new StartScreen(parentNode, ()=>{
       this.loadApp(()=>{
         this.startScreen.hide();
       },
       (type, it, length, current)=>{
-        this.startScreen.node.textContent = `Loading ${type} ${current}/${length}, ${Math.round(100*current/length)}% done `;
+        this.startScreen.loadingIndicator.node.textContent = `Loading ${type} ${current}/${length}, ${Math.round(100*current/length)}% done `;
       });
     });
-    this.startScreen.node.style = `
-      width:640px;
-      height:480px;
-    `;
   }
 
   loadApp(onLoad, onProgress){

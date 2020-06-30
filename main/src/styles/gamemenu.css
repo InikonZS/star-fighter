@@ -190,3 +190,38 @@ top: 0px;
 left: 0px;
 background-color: #0000;
 }
+
+.startBackground{
+  background-color: rgba(0, 0, 0, 0);
+  background-position: center center, center center;
+  background-repeat: repeat, no-repeat;
+  background-attachment: fixed, fixed;
+  background-size: cover;
+  background-origin: padding-box, padding-box;
+  background-clip: border-box, border-box;
+}
+
+.startButton{
+  color:#fff;
+  background-color:#0009;
+  border-radius: 5px;
+  margin:5px;
+  padding:10px;
+  transition-duration: 200ms;
+  cursor: pointer;
+}
+.startButton:hover{
+  background-color: #2229;  
+  transform: scaleX(1.05) scaleY(1.1);
+}
+
+.loadingIndicator{
+  color:#fff;
+  background-color:#0009;
+  border-radius: 5px;
+  padding:10px;
+  margin:5px;
+  width:80%;
+  overflow: hidden;
+  font-size: 9pt;
+}
