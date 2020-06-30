@@ -60,7 +60,7 @@ class GameMenu extends Control{
       }
     });
 
-    let missionCount = 4;
+    let missionCount = 5;
     for (let i=0; i<missionCount; i++){
       new Control(this.missionMenu.node, 'div', 'menu_item', 'mission'+(i+1),()=>{
         

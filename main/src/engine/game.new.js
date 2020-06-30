@@ -82,7 +82,7 @@ class Game{
     });
     this.world.createSkybox();
     this.player = new Player(this.gl, this, this.glCanvas.keyboardState); 
-    //this.player.camera.init();
+    this.player.camera.init();
     this.timers.clear();
 
     this.messageList.clear();
@@ -112,6 +112,10 @@ class Game{
 
     if (name=='4'){
       mission1(this);
+    } 
+
+    if (name=='5'){
+      mission3(this);
     } 
 
     if (name=='garage'){
