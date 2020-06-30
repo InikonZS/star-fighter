@@ -1,31 +1,10 @@
 const GameObject = require('./game-object.new.js');
-const RenderableShaderList = require('./renderable-shader-list.new.js');
-const RenderableModelList = require('./renderable-model-list.new.js');
-const RenderableItem = require('./renderable-item.new.js');
-const GLUtils = require('../gl-utils.js');
-//window.gameResource.list[0].source;
-//const meteModel = require('../models/mete.model.js');
-const rocketModel = require('../models/tf.model.js');
-const rocketModel1 = require('../models/rocket.model.js');
-//const selfModel = require('../models/self1.model.js');
-const selfModel1 = require('../models/self.model.js');
-//const bigModel = require('../models/big.model.js');
-//const boxModel = require('../models/box.model.js');
-//const skyboxModel = require('../models/skybox.model.js');
-//const pointSpriteModel = require('../models/point-sprite.model.js');
 
 const Physic = require('./physic.new.js');
-const Mesh = require('../mesh.object.js');
-
-const anyutils = require('../any.utils.js');
-
-const basics = require('./basic-objects.gmob.js');
 
 const getChunked = require('../chunked-mesh.func.js');
 const calc = require('../calc.utils.js');
 const Vector3d = require('../vector3d.dev.js');
-
-const Bullet = require('./bullet.gmob.js');
 
 const solidUntexturedShaderUnit = require('./shaders/solid-untextured.shader.js');
 const {SolidUntexturedShaderList} = require('./solid-untextured.new.js');
@@ -98,8 +77,9 @@ class World{
     this.marsModelList = this.solidTexturedShaderList.createModelList(marsModel, 1);
 
     this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
-    this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
-    this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
+   
+   // this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
+   // this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
 
     this.selfModelLists=[];
     selfModels.forEach(it=>{

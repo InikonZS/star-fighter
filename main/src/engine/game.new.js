@@ -83,11 +83,11 @@ class Game{
     this.world.createSkybox();
     this.player = new Player(this.gl, this, this.glCanvas.keyboardState); 
     //this.player.camera.init();
-    //this.timers.clear();
+    this.timers.clear();
 
-   // this.messageList.clear();
-   // this.targets.clear();
-   // this.targets.refresh();
+    this.messageList.clear();
+    this.targets.clear();
+    this.targets.refresh();
 
     //this.world = new World(this.gl, this);  
    // this.glCanvas.start();
