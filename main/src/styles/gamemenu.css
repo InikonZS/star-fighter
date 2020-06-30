@@ -50,6 +50,10 @@
   transform: scaleX(1.05) scaleY(1.1);
 }
 
+.menu_item_clikit{
+  border: solid;
+}
+
 .view_panel{
   background-color: #00000000;
   width:100%;
@@ -175,4 +179,14 @@
   border: solid #000 1px;
   background-color: #ff00ff44;
   box-sizing: border-box;
+}
+
+.fullScreenTouch{
+  position: absolute;
+z-index: -1;
+width: 100%;
+height: 100%;
+top: 0px;
+left: 0px;
+background-color: #0000;
 }

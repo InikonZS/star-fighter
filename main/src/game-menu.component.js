@@ -73,13 +73,15 @@ class GameMenu extends Control{
     }
 
     this.touchPad = new joyUtils.TouchPad(this.startMenu.node, ()=>{});
+    this.touchPad.node.className = 'but fullScreenTouch';
+
 
     this.prevShip = new Control(this.startMenu.node, 'div', 'menu_item', 'prevShip',()=>{
     });
     this.nextShip = new Control(this.startMenu.node, 'div', 'menu_item', 'nextShip',()=>{
     });
 
-    this.startMissionButton = new Control(this.startMenu.node, 'div', 'menu_item', 'Fight!',()=>{
+    this.startMissionButton = new Control(this.startMenu.node, 'div', 'menu_item menu_item_clikit', 'Fight!',()=>{
       //this.glCanvas.start();
       this.glCanvas.useControls = true;
       //this.glCanvas.stop();

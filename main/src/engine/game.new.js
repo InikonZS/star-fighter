@@ -310,9 +310,13 @@ function missionGarage(game){
   let cx=0;
   let cy=0;
   let ks = 0.01;
+
+  let autoRot = true;
+
   game.glCanvas.menu.touchPad.onChange = (dx_, dy_, cx_, cy_)=>{
     cx = cx_*ks;
     cy = cy_*ks;  
+    autoRot = false;
   }
 
   let currentIndex =game.glCanvas.menu.missionOptions.shipIndex||0;
@@ -324,6 +328,7 @@ function missionGarage(game){
       currentIndex = game.world.shipLists.length-1;
     }
     game.glCanvas.menu.missionOptions.shipIndex = currentIndex;
+    autoRot=true;
   }
 
   game.glCanvas.menu.nextShip.click = ()=>{
@@ -332,6 +337,7 @@ function missionGarage(game){
       currentIndex = 0;
     }
     game.glCanvas.menu.missionOptions.shipIndex = currentIndex;
+    autoRot = true;
   }
 
   
@@ -341,6 +347,11 @@ function missionGarage(game){
     game.player.model.visible=false;
     model.menuIndex = i;
     model.onProcess = (deltaTime)=>{ //TODO use axis rotation
+      if (autoRot==true){
+        cx=0.1;
+        cy=0.63;
+      }
+
       if (model.menuIndex!=currentIndex){
         model.visible = false;
       } else { 

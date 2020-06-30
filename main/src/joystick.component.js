@@ -124,6 +124,7 @@ class TouchPad extends Control{
    //   onClick();
     //});
     but.node.addEventListener('mousedown', (e)=>{
+      if (!(e.buttons==1)){return;}
       e.preventDefault();
       let zt = e;
       downed = true;
@@ -165,7 +166,11 @@ class TouchPad extends Control{
     but.node.addEventListener('touchstart', startHandler);
 
     but.node.addEventListener('touchend', endHandler);
-    document.addEventListener('mouseup', endHandler);
+    document.addEventListener('mouseup', (e)=>{
+      if (downed){
+        endHandler(e);
+      }
+    });
     but.node.addEventListener('touchcancel', endHandler);
 
     but.node.addEventListener('touchmove', (e)=>{
