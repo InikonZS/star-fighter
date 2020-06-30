@@ -16,6 +16,9 @@ class GLCanvas extends Control{
       //this.node.requestPointerLock();
     });
     parentNode.style = 'position:relative';
+    this.stWidth = width;
+    this.stHeight = height;
+
     this.node.width = width;
     this.node.height = height;
     this.glContext = this.node.getContext('webgl');
@@ -47,8 +50,8 @@ class GLCanvas extends Control{
         this.overlayRefresh();
         this.menuRefresh();
       } else {
-        this.node.width = 640;
-        this.node.height = 480; 
+        this.node.width = this.stWidth;
+        this.node.height = this.stHeight; 
         this.overlayRefresh();
         this.menuRefresh();
       }

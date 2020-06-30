@@ -1,21 +1,26 @@
 const Control = require('./control-js/control.component.js');
+const calc = require('./calc.utils.js')
 
 class StartScreen extends Control{
-  constructor(parentNode, onClickStart){
+  constructor(parentNode, width, height, onClickStart){
     super(parentNode, 'div', 'startBackground', '');
-    this.node.style = `
-      width:640px;
-      height:480px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      background-image: url('../assets/back_images/back3.jpg');
-      opacity:100%;
-      flex-direction:column;
-    `;
+    this.refresh(width, height);
+    /*this.node.style = `
+      width:${width}px;
+      height:${height}px;
+      background-image: url('../assets/back_images/back${calc.rand(4)+1}.jpg');
+    `;*/
     
     this.startButton = new Control(this.node, 'div', 'startButton', 'Click To Load', onClickStart);
     this.loadingIndicator = new Control(this.node, 'div', 'loadingIndicator', ' ');
+  }
+
+  refresh(width, height){
+    this.node.style = `
+      width:${width}px;
+      height:${height}px;
+      background-image: url('../assets/back_images/back${calc.rand(4)+1}.jpg');
+    `;
   }
 }
 
