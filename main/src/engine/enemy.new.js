@@ -68,7 +68,8 @@ class Enemy extends GameObject{
       this.deleteSelf();
       this.game.world.createExplosion(this.hitbox.pos,30);
       let vol = 130/(this.hitbox.pos.subVector(this.game.player.camera.getPosVector()).abs());
-      rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3', vol) : anyutils.playSoundUrl('assets/sounds/expl2.mp3', vol);
+      window.sndBase.playByClass('explosion', vol);
+      //rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3', vol) : anyutils.playSoundUrl('assets/sounds/expl2.mp3', vol);
       if (this.onKilled){
         this.onKilled();
       }

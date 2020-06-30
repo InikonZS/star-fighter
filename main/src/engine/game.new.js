@@ -246,20 +246,23 @@ function mission4(game){
   let target = game.targets.addTarget('come to target');
   point1.onCollect = ()=>{
     console.log('collected!!!');
-    anyutils.playSoundUrl('assets/sounds/correct.mp3');
+    //anyutils.playSoundUrl('assets/sounds/correct.mp3');
+    window.sndBase.playByClass('correct');
     target.setComplete();
     label1.deleteSelf();
 
     let en = new Enemy(game.gl, game, randVector(enBasePos, 500), new Vector3d(0,0,0));
     en.targetPointer = game.targets.addTarget('kill enemy');
     en.onKilled = ()=>{
-      anyutils.playSoundUrl('assets/sounds/correct.mp3');
+      //anyutils.playSoundUrl('assets/sounds/correct.mp3');
+      window.sndBase.playByClass('correct');
       en.targetPointer.setComplete();  
       
       let point1 = new Collectable(game, new Vector3d(0,0,0), ''); 
       game.targets.addTarget('return to start');
       point1.onCollect = ()=>{
-        anyutils.playSoundUrl('assets/sounds/success.mp3');
+        //anyutils.playSoundUrl('assets/sounds/success.mp3');
+        window.sndBase.playByClass('success');
         game.finish();
       }
     }

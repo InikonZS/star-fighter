@@ -46,6 +46,11 @@ const soundConfig = {
       url: "assets/sounds/correct.mp3"
     },
     { 
+      class: "success",
+      name: "success",
+      url: "assets/sounds/success.mp3"
+    },
+    { 
       class: "healthBonus",
       name: "hb",
       url: "assets/sounds/correct.mp3"

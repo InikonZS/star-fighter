@@ -73,7 +73,8 @@ function makeGenericBullet(game, basicObject, pos, scale=1, azi=0, theta=0, spee
           if (reflected){
             hitted = true;
             let vol = 130/(el.position.subVector(game.player.camera.getPosVector()).abs());
-            anyutils.playSoundUrl('assets/sounds/hit1.mp3', vol)  
+            //anyutils.playSoundUrl('assets/sounds/hit1.mp3', vol)  
+            window.sndBase.playByName('hit1', vol); 
           }
           while (reflected && mx>=0){
             mx--;
@@ -91,7 +92,8 @@ function makeGenericBullet(game, basicObject, pos, scale=1, azi=0, theta=0, spee
             el.deleteSelf();
             world.createExplosion(hp.dv, el.hitExplosionScale); 
             let vol = 130/(hp.dv.subVector(game.player.camera.getPosVector()).abs());
-            anyutils.playSoundUrl('assets/sounds/hit2.mp3', vol)    
+            //anyutils.playSoundUrl('assets/sounds/hit2.mp3', vol)   
+            window.sndBase.playByName('hit2', vol); 
           };  
           
         }
