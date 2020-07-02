@@ -7,8 +7,8 @@ const modelConfig = {
     },
     {
       name: "cab0",
-      url: "assets/models/cabin_4.obj",
-      tex: "assets/textures/cabin_4UVW.png"
+      url: "assets/models/Cabin_Tie_Interceptor.obj",
+      tex: "assets/textures/Cabin_Tie_Interceptor.jpg"
     },
     {
       name: "cab1",
