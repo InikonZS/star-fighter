@@ -24,7 +24,7 @@ body{
 .logo{
   padding: 10px;
   border-radius: 5px;
-  color: #ffa;
+  color: #ff9;
   font-size: 20pt;
   line-height: 8pt;
   font-family: impact;
@@ -38,15 +38,15 @@ body{
 }
 .header_menu_item{
   margin-left: 10px;
-  background-color: #90c5;
+  background-color: #96f5;
   padding: 10px;
   border-radius: 5px;
-  color: #ffa;
+  color: #ff9;
   font-weight: bold;
 }
 .header_menu_item:hover{
   cursor: pointer;
-  background-color: #b3e5;
+  background-color: #96f8;
 }
 
 .footer{
@@ -88,12 +88,13 @@ body{
   flex-wrap:wrap;
   justify-content: center;
   min-height: calc(100vh - 79px);
+  background-color: #ff9;
 }
 .left_panel{
   width:25%;
   padding: 10px;
   box-sizing: border-box;
-  background-color: #ccc;
+  background-color: #96f;
 }
 .game_panel{
   width:75%;
