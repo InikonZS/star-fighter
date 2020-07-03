@@ -7,22 +7,24 @@ const modelConfig = {
       url: "assets/models/tunnel_meteorite.obj",
       tex: "assets/textures/UVW_meteorite.png"
     },
+    { 
+      name: "cab2",
+      url: "assets/models/Cabin_Tie_Interceptor.obj",
+      tex: "assets/textures/Cabin_Tie_Interceptor.jpg"
+    },
+    {
+      name: "cab3",
+      url: "assets/models/Cabin_Tie_Fighter-Bomber.obj",
+      tex: "assets/textures/Cabin_Tie_Fighter-Bomber.jpg"
+    },
+    {
+      name: "cab1",
+      url: "assets/models/Kabina2.obj",
+    },
     {
       name: "cab0",
       url: "assets/models/cabin_4.obj",
       tex: "assets/textures/cabin_4UVW.png"
-    },
-    {
-      name: "cab1",
-      url: "assets/models/Kabina1.obj",
-    },
-    {
-      name: "cab2",
-      url: "assets/models/Kabina2.obj",
-    },
-    {
-      name: "cab3",
-      url: "assets/models/Kabina3.obj",
     },
 
     {

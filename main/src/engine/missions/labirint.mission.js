@@ -59,7 +59,7 @@ function makeLineSpline(cnt, startVector, step){
       orot =0;
     }
     cp=cp.addVector(stepVector);
-    
+
     if (cr==0){stepVector = new Vector3d(0,step,0); }
     if (cr==1){stepVector = new Vector3d(step,0,0); }
     if (cr==2){stepVector = new Vector3d(0,-step,0); }
