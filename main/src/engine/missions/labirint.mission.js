@@ -1,4 +1,4 @@
-const anyutils = require('../../any.utils.js');
+//const anyutils = require('../../any.utils.js');
 const basics = require('../basic-objects.gmob.js');
 const Vector3d = require('../../vector3d.dev.js');
 const calc = require('../../calc.utils.js');
@@ -7,30 +7,6 @@ const lScaler = 15;
 
 function missionLabirint(game){
   let len = 10;
-  /*let spline = [
-    {cp:new Vector3d(0,100,0), orot:0, cur:0}, 
-    {cp:new Vector3d(0,200,0), orot:0, cur:0},
-    {cp:new Vector3d(0,300,0), orot:0, cur:0}, 
-    {cp:new Vector3d(0,400,0), orot:1, cur:-Math.PI+0*Math.PI/2 },
-    {cp:new Vector3d(-100,400,0), orot:0, cur:-Math.PI/2}, 
-    {cp:new Vector3d(-200,400,0), orot:0, cur:-Math.PI/2},  
-    {cp:new Vector3d(-300,400,0), orot:1, cur:-Math.PI-Math.PI/2-1*Math.PI/2 },
-    {cp:new Vector3d(-300,500,0), orot:0, cur:0}, 
-    {cp:new Vector3d(-300,600,0), orot:0, cur:0}, 
-  ];*/
-  /*let spline = [
-    {cp:new Vector3d(0,100,0), orot:1, cur:0},
-    {cp:new Vector3d(100,100,0), orot:0, cur:Math.PI/2},
-    {cp:new Vector3d(200,100,0), orot:-1, cur:0}  
-  ];
-  
-  spline.forEach(it=>{
-    if (it.orot){
-      block = basics.makePhysicalAzi(game.world, it.cp, 10, it.cur -(it.orot<0)*Math.PI/2, Math.PI/2, game.world.tun2); 
-    } else {
-      block = basics.makePhysicalAzi(game.world, it.cp, 10, it.cur, Math.PI/2, game.world.tun1); 
-    }
-  });*/
   let spline = makeLineSpline(len, new Vector3d (0, 0, -10*lScaler), -10*lScaler);
   recLabi(game, spline , 0, []);
 }
@@ -110,12 +86,12 @@ function recLabi(game, rou, i, blocks){
       //}
       ele.deleteSelf();
       if (!rou[i+1]){
-        anyutils.playSoundUrl('assets/sounds/success.mp3');
+        window.sndBase.playByClass('success');
         game.finish(true);
       }
       console.log('collected');
       tg.deleteSelf();
-      anyutils.playSoundUrl('assets/sounds/correct.mp3');
+      window.sndBase.playByClass('correct');
       recLabi(game,rou, i+1, blocks);
     }); 
     el.visible=false; 
