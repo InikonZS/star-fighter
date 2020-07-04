@@ -8,44 +8,65 @@ const modelConfig = {
       tex: "assets/textures/UVW_meteorite.png"
     },
     { 
-      name: "cab2",
+      class: "cab",
+      name: "cab0",
       url: "assets/models/Cabin_Tie_Interceptor.obj",
       tex: "assets/textures/Cabin_Tie_Interceptor.jpg"
     },
     {
-      name: "cab3",
+      class: "cab",
+      name: "cab1",
       url: "assets/models/Cabin_Tie_Fighter-Bomber.obj",
       tex: "assets/textures/Cabin_Tie_Fighter-Bomber.jpg"
     },
     {
-      name: "cab1",
-      url: "assets/models/Kabina2.obj",
+      class: "cab",
+      name: "cab2",
+      url: "assets/models/Cabin_Tie_Fighter-Bomber.obj",
+      tex: "assets/textures/Cabin_Tie_Fighter-Bomber.jpg"
     },
     {
-      name: "cab0",
+      class: "cab",
+      name: "cab3",
       url: "assets/models/cabin_4.obj",
       tex: "assets/textures/cabin_4UVW.png"
     },
+    {
+      class: "cab",
+      name: "cab4",
+      url: "assets/models/Cabin_X_Wing.obj",
+      tex: "assets/textures/Cabin_X_Wing.png"
+    },
 
     {
+      class: "ship",
       name: "tie_interceptor",
       url: "assets/models/Tie_Interceptor.obj",
       tex: "assets/textures/TIE_IN_Diff.png"
     },
     {
+      class: "ship",
       name: "tie_bomber",
       url: "assets/models/Tie_Bomber.obj",
       tex: "assets/textures/TIE_sa_DIFF.png"
     },
     {
+      class: "ship",
       name: "tie_fighter",
       url: "assets/models/Tie_Fighter.obj",
       tex: "assets/textures/TIE_LN_Diff.png"
     },
     {
+      class: "ship",
       name: "z95_headhunter",
       url: "assets/models/Z-95_Headhunter.obj",
       tex: "assets/textures/Z-95_Diff.png"
+    },
+    {
+      class: "ship",
+      name: "x-wing",
+      url: "assets/models/X-wing.obj",
+      tex: "assets/textures/X-wing.png"
     },
     {
       name: "mete1",

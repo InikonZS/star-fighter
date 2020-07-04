@@ -27,7 +27,7 @@ class World{
     const boxModel = window.resBase.getByName('box').source;
     //const selfModel = window.gameResource.list[calc.rand(1)+game.props.shipIndex+1];
 
-    const selfModels = [
+   /* const selfModels = [
       window.gameResource.list[1],
       window.gameResource.list[2],
       window.gameResource.list[3],
@@ -39,10 +39,27 @@ class World{
       window.gameResource.list[6],
       window.gameResource.list[7],
       window.gameResource.list[8]
+    ];*/
+
+    const selfModels = [
+      window.resBase.getByName('cab0'),
+      window.resBase.getByName('cab1'),
+      window.resBase.getByName('cab2'),
+      window.resBase.getByName('cab3'),
+      window.resBase.getByName('cab4'),
     ];
 
-    const marsModel = window.gameResource.list[10];
-    const mercuryModel = window.gameResource.list[11];
+    const ships = [
+      window.resBase.getByName('tie_interceptor'),
+      window.resBase.getByName('tie_bomber'),
+      window.resBase.getByName('tie_fighter'),
+      window.resBase.getByName('z95_headhunter'),
+      window.resBase.getByName('x-wing'),
+    ];
+
+
+    const marsModel = window.resBase.getByName('mars');
+    const mercuryModel = window.resBase.getByName('mercury');
     //
 
     console.log('making world');
