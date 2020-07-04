@@ -16,6 +16,16 @@ const soundConfig = {
       url: "assets/sounds/hit2.mp3"
     },
     { 
+      class: "hit",
+      name: "hit3",
+      url: "assets/sounds/hit3.mp3"
+    },
+    { 
+      class: "hit",
+      name: "hit4",
+      url: "assets/sounds/hit4.mp3"
+    },
+    { 
       class: "explosion",
       name: "expl1",
       url: "assets/sounds/expl1.mp3"
