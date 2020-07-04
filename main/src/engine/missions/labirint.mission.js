@@ -3,6 +3,8 @@ const basics = require('../basic-objects.gmob.js');
 const Vector3d = require('../../vector3d.dev.js');
 const calc = require('../../calc.utils.js');
 
+const lScaler = 15;
+
 function missionLabirint(game){
   let len = 10;
   /*let spline = [
@@ -29,7 +31,7 @@ function missionLabirint(game){
       block = basics.makePhysicalAzi(game.world, it.cp, 10, it.cur, Math.PI/2, game.world.tun1); 
     }
   });*/
-  let spline = makeLineSpline(len, new Vector3d (0, 0, -200), -200);
+  let spline = makeLineSpline(len, new Vector3d (0, 0, -10*lScaler), -10*lScaler);
   recLabi(game, spline , 0, []);
 }
 
@@ -78,14 +80,14 @@ function recLabi(game, rou, i, blocks){
     let ci = i;
     if (rou[i].orot){
       if (rou[i].orot==1){
-      block = basics.makePhysicalAzi(game.world, rou[i].cp, 20, -rou[i].cur - +(rou[i].orot<0)*Math.PI/2, Math.PI/2, game.world.tun2); 
+      block = basics.makePhysicalAzi(game.world, rou[i].cp, lScaler, -rou[i].cur - +(rou[i].orot<0)*Math.PI/2, Math.PI/2, game.world.tun2[calc.rand(game.world.tun2.length)]); 
       }
       if (rou[i].orot==-1){
-      block = basics.makePhysicalAzi(game.world, rou[i].cp, 20, -rou[i].cur - +(rou[i].orot<0)*Math.PI/2, Math.PI/2, game.world.tun2); 
+      block = basics.makePhysicalAzi(game.world, rou[i].cp, lScaler, -rou[i].cur - +(rou[i].orot<0)*Math.PI/2, Math.PI/2, game.world.tun2[calc.rand(game.world.tun2.length)]); 
       }
 
     } else {
-      block = basics.makePhysicalAzi(game.world, rou[i].cp, 20, rou[i].cur, Math.PI/2, game.world.tun1); 
+      block = basics.makePhysicalAzi(game.world, rou[i].cp, lScaler, rou[i].cur, Math.PI/2, game.world.tun1[calc.rand(game.world.tun1.length)]); 
     }
     block.onContact = (player)=>{
       player.damage(0, 1);

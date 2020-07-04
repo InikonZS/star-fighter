@@ -121,12 +121,29 @@ const modelConfig = {
 
     {
       name: "tun1",
-      url: "assets/models/tunnel_block_1.obj",
+      url: "assets/models/tunnel_block_1_.obj",
+      tex: "assets/textures/UVW_meteorite.png"
     },
     {
       name: "tun2",
-      url: "assets/models/tunnel_block_2.obj",
-    }
+      url: "assets/models/tunnel_block_2_.obj",
+      tex: "assets/textures/UVW_meteorite.png"
+    },
+    {
+      name: "tun11",
+      url: "assets/models/tunnel_block_1_1.obj",
+      tex: "assets/textures/UVW_meteorite.png"
+    },
+    {
+      name: "tun21",
+      url: "assets/models/tunnel_block_2_1.obj",
+      tex: "assets/textures/UVW_meteorite.png"
+    },
+    {
+      name: "tun22",
+      url: "assets/models/tunnel_block_2_2.obj",
+      tex: "assets/textures/UVW_meteorite.png"
+    },
   ]
 }
 

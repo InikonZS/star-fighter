@@ -86,8 +86,17 @@ class World{
     this.solidTexturedShaderList = new SolidTexturedShaderList(gl, solidTexturedShaderUnit);
 
     //loading models and making lists
-    this.tun1 = this.solidUntexturedShaderList.createModelList(window.resBase.getByName('tun1').source);
-    this.tun2 = this.solidUntexturedShaderList.createModelList(window.resBase.getByName('tun2').source);
+    //this.tun1 = this.solidUntexturedShaderList.createModelList(window.resBase.getByName('tun1').source);
+    //this.tun2 = this.solidUntexturedShaderList.createModelList(window.resBase.getByName('tun2').source);
+    this.tun1 = [
+      this.solidTexturedShaderList.createModelList(window.resBase.getByName('tun1')),
+      this.solidTexturedShaderList.createModelList(window.resBase.getByName('tun11')),
+    ];
+    this.tun2 = [
+      this.solidTexturedShaderList.createModelList(window.resBase.getByName('tun2')),
+      this.solidTexturedShaderList.createModelList(window.resBase.getByName('tun21')),
+      this.solidTexturedShaderList.createModelList(window.resBase.getByName('tun22')),
+    ];
 
     this.meteModelList = this.solidTexturedShaderList.createModelList(meteModel, 1);
     this.mercuryModelList = this.solidTexturedShaderList.createModelList(mercuryModel, 1);
