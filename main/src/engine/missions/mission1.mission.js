@@ -44,8 +44,16 @@ function mission1(game){
   let enKilled = 0;
 
   let makeEnemy = ()=>{
-    let en = new Enemy (game.gl, game, randVector(new Vector3d(1000,0,0), 500), new Vector3d(0,0,0), game.world.shipLists[0] );
-    if (calc.rand(3)<2){en.atackObject = brp;}
+    let en;
+    if (calc.rand(3)<2){
+      en = new Enemy (game.gl, game, randVector(new Vector3d(1000,0,0), 500), new Vector3d(0,0,0), game.world.shipLists[0] );
+      en.atackObject = brp;
+    } else {
+      en = new Enemy (game.gl, game, randVector(new Vector3d(1000,0,0), 500), new Vector3d(0,0,0), game.world.shipLists[2] );
+      en.TORQUE = 0.24;   
+      en.ACCELARATION = 15; 
+      en.THETA_VAL=8;  
+    }
     enList.push(en);
     en.onKilled=()=>{
       enKilled++;
