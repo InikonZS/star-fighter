@@ -45,7 +45,7 @@ function mission1(game){
 
   let makeEnemy = ()=>{
     let en;
-    if (calc.rand(3)<2){
+    if (calc.rand(5)<4){
       en = new Enemy (game.gl, game, randVector(new Vector3d(1000,0,0), 500), new Vector3d(0,0,0), game.world.shipLists[0] );
       en.atackObject = brp;
     } else {
@@ -76,7 +76,7 @@ function mission1(game){
     }  
   }
 
-  for (let i = 0; i<10; i++){
+  for (let i = 0; i<5; i++){
     makeEnemy();  
   }
 
