@@ -66,9 +66,10 @@ class Game{
 
   addLabel(text, vector){
     let msg = new Message(this.glCanvas, '', 'f4f', vector);
+    msg.textPref = text;
     msg.onProcess = ()=>{
       let dist = this.getPlayerPos().subVector(msg.vector).abs()*10;
-      msg.text = text+ ': '+Math.round(dist)/10+ 'km';
+      msg.text = msg.textPref+ ': '+Math.round(dist)/10+ 'km';
     }
     this.messageList.addChild(msg);
     return msg;

@@ -67,7 +67,7 @@ function makeBreakable(world, pos, scale, modelList, onHit){
   return ob;
 }
 
-function makeBreakableStrong(world, pos, scale, modelList, health, onKilled){
+function makeBreakableStrong(world, pos, scale, modelList, health, onKilled, onHurt){
   let ob = makePhysical(world, pos, scale, modelList, true, 'solid', false, (bullet)=>{
     if (bullet.damage!==undefined){
       ob.health-=bullet.damage;
@@ -76,6 +76,9 @@ function makeBreakableStrong(world, pos, scale, modelList, health, onKilled){
     }
     if (ob.health<=0){
       onKilled();
+    }
+    if (onHurt){
+      onHurt(ob.health);
     }
   });
   ob.health = health;

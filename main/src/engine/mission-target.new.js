@@ -17,6 +17,13 @@ class Target extends GameObject{
     }
   }
 
+  setText(text){
+    this.text = text;
+    if (this.onChange){
+      this.onChange(this.status);
+    }  
+  }
+
   setComplete(){
     this.status = 'completed';
     if (this.onChange){

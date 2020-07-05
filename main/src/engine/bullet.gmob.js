@@ -93,7 +93,7 @@ function makeGenericBullet(game, basicObject, pos, scale=1, azi=0, theta=0, spee
             world.createExplosion(hp.dv, el.hitExplosionScale); 
             let vol = 130/(hp.dv.subVector(game.player.camera.getPosVector()).abs());
             //anyutils.playSoundUrl('assets/sounds/hit2.mp3', vol)   
-            window.sndBase.playByName('hit2', vol); 
+            window.sndBase.playByName('hit2', vol/3); 
           };  
           
         }

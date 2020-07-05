@@ -204,6 +204,7 @@ function isCrossedMeshByLine(vertexList, lineVectorA, lineVectorB){
 }
 
 function isCrossedSimple(pos, a, v, d){
+  if (!v){return false;}
   return (pos.subVector(a).abs()<(v.abs()+d));
 }
 
