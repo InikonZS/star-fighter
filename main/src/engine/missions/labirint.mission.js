@@ -7,7 +7,7 @@ const lScaler = 15;
 
 function missionLabirint(game){
   let len = 10;
-  let spline = makeLineSpline(len, new Vector3d (0, 0, -10*lScaler), -10*lScaler);
+  let spline = makeLineSpline(len, new Vector3d (0, 0, 0), -10*lScaler);
   recLabi(game, spline , 0, []);
 }
 
@@ -50,6 +50,7 @@ function makeLineSpline(cnt, startVector, step){
 
 function recLabi(game, rou, i, blocks){
   console.log('recpoint '+i);
+  basics.makePhysical(game.world, new Vector3d (0, 10*lScaler, 0 ),lScaler,game.world.tun2[0]);
   if (rou[i]){
     
     let block;
@@ -66,7 +67,7 @@ function recLabi(game, rou, i, blocks){
       block = basics.makePhysicalAzi(game.world, rou[i].cp, lScaler, rou[i].cur, Math.PI/2, game.world.tun1[calc.rand(game.world.tun1.length)]); 
     }
     block.onContact = (player)=>{
-      player.damage(0, 1);
+      player.damage(5, 1);
     };
     blocks.push(block);
 
