@@ -90,3 +90,44 @@ but.node.addEventListener('touchmove', (e)=>{
     `;
   }
 });
+
+
+//////
+class BarIndicator extends Control{
+  constructor (parentNode, count, wrapperClass, activeClass, inactiveClass, demiClass){
+    super(parentNode, 'div', wrapperClass);
+    this.wrapperClass=wrapperClass;
+    this.activeClass=activeClass;
+    this.inactiveClass=inactiveClass;
+    this.demiClass = demiClass;
+    this.maxValue = count;
+
+    this.value=0;
+    this.demiValue=0;
+    this.bars = [];
+    for (let i=0; i<count; i++){
+      let bar = new Control(this.node, 'div', inactiveClass);
+      this.bars.push(bar);
+    }
+  }
+
+  setValue(value, demiValue){
+    this.value = value;
+    this.demiValue = demiValue;
+    let minValue = Math.min(this.demiValue, this.value);
+    let maxValue = Math.max(this.demiValue, this.value);
+    for (let i=0; i<this.maxValue; i++){
+      if (i<minValue){
+        this.bars[i].node.className=this.activeClass;
+      } else if (i<maxValue){
+        this.bars[i].node.className=this.demiClass;
+      } else {
+        this.bars[i].node.className=this.inactiveClass;
+      }
+    }  
+  }
+}
+
+let bi =new BarIndicator(mainNode, 24, 'bar-indicator', 'bar-indicator_bar bar-indicator_bar__active', 'bar-indicator_bar bar-indicator_bar__inactive', 'bar-indicator_bar bar-indicator_bar__demi');
+bi.setValue(5,3);
+
