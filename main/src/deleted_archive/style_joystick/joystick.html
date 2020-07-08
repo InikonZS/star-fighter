@@ -1,38 +1,38 @@
 <!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:8080/ -->
 <html>
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles/style_.css">
-    <link rel="stylesheet" href="styles/gamemenu_.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./joystick_files/style.css" />
+    <link rel="stylesheet" href="./joystick_files/gamemenu.css" />
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Gugi&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div class="global_wrapper">
       <header id="app-header" class="header">
         <div class="wrapper header__wrapper">
-          <h1>
+            <h1>
             <a class="logo" href="#">
-              <span style="color: #96f; font-size: 26pt;">S</span>tar
-              <span style="color: #96f; font-size: 26pt;">F</span>ighter
+            <span style="color: #96f; font-size: 26pt;">S</span>tar
+            <span style="color: #96f; font-size: 26pt;">F</span>ighter
             </a>
-          </h1>
+            </h1>
           <nav class="header__navigation">
-            <ul class="navigation">
-              <li class="header_menu_item">
-                <a class="navigation__link" href="#">Main</a>
-              </li>
-              <li class="header_menu_item">
-                <a class="navigation__link" href="#">History</a>
-              </li>
-              <li class="header_menu_item">
-                <a class="navigation__link" href="#">Team</a>
-              </li>
-            </ul>
-          </nav>
-        </div>     
+             <ul class="navigation">
+             <li class="header_menu_item">
+              <a class="navigation__link" href="#">Main</a>
+             </li>
+            <li class="header_menu_item">
+             <a class="navigation__link" href="#">History</a>
+      </li>
+            <li class="header_menu_item">
+              <a class="navigation__link" href="#">Team</a>
+            </li>
+          </ul>
+          </nav>     
       </header>
-
+  
       <main class="center">
         <div class="wrapper center__wrapper">
         <div class="layout-2-column">
@@ -196,22 +196,162 @@
           </ul>
         </div>
         <div class="game__panel">
-          <div> 
-          
+          <div id="app-main" class="game__box" style="position: relative;">
+            <div class="startBackground" style="display: none;">
+              <div class="startButton">Click To Load</div>
+              <div class="loadingIndicator">
+                Loading texture 20/20, 100% done
+              </div>
+            </div>
+            <canvas class="canvas_style" width="640" height="480"></canvas>
+            <div class="">FPS: 54</div>
+            <div class="game__buttons">
+              <button class="fullscreen__button button_bordered">fullScreen</button>
+              <button class="fullscreen__button button_colored">joystick</button>
+            </div>
+            <div
+              class="container__game"
+              style="
+           
+              "
+            >
+              <div class="overlay_panel" style="">
+                <div class="overlay_center"></div>
+                <div class="view_panel">
+                  <div
+                    class=""
+                    style="
+                      position: absolute;
+                      top: 382.234px;
+                      left: 516px;
+                      color: rgb(255, 68, 255);
+                    "
+                  >
+                    StartPoint: 1136.9km
+                  </div>
+                  <div
+                    class=""
+                    style="
+                      position: absolute;
+                      top: 367.234px;
+                      left: 540px;
+                      color: rgb(255, 68, 255);
+                    "
+                  >
+                    target: 1222.3km
+                  </div>
+                </div>
+                <div class="machine_panel">
+                  <div class="panel_group">
+                    <div class="panel_item">health: 100</div>
+                    <div class="panel_item">bullets: 56</div>
+                    <div class="panel_item">phaser</div>
+                    <div class="panel_item">shield: 95</div>
+                    <div class="panel_item">speed: 0</div>
+                  </div>
+                  <div class="panel_item">
+                    <div>come to target pending</div>
+                  </div>
+                </div>
+                <div class="joy_panel" style="">
+                  <div class="joy_panel" style="height: 30px; top: 0px;">
+                    <div class="butg" style="width: 30px;"></div>
+                  </div>
+                  <div
+                    class="joy_panel"
+                    style="height: calc((100% - 30px) - 100px); top: 30px;"
+                  >
+                    <div class="but_group" style="justify-content: flex-start;">
+                      <div class="but_subgroup">
+                        <div class="butg"></div>
+                        <div class="butg"></div>
+                        <div class="butg"></div>
+                        <div class="butg"></div>
+                      </div>
+                      <div class="but"></div>
+                      <div class="but_subgroup">
+                        <div class="butg" style="width: 100%;"></div>
+                        <div class="butg" style="width: 100%;"></div>
+                      </div>
+                    </div>
+                    <div class="but_group" style="justify-content: flex-end;">
+                      <div class="but_subgroup"></div>
+                      <div class="but"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class=""
+              style="
+                position: absolute;
+                width: 640px;
+                height: 480px;
+                top: 0px;
+                left: 0px;
+                display: none;
+                z-index: 10;
+              "
+            >
+              <div class="">
+                <div class="menu_background" style="display: none;">
+                  Main Menu
+                  <div class="menu_item">start new</div>
+                  <div class="menu_item">options</div>
+                  <div class="menu_item">exit</div>
+                </div>
+                <div class="menu_background" style="display: none;">
+                  Options<input
+                    class="menu_item"
+                    type="range"
+                    min="1"
+                    max="100"
+                  />
+                  <div class="menu_item">to main menu</div>
+                </div>
+                <div class="menu_background" style="display: none;">
+                  Select Mission
+                  <div class="menu_item">mission1</div>
+                  <div class="menu_item">mission2</div>
+                  <div class="menu_item">mission3</div>
+                  <div class="menu_item">mission4</div>
+                  <div class="menu_item">mission5</div>
+                  <div class="menu_item">to main menu</div>
+                </div>
+                <div class="menu_background" style="display: none;">
+                  Start Mission
+                  <div class="but fullScreenTouch"></div>
+                  <div class="menu_item">prevShip</div>
+                  <div class="menu_item">nextShip</div>
+                  <div class="menu_item menu_item_clikit">Fight!</div>
+                  <div class="menu_item">to main menu</div>
+                </div>
+                <div class="menu_background" style="">
+                  Paused
+                  <div class="menu_item" style="display: none;">continue</div>
+                  <div class="menu_item">to main menu</div>
+                </div>
+                <div class="menu_background" style="display: none;">
+                  Game Over
+                  <div class="menu_item">to main menu</div>
+                </div>
+                <div class="menu_background" style="display: none;">
+                  Mission Complete
+                  <div class="menu_item">to main menu</div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div id="app-main" ></div>
         </div>
       </div>
       </div>
       </main>
-
       <footer class="footer">
         <div class="wrapper footer__wrapper">
-          <div class="footer__text">а здесь типо футер</div>
-        </div>
+        <div class="footer__text">а здесь типо футер</div>
+      </div>
       </footer>
-    </div>
-    <script src="ext-utils/m4.js"></script>
-    <script src="script.js"></script>
+
   </body>
 </html>

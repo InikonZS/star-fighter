@@ -32,12 +32,13 @@ class GLCanvas extends Control{
 
     this.averageRenderTime =0;
     this.info = new Control(parentNode,'div');
-
-    this.fullScreenButton = new Control(parentNode, 'div', 'fullscreen_button', 'fullScreen', ()=>{
+    
+    let gameButtons = new Control(parentNode, 'div', 'game__buttons');
+    this.fullScreenButton = new Control(gameButtons.node, 'button', 'fullscreen__button button_bordered', 'fullScreen', ()=>{
         parentNode.requestFullscreen();
     });
 
-    this.joyButton = new Control(parentNode, 'div', 'fullscreen_button', 'joystick', ()=>{
+    this.joyButton = new Control(gameButtons.node, 'button', 'fullscreen__button button_colored', 'joystick', ()=>{
       this.joyShow = !this.joyShow;
       if (!this.joyShow) {this.gamePanel.joy.hide();}
       else {this.gamePanel.joy.show();}
