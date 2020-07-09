@@ -19,8 +19,11 @@ class Player extends GameObject {
     let world = this.game.world
 
     this.isAlive = true;
+
     this.health = 100;
-    this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
+    this.game.glCanvas.gamePanel.data.health = this.health;
+    this.game.glCanvas.gamePanel.refresh();
+
     this.shieldEnergy = 100;
     this.game.glCanvas.gamePanel.shield.node.textContent = 'shield: '+this.shieldEnergy;
     this.shieldTime = 2;
@@ -146,7 +149,11 @@ class Player extends GameObject {
             window.sndBase.playByClass('bulletBonus')
             //anyutils.playSoundUrl('assets/sounds/reload.mp3')
             ob.deleteSelf();
-            this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.weapons[this.currentWeaponIndex-1].bulletCount;
+            //this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+;
+            
+            let bullets = this.weapons[this.currentWeaponIndex-1].bulletCount;
+            this.game.glCanvas.gamePanel.data.bullets = bullets;
+            this.game.glCanvas.gamePanel.refresh();
             
           }
 
@@ -155,7 +162,9 @@ class Player extends GameObject {
             //anyutils.playSoundUrl('assets/sounds/correct.mp3')
             window.sndBase.playByClass('healthBonus');
             ob.deleteSelf();
-            this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
+            //this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
+            this.game.glCanvas.gamePanel.data.health = this.health;
+            this.game.glCanvas.gamePanel.refresh();
           }
 
           if (ob.bonus == ''){
@@ -193,7 +202,9 @@ class Player extends GameObject {
     window.sndBase.playByClass('hit');
     //rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
     this.health-=rand(pointsRand)+pointsMin;
-    this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
+    //this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
+    this.game.glCanvas.gamePanel.data.health = this.health;
+    this.game.glCanvas.gamePanel.refresh();
     if (this.health<0){
       console.log('dead');
       this.isAlive = false;
