@@ -1,4 +1,4 @@
-const World = require('./world.new.js');
+//const World = require('./world.new.js');
 const Vector3d = require('../vector3d.dev.js');
 const Camera = require('./camera.new.js');
 const calc = require('../calc.utils.js');
@@ -6,10 +6,11 @@ const rand = calc.rand;
 const Weapon = require('./weapon.new.js');
 const Timer = require('./timer.new.js');
 const GameObject = require('./game-object.new.js');
-const anyutils = require('../any.utils.js');
+//const anyutils = require('../any.utils.js');
 
 const Phys = require('./physic.new.js');
 
+const shieldTimeStd = 0.03;
 
 class Player extends GameObject {
   constructor(gl, game, keyStates){
@@ -25,8 +26,10 @@ class Player extends GameObject {
     this.game.glCanvas.gamePanel.refresh();
 
     this.shieldEnergy = 100;
-    this.game.glCanvas.gamePanel.shield.node.textContent = 'shield: '+this.shieldEnergy;
-    this.shieldTime = 2;
+    this.game.glCanvas.gamePanel.data.shield = this.shieldEnergy;
+    this.game.glCanvas.gamePanel.refresh();
+    //this.game.glCanvas.gamePanel.shield.node.textContent = 'shield: '+this.shieldEnergy;
+    this.shieldTime = shieldTimeStd;
 
     //this.domStates = 
 
@@ -54,30 +57,8 @@ class Player extends GameObject {
       console.log('hit');
       bullet.deleteSelf();
       this.damage(4, 12);
-    /*  window.sndBase.playByClass('hit');
-      //rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
-      this.health-=rand(15)+3;
-      this.game.glCanvas.gamePanel.health.node.textContent = 'health: '+this.health;
-      if (this.health<0){
-        console.log('dead');
-        this.isAlive = false;
-        this.game.glCanvas.keyboardState.shot = false;
-        this.game.world.createExplosion(this.camera.getPosVector().subVector(this.camera.getCamNormal().mul(2.10)),40);
-        window.sndBase.playByClass('explosion');
-        //rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/expl1.mp3') : anyutils.playSoundUrl('assets/sounds/expl2.mp3');
-       
-        setTimeout(()=>{
-         /* this.game.glCanvas.keyboardState.shot = false;
-          this.game.glCanvas.menu.activate();
-          this.game.glCanvas.menu.menu.selectPage(this.game.glCanvas.menu.gameOverMenu);
-          document.exitPointerLock();*/
-    /*      this.game.finish(false);
-        },50);
-      }*/
     });
     this.hitbox = hitbox;
-
-    
     
     let nearbox = makeHitBox(this, 5, (bullet)=>{
       console.log('near');
@@ -180,7 +161,10 @@ class Player extends GameObject {
     }
 
     this.refTimer = new Timer(0.1, ()=>{
-      this.game.glCanvas.gamePanel.speed.node.textContent = 'speed: '+Math.round(this.camera.getSpeedVector().abs()*10)/10;
+      //this.game.glCanvas.gamePanel.speed.node.textContent = 'speed: '+;
+      let speed = Math.round(this.camera.getSpeedVector().abs()*10)/10;
+      this.game.glCanvas.gamePanel.data.speed = speed;
+      this.game.glCanvas.gamePanel.refresh();
     });
 
     this.envTimer = new Timer(0.3, ()=>{
@@ -228,17 +212,15 @@ class Player extends GameObject {
     this.shieldTime-=deltaTime;
     if (this.keyStates.space){
       this.shieldActivate(deltaTime);
-      this.shieldModel.visible = true;
     } else {
+      this.shieldCharge(deltaTime);
       this.shieldActivated = false;
       this.shieldModel.visible = false;
     }
 
     this.camera.process(deltaTime);  
 
-    this.weapons.forEach(it=>it.render(deltaTime));
-
-    
+    this.weapons.forEach(it=>it.render(deltaTime)); 
   }
 
   shot(weaponIndex){
@@ -248,31 +230,53 @@ class Player extends GameObject {
       this.camera.getCamNormal().mul(-1).addVector(this.camera.getSpeedVector().mul(1/this.weapons[weaponIndex].bulletSpeed))
       )){
         //this.bullets--;
-        this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.weapons[weaponIndex].bulletCount;
+        //this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.weapons[weaponIndex].bulletCount;
+        let bullets = this.weapons[weaponIndex].bulletCount;
+        this.game.glCanvas.gamePanel.data.bullets = bullets;
+        this.game.glCanvas.gamePanel.refresh();
       }
     //}
   }
   
   shieldActivate(deltaTime){
     if (this.shieldEnergy>0){
-     // this.shieldModel.visible = true;
+      this.shieldModel.visible = true;
       //console.log(this.shieldTime);
       this.shieldActivated = true;
       if (calc.isTimeout(this.shieldTime)){
-        this.shieldEnergy-=1;
-        this.shieldTime = 0.5;
-        this.game.glCanvas.gamePanel.shield.node.textContent = 'shield: '+this.shieldEnergy;
+        this.shieldEnergy-=2;
+        this.shieldTime = shieldTimeStd;
+        //this.game.glCanvas.gamePanel.shield.node.textContent = 'shield: '+this.shieldEnergy;
+        this.game.glCanvas.gamePanel.data.shield = this.shieldEnergy;
+        this.game.glCanvas.gamePanel.refresh();
       }
     } else {
       this.shieldActivated = false;
+      this.shieldModel.visible = false;
       //this.shieldTime = 0;  
+    }
+  }
+
+  shieldCharge(deltaTime){
+    if (this.shieldEnergy<100){
+      if (calc.isTimeout(this.shieldTime)){
+        this.shieldEnergy+=0.2;
+        this.shieldTime = shieldTimeStd;
+        this.game.glCanvas.gamePanel.data.shield = this.shieldEnergy;
+        this.game.glCanvas.gamePanel.refresh();
+      }
     }
   }
 
   setWeapon(weaponIndex){
     this.currentWeaponIndex = weaponIndex;
-    this.game.glCanvas.gamePanel.weapon.node.textContent = this.weapons[this.currentWeaponIndex-1].weaponName;
-    this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.weapons[weaponIndex-1].bulletCount;
+    //this.game.glCanvas.gamePanel.weapon.node.textContent = this.weapons[this.currentWeaponIndex-1].weaponName;
+    //this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.weapons[weaponIndex-1].bulletCount;
+    
+    this.game.glCanvas.gamePanel.data.weapon = this.weapons[this.currentWeaponIndex-1].weaponName;
+    let bullets = this.weapons[weaponIndex-1].bulletCount;
+    this.game.glCanvas.gamePanel.data.bullets = bullets;
+    this.game.glCanvas.gamePanel.refresh();
   }
 }
 

@@ -61,20 +61,23 @@ class GameMenu extends Control{
       if (!data){
         data = this.data;  
       }
-      this.health.node.textContent = `health: ${data.health}`;
+      //this.health.node.textContent = `health: ${data.health}`;
+      this.health.setPercent(data.health);
+      this.shield.setPercent(data.shield);
       this.weapon.node.textContent = `weapon: ${data.weapon}`;
-      this.shield.node.textContent = `shield: ${data.shield}`;
+      //this.shield.node.textContent = `shield: ${data.shield}`;
       this.speed.node.textContent = `speed: ${data.speed}`;
       this.bullets.node.textContent = `bullets: ${data.bullets}`;
     }
     
     this.group = new Control(this.tool.node, 'div', 'panel_group' ,'');
 
-    //this.indd=new BarIndicatorCustomized(this.group.node, 6, 8);
-    this.health = new Control(this.group.node, 'div', 'panel_item' ,'health: ');
+    this.health=new BarIndicatorCustomized(this.group.node, 6, 8);
+    this.shield=new BarIndicatorCustomized(this.group.node, 6, 8);
+    //this.health = new Control(this.group.node, 'div', 'panel_item' ,'health: ');
     this.bullets = new Control(this.group.node, 'div', 'panel_item','bullets: ');
     this.weapon = new Control(this.group.node, 'div', 'panel_item','bullets: ');
-    this.shield = new Control(this.group.node, 'div', 'panel_item','shield: ');
+    //this.shield = new Control(this.group.node, 'div', 'panel_item','shield: ');
     this.speed = new Control(this.group.node, 'div', 'panel_item' ,'speed: ');
     this.missionTarget = new Control(this.tool.node, 'div', 'panel_item','targets: ');
   }
