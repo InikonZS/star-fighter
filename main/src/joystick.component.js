@@ -15,7 +15,7 @@ class Joy extends Control{
     this.menuButton.node.style = 'width:30px';
 
     let mainPanel = new Control(this.node, 'div', 'joy_panel');
-    mainPanel.node.style='height:calc(100% - 30px - 100px); top:30px';
+    mainPanel.node.style='height:calc(100% - 30px - 7%); top:30px';
     
 
     let leftGroup = new Control(mainPanel.node, 'div', 'but_group');
@@ -206,7 +206,7 @@ class TouchPad extends Control{
       }
     });
 
-    but.node.addEventListener('mousemove', (e)=>{
+    but.node.addEventListener('mousemove', (e)=>{ //todo, maybe listen document for same behavior like touchmove
       e.preventDefault();
       let br = but.node.getBoundingClientRect();
       let zt = e;

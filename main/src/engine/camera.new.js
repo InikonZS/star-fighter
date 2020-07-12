@@ -86,7 +86,7 @@ class Camera{
     
     let k=4;
     for (let i=0; i<16; i++){
-      this.lmat[i]=(this.lmat[i]*(k-1)+this.dmat[i])/k;
+      this.lmat[i]=(this.lmat[i]*(k-1)+this.dmat[i])/(k); //todo, sync it wiut deltatime and fix distortion
     }
 
     //mobile
