@@ -130,7 +130,19 @@
 	height: 62.5%;
 	flex-shrink: 0;
 	background-color: #ff00ff22;
-	box-sizing: border-box;
+  box-sizing: border-box;
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 70%;
+}
+
+.but_left{
+  background-image: url('../assets/joy-pad1.png');  
+}
+
+.but_right{
+  background-image: url('../assets/joy-pad2.png');  
 }
 
 .but_group {

@@ -57,8 +57,10 @@ class Joy extends Control{
     });*/
 
     this.leftPad = new TouchPad(leftGroup.node, onChangeLeft);
+    this.leftPad.node.className = 'but but_left';
 
     this.touchPad = new TouchPad(rightGroup.node, onChange);
+    this.touchPad.node.className = 'but but_right';
     
     let sub1 = new Control(leftGroup.node, 'div', 'but_subgroup');
     this.shotButton = new TouchButton (sub1.node, 'butg', (st)=>{
