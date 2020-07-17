@@ -8,29 +8,33 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 640px;
-  height: 480px;
+  width: 100%;
+  height: 100%;
   font-family: verdana, arial, sans-serif;
 }
 
 .gs_wrapper div{
   box-sizing: border-box;
+  font-family: verdana, arial, sans-serif;
 }
 
 .gs_wrapper h1{
   margin: 0px;
   font-size: 16pt;
+  font-family: verdana, arial, sans-serif;
 }
 
 .gs_wrapper h2{
   margin: 0px;
   font-size: 12pt;
+  font-family: verdana, arial, sans-serif;
 }
 
 .gs_wrapper p{
   margin: 0px;
   padding: 0px 0px 10px 0px;
   font-size: 10pt;
+  font-family: verdana, arial, sans-serif;
 }
 
 .gs_title{
@@ -98,6 +102,8 @@
   justify-content: center;
   align-items: center;
   border-radius: 5px;
+  font-size: 12pt;
+  color:#000;
 }
 
 .gs_button_back{
@@ -112,7 +118,7 @@
 
 .sl_slides{
   width: 100%;
-  background-color: #ccc;
+  background-color: #ccc0;
   position: relative;
 }
 
@@ -131,7 +137,7 @@
   transition-duration: 400ms;
   transform: translate(0px);
   overflow: hidden;
-  background-image: url('back4.jpg');
+  background-image: url('../assets/back_images/back4.jpg');
   background-size: cover;
   background-blend-mode: darken;
   position: absolute;
@@ -157,7 +163,7 @@
 .sl_button{
   width: 100%;
   height: 100%;
-  background-image: url('./chev_l.png');
+  background-image: url('../assets/site/chev_l.png'); 
   background-repeat: no-repeat no-repeat;
   background-position: center center;
   transition-property: opacity;

@@ -132,12 +132,12 @@ h2 {
 .button_colored {
 	background-color: rgb(123, 76, 216);
 	color: rgb(255, 255, 255);
-	border: 1px solidr rgb(123, 76, 216);
+	border: 1px solid rgb(123, 76, 216);
 }
 
 .button_colored:hover {
 	background-color: rgb(97, 60, 167);
-	border: 1px solidr rgb(97, 60, 167);
+	border: 1px solid rgb(97, 60, 167);
 }
 
 .center {

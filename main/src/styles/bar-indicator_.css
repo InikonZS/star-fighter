@@ -1,25 +1,17 @@
-.bar-wrapper{
-  font-size: 10pt;
-  background-color: #0009;
-  border-radius: 5px;
-  width: max-content;
-  padding: 5px 15px;
-  margin-bottom: 5px;
-}
 .bar-indicator{
   border-style:solid;
-  border-width: 0px;
+  border-width: 1px;
   display:flex;
   width: min-content;
   box-sizing: border-box;
   padding: 2px;
   padding-left: 0px;  
-  background-color:#0000;
+  background-color:#000;
 }
 
 .bar-indicator_bar{
   width:8px;
-  height:8px;
+  height:24px;
   margin-left:2px;
   box-sizing: border-box;
   border-width: 1px;

@@ -2,6 +2,9 @@ const Control = require('./control-js/control.component.js');
 const Pager = require('./control-js/pager.component.js');
 const options = require('./options.utils.js');
 const joyUtils = require('./joystick.component.js');
+const {GameSlideredScreen} = require('./control-js/menu.classes.js');
+const {ShipSlide} = require('./control-js/menu.classes.js');
+const misTexts = require('./mis.texts.js');
 
 class GameMenu extends Control{
   constructor(parentNode, glCanvas){
@@ -60,7 +63,30 @@ class GameMenu extends Control{
       }
     });
 
-    let missionCount = 5;
+    //////////
+    this.missionMenu.node.innerHTML='';
+    let gs = new GameSlideredScreen(this.missionMenu.node);
+    for (let i=0; i<5; i++){
+      let sl = gs.slider.addSlide();
+      sl.backImageURL= `../assets/back_images/back${i%4+1}.jpg`;
+      sl.slideContainer.node.innerHTML = misTexts[i];
+    }
+    gs.slider.setIndex(0);
+    gs.setTitle('Select mission');
+    gs.addButton('Back', ()=>{
+      this.menu.selectPage(this.mainMenu);
+    });
+    gs.addButton('Select', ()=>{
+      this.glCanvas.start();
+      this.glCanvas.game.loadMission('garage', this.missionOptions);
+      this.missionOptions.missionName=(gs.slider.currentIndex+1).toString();
+      this.glCanvas.useControls = false;
+      this.menu.selectPage(this.startMenu);  
+      console.log('mission selected')
+    });
+    ///////
+
+   /* let missionCount = 5;
     for (let i=0; i<missionCount; i++){
       new Control(this.missionMenu.node, 'div', 'menu_item', 'mission'+(i+1),()=>{
         
@@ -70,16 +96,43 @@ class GameMenu extends Control{
         this.glCanvas.useControls = false;
         this.menu.selectPage(this.startMenu);
       }); 
-    }
+    }*/
 
+//////
+    this.startMenu.node.innerHTML="";
     this.touchPad = new joyUtils.TouchPad(this.startMenu.node, ()=>{});
     this.touchPad.node.className = 'but fullScreenTouch';
+    this.startMenu.node.innerHTML='';
 
+    let bs = new GameSlideredScreen(this.startMenu.node);
+    for (let i=0; i<5; i++){
+      let sl = bs.slider.addSlide();
+      new ShipSlide(sl.slideContainer.node, 'Tie Fighter', 'Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem.',
+      15, 10);
+    }
+    bs.slider.setIndex(0);
+    bs.setTitle('Select ship');
+    bs.addButton('Back', ()=>{
+      this.activate();
+      this.menu.selectPage(this.missionMenu);
+    });
+   // gs.addButton('Select', ()=>{
 
+////
     this.prevShip = new Control(this.startMenu.node, 'div', 'menu_item', 'prevShip',()=>{
     });
+    this.prevShip.hide();
     this.nextShip = new Control(this.startMenu.node, 'div', 'menu_item', 'nextShip',()=>{
     });
+    this.nextShip.hide();
+
+    bs.slider.onLeft=()=>{
+      this.prevShip.click();
+    }
+
+    bs.slider.onRight=()=>{
+      this.nextShip.click();
+    }
 
     this.startMissionButton = new Control(this.startMenu.node, 'div', 'menu_item menu_item_clikit', 'Fight!',()=>{
       //this.glCanvas.start();
@@ -90,11 +143,15 @@ class GameMenu extends Control{
       this.menu.selectPage(this.gameMenu);
       this.deactivate(true);
     });
-
+    this.startMissionButton.hide();
+    bs.addButton('Fight', ()=>{this.startMissionButton.click()});
+/*
     new Control(this.startMenu.node, 'div', 'menu_item', 'to main menu',()=>{
       this.activate();
       this.menu.selectPage(this.mainMenu);
-    });
+    });*/
+
+
    /* this.m1Button = new Control(this.missionMenu.node, 'div', 'menu_item', 'mission1',()=>{
       this.menu.selectPage(this.startMenu);
 
@@ -126,9 +183,9 @@ class GameMenu extends Control{
     });
     */
 
-    this.mainMenuButtonM = new Control(this.missionMenu.node, 'div', 'menu_item', 'to main menu',()=>{
+    /*this.mainMenuButtonM = new Control(this.missionMenu.node, 'div', 'menu_item', 'to main menu',()=>{
       this.menu.selectPage(this.mainMenu);
-    });
+    });*/
 
     this.mainMenuButtonO = new Control(this.gameOverMenu.node, 'div', 'menu_item', 'to main menu',()=>{
       this.menu.selectPage(this.mainMenu);
