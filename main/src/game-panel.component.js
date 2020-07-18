@@ -1,6 +1,6 @@
 const Control = require('./control-js/control.component.js');
 const BarIndicator = require('./control-js/bar-indicator.component.js');
-const {Joy} = require('./joystick.component.js');
+const {Joy} = require('./joystick2.component.js');
 
 class BarIndicatorCustomized extends BarIndicator{
   constructor (parentNode, value, demiValue){
@@ -21,6 +21,48 @@ class BarIndicatorCustomized extends BarIndicator{
   }
 }
 
+class GamIndicator extends Control{
+  constructor(parentNode, caption, initValue){
+    super(parentNode, 'div', 'ngam_top_item');
+    this.caption = caption;
+    if (initValue){
+      this.setValue(initValue);
+    } else {
+      this.setValue(0);
+    }
+  }
+
+  setValue(value){
+    this.value=value;
+    this.node.textContent = this.caption+ ': ' +this.value;
+  }
+
+  setPercent(value){
+    this.setValue(value);
+  }
+}
+/*<div class = "gam_wrapper">
+        <div class = "gam_top">
+          <div class = "gam_top_item">
+            health: 100
+          </div>
+          <div class = "gam_top_item">
+            shield: 100
+          </div>
+          <div class = "gam_top_item">
+            fuel: 100
+          </div>
+          <div class = "gam_top_item">
+            money: 10990
+          </div>
+        </div>
+        <div class = "gam_center">
+          
+        </div> 
+        <canvas style = "position:absolute;" id = "gam-central-canvas"></canvas>  
+      </div> 
+*/
+
 class GameMenu extends Control{
   constructor(parentNode, glCanvas){
     super(parentNode, 'div', 'overlay_panel', '', ()=>{
@@ -32,6 +74,13 @@ class GameMenu extends Control{
     this.view = new Control(this.node, 'div', 'view_panel');
 
     this.tool = new Control(this.node, 'div', 'machine_panel');
+    this.tool.hide();
+
+    this.group =new Control(this.node, 'div', 'ngam_top');
+    this.health = new GamIndicator(this.group.node, 'health');
+    this.shield = new GamIndicator(this.group.node, 'shield');
+    this.fuel = new GamIndicator(this.group.node, 'fuel');
+    this.money = new GamIndicator(this.group.node, 'money');
 
     this.joy = new Joy(this.node, glCanvas, (dx, dy, cx, cy)=>{
       //glCanvas.game.player.camera.rotateCam(dx, dy, false);
@@ -70,6 +119,7 @@ class GameMenu extends Control{
       this.bullets.node.textContent = `bullets: ${data.bullets}`;
     }
     
+    //this.group = new Control(this)
     this.group = new Control(this.tool.node, 'div', 'panel_group' ,'');
 
     this.health=new BarIndicatorCustomized(this.group.node, 6, 8);
@@ -81,7 +131,6 @@ class GameMenu extends Control{
     this.speed = new Control(this.group.node, 'div', 'panel_item' ,'speed: ');
     this.missionTarget = new Control(this.tool.node, 'div', 'panel_item','targets: ');
   }
-
 }
 
 module.exports = GameMenu;
