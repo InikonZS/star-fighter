@@ -1,7 +1,7 @@
 const Control = require('./control.component.js');
 
 class Ring{
-  constructor(ctx, color, rad1, rad2, cx, cy, val, segments, onChange){
+  constructor(ctx, color, rad1, rad2, cx, cy, val, maxVal, segments, onChange){
     this.ctx = ctx;
     this.color=color;
     this.rad1=rad1;
@@ -12,6 +12,7 @@ class Ring{
     
     this.onChange = onChange;
     this.value=val;
+    this.maxValue = maxVal; //????
   }
 
   render(){
@@ -24,6 +25,10 @@ class Ring{
     if (this.onChange){
       this.onChange();
     }
+  }
+
+  setPercent(percent){
+    this.setValue(this.segments*percent/100 );
   }
 
 }
@@ -45,8 +50,8 @@ class RingIndicator extends Control{
     this.rings = [];
   }
 
-  addRing(color, rad1, rad2, val, segments){
-    let ring = new Ring(this.ctx, color, rad1, rad2, this.cx, this.cy, val, segments, ()=>{
+  addRing(color, rad1, rad2, val, maxVal, segments){
+    let ring = new Ring(this.ctx, color, rad1, rad2, this.cx, this.cy, val, maxVal, segments, ()=>{
       this.render();
     });
     this.rings.push(ring);
@@ -55,7 +60,7 @@ class RingIndicator extends Control{
   }
 
   render(){
-    //clear(this.ctx);
+    clear(this.ctx);
     this.rings.forEach(it=>it.render());
   }
 }

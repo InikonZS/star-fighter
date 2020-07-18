@@ -58,8 +58,8 @@ class GameMenu extends Control{
     this.ringIndicator = new RingIndicator(this.node, 150, 150);
     this.ringIndicator.node.className = 'overlay_center;'
     let cx=150/2;
-    this.ringIndicator.addRing('#55b', cx-10, cx-15, 16, 36);
-    this.ringIndicator.addRing('#0b0', cx-1, cx-5, 20, 36);
+    this.ringIndicator.addRing('#55b', cx-10, cx-15, 16, 100, 36);
+    this.ringIndicator.addRing('#0b0', cx-1, cx-5, 20, 100, 36);
 
     this.view = new Control(this.node, 'div', 'view_panel');
 
@@ -106,6 +106,9 @@ class GameMenu extends Control{
       this.health.setPercent(data.health);
       this.shield.setPercent(data.shield);
       this.speed.setPercent(data.speed);
+
+      this.ringIndicator.rings[0].setPercent(data.health);
+      this.ringIndicator.rings[1].setPercent(data.shield);
 
       this.weapon.node.textContent = `weapon: ${data.weapon}`;
       //this.shield.node.textContent = `shield: ${data.shield}`;
