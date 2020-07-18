@@ -1,5 +1,6 @@
 const Control = require('./control-js/control.component.js');
 const BarIndicator = require('./control-js/bar-indicator.component.js');
+const RingIndicator = require('./control-js/canvas-indicator.component.js');
 const {Joy} = require('./joystick2.component.js');
 
 class BarIndicatorCustomized extends BarIndicator{
@@ -53,6 +54,12 @@ class GameMenu extends Control{
     });
 
     this.center = new Control(this.node, 'div', 'overlay_center');
+    
+    this.ringIndicator = new RingIndicator(this.node, 150, 150);
+    this.ringIndicator.node.className = 'overlay_center;'
+    let cx=150/2;
+    this.ringIndicator.addRing('#55b', cx-10, cx-15, 16, 36);
+    this.ringIndicator.addRing('#0b0', cx-1, cx-5, 20, 36);
 
     this.view = new Control(this.node, 'div', 'view_panel');
 
