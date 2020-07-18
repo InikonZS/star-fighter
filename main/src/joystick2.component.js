@@ -52,27 +52,50 @@ class Joy extends Control{
     let leftPanel = new Control(this.node, 'div', "njoy_panel njoy_panel_left");
 
     let weaponSelect = new RadioGroup(leftPanel.node, 'njoy_buttons_group');
-    weaponSelect.addButton('njoy_button njoy_weap1_ico', 'njoy_button_active').setActive();
-    weaponSelect.addButton('njoy_button njoy_weap2_ico', 'njoy_button_active');
-    weaponSelect.addButton('njoy_button njoy_weap3_ico', 'njoy_button_active');
-    weaponSelect.addButton('njoy_button njoy_weap4_ico', 'njoy_button_active');
+
+    weaponSelect.addButton('njoy_button njoy_weap1_ico', 'njoy_button_active',
+    ()=>{
+      glCanvas.game.player.setWeapon(1);   
+    }).setActive();
+    weaponSelect.addButton('njoy_button njoy_weap2_ico', 'njoy_button_active',
+    ()=>{
+      glCanvas.game.player.setWeapon(2);   
+    });
+    weaponSelect.addButton('njoy_button njoy_weap3_ico', 'njoy_button_active',
+    ()=>{
+      glCanvas.game.player.setWeapon(3);   
+    });
+    weaponSelect.addButton('njoy_button njoy_weap4_ico', 'njoy_button_active',
+    ()=>{
+      glCanvas.game.player.setWeapon(4);   
+    });
 
     let leftPad = new Joys.TouchPad(leftPanel.node, onChangeLeft);
     leftPad.node.className = 'njoy_touch_wrapper njoy_touch_wrapper_left';
     let leftPadIco = new Control(leftPad.node, 'div', 'njoy_touch njoy_touch_left');
 
     let leftDown = new Control(leftPanel.node, 'div', 'njoy_down_left');
-    let shotButton = new Control(leftDown.node, 'div', 'njoy_shot_button');
+    let shotButton = new Joys.TouchButton(leftDown.node, 'njoy_shot_button', (st)=>{
+      glCanvas.keyboardState.shot= st;  
+    });
     let shotButtonIco = new Control(shotButton.node, 'div', "njoy_button njoy_shot_ico njoy_button_lighten");
 
-    let shieldButton = new Control(leftDown.node, 'div', 'njoy_shot_button');
+    let shieldButton = new Joys.TouchButton(leftDown.node, 'njoy_shot_button', (st)=>{
+      glCanvas.keyboardState.space= st;  
+    });
     let shieldButtonIco = new Control(shieldButton.node, 'div', "njoy_button njoy_shield_ico njoy_button_lighten");
 
     //right
     let rightPanel = new Control(this.node, 'div', "njoy_panel njoy_panel_right");
 
     let rightButtons = new Control(rightPanel.node, 'div','njoy_buttons_group njoy_buttons_group_right');
-    let menuButton = new Control(rightButtons.node, 'div', 'njoy_button njoy_pause_ico njoy_button_lighten');
+    let menuButton = new Joys.TouchButton(rightButtons.node, 'njoy_button njoy_pause_ico njoy_button_lighten',(st)=>{
+      if (!glCanvas.menu.isActive){
+        glCanvas.menu.activate();
+        glCanvas.keyboardState.shot = false;
+        document.exitPointerLock();
+      } 
+    });
 
     let rightPad = new Joys.TouchPad(rightPanel.node, onChange);
     rightPad.node.className = 'njoy_touch_wrapper njoy_touch_wrapper_right';

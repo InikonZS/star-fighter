@@ -102,7 +102,8 @@ class GameMenu extends Control{
     this.startMenu.node.innerHTML="";
     this.touchPad = new joyUtils.TouchPad(this.startMenu.node, ()=>{});
     this.touchPad.node.className = 'but fullScreenTouch';
-    this.startMenu.node.innerHTML='';
+    this.touchPad.node.style = 'z-index:2'
+    //this.startMenu.node.innerHTML='';
 
     let bs = new GameSlideredScreen(this.startMenu.node);
     for (let i=0; i<5; i++){

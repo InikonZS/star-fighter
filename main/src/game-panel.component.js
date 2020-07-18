@@ -33,35 +33,18 @@ class GamIndicator extends Control{
   }
 
   setValue(value){
-    this.value=value;
-    this.node.textContent = this.caption+ ': ' +this.value;
+    this.value=Math.trunc(value*10)/10;
+    let strValue = this.value.toString();
+    while (strValue.length<4){
+      strValue+='⠀';
+    }
+    this.node.textContent = this.caption+ ': ' +strValue;
   }
 
   setPercent(value){
     this.setValue(value);
   }
 }
-/*<div class = "gam_wrapper">
-        <div class = "gam_top">
-          <div class = "gam_top_item">
-            health: 100
-          </div>
-          <div class = "gam_top_item">
-            shield: 100
-          </div>
-          <div class = "gam_top_item">
-            fuel: 100
-          </div>
-          <div class = "gam_top_item">
-            money: 10990
-          </div>
-        </div>
-        <div class = "gam_center">
-          
-        </div> 
-        <canvas style = "position:absolute;" id = "gam-central-canvas"></canvas>  
-      </div> 
-*/
 
 class GameMenu extends Control{
   constructor(parentNode, glCanvas){
@@ -79,6 +62,7 @@ class GameMenu extends Control{
     this.group =new Control(this.node, 'div', 'ngam_top');
     this.health = new GamIndicator(this.group.node, 'health');
     this.shield = new GamIndicator(this.group.node, 'shield');
+    this.speed = new GamIndicator(this.group.node, 'speed');
     this.fuel = new GamIndicator(this.group.node, 'fuel');
     this.money = new GamIndicator(this.group.node, 'money');
 
@@ -111,24 +95,27 @@ class GameMenu extends Control{
         data = this.data;  
       }
       //this.health.node.textContent = `health: ${data.health}`;
+
       this.health.setPercent(data.health);
       this.shield.setPercent(data.shield);
+      this.speed.setPercent(data.speed);
+
       this.weapon.node.textContent = `weapon: ${data.weapon}`;
       //this.shield.node.textContent = `shield: ${data.shield}`;
-      this.speed.node.textContent = `speed: ${data.speed}`;
+      //this.speed.node.textContent = `speed: ${data.speed}`;
       this.bullets.node.textContent = `bullets: ${data.bullets}`;
     }
     
     //this.group = new Control(this)
     this.group = new Control(this.tool.node, 'div', 'panel_group' ,'');
 
-    this.health=new BarIndicatorCustomized(this.group.node, 6, 8);
-    this.shield=new BarIndicatorCustomized(this.group.node, 6, 8);
+   // this.health=new BarIndicatorCustomized(this.group.node, 6, 8);
+   // this.shield=new BarIndicatorCustomized(this.group.node, 6, 8);
     //this.health = new Control(this.group.node, 'div', 'panel_item' ,'health: ');
     this.bullets = new Control(this.group.node, 'div', 'panel_item','bullets: ');
     this.weapon = new Control(this.group.node, 'div', 'panel_item','bullets: ');
     //this.shield = new Control(this.group.node, 'div', 'panel_item','shield: ');
-    this.speed = new Control(this.group.node, 'div', 'panel_item' ,'speed: ');
+    //this.speed = new Control(this.group.node, 'div', 'panel_item' ,'speed: ');
     this.missionTarget = new Control(this.tool.node, 'div', 'panel_item','targets: ');
   }
 }
