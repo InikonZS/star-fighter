@@ -7,6 +7,11 @@ const modelConfig = {
       url: "assets/models/tunnel_meteorite.obj",
       tex: "assets/textures/UVW_meteorite.png"
     },
+    {
+      name: "mete2",
+      url: "assets/models/small_meteorite.obj",
+      tex: "assets/textures/small_meteorite.jpg"
+    },
     { 
       class: "cab",
       name: "cab0",
@@ -69,11 +74,6 @@ const modelConfig = {
       tex: "assets/textures/X-wing.png"
     },
     {
-      name: "mete1",
-      url: "assets/models/tunnel_meteorite.obj",
-      tex: "assets/textures/UVW_meteorite.png"
-    },
-    {
       name: "mars",
       url: "assets/models/mars.obj",
       tex: "assets/textures/2k_mars.jpg"
@@ -82,6 +82,26 @@ const modelConfig = {
       name: "mercury",
       url: "assets/models/mars.obj",
       tex: "assets/textures/2k_mercury.jpg"
+    },
+    {
+      name: "neptune",
+      url: "assets/models/mars.obj",
+      tex: "assets/textures/2k_neptune.jpg"
+    },
+    {
+      name: "fire_meteorite",
+      url: "assets/models/fire_meteorite.obj",
+      tex: "assets/textures/DefaultMaterial_emissive.jpg"
+    },
+    {
+      name: "space_corridor",
+      url: "assets/models/corridor.obj",
+      tex: "assets/textures/wall_C.jpg"
+    },
+    {
+      name: "assault_ship",
+      url: "assets/models/Assault_ship.obj",
+      tex: "assets/textures/ReV_Acclamator1.jpeg"
     },
     {
       name: "bigShip",

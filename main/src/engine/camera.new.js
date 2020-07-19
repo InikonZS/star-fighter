@@ -222,7 +222,7 @@ function getCameraNormal(cam, ax){
 
 
 
-let slowCam = true;
+let slowCam = !true;
 function getCameraSelfMatrix(cam){
   let nvc = cam.getPosVector().addVector(cam.getCamNormal().mul(-1));
   let mmt = m4.identity();//m4.translate(cam.tmat,0,0,0);

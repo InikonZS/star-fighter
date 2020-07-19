@@ -24,6 +24,7 @@ class World{
     const skyboxModel = window.resBase.getByName('skybox');
     const bigModel = window.resBase.getByName('bigShip');
     const meteModel = window.resBase.getByName('mete');
+    const mete2Model = window.resBase.getByName('mete2');
     const boxModel = window.resBase.getByName('box').source;
     //const selfModel = window.gameResource.list[calc.rand(1)+game.props.shipIndex+1];
 
@@ -60,6 +61,10 @@ class World{
 
     const marsModel = window.resBase.getByName('mars');
     const mercuryModel = window.resBase.getByName('mercury');
+    const neptuneModel = window.resBase.getByName('neptune');
+    const meteoriteModel = window.resBase.getByName('fire_meteorite');
+    const corridorModel = window.resBase.getByName('space_corridor');
+    const assaultModel = window.resBase.getByName('assault_ship');
     //
 
     console.log('making world');
@@ -101,6 +106,12 @@ class World{
     this.meteModelList = this.solidTexturedShaderList.createModelList(meteModel, 1);
     this.mercuryModelList = this.solidTexturedShaderList.createModelList(mercuryModel, 1);
     this.marsModelList = this.solidTexturedShaderList.createModelList(marsModel, 1);
+
+    this.mete2ModelList = this.solidTexturedShaderList.createModelList(mete2Model, 1);
+    this.neptuneModelList = this.solidTexturedShaderList.createModelList(neptuneModel, 1);
+    this.meteoriteModelList = this.solidTexturedShaderList.createModelList(meteoriteModel, 1);
+    this.corridorModelList = this.solidTexturedShaderList.createModelList(corridorModel, 1);
+    this.assaultModelList = this.solidTexturedShaderList.createModelList(assaultModel, 1);
 
     this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
    
