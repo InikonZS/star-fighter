@@ -468,7 +468,7 @@ p {
 	border-bottom: solid 6px #222;
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 	top: 0;
-	z-index: 6;
+	z-index: 26;
 }
 
 .logo {
@@ -585,7 +585,7 @@ a:hover {
 .contol__text {
 	line-height: 2.2rem;
 	color: rgb(223, 223, 223);
-	padding-top: 60px;
+	padding-top: 100px;
 }
 
 @media screen and (max-width: 1019px) {
@@ -750,8 +750,6 @@ a:hover {
 	}
 }
 
-
-
 .gameplay__container {
 	display: flex;
 	flex-direction: column-reverse;
@@ -849,7 +847,7 @@ a:hover {
 	display: block;
 	letter-spacing: 0.03em;
 	padding-top: 14px;
-	padding-bottom: 15px;
+	padding-bottom: 20px;
 	color: rgb(134, 141, 179);
 	transition: all 850ms ease;
 }
@@ -861,19 +859,18 @@ a:hover {
 
 .team__text {
 	font-size: 2.8rem;
-	line-height: 3.3rem;
+	line-height: 3.5rem;
 	color: rgb(196, 196, 196);
 	min-height: 5px;
 	margin: 0 auto;
 	overflow: hidden;
 	padding-top: 20px;
-	text-align: justify;
 }
 
 @media screen and (max-width: 767px) {
 	.team__text {
 		font-size: 2.2rem;
-		line-height: 2.7rem;
+		line-height: 2.6rem;
 	}
 }
 
@@ -1060,13 +1057,8 @@ a:hover {
 	width: 100%;
 	padding: 10px;
 	box-sizing: border-box;
-	color: rgb(143, 144, 146);
+	color: #fff;
 }
-
-
-
-
-
 
 /*hamburger*/
 .hamburger {
@@ -1150,10 +1142,6 @@ a:hover {
 	.header {
 		padding-top: 10px;
 	}
-}
-
-.header__title {
-color: rgb(143, 144, 146);
 }
 
 @media (max-width: 1019px) {

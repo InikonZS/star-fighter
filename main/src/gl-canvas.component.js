@@ -44,6 +44,21 @@ class GLCanvas extends Control{
       else {this.gamePanel.joy.show();}
     });
 
+    this.sndPlayer = new Control(gameButtons.node, 'audio');
+    this.sndPlayer.node.src = sndBase.getByName('backSound').locURL;
+    this.sndPlayer.node.volume = 0.3;
+    this.sndPlayer.node.addEventListener('ended', ()=>{
+      this.sndPlayer.node.play();
+    })
+    this.sndButton = new Control(gameButtons.node, 'button', 'fullscreen__button button_colored', 'snd', ()=>{
+      this.sndAllow = !this.sndAllow;
+      if (this.sndAllow){
+        this.sndPlayer.node.play();
+      } else {
+        this.sndPlayer.node.pause();
+      }
+    });
+
     parentNode.addEventListener('fullscreenchange', (e)=>{
       if (document.fullscreen){
         this.node.width = screen.width;

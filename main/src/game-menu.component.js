@@ -225,6 +225,9 @@ class GameMenu extends Control{
     }
     this.glCanvas.gamePanel.hide();
     this.isActive = true;
+
+    this.glCanvas.sndPlayer.node.pause();
+
     this.refresh();
   }
 
@@ -234,6 +237,9 @@ class GameMenu extends Control{
     }
     this.glCanvas.gamePanel.show();
     this.isActive = false;
+    if (this.glCanvas.sndAllow){
+      this.glCanvas.sndPlayer.node.play();
+    }
     this.refresh();
   }
 

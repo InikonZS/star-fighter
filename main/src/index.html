@@ -58,14 +58,18 @@
             <div class="game__container">  
             <div class="control__container">
             <div class="contol__text">
-              <h4>Управление:</h4>
-              <ul class="control__list">
-              <li><b>w</b> - ускорение;&nbsp;</li>
-              <li><b>1 2 3 4</b> - смена пушек;&nbsp;</li>
-              <li><b>клик</b> - стрелять;&nbsp;</li>
-              <li><b>space</b> - щит;&nbsp;</li>
-              <li><b>` (обратная кавычка)</b> - выход в меню;&nbsp;</li>
-              <li><b>esc</b> - выход из полноэкранного режима.</li>
+                <h4>Управление:</h4>
+                <ul class="control__list">
+                <li><b>W</b> - ускорение;&nbsp;</li>
+                <li><b>Q</b> - вращение влево;&nbsp;</li>
+                <li><b>E</b> - вращение вправо;&nbsp;</li>
+                <li><b>AD</b> - смещение в сторону;&nbsp;</li>
+                <li><b>S</b> - тормоз;&nbsp;</li>
+                <li><b>1 2 3 4</b> - смена пушек;&nbsp;</li>
+                <li><b>клик</b> - стрелять;&nbsp;</li>
+                <li><b>space(пробел)</b> - щит;&nbsp;</li>
+                <li><b>` (обратная кавычка), ё</b> - выход в меню, пауза;&nbsp;</li>
+                <li><b>esc</b> - выход из полноэкранного режима.</li>
             </ul>
             </div> 
           </div>            
@@ -82,10 +86,11 @@
               <h2 class="team__title">Gameplay and screenshot</h2>
               <p class="team__text"></p>  
               <div class="gameplay__container">        
-              <div class="gameplay__img"><img class="gameplay__screen" src="../assets/image/Screen1.png"><img class="gameplay__screen" src="../assets/image/Screen2.png"><img class="gameplay__screen" src="../assets/image/Screen2.png"></div>
+              <div class="gameplay__img"><img class="gameplay__screen" src="../assets/image/Desktop Screenshot 2020.07.19 - 22.09.34.55.png"><img class="gameplay__screen" src="../assets/image/Desktop Screenshot 2020.07.19 - 22.09.02.23.png"><img class="gameplay__screen" src="../assets/image/Desktop Screenshot 2020.07.19 - 22.06.22.98.png"></div>
               <div class="" slot="youtube" playlist="" autoplay="0" controls="1" rel="0" annotations="1" hide-info="0" button-color="dark" status="paused" allowfullscreen="">   
-                  <iframe class="gameplay__style" src="https://www.youtube.com/embed/xgjEBOjbKc8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-             </div>
+                  <iframe class="gameplay__style" src="https://www.youtube.com/embed/MdCXArvHt9U" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              </div>
+                
             
             </div> 
             </div>
@@ -111,13 +116,13 @@
                   <p>
                     Так же доступны старые версии: 
                   </p>
-                  
-                  <p><a href='https://practical-mayer-0002e6.netlify.app/'>Начало, первые эксперименты</a></p>
-                  <p><a href='https://focused-bhabha-27dba6.netlify.app/'>Уже взлетели</a></p>
-                  <p><a href='https://practical-shirley-07f531.netlify.app/'>Уже новый движок</a></p>
-                  <p><a href='https://wizardly-cori-04e4d5.netlify.app/'>Прелоадинг и мобильная версия, какой-то дизайн</a></p>
-                  <p><a href='https://jovial-noether-b4614a.netlify.app/'>Почти готово</a></p>
-                 
+                  <ul>
+                  <li><a href='https://practical-mayer-0002e6.netlify.app/'>Начало, первые эксперименты</a></li>
+                  <li><a href='https://focused-bhabha-27dba6.netlify.app/'>Уже взлетели</a></li>
+                  <li><a href='https://practical-shirley-07f531.netlify.app/'>Уже новый движок</a></li>
+                  <li><a href='https://wizardly-cori-04e4d5.netlify.app/'>Прелоадинг и мобильная версия, какой-то дизайн</a></li>
+                  <li><a href='https://jovial-noether-b4614a.netlify.app/'>Почти готово</a></li>
+                  </ul>
               </div>
             </div>
             </div>
@@ -129,7 +134,14 @@
             <div class="titleTeam__container">
             <div class="title__row">             
               <h2 class="team__title">Team Member</h2>
-              <p class="team__text">Zdies nado napisac o komandie</p>
+              <h2 class="team__title">Organization of the development process</h2>
+                <p class="team__text">Для распределения обязанностей и контроля над качеством и правильностью кода в команде должны присутствовать старшие или более опытные разработчики, в обязанности которых входит обсуждение функционала, постановка задачи и реализация и/или проверка написанного кода.
+                  Т.е. должен быть  тимлид, который осуществляет распределение частей проекта между старшими разработчиками, просмотр кода, отслеживает сроки выполнения заданий, а так же создание новых при необходимости. 
+                  <br>У нас в проекте тимлида не было и процесс разработки  осуществлялся двумя разработчиками с разным уровнем знаний в программировании(т.е. был старший разработчик и младший разработчик). Поэтому, было решено делать всё  на основе кода более опытного разработчика, т.е. младший разработчик пытался разобраться в коде старшего разработчика и на основе его кода сделать что-то своё в проекте. 
+                  <br>Так как старший разработчик и младший разработчик работали в одних и тех же файлах, то для того, чтоб не было конфликтов при работе с github,  было решено работать в разных ветках. Ветка старшего разработчика считалась основной, а младший разработчик  должен был периодически клонировать ветку старшего разработчика и продолжать работать в клонированной ветке. В свою очередь старший разработчик забирал в свою ветку изменения из ветки младшего разработчика. 
+                  <br>Старший разработчик работал над созданием движка игры и частично над вёрсткой (окно с игрой), над фичами. Младший разработчик также пытался реализовать фичи (например, аудиоплеер), создавал 3d-модели в 3ds max и делал текстуры для них, придумывал миссии и загружал модели в миссию 3, а также занимался вёрсткой (делал лендинг игры). (с)Младший разработчик. 
+                  </p>
+                  <p class ="team__text">На самом деле я много накосячил с гитом, надо было всетаки потиху в мастер сливать хороший код, и мержить было бы проще в таком случае. В целом младший разработчик крут. (с) Старший разработчик</p>
             </div>
             </div>
               <div class="titleTeam__container">
@@ -138,10 +150,9 @@
                           <div class="background__employee"><img src="../assets/image/Alena.jpg"
                                   alt="employee photo"></div>
                           <h3 class="employee__title">Alena Rebkavets</h3>
-                          <p class="employee__text">Quisque luctus, quam eget molestie commodo, lacus purus
-                              cursus purus, nec rutrum tellus dolor id lorem.</p>
+                          <p class="employee__text">Начинающий frontend developer. Опыт в программировании: 6 месяцев. Высшее образование. Профессия: архитектор-визуализатор. Опыт работы в сфере проектирования зданий и сооружений: 9 лет. (+2 года чиновник).</p>
                               <div class="video__container" slot="youtube" playlist="" autoplay="0" controls="1" rel="0" annotations="1" hide-info="0" button-color="dark" status="paused" allowfullscreen="">   
-                                <iframe class="video" src="https://www.youtube.com/embed/xgjEBOjbKc8" frameborder="0" width="100%" height="200px" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe class="video" src="https://www.youtube.com/embed/UHleaF74ET4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen  width="100%" height="200px"></iframe>
                               </div>
                               <div class="services__icon">
                                 <a href="https://www.facebook.com/alena.rebkavets.3" class="ico"><img src="../assets/icons/Facebook.png" alt="icon facebook"></a>
@@ -158,8 +169,9 @@
                           <h3 class="employee__title">Zhan Zhuridov</h3>
                           <p class="employee__text">Frontend developer. Engineer of electronics. More 10 years of programming experience.</p>
                               <div class="video__container" slot="youtube" playlist="" autoplay="0" controls="1" rel="0" annotations="1" hide-info="0" button-color="dark" status="paused" allowfullscreen="">   
-                                <iframe class="video" src="https://www.youtube.com/embed/xgjEBOjbKc8" frameborder="0" width="100%" height="200px" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe class="video" src="https://www.youtube.com/embed/EKZyy282qIc" frameborder="0" width="100%" height="200px" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                               </div>
+                              
                           <div class="services__icon">
                             <a href="#" class="ico"><img src="../assets/icons/Facebook.png" alt="icon facebook"></a>
                             <a href="#" class="ico"><img src="../assets/icons/Google.png" alt="icon google"></a>
@@ -172,20 +184,7 @@
           </div>
         </section>
           <div class="line"></div>
-          <section id="develop" class="development">
-            <div class="wrapper development__wrapper">
-              <div class="titleDevelopment__container">
-              <div class="title__row">             
-                <h2 class="team__title">Organization of the development process</h2>
-                <p class="team__text">Zdies nado napisac o organizacii processa razrabotki 
-                  -itr9y0rtyrt0yrt0yrt0y9urt0y9urt0yurtuyrtuyrt0uytylknty;kjtnrkjhn
-                dfhgfuhg;fhgfghofghj;odfjh;ofgjhofghjofgjhofghjfgohjfgohijgoh
-              dfgh;dfghdf;gjfdlgjfdlgjdfljglgkhnglhjglhjlghjglhjlhlghjlghjghlk
-            dlkgjdlgfghknghnglhnglhk</p>
-              </div>
-              </div>
-            </div>
-          </section>
+          
           <div class="line"></div>
           <section class="problems" id="problems">
             <div class="wrapper problems__wrapper">

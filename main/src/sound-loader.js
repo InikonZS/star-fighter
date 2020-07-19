@@ -90,6 +90,11 @@ const soundConfig = {
       class: "railShot",
       name: "railShot",
       url: "assets/sounds/laser_power.mp3"
+    },
+    { 
+      class: "backSound",
+      name: "backSound",
+      url: "assets/music/pastkrokodila - v clubie lupit bit.mp3"
     }
   ]
 }
