@@ -66,7 +66,7 @@ class GameMenu extends Control{
     //////////
     this.missionMenu.node.innerHTML='';
     let gs = new GameSlideredScreen(this.missionMenu.node);
-    for (let i=0; i<5; i++){
+    for (let i=0; i<6; i++){
       let sl = gs.slider.addSlide();
       sl.backImageURL= `../assets/back_images/back${i%4+1}.jpg`;
       sl.slideContainer.node.innerHTML = misTexts[i];

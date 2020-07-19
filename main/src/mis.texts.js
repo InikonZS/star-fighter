@@ -151,7 +151,7 @@ let mis5 = `
 let mis6 = `
   <div>
     <h1>
-      Mission 1: Lorem Ipsum
+      Mission 6: Lorem Ipsum
     </h1>
   <p>
 

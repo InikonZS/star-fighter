@@ -21,6 +21,7 @@ const mission1 = require('./missions/mission1.mission.js');
 const mission2 = require('./missions/mission2.mission.js');
 const mission3 = require('./missions/mission3.mission.js');
 const mission4 = require('./missions/mission4.mission.js');
+const mission5 = require('./missions/mission5.mission.js');
 
 class Game{
   constructor(gl, glCanvas){
@@ -104,6 +105,7 @@ class Game{
     if (name=='3'){mission2(this);} 
     if (name=='4'){mission1(this);} 
     if (name=='5'){mission3(this);} 
+    if (name=='6'){mission5(this);} 
     if (name=='garage'){
       missionGarage(this);
     } 
