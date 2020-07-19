@@ -70,7 +70,7 @@ class GameMenu extends Control{
     this.health = new GamIndicator(this.group.node, 'health');
     this.shield = new GamIndicator(this.group.node, 'shield');
     this.speed = new GamIndicator(this.group.node, 'speed');
-    this.fuel = new GamIndicator(this.group.node, 'fuel');
+    this.bullets = new GamIndicator(this.group.node, 'bullets');
     this.money = new GamIndicator(this.group.node, 'money');
 
     this.joy = new Joy(this.node, glCanvas, (dx, dy, cx, cy)=>{
@@ -106,14 +106,15 @@ class GameMenu extends Control{
       this.health.setPercent(data.health);
       this.shield.setPercent(data.shield);
       this.speed.setPercent(data.speed);
-
+      this.bullets.setPercent(data.bullets);
+      this.money.node.textContent = `weapon: ${data.weapon}`;
       this.ringIndicator.rings[0].setPercent(data.health);
       this.ringIndicator.rings[1].setPercent(data.shield);
 
       this.weapon.node.textContent = `weapon: ${data.weapon}`;
       //this.shield.node.textContent = `shield: ${data.shield}`;
       //this.speed.node.textContent = `speed: ${data.speed}`;
-      this.bullets.node.textContent = `bullets: ${data.bullets}`;
+     // this.bullets.node.textContent = `bullets: ${data.bullets}`;
     }
     
     //this.group = new Control(this)
@@ -122,7 +123,7 @@ class GameMenu extends Control{
    // this.health=new BarIndicatorCustomized(this.group.node, 6, 8);
    // this.shield=new BarIndicatorCustomized(this.group.node, 6, 8);
     //this.health = new Control(this.group.node, 'div', 'panel_item' ,'health: ');
-    this.bullets = new Control(this.group.node, 'div', 'panel_item','bullets: ');
+    //this.bullets = new Control(this.group.node, 'div', 'panel_item','bullets: ');
     this.weapon = new Control(this.group.node, 'div', 'panel_item','bullets: ');
     //this.shield = new Control(this.group.node, 'div', 'panel_item','shield: ');
     //this.speed = new Control(this.group.node, 'div', 'panel_item' ,'speed: ');
