@@ -468,7 +468,7 @@ p {
 	border-bottom: solid 6px #222;
 	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 	top: 0;
-	z-index: 6;
+	z-index: 26;
 }
 
 .logo {
