@@ -106,11 +106,25 @@ class GameMenu extends Control{
     //this.startMenu.node.innerHTML='';
 
     let bs = new GameSlideredScreen(this.startMenu.node);
-    for (let i=0; i<5; i++){
-      let sl = bs.slider.addSlide();
-      new ShipSlide(sl.slideContainer.node, 'Tie Fighter', 'Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem.',
-      15, 10);
-    }
+   // for (let i=0; i<5; i++){
+    let sl;
+    sl = bs.slider.addSlide();
+    new ShipSlide(sl.slideContainer.node, 'Tie Interceptor', 'Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem.',
+    20, 10);
+    sl = bs.slider.addSlide();
+    new ShipSlide(sl.slideContainer.node, 'Tie Bomber', 'Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem.',
+    10, 20);
+    sl = bs.slider.addSlide();
+    new ShipSlide(sl.slideContainer.node, 'Tie Fighter', 'Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem.',
+    15, 15);
+    sl = bs.slider.addSlide();
+    new ShipSlide(sl.slideContainer.node, 'Z95', 'Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem.',
+    19, 10);
+    sl = bs.slider.addSlide();
+    new ShipSlide(sl.slideContainer.node, 'X-wing', 'Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem. Quisque luctus, quam eget molestie commodo, lacus purus cursus purus, nec rutrum tellus dolor id lorem.',
+    15, 18);
+    
+  //  }
     bs.slider.setIndex(0);
     bs.setTitle('Select ship');
     bs.addButton('Back', ()=>{
