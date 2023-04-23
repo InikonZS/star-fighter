@@ -1,17 +1,37 @@
-const Control = require('./control-js/control.component.js');
-const Controller = require('./controller.object.js');
-const GameMenu = require('./game-menu.component.js');
-const GamePanel = require('./game-panel.component.js');
+import Control from './control-js/control.component';
+import Controller from './controller.object';
+import GameMenu from './game-menu.component';
+import GamePanel from './game-panel.component';
 
-const Game = require('./engine/game.new.js');
-const Timer = require('./engine/timer.new.js');
+import Game from './engine/game.new';
+import Timer from './engine/timer.new';
 
+import calc from './calc.utils';
 
+export default class GLCanvas extends Control{
+  stWidth: number;
+  stHeight: number;
+  glContext: any;
+  isStarted: boolean;
+  useControls: boolean;
+  keyboardState: Record<string, boolean>;
+  joyShow: boolean;
+  infoTimer: Timer;
+  info: any;
+  averageRenderTime: number;
+  fullScreenButton: Control;
+  joyButton: Control;
+  gamePanel: GamePanel;
+  sndPlayer: Control;
+  sndButton: Control;
+  sndAllow: boolean;
+  overlay: Control;
+  menu: GameMenu;
+  isPaused: boolean;
+  lastTime: any;
+  game: Game;
 
-const calc = require('./calc.utils.js');
-
-class GLCanvas extends Control{
-  constructor(parentNode, width, height){
+  constructor(parentNode: HTMLElement, width: number, height: number){
     super (parentNode, 'canvas', 'canvas_style', '', ()=>{
       //this.node.requestPointerLock();
     });
@@ -102,7 +122,7 @@ class GLCanvas extends Control{
     this.menu.refresh();
   }
 
-  start(res){
+  start(res?: boolean){
     this.isPaused = false;
     this.isStarted = true;
     if (!res){
@@ -110,7 +130,7 @@ class GLCanvas extends Control{
       glInitialize(this);
     }
     //let lastTime = Date.now();
-    let drawScene = (currentTime)=>{
+    let drawScene = (currentTime: number)=>{
       currentTime*= 0.001;
       if (!this.lastTime){this.lastTime=currentTime};
       var deltaTime = currentTime - this.lastTime;
@@ -147,7 +167,7 @@ class GLCanvas extends Control{
   }
 }
 
-function setController(glCanvas){
+function setController(glCanvas: GLCanvas){
   glCanvas.node.addEventListener('mouseup', (e)=>{
     Controller.mouseUpHandler(glCanvas, e);
   });
@@ -171,14 +191,14 @@ function setController(glCanvas){
   });
 }
 
-function glInitialize(glCanvas){
+function glInitialize(glCanvas: GLCanvas){
   if (glCanvas.game){
    // glCanvas.game.clear();
   }
   glCanvas.game = new Game(glCanvas.glContext, glCanvas);
 }
 
-function glRender(glCanvas, deltaTime){
+function glRender(glCanvas: GLCanvas, deltaTime: number){
   if (deltaTime<1000 && deltaTime>0){
     glCanvas.averageRenderTime =  (glCanvas.averageRenderTime * 31 + deltaTime)/32;
   }
@@ -190,5 +210,3 @@ function glRender(glCanvas, deltaTime){
   glCanvas.game.render(aspect, deltaTime);
 
 }
-
-module.exports = GLCanvas;

@@ -1,10 +1,10 @@
-function getDefault(){
+export function getDefault(){
   return {
     mouseSens:1
   }
 }
 
-function loadOptions(){
+export function loadOptions(){
   let op = window.localStorage.getItem('gm_options');
   let options;
   if (op){
@@ -15,12 +15,6 @@ function loadOptions(){
   return options;
 }
 
-function saveOptions(options){
+export function saveOptions(options){
   window.localStorage.setItem('gm_options', JSON.stringify(options));   
-}
-
-module.exports = {
-  getDefault,
-  loadOptions,
-  saveOptions
 }

@@ -1,4 +1,4 @@
-const Control = require('./control.component.js');
+import Control from './control.component';
 
 class Ring{
   constructor(ctx, color, rad1, rad2, cx, cy, val, maxVal, segments, onChange){
@@ -121,6 +121,6 @@ function drawSegmentedRing(ctx, color, rad1, rad2, cx, cy, val, segments_){
 //drawSegmentedRing(ctx, '#55b', cx-10, cx-15, cx, cy, 16);
 //drawSegmentedRing(ctx, '#0b0', cx-1, cx-5, cx, cy, 20);
 
-module.exports = RingIndicator;
+export default RingIndicator;
 
 

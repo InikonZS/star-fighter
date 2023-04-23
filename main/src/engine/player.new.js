@@ -1,14 +1,14 @@
-//const World = require('./world.new.js');
-const Vector3d = require('../vector3d.dev.js');
-const Camera = require('./camera.new.js');
-const calc = require('../calc.utils.js');
+//const World = require('./world.new');
+import Vector3d from '../vector3d.dev';
+import Camera from './camera.new';
+import calc from '../calc.utils';
 const rand = calc.rand;
-const Weapon = require('./weapon.new.js');
-const Timer = require('./timer.new.js');
-const GameObject = require('./game-object.new.js');
-//const anyutils = require('../any.utils.js');
+import Weapon from './weapon.new';
+import Timer from './timer.new';
+import GameObject from './game-object.new';
+//const anyutils = require('../any.utils');
 
-const Phys = require('./physic.new.js');
+import Phys from './physic.new';
 
 const shieldTimeStd = 0.03;
 
@@ -378,4 +378,4 @@ else {
   }
 }*/
 
-module.exports = Player;
+export default Player;

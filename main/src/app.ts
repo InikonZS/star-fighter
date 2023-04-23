@@ -1,7 +1,7 @@
-import GLCanvas from './gl-canvas.component.js';
-import Control from './control-js/control.component.js';
-import Loader from './res-loader.js';
-import SoundLoader from './sound-loader.js';
+import GLCanvas from './gl-canvas.component';
+//import Control from './control-js/control.component.js';
+import { ModelLoader, modelConfig } from './res-loader';
+import { Sounder, soundConfig } from './sound-loader';
 import { StartScreen } from './start-screen.component';
 
 export class App{
@@ -76,8 +76,8 @@ export class App{
 
   loadApp(onLoad: ()=>void, onProgress:()=>void){
     let parentNode = this.parentNode;
-    var sndLoader = new SoundLoader.Sounder(SoundLoader.soundConfig, ()=>{
-      var loader = new Loader.ModelLoader(Loader.modelConfig, (res)=>{
+    var sndLoader = new Sounder(soundConfig, ()=>{
+      var loader = new ModelLoader(modelConfig, (res)=>{
         console.log('loaded', res);
         window.gameResource = res;
         this.glCanvas = new GLCanvas (parentNode, this.stWidth, this.stHeight);

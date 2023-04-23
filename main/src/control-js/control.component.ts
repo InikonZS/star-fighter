@@ -1,4 +1,4 @@
-class Control {
+export default class Control {
   
   constructor(parentNode, tagName, className, textContent, click, fromParent) {
     const classNameV = className || '';
@@ -67,4 +67,3 @@ class Control {
   }
 }
 
-module.exports = Control;

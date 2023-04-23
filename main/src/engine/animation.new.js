@@ -1,4 +1,4 @@
-const calc = require('../calc.utils.js');
+import calc from '../calc.utils';
 
 class Animation{
   constructor(xmax, ymax, timeStep){
@@ -43,4 +43,4 @@ class Animation{
   }
 }
 
-module.exports = Animation;
+export default Animation;

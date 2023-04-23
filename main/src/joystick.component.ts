@@ -1,7 +1,14 @@
-const Control = require('./control-js/control.component.js');
+import Control from './control-js/control.component';
+import GLCanvas from './gl-canvas.component';
 
 class Joy extends Control{
-  constructor(parentNode,glCanvas, onChange, onChangeLeft){
+  menuButton: TouchButton;
+  leftPad: TouchPad;
+  touchPad: TouchPad;
+  shotButton: TouchButton;
+  shieldButton: TouchButton;
+
+  constructor(parentNode: HTMLElement, glCanvas: GLCanvas, onChange: ()=>void, onChangeLeft: ()=> void){
     super(parentNode, 'div', 'joy_panel', '');
     let headPanel = new Control(this.node, 'div', 'joy_panel');
     headPanel.node.style='height:30px; top:0px';
@@ -76,7 +83,8 @@ class Joy extends Control{
 }
 
 class TouchButton extends Control{
-  constructor (parentNode, className, onChange){
+  onChange: (state: boolean) => void;
+  constructor (parentNode: HTMLElement, className: string, onChange: (state: boolean)=>void){
     super (parentNode, 'div', className||'but', '');
     this.onChange = onChange;
     let sh = this;
@@ -103,7 +111,9 @@ class TouchButton extends Control{
 }
 
 class TouchPad extends Control{
-  constructor (parentNode, onChange, onClick){
+  onChange: (dx: number, dy: number, cx: number, cy: number)=>void;
+
+  constructor (parentNode: HTMLElement, onChange: (dx: number, dy: number, cx: number, cy: number)=>void, onClick?: ()=>void){
     super (parentNode, 'div', 'but');
     let but = this;
     //let but = new Control(this.node, 'div', 'but');
@@ -112,9 +122,10 @@ class TouchPad extends Control{
     let ax =0;
     let ay =0;
 
-    let sx, sy;
+    let sx: number;
+    let sy: number;
     let cx, cy;
-    let lts;
+    let lts: number;
     let touchIndex =-1;
     this.onChange = onChange;
 
@@ -243,7 +254,7 @@ class TouchPad extends Control{
   }
 }
 
-function inBox(x, y, rect){
+function inBox(x: number, y: number, rect){
   return (
     y>rect.top &&
     x>rect.left &&
@@ -252,7 +263,7 @@ function inBox(x, y, rect){
   );
 }
 
-module.exports = {
+export default {
   Joy,
   TouchPad,
   TouchButton

@@ -1,13 +1,13 @@
-const calc = require('../calc.utils.js');
-const Vector3d = require('../vector3d.dev.js');
-const Weapon = require('./weapon.new.js');
-const Physic = require('./physic.new.js');
+import calc from '../calc.utils';
+import Vector3d from '../vector3d.dev';
+import Weapon from './weapon.new';
+import Physic from './physic.new';
 
-const GameObject = require('./game-object.new.js');
-const Message = require('./point-msg.new.js');
+import GameObject from './game-object.new';
+import Message from './point-msg.new';
 
 const rand = calc.rand;
-const anyutils = require('../any.utils.js');
+import anyutils from '../any.utils';
 
 function makePhysicalAzi (world, pos, scale, azi, theta, modelList, visible = true, type = 'solid', onContact, onHit){
   let niMat = m4.identity();
@@ -94,7 +94,7 @@ function makeBreakableExplosive(world, pos, scale, modelList, health, exscale, o
   });
 }
 
-module.exports = {
+export default {
   makePhysicalAzi,
   makePhysical,
   makeCollactable,

@@ -1,4 +1,4 @@
-const Control = require('./control.component.js');
+import Control from './control.component';
 
 class Message extends Control{
   constructor(parentNode, text, colorHex){
@@ -54,4 +54,4 @@ function getScreenPos(viewMatrix, vector, clipRect){
   return {x:pixelX, y:pixelY, back:(clipspace[3]<0)}
 }
 
-module.exports = Message;
+export default Message;

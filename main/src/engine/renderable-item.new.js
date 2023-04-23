@@ -1,5 +1,5 @@
-const GameObject = require('./game-object.new.js');
-const Vector3d = require('../vector3d.dev.js');
+import GameObject from './game-object.new';
+import Vector3d from '../vector3d.dev';
 
 class RenderableItem extends GameObject {
   constructor(shaderVariables, meshPointer, matrix, color, maxVisibleDist){
@@ -33,4 +33,4 @@ function randomColor(){
 }
 
 
-module.exports = RenderableItem;
+export default RenderableItem;

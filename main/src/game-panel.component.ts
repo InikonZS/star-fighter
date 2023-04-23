@@ -1,10 +1,11 @@
-const Control = require('./control-js/control.component.js');
-const BarIndicator = require('./control-js/bar-indicator.component.js');
-const RingIndicator = require('./control-js/canvas-indicator.component.js');
-const {Joy} = require('./joystick2.component.js');
+import Control from './control-js/control.component';
+import BarIndicator from './control-js/bar-indicator.component';
+import RingIndicator from './control-js/canvas-indicator.component';
+import { Joy } from './joystick2.component';
+import GLCanvas from './gl-canvas.component';
 
 class BarIndicatorCustomized extends BarIndicator{
-  constructor (parentNode, value, demiValue){
+  constructor (parentNode: HTMLElement, value: number, demiValue: number){
     super(
       parentNode, 
       24, 
@@ -16,14 +17,17 @@ class BarIndicatorCustomized extends BarIndicator{
     this.setValue(value, demiValue);
   }
 
-  setPercent(percent){
+  setPercent(percent: number){
     let val = Math.ceil((percent/100)*this.maxValue);
     this.setValue(val, val);
   }
 }
 
 class GamIndicator extends Control{
-  constructor(parentNode, caption, initValue){
+  caption: string;
+  value: number;
+
+  constructor(parentNode:HTMLElement, caption: string, initValue?: number){
     super(parentNode, 'div', 'ngam_top_item');
     this.caption = caption;
     if (initValue){
@@ -33,7 +37,7 @@ class GamIndicator extends Control{
     }
   }
 
-  setValue(value){
+  setValue(value: number){
     this.value=Math.trunc(value*10)/10;
     let strValue = this.value.toString();
     while (strValue.length<4){
@@ -42,13 +46,29 @@ class GamIndicator extends Control{
     this.node.textContent = this.caption+ ': ' +strValue;
   }
 
-  setPercent(value){
+  setPercent(value: number){
     this.setValue(value);
   }
 }
 
-class GameMenu extends Control{
-  constructor(parentNode, glCanvas){
+export default class GameMenu extends Control{
+  center: Control;
+  ringIndicator: RingIndicator;
+  view: Control;
+  tool: Control;
+  group: Control;
+  health: GamIndicator;
+  shield: GamIndicator;
+  speed: GamIndicator;
+  bullets: GamIndicator;
+  money: GamIndicator;
+  joy: Joy;
+  data: { health: number; bullets: number; weapon: number; shield: number; speed: number; fuel: number; };
+  refresh: (data_: any) => void;
+  weapon: any;
+  missionTarget: Control;
+
+  constructor(parentNode: number, glCanvas: GLCanvas){
     super(parentNode, 'div', 'overlay_panel', '', ()=>{
 
     });
@@ -130,5 +150,3 @@ class GameMenu extends Control{
     this.missionTarget = new Control(this.tool.node, 'div', 'panel_item','targets: ');
   }
 }
-
-module.exports = GameMenu;

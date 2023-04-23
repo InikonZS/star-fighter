@@ -1,10 +1,10 @@
-const calc = require('../calc.utils.js');
-const GameObject = require('./game-object.new.js');
-const Timer = require('./timer.new.js');
-const Message = require('./point-msg.new.js');
+import calc from '../calc.utils';
+import GameObject from './game-object.new';
+import Timer from './timer.new';
+import Message from './point-msg.new';
 
 const rand = calc.rand;
-const anyutils = require('../any.utils.js');
+import anyutils from '../any.utils';
 
 function makeGenericBullet(game, basicObject, pos, scale=1, azi=0, theta=0, speed=1, lifetime=1, damage=1, reflectable=false){
   let el = basicObject;
@@ -135,7 +135,7 @@ function makeAnimatedBullet(game, pos, scale, speed, lifetime, weaponName, damag
   return el;
 }
 
-module.exports = {
+export default {
   makeGenericBullet,
   makeBoxBullet,
   makeAnimatedBullet

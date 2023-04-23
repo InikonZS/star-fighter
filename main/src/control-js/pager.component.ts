@@ -1,4 +1,4 @@
-const Control = require('./control.component.js');
+import Control from './control.component';
 
 class Pager extends Control{
   constructor(parentNode, thisStyle = '') {
@@ -25,4 +25,4 @@ class Pager extends Control{
   }
 }
 
-module.exports = Pager;
+export default Pager;

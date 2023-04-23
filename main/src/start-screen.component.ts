@@ -1,5 +1,5 @@
-import Control from './control-js/control.component.js';
-import calc from './calc.utils.js';
+import Control from './control-js/control.component';
+import calc from './calc.utils';
 
 export class StartScreen extends Control{
   startButton: Control;

@@ -1,6 +1,6 @@
-const calc = require('./calc.utils.js');
-const Vector3d = require('./vector3d.dev.js');
-const Mesh = require('./mesh.object.js');
+import { rand as _rand, transformVertexList } from './calc.utils';
+import Vector3d from './vector3d.dev';
+import Mesh from './mesh.object';
 
 function makeChunkedMesh (gl, modelSource, count, matrixFunction){
   let inputModel = new Mesh(gl);
@@ -9,17 +9,17 @@ function makeChunkedMesh (gl, modelSource, count, matrixFunction){
   let outNormalList = [];
   let outTexList = [];
 
-  let rand = calc.rand;
+  let rand = _rand;
   let mtx;
   let transformed;
   for (let i = 0; i<count; i++){
     mtx = matrixFunction(i);
-    transformed = calc.transformVertexList(inputModel.vertexList, mtx);
+    transformed = transformVertexList(inputModel.vertexList, mtx);
     transformed.forEach(it=>{
       outVertexList.push(it);
     });
 
-    transformed = calc.transformVertexList(inputModel.normalList, m4.transpose(mtx));
+    transformed = transformVertexList(inputModel.normalList, m4.transpose(mtx));
     transformed.forEach(it=>{
       outNormalList.push(it);
     });
@@ -36,4 +36,4 @@ function makeChunkedMesh (gl, modelSource, count, matrixFunction){
   return outputMesh;
 }
 
-module.exports = makeChunkedMesh;
+export default makeChunkedMesh;

@@ -1,6 +1,6 @@
-const calc = require('../calc.utils.js');
+import calc from '../calc.utils';
 
-const GameObject = require('./game-object.new.js');
+import GameObject from './game-object.new';
 
 class Timer extends GameObject{
   constructor(interval, onTimeout){
@@ -17,4 +17,4 @@ class Timer extends GameObject{
   }
 }
 
-module.exports = Timer;
+export default Timer;

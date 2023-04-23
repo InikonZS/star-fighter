@@ -1,11 +1,11 @@
-const GameObject = require('./game-object.new.js');
-const GLUtils = require('../gl-utils.js');
+import GameObject from './game-object.new';
+import { createShaderFromSource } from '../gl-utils';
 
 class RenderableShaderList extends GameObject {
   constructor(gl, shaderUnit){
     super();
     this.gl = gl;
-    let shaderProgram = GLUtils.createShaderFromSource(gl, shaderUnit.vertexShaderSource, shaderUnit.fragmentShaderSource);
+    let shaderProgram = createShaderFromSource(gl, shaderUnit.vertexShaderSource, shaderUnit.fragmentShaderSource);
     let shaderVariables = shaderUnit.getShaderVariables(gl, shaderProgram);
     this.shaderProgram = shaderProgram;
     this.shaderVariables = shaderVariables;
@@ -17,4 +17,4 @@ class RenderableShaderList extends GameObject {
   }
 }
 
-module.exports = RenderableShaderList;
+export default RenderableShaderList;

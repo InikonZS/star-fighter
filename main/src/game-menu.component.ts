@@ -1,13 +1,38 @@
-const Control = require('./control-js/control.component.js');
-const Pager = require('./control-js/pager.component.js');
-const options = require('./options.utils.js');
-const joyUtils = require('./joystick.component.js');
-const {GameSlideredScreen} = require('./control-js/menu.classes.js');
-const {ShipSlide} = require('./control-js/menu.classes.js');
-const misTexts = require('./mis.texts.js');
+import Control from './control-js/control.component';
+import Pager from './control-js/pager.component';
+import { loadOptions, saveOptions } from './options.utils';
+import joyUtils from './joystick.component';
+import { GameSlideredScreen } from './control-js/menu.classes';
+import { ShipSlide } from './control-js/menu.classes';
+import misTexts from './mis.texts';
+import GLCanvas from './gl-canvas.component';
 
 class GameMenu extends Control{
-  constructor(parentNode, glCanvas){
+  glCanvas: GLCanvas;
+  menu: Pager;
+  mainMenu: Control;
+  optionsMenu: Control;
+  missionMenu: Control;
+  startMenu: Control;
+  gameMenu: Control;
+  gameOverMenu: Control;
+  gameWinMenu: Control;
+  missionOptions: { missionName: string; shipIndex: number; };
+  startButton: Control;
+  optionsButton: Control;
+  optionMouseSense: Control;
+  exitButton: Control;
+  touchPad: TouchPad;
+  prevShip: Control;
+  nextShip: Control;
+  startMissionButton: Control;
+  mainMenuButtonO: Control;
+  mainMenuButtonW: Control;
+  resumeButton: Control;
+  mainMenuButton: Control;
+  isActive: boolean;
+
+  constructor(parentNode: HTMLElement, glCanvas:GLCanvas){
     super(parentNode, 'div', '', '', ()=>{
 
     });
@@ -36,7 +61,7 @@ class GameMenu extends Control{
 
 
     ///options
-    let curOptions = options.loadOptions();
+    let curOptions = loadOptions();
     this.optionsButton = new Control(this.mainMenu.node, 'div', 'menu_item', 'options',()=>{
       this.menu.selectPage(this.optionsMenu);
 
@@ -51,7 +76,7 @@ class GameMenu extends Control{
     })
 
     new Control(this.optionsMenu.node, 'div', 'menu_item', 'to main menu',()=>{
-      options.saveOptions(curOptions);
+      saveOptions(curOptions);
       this.menu.selectPage(this.mainMenu);
     });
     ///
@@ -231,7 +256,7 @@ class GameMenu extends Control{
     this.refresh();
   }
 
-  deactivate(res){
+  deactivate(res?: boolean){
     if (!res){
       this.glCanvas.resume();
     }
@@ -262,4 +287,4 @@ class GameMenu extends Control{
   
 }
 
-module.exports = GameMenu;
+export default GameMenu;

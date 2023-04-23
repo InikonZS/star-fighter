@@ -1,12 +1,12 @@
-const anyutils = require('../../any.utils.js');
-const basics = require('../basic-objects.gmob.js');
-const Vector3d = require('../../vector3d.dev.js');
-const calc = require('../../calc.utils.js');
+import anyutils from '../../any.utils';
+import basics from '../basic-objects.gmob';
+import Vector3d from '../../vector3d.dev';
+import calc from '../../calc.utils';
 const rand =calc.rand;
-const Enemy = require('../enemy.new.js');
-const Collectable = require('../collectable.new.js');
+import Enemy from '../enemy.new';
+import Collectable from '../collectable.new';
 
-const mUtils = require('./mission.utils.js');
+import mUtils from './mission.utils';
 const randVector = mUtils.randVector;
 const starChunk = mUtils.starChunk;
 
@@ -57,4 +57,4 @@ function mission4(game){
 console.log (point1);
 }
 
-module.exports = mission4;
+export default mission4;

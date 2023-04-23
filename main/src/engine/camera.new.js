@@ -1,4 +1,4 @@
-const Vector3d = require('../vector3d.dev.js');
+import Vector3d from '../vector3d.dev';
 
 
 class Camera{
@@ -255,4 +255,4 @@ function camRotMatrix(cam){
   return matrix;
 }
 
-module.exports = Camera;
+export default Camera;

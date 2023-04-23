@@ -1,8 +1,8 @@
-const RenderableShaderList = require('./renderable-shader-list.new.js');
-const RenderableModelList = require('./renderable-model-list.new.js');
-const RenderableItem = require('./renderable-item.new.js');
-const GameObject = require('./game-object.new.js');
-const GLUtils = require('../gl-utils.js');
+import RenderableShaderList from './renderable-shader-list.new';
+import RenderableModelList from './renderable-model-list.new';
+import RenderableItem from './renderable-item.new';
+import GameObject from './game-object.new';
+import { createTextureFromImg, setBuffer } from '../gl-utils';
 
 class TexturedItem extends GameObject {
   constructor(shaderVariables, meshPointer, matrix){
@@ -35,11 +35,11 @@ class SolidUntexturedModelList extends RenderableModelList{
   constructor(gl, shaderVariables, record, preScaler){
     super(gl, shaderVariables, record.source, preScaler); 
     //GLUtils.createTexture(gl, textureURL, (tex)=>{this.texture = tex});
-    GLUtils.createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
+    createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
     this.onRender = (gl, props)=>{
-      GLUtils.setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
-      GLUtils.setBuffer(gl, this.mesh.normBuffer, this.shaderVariables.normalAttr, 3); 
-      GLUtils.setBuffer(gl, this.mesh.texBuffer, this.shaderVariables.texAttr, 2); 
+      setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
+      setBuffer(gl, this.mesh.normBuffer, this.shaderVariables.normalAttr, 3); 
+      setBuffer(gl, this.mesh.texBuffer, this.shaderVariables.texAttr, 2); 
       gl.bindTexture(gl.TEXTURE_2D, this.texture);
     }
 
@@ -104,4 +104,5 @@ class SolidUntexturedShaderList extends RenderableShaderList{
   }
 }
 
-module.exports = {SolidTexturedShaderList:SolidUntexturedShaderList, SolidTexturedModelList:SolidUntexturedModelList}
+export const SolidTexturedShaderList = SolidUntexturedShaderList;
+export const SolidTexturedModelList = SolidUntexturedModelList;

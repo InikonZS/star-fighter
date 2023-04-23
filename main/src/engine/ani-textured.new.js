@@ -1,8 +1,8 @@
-const RenderableShaderList = require('./renderable-shader-list.new.js');
-const RenderableModelList = require('./renderable-model-list.new.js');
-const GameObject = require('./game-object.new.js');
-const Animation = require('./animation.new.js');
-const GLUtils = require('../gl-utils.js');
+import RenderableShaderList from './renderable-shader-list.new';
+import RenderableModelList from './renderable-model-list.new';
+import GameObject from './game-object.new';
+import Animation from './animation.new';
+import { createTextureFromImg, setBuffer } from '../gl-utils';
 
 class AnimatedTextureItem extends GameObject {
   constructor(shaderVariables, meshPointer, matrix, xmax, ymax, timeStep){
@@ -30,10 +30,10 @@ class ModelList extends RenderableModelList{
   constructor(gl, shaderVariables, record){
     super(gl, shaderVariables, record.source); 
     //GLUtils.createTexture(gl, record.textureURL, (tex)=>{this.texture = tex});
-    GLUtils.createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
+    createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
     this.onRender = (gl, props)=>{
-      GLUtils.setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
-      GLUtils.setBuffer(gl, this.mesh.texBuffer, this.shaderVariables.texAttr, 2); 
+      setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
+      setBuffer(gl, this.mesh.texBuffer, this.shaderVariables.texAttr, 2); 
       gl.bindTexture(gl.TEXTURE_2D, this.texture);
     }
 
@@ -63,4 +63,5 @@ class ShaderList extends RenderableShaderList{
   }
 }
 
-module.exports = {AnimatedShaderList:ShaderList, AnimatedModelList:ModelList}
+export const AnimatedShaderList = ShaderList;
+export const AnimatedModelList = ModelList;

@@ -1,9 +1,9 @@
-const anyutils = require('../../any.utils.js');
-const basics = require('../basic-objects.gmob.js');
-const Vector3d = require('../../vector3d.dev.js');
-const calc = require('../../calc.utils.js');
+import anyutils from '../../any.utils';
+import basics from '../basic-objects.gmob';
+import Vector3d from '../../vector3d.dev';
+import calc from '../../calc.utils';
 const rand =calc.rand;
-const Enemy = require('../enemy.new.js');
+import Enemy from '../enemy.new';
 
 function starChunk(game, center, size, count){
   for (let i=0; i<count; i++){
@@ -26,7 +26,7 @@ function randVector(center, size){
   return a;
 }
 
-module.exports = {
+export default {
   starChunk,
   randVector
 }

@@ -1,5 +1,5 @@
-const Vector3d = require('../vector3d.dev.js');
-const calc = require('../calc.utils.js');
+import Vector3d from '../vector3d.dev';
+import calc from '../calc.utils';
 
 class Physic{
   constructor(vertexList){
@@ -170,4 +170,4 @@ class Triangle{
   }
 }
 
-module.exports = Physic;
+export default Physic;

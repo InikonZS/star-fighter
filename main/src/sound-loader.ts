@@ -1,9 +1,9 @@
-const resLoader = require('./res-loader.js');
-const sndUtils = require('./any.utils.js');
-const calc = require('./calc.utils.js');
+import { IResourceRecord, getByName_ } from './res-loader';
+import sndUtils from './any.utils';
+import calc from './calc.utils';
 
 
-const soundConfig = {
+export const soundConfig: {list: IResourceRecord[]} = {
   list:[
     { 
       class: "hit",
@@ -99,11 +99,11 @@ const soundConfig = {
   ]
 }
 
-function loadSoundBlob(url, onLoad){
+function loadSoundBlob(url: string, onLoad){
   fetch(url).then((res)=>res.blob()).then(blob=>onLoad(blob));  
 }
 
-function loadSounds(modelConfig, onLoadedAll, onProgress){
+function loadSounds(modelConfig:{list: IResourceRecord[]}, onLoadedAll, onProgress){
   let sndCount = modelConfig.list.length;
   let max = sndCount;
   modelConfig.list.forEach(it=>{
@@ -123,7 +123,7 @@ function loadSounds(modelConfig, onLoadedAll, onProgress){
   });
 }
 
-function getByClass_(config, name){
+function getByClass_(config: {list: IResourceRecord[]}, name: string){
   let curName;
   let res = [];
   for (let i = 0; i<config.list.length; i++){
@@ -141,32 +141,29 @@ function getByClass_(config, name){
 }
 
 
-class Sounder {
+export class Sounder {
+  data: {list: IResourceRecord};
+
   constructor (soundConfig, onLoad, onProgress){
     this.data = soundConfig;
     loadSounds(this.data, onLoad, onProgress);
   }
 
-  getByName(name){
-    return resLoader.getByName_(this.data, name);
+  getByName(name: string){
+    return getByName_(this.data, name);
   }
 
-  getByClass(name){
+  getByClass(name: string){
     return getByClass_(this.data, name);
   }
 
-  playByName(name, volume){
+  playByName(name: string, volume: number){
     let nm = this.getByName(name);
     sndUtils.playSoundUrl(nm.locURL, volume);
   }
 
-  playByClass(name, volume){
+  playByClass(name: string, volume: number){
     let nm = this.getByClass(name);
     sndUtils.playSoundUrl(nm.locURL, volume);  
   }
 }
-
-module.exports = {
-  Sounder,
-  soundConfig
-};

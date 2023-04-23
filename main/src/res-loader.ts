@@ -1,6 +1,15 @@
-const glUtils = require('./gl-utils.js');
+import glUtils from './gl-utils.js';
 
-const modelConfig = {
+export interface IResourceRecord{
+  name: string; 
+  url: string; 
+  tex?: string; 
+  class?: string;
+}
+
+export const modelConfig: {
+  list: IResourceRecord[]
+} = {
   list:[
     {
       name: "mete",
@@ -169,7 +178,7 @@ const modelConfig = {
 
 let counter = 0;
 
-function getByName_(config, name){
+export function getByName_(config, name){
   let curName;
   for (let i = 0; i<config.list.length; i++){
     curName = config.list[i].name;
@@ -229,8 +238,9 @@ function loadImages(modelConfig, onLoadedAll, onProgress){
 //  loadModels(modelConfig, onLoad);
 //}
 
-class ModelLoader{
-  constructor(data, onLoad, onProgress){
+export class ModelLoader{
+  data: any;
+  constructor(data: {list: IResourceRecord[]}, onLoad: (res: any) => void, onProgress: () => void){
     this.data = data;
     console.log('loading models');
     loadModels(this.data, ()=>{
@@ -241,15 +251,8 @@ class ModelLoader{
     //loadModels(this.data, onLoad);
   }
 
-  getByName(name){
+  getByName(name: string){
     return getByName_(this.data, name);
   }
   
 }
-
-module.exports = {
-  ModelLoader,
-  //loadAll,
-  modelConfig,
-  getByName_
-};

@@ -1,7 +1,7 @@
 //const Vector3d = require('./vector3d.dev.js');
-const Utils = require('../any.utils.js');
-const calc = require('../calc.utils.js');
-const bulletMaker = require('./bullet.gmob.js');
+import Utils from '../any.utils';
+import calc from '../calc.utils';
+import bulletMaker from './bullet.gmob';
 
 class Weapon{
   constructor(world, shotTime, bulletLifeTime, bulletSpeed, soundClass, name='gun', bulletCount=100, damage){
@@ -74,4 +74,4 @@ class Weapon{
   }
 }
 
-module.exports = Weapon;
+export default Weapon;

@@ -1,8 +1,14 @@
-const Joys = require('./joystick.component.js');
-const Control = require('./control-js/control.component.js');
+import Joys from './joystick.component';
+import Control from './control-js/control.component';
+import GLCanvas from './gl-canvas.component';
 
 class RadioButton extends Control{
-  constructor(parentNode, className, classNameActive, onClick){
+  className: string;
+  classNameActive: string;
+  isActive: boolean;
+  onClick: () => void;
+
+  constructor(parentNode: HTMLElement, className:string, classNameActive:string, onClick: ()=>void){
     super(parentNode, 'div', className);
     this.className = className;
     this.classNameActive = classNameActive;
@@ -25,12 +31,13 @@ class RadioButton extends Control{
 }
 
 class RadioGroup extends Control{
-  constructor(parentNode, wrapperClass){
+  buttons: any[];
+  constructor(parentNode: HTMLElement, wrapperClass: string){
     super(parentNode, 'div', wrapperClass);
     this.buttons = [];
   }
 
-  addButton(buttonClass, buttonClassActive, onClick){
+  addButton(buttonClass:string, buttonClassActive: string, onClick: ()=>void){
     let bt = new RadioButton(this.node, buttonClass, buttonClassActive, ()=>{
       this.buttons.forEach(it=>{
         it.setInactive();
@@ -45,8 +52,8 @@ class RadioGroup extends Control{
   }
 }
 
-class Joy extends Control{
-  constructor(parentNode, glCanvas, onChange, onChangeLeft){
+export class Joy extends Control{
+  constructor(parentNode: HTMLElement, glCanvas: GLCanvas, onChange: (dx: number, dy: number, cx: number, cy: number)=>void, onChangeLeft: ()=>void){
     super(parentNode, 'div', 'njoy_wrapper_with_panel');
     //left
     let leftPanel = new Control(this.node, 'div', "njoy_panel njoy_panel_left");
@@ -101,8 +108,4 @@ class Joy extends Control{
     rightPad.node.className = 'njoy_touch_wrapper njoy_touch_wrapper_right';
     let rightPadIco = new Control(rightPad.node, 'div', 'njoy_touch njoy_touch_right');
   }
-}
-
-module.exports = {
-  Joy
 }

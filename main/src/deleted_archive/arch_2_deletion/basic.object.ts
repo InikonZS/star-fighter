@@ -1,5 +1,5 @@
-const calc = require('./calc.utils.js');
-const Vector3d = require('./vector3d.dev.js');
+const calc = require('./calc.utils');
+const Vector3d = require('./vector3d.dev');
 
 class Basic{
   constructor(gl, modelSource, matrix, color){

@@ -1,4 +1,4 @@
-const Control = require('./control-js/control.component.js');
+import Control from './control-js/control.component';
 
 function preloadSoundUrl(url){
   let el = document.createElement('audio');
@@ -42,7 +42,7 @@ function makeExternalScript(parentNode, scriptURL, onLoad, onError) {
   return elem;
 }
 
-module.exports = {
+export default {
   preloadSoundUrl,
   playSoundUrl,
   makeExternalScript

@@ -1,11 +1,15 @@
 class Vector3d{
-  constructor(x, y, z){
+  x: number;
+  y: number;
+  z: number;
+
+  constructor(x: number, y: number, z: number){
     this.x = x;
     this.y = y;
     this.z = z;
   }
 
-  sub(x, y, z, self){
+  sub(x: number, y: number, z: number, self: Vector3d){
     if (self){
       this.x -= x;  
       this.y -= y; 
@@ -15,7 +19,7 @@ class Vector3d{
     return new Vector3d(this.x-x, this.y-y, this.z-z);
   }
 
-  subVector(v, self){
+  subVector(v: Vector3d, self: Vector3d){
     if (self){
       this.x -= v.x;  
       this.y -= v.y; 
@@ -25,7 +29,7 @@ class Vector3d{
     return new Vector3d(this.x-v.x, this.y-v.y, this.z-v.z);  
   }
 
-  add(x, y, z, self){
+  add(x: any, y: any, z: any, self: Vector3d){
     if (self){
       this.x += x;  
       this.y += y; 
@@ -35,7 +39,7 @@ class Vector3d{
     return new Vector3d(this.x+x, this.y+y, this.z+z);
   }
 
-  addVector(v, self){
+  addVector(v: Vector3d, self: Vector3d){
     if (self){
       this.x += v.x;  
       this.y += v.y; 
@@ -45,7 +49,7 @@ class Vector3d{
     return new Vector3d(this.x+v.x, this.y+v.y, this.z+v.z); 
   }
 
-  mul(c, self){
+  mul(c: number, self: Vector3d){
     if (self){
       this.x *= c;  
       this.y *= c; 
@@ -80,25 +84,25 @@ class Vector3d{
     return [this.x, this.y, this.z, 1];
   }
 
-  fromList(list, ind){
+  fromList(list: number[], ind: number){
     return new Vector3d(list[ind], list[ind+1], list[ind+2]);  
   }
 
-  pushToList(list){
+  pushToList(list: number[]){
     list.push(this.x);
     list.push(this.y);
     list.push(this.z);
   }
 
-  transform(matrix){
+  transform(matrix: any){
     let vec = m4.transformVector(matrix, this.toVec4());
     return new Vector3d(vec[0], vec[1], vec[2]);
   }
 
-  dot(v){
+  dot(v: { x: number; y: number; z: number; }){
     let u = this;
     return u.x*v.x + u.y*v.y + u.z*v.z;
   }
 }
 
-module.exports = Vector3d;
+export default Vector3d;

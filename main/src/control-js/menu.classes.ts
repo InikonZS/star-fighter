@@ -1,13 +1,14 @@
-const Control = require('./control.component.js');
-const Bar = require('./bar-ind-custom.component.js');
+import Control from './control.component';
+import Bar from './bar-ind-custom.component';
 
-class Slide extends Control{
+export class Slide extends Control{
   constructor(parentNode, wrapperClass, slideClass, index){
     super(parentNode, 'div', wrapperClass);
     this.slideContainer = new Control (this.node, 'div', slideClass);
     this.backImageURL;
     this.index = index;
     this.setIndex(index);
+    this.backImageURL = undefined;
   }
 
   setIndex(index){
@@ -29,7 +30,7 @@ class SliderButton extends Control{
 }
 
 
-class SliderStd extends Control{
+export class SliderStd extends Control{
   constructor(parentNode){
     super(parentNode, 'div', 'sl_wrapper'); 
     this.onSlide;
@@ -51,6 +52,8 @@ class SliderStd extends Control{
     
     this.slides = [];
     this.currentIndex = 0;
+    this.onLeft = undefined;
+    this.onRight = undefined;
   }
 
   addSlide(){
@@ -72,7 +75,7 @@ class SliderStd extends Control{
   }
 }
 
-class GameSlideredScreen extends Control{
+export class GameSlideredScreen extends Control{
   constructor(parentNode){
     super(parentNode, 'div', 'gs_wrapper');
     let titleWrapper = new Control (this.node, 'div', 'gs_title');
@@ -99,7 +102,7 @@ class GameSlideredScreen extends Control{
   }
 }
 
-class ShipSlide extends Control{
+export class ShipSlide extends Control{
   constructor(parentNode, shipName, shipDecription, speedValue, shieldValue){
     super(parentNode, 'div', '');
     let hWrapper = new Control(this.node, 'div');
@@ -148,10 +151,3 @@ class ShipSlide extends Control{
                   <p></p>
                 </div>
 */
-module.exports = {
-  GameSlideredScreen,
-  SliderStd,
-  SliderButton,
-  Slide,
-  ShipSlide
-}

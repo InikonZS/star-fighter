@@ -1,21 +1,21 @@
-const GameObject = require('./game-object.new.js');
+import GameObject from './game-object.new';
 
-const Physic = require('./physic.new.js');
+import Physic from './physic.new';
 
-const getChunked = require('../chunked-mesh.func.js');
-const calc = require('../calc.utils.js');
-const Vector3d = require('../vector3d.dev.js');
+import getChunked from '../chunked-mesh.func';
+import calc from '../calc.utils';
+import Vector3d from '../vector3d.dev';
 
-const solidUntexturedShaderUnit = require('./shaders/solid-untextured.shader.js');
-const {SolidUntexturedShaderList} = require('./solid-untextured.new.js');
-const solidTexturedShaderUnit = require('./shaders/solid-textured.shader.js');
-const {SolidTexturedShaderList} = require('./solid-textured.new.js');
-const skyboxShaderUnit = require('./shaders/skybox.shader.js');
-const {SkyboxShaderList} = require('./skybox.new.js');
-const animatedShaderUnit = require('./shaders/ani-textured.shader.js');
-const {AnimatedShaderList} = require('./ani-textured.new.js');
+import solidUntexturedShaderUnit from './shaders/solid-untextured.shader';
+import { SolidUntexturedShaderList } from './solid-untextured.new';
+import solidTexturedShaderUnit from './shaders/solid-textured.shader';
+import { SolidTexturedShaderList } from './solid-textured.new';
+import skyboxShaderUnit from './shaders/skybox.shader';
+import { SkyboxShaderList } from './skybox.new';
+import animatedShaderUnit from './shaders/ani-textured.shader';
+import { AnimatedShaderList } from './ani-textured.new';
 
-const utils = require('../any.utils.js');
+import utils from '../any.utils';
 
 class World{
   constructor(gl, game){
@@ -336,4 +336,4 @@ class World{
 }
 
 
-module.exports = World;
+export default World;

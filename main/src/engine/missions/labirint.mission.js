@@ -1,7 +1,7 @@
-//const anyutils = require('../../any.utils.js');
-const basics = require('../basic-objects.gmob.js');
-const Vector3d = require('../../vector3d.dev.js');
-const calc = require('../../calc.utils.js');
+//const anyutils = require('../../any.utils');
+import basics from '../basic-objects.gmob';
+import Vector3d from '../../vector3d.dev';
+import calc from '../../calc.utils';
 
 const lScaler = 15;
 
@@ -22,7 +22,7 @@ function makeLineSpline(cnt, startVector, step){
   let orot =0;
   for (let i=0; i<cont; i++){
     res.push({cp, orot, cur:cr*Math.PI/2});
-    rt = seq[i]//calc.rand(6);
+    let rt = seq[i]//calc.rand(6);
     if (rt==1){
       cr = cr-1;
       if (cr<0){cr=3}
@@ -104,4 +104,4 @@ function recLabi(game, rou, i, blocks){
   }*/
 }
 
-module.exports = missionLabirint;
+export default missionLabirint;

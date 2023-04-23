@@ -1,7 +1,7 @@
-const Control = require('../control-js/control.component.js');
-const calc = require('../calc.utils.js');
+import Control from '../control-js/control.component';
+import calc from '../calc.utils';
 //const getScreenPos = calc.getScreenPos;
-const GameObject = require('./game-object.new.js');
+import GameObject from './game-object.new';
 
 class Message extends Control{
   constructor(parentNode, text, colorHex){
@@ -74,4 +74,4 @@ function getScreenPos(viewMatrix, vector, clipRect){
   return {x:pixelX, y:pixelY, back:(clipspace[3]<0)}
 }
 
-module.exports = MessageGamed;
+export default MessageGamed;

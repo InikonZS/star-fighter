@@ -1,7 +1,7 @@
-const GameObject = require('./game-object.new.js');
-const RenderableItem = require('./renderable-item.new.js');
-const Mesh = require('../mesh.object.js');
-const GLUtils = require('../gl-utils.js');
+import GameObject from './game-object.new';
+import RenderableItem from './renderable-item.new';
+import Mesh from '../mesh.object';
+import GLUtils from '../gl-utils';
 
 class RenderableModelList extends GameObject {
   constructor(gl, shaderVariables, modelSource, preScaler){
@@ -28,4 +28,4 @@ class RenderableModelList extends GameObject {
   }*/
 }
 
-module.exports = RenderableModelList;
+export default RenderableModelList;

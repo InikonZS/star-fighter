@@ -1,4 +1,4 @@
-const BarIndicator = require('./bar-indicator.component.js');
+import BarIndicator from './bar-indicator.component';
 
 class BarIndicatorCustomized extends BarIndicator{
   constructor (parentNode, value, demiValue){
@@ -19,4 +19,4 @@ class BarIndicatorCustomized extends BarIndicator{
   }
 }
 
-module.exports = BarIndicatorCustomized;
+export default BarIndicatorCustomized;

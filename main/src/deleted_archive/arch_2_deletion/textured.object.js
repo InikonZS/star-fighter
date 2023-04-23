@@ -1,6 +1,6 @@
 const calc = require('./calc.utils.js');
 const GLUtils = require('./gl-utils.js');
-const ObjUtils = require('./obj-loader.utils.js');
+const ObjUtils = require('./obj-loader.utils');
 
 class Textured{
   constructor(gl, modelSource, textureURL, matrix, color){

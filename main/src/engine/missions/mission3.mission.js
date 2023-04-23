@@ -1,12 +1,12 @@
-const anyutils = require('../../any.utils.js');
-const basics = require('../basic-objects.gmob.js');
-const Vector3d = require('../../vector3d.dev.js');
-const calc = require('../../calc.utils.js');
+import anyutils from '../../any.utils';
+import basics from '../basic-objects.gmob';
+import Vector3d from '../../vector3d.dev';
+import calc from '../../calc.utils';
 const rand =calc.rand;
-const Enemy = require('../enemy.new.js');
+import Enemy from '../enemy.new';
 
 
-const mUtils = require('./mission.utils.js');
+import mUtils from './mission.utils';
 const randVector = mUtils.randVector;
 const starChunk = mUtils.starChunk;
 
@@ -83,4 +83,4 @@ function makeRingSpline(r){
   return res;
 }
 
-module.exports = mission3;
+export default mission3;

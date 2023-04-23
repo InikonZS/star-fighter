@@ -1,15 +1,15 @@
 //const Basic = require('./basic.object.js');
 //const rocketModel = require('./rocket.model.js');
 //const boxModel = require('./rocket.model.js');
-const calc = require('../calc.utils.js');
-const Vector3d = require('../vector3d.dev.js');
-const Weapon = require('./weapon.new.js');
+import calc from '../calc.utils';
+import Vector3d from '../vector3d.dev';
+import Weapon from './weapon.new';
 
-const GameObject = require('./game-object.new.js');
-const Message = require('./point-msg.new.js');
+import GameObject from './game-object.new';
+import Message from './point-msg.new';
 
 const rand = calc.rand;
-const anyutils = require('../any.utils.js');
+import anyutils from '../any.utils.js';
 
 class Enemy extends GameObject{
   constructor(gl, game, startPoint, speedVector, modelList, extLogic){
@@ -245,4 +245,4 @@ function toDecart(azi){
   return new Vector3d(Math.sin(azi.y)*Math.cos(azi.x), Math.sin(azi.y)*Math.sin(azi.x), Math.cos(azi.y));
 }
 
-module.exports = Enemy;
+export default Enemy;

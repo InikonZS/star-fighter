@@ -1,4 +1,4 @@
-const Control = require('./control.component.js');
+import Control from './control.component';
 
 class BarIndicator extends Control{
   constructor (parentNode, count, wrapperClass, activeClass, inactiveClass, demiClass){
@@ -35,4 +35,4 @@ class BarIndicator extends Control{
   }
 }
 
-module.exports = BarIndicator;
+export default BarIndicator;

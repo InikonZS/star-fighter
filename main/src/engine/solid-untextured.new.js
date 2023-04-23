@@ -1,14 +1,14 @@
-const RenderableShaderList = require('./renderable-shader-list.new.js');
-const RenderableModelList = require('./renderable-model-list.new.js');
-const RenderableItem = require('./renderable-item.new.js');
-const GLUtils = require('../gl-utils.js');
+import RenderableShaderList from './renderable-shader-list.new';
+import RenderableModelList from './renderable-model-list.new';
+import RenderableItem from './renderable-item.new';
+import { setBuffer } from '../gl-utils';
 
-class SolidUntexturedModelList extends RenderableModelList{
+export class SolidUntexturedModelList extends RenderableModelList{
   constructor(gl, shaderVariables, modelSource, preScaler){
     super(gl, shaderVariables, modelSource, preScaler); 
     this.onRender = (gl, props)=>{
-      GLUtils.setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
-      GLUtils.setBuffer(gl, this.mesh.normBuffer, this.shaderVariables.normalAttr, 3); 
+      setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
+      setBuffer(gl, this.mesh.normBuffer, this.shaderVariables.normalAttr, 3); 
     }
   }
 
@@ -50,7 +50,7 @@ class SolidUntexturedModelList extends RenderableModelList{
   }
 }
 
-class SolidUntexturedShaderList extends RenderableShaderList{
+export class SolidUntexturedShaderList extends RenderableShaderList{
   constructor(gl, shaderUnit){
     super(gl, shaderUnit);
     this.onRender = (gl, props)=>{
@@ -63,5 +63,3 @@ class SolidUntexturedShaderList extends RenderableShaderList{
     return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource, preScaler));
   }
 }
-
-module.exports = {SolidUntexturedShaderList, SolidUntexturedModelList}

@@ -1,6 +1,6 @@
-const calc = require('./calc.utils.js');
+import calc from './calc.utils';
 
-function getModList(oob, genOwnNormal, preScaler=1){
+export function getModList(oob, genOwnNormal, preScaler=1){
   let vreg=/[ \t]+/;
   let oreg=/[\n]+/;
 
@@ -73,8 +73,4 @@ function getModList(oob, genOwnNormal, preScaler=1){
   }
 
   return {triangleList, normalList, texList};
-}
-
-module.exports = {
-  getModList
 }

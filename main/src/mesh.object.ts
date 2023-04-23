@@ -1,16 +1,25 @@
-const calc = require('./calc.utils.js');
-const Vector3d = require('./vector3d.dev.js');
-const GLUtils = require('./gl-utils.js');
-const ObjUtils = require('./obj-loader.utils.js');
+import calc from './calc.utils';
+import Vector3d from './vector3d.dev';
+import GLUtils from './gl-utils';
+import {getModList} from './obj-loader.utils';
 
 class Mesh{
-  constructor(gl){
+  gl: WebGLRenderingContext;
+  maxDistance: number;
+  vertexList: any;
+  normalList: any;
+  texList: any;
+  positionBuffer: any;
+  normBuffer: any;
+  texBuffer: any;
+
+  constructor(gl: WebGLRenderingContext){
     this.gl = gl;
     this.maxDistance = 0;  
   }
 
-  loadFromSource(modelSource, preScaler){
-    let modelObject = ObjUtils.getModList(modelSource, false , preScaler);
+  loadFromSource(modelSource: string, preScaler: number){
+    let modelObject = getModList(modelSource, false , preScaler);
     this.vertexList = modelObject.triangleList;
     this.normalList = modelObject.normalList;
     this.texList = modelObject.texList;
@@ -20,7 +29,7 @@ class Mesh{
     return this;
   }
 
-  loadFromLists(vertexList, normalList, texList){
+  loadFromLists(vertexList: Array<Array<number>>, normalList: Array<Array<number>>, texList: Array<Array<number>>){
     this.vertexList = vertexList;
     this.normalList = normalList;
     this.texList = texList;
@@ -60,7 +69,7 @@ class Mesh{
   }
 }
 
-function getMaxDistance(vertexList){
+function getMaxDistance(vertexList: Array<Array<number>>){
   let max = 0;
   for (let i=0; i<vertexList.length; i+=3){
     let v = new Vector3d(vertexList[i+0], vertexList[i+1], vertexList[i+2]);
@@ -72,7 +81,7 @@ function getMaxDistance(vertexList){
   return max;
 }
 
-function getCenter(vertexList){
+function getCenter(vertexList: Array<Array<number>>){
   let res;
   for (let i=0; i<vertexList.length; i+=3){
     let v = new Vector3d(vertexList[i+0], vertexList[i+1], vertexList[i+2]);
@@ -85,4 +94,4 @@ function getCenter(vertexList){
   return res;
 }
 
-module.exports = Mesh;
+export default Mesh;

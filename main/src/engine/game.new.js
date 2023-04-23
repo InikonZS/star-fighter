@@ -1,27 +1,27 @@
-const World = require('./world.new.js');
-const Player = require('./player.new.js');
-const Vector3d = require('../vector3d.dev.js');
-const calc = require('../calc.utils.js');
+import World from './world.new';
+import Player from './player.new';
+import Vector3d from '../vector3d.dev';
+import calc from '../calc.utils';
 const rand = calc.rand;
 
-const Enemy = require('./enemy.new.js');
-const Message = require('./point-msg.new.js');
-const GameObject = require('./game-object.new.js');
-const Timer = require('./timer.new.js');
-const Collectable = require('./collectable.new.js');//require('./collectable.new.js');
-const TargetList = require('./mission-target.new.js');
-const anyutils = require('../any.utils.js');
-const utils = require('../any.utils.js');
+import Enemy from './enemy.new';
+import Message from './point-msg.new';
+import GameObject from './game-object.new';
+import Timer from './timer.new';
+import Collectable from './collectable.new';//require('./collectable.new');
+import TargetList from './mission-target.new';
+import anyutils from '../any.utils';
+import utils from '../any.utils';
 
-const basics = require('./basic-objects.gmob.js');
+import basics from './basic-objects.gmob';
 
-const missionLabirint = require('./missions/labirint.mission.js');
-const missionGarage = require('./missions/garage.mission.js');
-const mission1 = require('./missions/mission1.mission.js');
-const mission2 = require('./missions/mission2.mission.js');
-const mission3 = require('./missions/mission3.mission.js');
-const mission4 = require('./missions/mission4.mission.js');
-const mission5 = require('./missions/mission5.mission.js');
+import missionLabirint from './missions/labirint.mission';
+import missionGarage from './missions/garage.mission';
+import mission1 from './missions/mission1.mission';
+import mission2 from './missions/mission2.mission';
+import mission3 from './missions/mission3.mission';
+import mission4 from './missions/mission4.mission';
+import mission5 from './missions/mission5.mission';
 
 class Game{
   constructor(gl, glCanvas){
@@ -123,4 +123,4 @@ class Game{
   }
 }
 
-module.exports = Game;
+export default Game;

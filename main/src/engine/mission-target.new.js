@@ -1,6 +1,6 @@
 //const Control = require('../control-js/control.component.js');
-const calc = require('../calc.utils.js');
-const GameObject = require('./game-object.new.js');
+import calc from '../calc.utils';
+import GameObject from './game-object.new';
 
 class Target extends GameObject{
   constructor(game, text){
@@ -81,4 +81,4 @@ class TargetList extends GameObject{
 }
 
 
-module.exports = TargetList;
+export default TargetList;

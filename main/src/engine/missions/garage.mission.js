@@ -1,7 +1,7 @@
-const anyutils = require('../../any.utils.js');
-const basics = require('../basic-objects.gmob.js');
-const Vector3d = require('../../vector3d.dev.js');
-const calc = require('../../calc.utils.js');
+import anyutils from '../../any.utils';
+import basics from '../basic-objects.gmob';
+import Vector3d from '../../vector3d.dev';
+import calc from '../../calc.utils';
 const rand =calc.rand;
 
 function missionGarage(game){
@@ -66,4 +66,4 @@ function missionGarage(game){
 
 }
 
-module.exports = missionGarage;
+export default missionGarage;
