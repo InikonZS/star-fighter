@@ -2,7 +2,7 @@ import { rand as _rand, transformVertexList } from './calc.utils';
 import Vector3d from './vector3d.dev';
 import Mesh from './mesh.object';
 
-function makeChunkedMesh (gl, modelSource, count, matrixFunction){
+function makeChunkedMesh (gl: WebGLRenderingContext, modelSource: string, count: number, matrixFunction){
   let inputModel = new Mesh(gl);
   inputModel.loadFromSource(modelSource);
   let outVertexList = [];

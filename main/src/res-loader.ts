@@ -189,7 +189,11 @@ export function getByName_(config, name){
   return false;
 }
 
-function loadModels(modelConfig, onLoadedAll, onProgress){
+function loadModels(modelConfig:{
+  list: IResourceRecord[]
+}, onLoadedAll: (res: {
+  list: IResourceRecord[]
+})=>void, onProgress: ()=>void){
   let max = modelConfig.list.length;
   let counter =0;
   modelConfig.list.forEach(it=>{

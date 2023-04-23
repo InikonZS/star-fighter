@@ -1,7 +1,16 @@
 import Control from './control.component';
 
 class BarIndicator extends Control{
-  constructor (parentNode, count, wrapperClass, activeClass, inactiveClass, demiClass){
+  wrapperClass: string;
+  activeClass: string;
+  inactiveClass: string;
+  demiClass: string;
+  maxValue: number;
+  value: number;
+  demiValue: number;
+  bars: Control[];
+
+  constructor (parentNode: HTMLElement, count: number, wrapperClass: string, activeClass: string, inactiveClass: string, demiClass: string){
     super(parentNode, 'div', wrapperClass);
     this.wrapperClass=wrapperClass;
     this.activeClass=activeClass;
@@ -18,7 +27,7 @@ class BarIndicator extends Control{
     }
   }
 
-  setValue(value, demiValue){
+  setValue(value: number, demiValue: number){
     this.value = value;
     this.demiValue = demiValue;
     let minValue = Math.min(this.demiValue, this.value);

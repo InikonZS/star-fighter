@@ -1,6 +1,6 @@
 import calc from './calc.utils';
 
-export function getModList(oob, genOwnNormal, preScaler=1){
+export function getModList(oob: string, genOwnNormal: boolean, preScaler=1){
   let vreg=/[ \t]+/;
   let oreg=/[\n]+/;
 

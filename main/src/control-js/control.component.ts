@@ -1,6 +1,10 @@
 export default class Control {
+  isDisabled: boolean;
+  isHidden: boolean;
+  node: HTMLElement;
+  click: (ev: MouseEvent) => void;
   
-  constructor(parentNode, tagName, className, textContent, click, fromParent) {
+  constructor(parentNode: HTMLElement, tagName: string="div", className: string ="", textContent: string = "", click?: (ev: MouseEvent)=>void, fromParent?: boolean) {
     const classNameV = className || '';
     const textContentV = textContent || '';
     const tagNameV = tagName || 'div';
@@ -53,7 +57,7 @@ export default class Control {
     this.node.style = '';
   }
 
-  animate(animationCssClass, inlineStyle) {
+  animate(animationCssClass: string, inlineStyle: string) {
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
         if (animationCssClass) {

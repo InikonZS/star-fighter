@@ -2,7 +2,11 @@ import Control from './control.component';
 import Bar from './bar-ind-custom.component';
 
 export class Slide extends Control{
-  constructor(parentNode, wrapperClass, slideClass, index){
+  slideContainer: Control;
+  backImageURL: string;
+  index: number;
+
+  constructor(parentNode: HTMLElement, wrapperClass: string, slideClass: string, index: number){
     super(parentNode, 'div', wrapperClass);
     this.slideContainer = new Control (this.node, 'div', slideClass);
     this.backImageURL;
@@ -11,7 +15,7 @@ export class Slide extends Control{
     this.backImageURL = undefined;
   }
 
-  setIndex(index){
+  setIndex(index: number){
     this.index = index;
     this.node.style = `
       transform: translate(${100*this.index}%, 0px);
@@ -21,7 +25,10 @@ export class Slide extends Control{
 }
 
 class SliderButton extends Control{
-  constructor(parentNode, wrapperClass, buttonClass, onClick){
+  butWrapper: Control;
+  button: Control;
+  
+  constructor(parentNode: HTMLElement, wrapperClass: string, buttonClass: string, onClick: (ev: MouseEvent)=> void){
     super(parentNode, 'div', '');
     this.node.style='width:0px';
     this.butWrapper = new Control(this.node, 'div', wrapperClass);
@@ -31,7 +38,13 @@ class SliderButton extends Control{
 
 
 export class SliderStd extends Control{
-  constructor(parentNode){
+  onSlide: any;
+  currentIndex: number;
+  onLeft: ()=>void;
+  slidesContainer: Control;
+  onRight: ()=>void;
+  slides: any[];
+  constructor(parentNode: HTMLElement){
     super(parentNode, 'div', 'sl_wrapper'); 
     this.onSlide;
     new SliderButton(this.node, 'sl_panel sl_panel_left', 'sl_button sl_button_left', ()=>{
@@ -62,7 +75,7 @@ export class SliderStd extends Control{
     return sl;  
   }
 
-  setIndex(index){
+  setIndex(index: number){
     if (index<this.slides.length && index>=0){
       this.currentIndex = index;
       this.slides.forEach((it, i)=>{
@@ -76,7 +89,11 @@ export class SliderStd extends Control{
 }
 
 export class GameSlideredScreen extends Control{
-  constructor(parentNode){
+  titleElement: Control;
+  slider: SliderStd;
+  controlsContainer: Control;
+  buttons: any[];
+  constructor(parentNode: HTMLElement){
     super(parentNode, 'div', 'gs_wrapper');
     let titleWrapper = new Control (this.node, 'div', 'gs_title');
     this.titleElement = new Control (titleWrapper.node, 'div', 'gs_path');
@@ -91,11 +108,11 @@ export class GameSlideredScreen extends Control{
     this.buttons = [];
   }
 
-  setTitle(title){
+  setTitle(title: string){
     this.titleElement.node.textContent = title;
   }
 
-  addButton(caption, onClick){
+  addButton(caption: string, onClick: (ev: MouseEvent)=> void){
     let bt = new Control(this.controlsContainer.node, 'div', 'gs_button', caption, onClick);
     this.buttons.push(bt);
     return bt;
@@ -103,7 +120,12 @@ export class GameSlideredScreen extends Control{
 }
 
 export class ShipSlide extends Control{
-  constructor(parentNode, shipName, shipDecription, speedValue, shieldValue){
+  speedValue: number;
+  speedBar: Bar;
+  shieldValue: number;
+  shieldBar: Bar;
+
+  constructor(parentNode: HTMLElement, shipName: string, shipDecription: string, speedValue: number, shieldValue: number){
     super(parentNode, 'div', '');
     let hWrapper = new Control(this.node, 'div');
     new Control(hWrapper.node, 'h1', '', shipName);
