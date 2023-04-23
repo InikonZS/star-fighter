@@ -9,7 +9,7 @@ export class App{
   stWidth: number;
   stHeight: number;
   startScreen: StartScreen;
-  glCanvas: any;
+  glCanvas: GLCanvas;
 
   constructor(parentNode: HTMLElement){
     this.parentNode = parentNode;

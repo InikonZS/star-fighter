@@ -1,3 +1,5 @@
+const m4 = (window as any).m4;
+
 class Vector3d{
   x: number;
   y: number;
@@ -19,7 +21,7 @@ class Vector3d{
     return new Vector3d(this.x-x, this.y-y, this.z-z);
   }
 
-  subVector(v: Vector3d, self: Vector3d){
+  subVector(v: Vector3d, self?: Vector3d){
     if (self){
       this.x -= v.x;  
       this.y -= v.y; 

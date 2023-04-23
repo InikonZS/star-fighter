@@ -4,7 +4,11 @@ export function getDefault(){
   }
 }
 
-export function loadOptions(){
+interface IGameOptions{
+  mouseSens: number;
+}
+
+export function loadOptions(): IGameOptions{
   let op = window.localStorage.getItem('gm_options');
   let options;
   if (op){
@@ -15,6 +19,6 @@ export function loadOptions(){
   return options;
 }
 
-export function saveOptions(options){
+export function saveOptions(options: IGameOptions){
   window.localStorage.setItem('gm_options', JSON.stringify(options));   
 }

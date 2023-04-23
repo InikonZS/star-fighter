@@ -1,4 +1,32 @@
-class GameObject{
+export default class GameObject{
+  position: import("d:/works/star-fighter/star-fighter/main/src/vector3d.dev").default;
+  sx: number;
+  sy: number;
+  sz: number;
+  matrix: any;
+  speedVector: import("d:/works/star-fighter/star-fighter/main/src/vector3d.dev").default;
+  hitPosition(hitPosition: any, lastPos: any, arg2: any, arg3: number) {
+    throw new Error('Method not implemented.');
+  }
+  childList: any[];
+  isExists: boolean;
+  reqFilter: boolean;
+  onProcess: (deltaTime: number, props:any )=>void;
+  onRender: (gl: WebGLRenderingContext, props: any)=>void;
+  onReact: (gameObject: GameObject)=>void;
+  parents: any[];
+  onDelete: () => void;
+  mesh: any;
+  texture: any;
+  shaderProgram: any;
+  type: string;
+  hitDist: number;
+  physicList: any;
+  onContact: any;
+  bonus: string;
+  bonus_count: any;
+  onCollect: any;
+
   constructor(){
     this.childList = [];
     
@@ -22,7 +50,7 @@ class GameObject{
     }
   }
 
-  render(gl, props){
+  render(gl: WebGLRenderingContext, props: any){
     if (this.onRender){
       this.onRender(gl, props);
     }
@@ -35,7 +63,7 @@ class GameObject{
     });
   }
 
-  process(deltaTime, props){
+  process(deltaTime: number, props:any ){
   
     if (this.onProcess){
       this.onProcess(deltaTime, props);
@@ -56,7 +84,7 @@ class GameObject{
     }
   }
 
-  react(gameObject){
+  react(gameObject: GameObject){
     if (gameObject.isExists && this.isExists){
       if (this.onReact){
         this.onReact(gameObject);
@@ -72,7 +100,7 @@ class GameObject{
     }
   }
 
-  addChild(gameObject){
+  addChild(gameObject: GameObject){
     gameObject.parents.push(this);
     this.childList.push(gameObject);
     return gameObject;
@@ -121,5 +149,3 @@ class GameObject{
     });  
   }*/
 }
-
-module.exports = GameObject;

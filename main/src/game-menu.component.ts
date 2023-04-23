@@ -20,7 +20,7 @@ class GameMenu extends Control{
   missionOptions: { missionName: string; shipIndex: number; };
   startButton: Control;
   optionsButton: Control;
-  optionMouseSense: Control;
+  optionMouseSense: Control<HTMLInputElement>;
   exitButton: Control;
   touchPad: TouchPad;
   prevShip: Control;
@@ -66,7 +66,7 @@ class GameMenu extends Control{
       this.menu.selectPage(this.optionsMenu);
 
     });
-    this.optionMouseSense = new Control(this.optionsMenu.node, 'input', 'menu_item');
+    this.optionMouseSense = new Control<HTMLInputElement>(this.optionsMenu.node, 'input', 'menu_item');
     this.optionMouseSense.node.type = 'range';
     this.optionMouseSense.node.min=1;
     this.optionMouseSense.node.max=100;

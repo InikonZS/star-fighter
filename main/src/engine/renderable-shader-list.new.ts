@@ -2,7 +2,10 @@ import GameObject from './game-object.new';
 import { createShaderFromSource } from '../gl-utils';
 
 class RenderableShaderList extends GameObject {
-  constructor(gl, shaderUnit){
+  gl: WebGLRenderingContext;
+  shaderVariables: any;
+  
+  constructor(gl: WebGLRenderingContext, shaderUnit){
     super();
     this.gl = gl;
     let shaderProgram = createShaderFromSource(gl, shaderUnit.vertexShaderSource, shaderUnit.fragmentShaderSource);

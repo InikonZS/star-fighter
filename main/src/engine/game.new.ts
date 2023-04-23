@@ -22,9 +22,19 @@ import mission2 from './missions/mission2.mission';
 import mission3 from './missions/mission3.mission';
 import mission4 from './missions/mission4.mission';
 import mission5 from './missions/mission5.mission';
+import GLCanvas from '../gl-canvas.component';
 
 class Game{
-  constructor(gl, glCanvas){
+  gl: WebGLRenderingContext;
+  glCanvas: GLCanvas;
+  props: { shipIndex: number; };
+  world: World;
+  player: Player;
+  timers: GameObject;
+  messageList: GameObject;
+  targets: TargetList;
+
+  constructor(gl: WebGLRenderingContext, glCanvas: GLCanvas){
     this.gl = gl;
     this.glCanvas = glCanvas;
     console.log('restarting game');
@@ -44,7 +54,7 @@ class Game{
     })*/
   }
 
-  render(aspect, deltaTime){
+  render(aspect: number, deltaTime: number){
     this.player.render_(deltaTime);
     //this.targets.render(deltaTime);
     var camera = this.player.camera;
@@ -59,13 +69,13 @@ class Game{
     //this.player.render_(deltaTime);
   }
 
-  addTimer(interval, onTimeout){
+  addTimer(interval: number, onTimeout: ()=>void){
     let tm = new Timer(interval, onTimeout);
     this.timers.addChild(tm);
     return tm;
   }
 
-  addLabel(text, vector){
+  addLabel(text: string, vector: Vector3d){
     let msg = new Message(this.glCanvas, '', 'f4f', vector);
     msg.textPref = text;
     msg.onProcess = ()=>{
@@ -96,7 +106,7 @@ class Game{
     this.targets.refresh();
   }
   
-  loadMission(name, props){
+  loadMission(name: string, props: { missionName: string; shipIndex: number; }){
     this.clear();
     this.props = props;
     this.player.model.visible=true;
@@ -111,7 +121,7 @@ class Game{
     } 
   }
 
-  finish(win){
+  finish(win: boolean){
     this.glCanvas.keyboardState.shot = false;
     this.glCanvas.menu.activate();
     if (win){

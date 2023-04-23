@@ -9,11 +9,32 @@ import GameObject from './game-object.new';
 //const anyutils = require('../any.utils');
 
 import Phys from './physic.new';
+import Game from './game.new';
 
 const shieldTimeStd = 0.03;
 
 class Player extends GameObject {
-  constructor(gl, game, keyStates){
+  game: Game;
+  keyStates: Record<string, boolean>;
+  isAlive: boolean;
+  health: number;
+  shieldEnergy: number;
+  shieldTime: number;
+  weapons: Weapon[];
+  camera: Camera;
+  model: any;
+  shieldModelScaler: number;
+  shieldModel: any;
+  shieldActivated: any;
+  hitbox: any;
+  nearbox: any;
+  touch: any;
+  speedVectorSync: any;
+  currentWeaponIndex: number;
+  refTimer: Timer;
+  envTimer: Timer;
+  
+  constructor(gl: WebGLRenderingContext, game: Game, keyStates: Record<string, boolean>){
     super();
     this.game = game;
     this.keyStates = keyStates;
@@ -182,7 +203,7 @@ class Player extends GameObject {
 
  // }
 
-  damage(pointsMin, pointsRand=0){
+  damage(pointsMin: number, pointsRand=0){
     window.sndBase.playByClass('hit');
     //rand(10)<5 ? anyutils.playSoundUrl('assets/sounds/hit1.mp3') : anyutils.playSoundUrl('assets/sounds/hit2.mp3');
     this.health-=rand(pointsRand)+pointsMin;
@@ -202,7 +223,7 @@ class Player extends GameObject {
     }
   }
 
-  render_(deltaTime){
+  render_(deltaTime: number){
     this.refTimer.process(deltaTime);
     this.envTimer.process(deltaTime);
     if (this.keyStates.shot){
@@ -268,7 +289,7 @@ class Player extends GameObject {
     }
   }
 
-  setWeapon(weaponIndex){
+  setWeapon(weaponIndex: number){
     this.currentWeaponIndex = weaponIndex;
     //this.game.glCanvas.gamePanel.weapon.node.textContent = this.weapons[this.currentWeaponIndex-1].weaponName;
     //this.game.glCanvas.gamePanel.bullets.node.textContent = 'bullets: '+this.weapons[weaponIndex-1].bulletCount;

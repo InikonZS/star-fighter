@@ -16,9 +16,44 @@ import animatedShaderUnit from './shaders/ani-textured.shader';
 import { AnimatedShaderList } from './ani-textured.new';
 
 import utils from '../any.utils';
+import Game from './game.new';
 
 class World{
-  constructor(gl, game){
+  gl: WebGLRenderingContext;
+  game: Game;
+  viewMatrix: any;
+  skyboxShaderList: ShaderList;
+  skyboxModelList: any;
+  animatedShaderList: ShaderList;
+  explosions: any;
+  magics: any;
+  magicFogSpheres: any;
+  bulPlasm: any;
+  solidUntexturedShaderList: SolidUntexturedShaderList;
+  solidTexturedShaderList: SolidUntexturedShaderList;
+  tun1: any[];
+  tun2: any[];
+  meteModelList: any;
+  mercuryModelList: any;
+  marsModelList: any;
+  mete2ModelList: any;
+  neptuneModelList: any;
+  meteoriteModelList: any;
+  corridorModelList: any;
+  assaultModelList: any;
+  boxModelList: any;
+  selfModelLists: any[];
+  bigModelList: any;
+  shipLists: any[];
+  chunkList: any;
+  graphicList: GameObject;
+  physicsList: GameObject;
+  bulletList: GameObject;
+  breakableList: GameObject;
+  objectList: GameObject;
+  magicSpheres: any;
+  
+  constructor(gl: WebGLRenderingContext, game: Game){
     
     //dynamic loaded res
     const skyboxModel = window.resBase.getByName('skybox');

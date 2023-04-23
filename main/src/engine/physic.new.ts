@@ -2,7 +2,9 @@ import Vector3d from '../vector3d.dev';
 import calc from '../calc.utils';
 
 class Physic{
-  constructor(vertexList){
+  triangles: Triangle[];
+
+  constructor(vertexList: number[]){
     this.triangles = [];
     let v;
     let ind;
@@ -25,8 +27,8 @@ class Physic{
     this.triangles = undefined;
   }
 
-  crossByLine (a, b){
-    let res =[];
+  crossByLine (a: Vector3d, b: Vector3d){
+    let res: Array<{dv:Vector3d, triangle:Triangle}> =[];
     let point;
     this.triangles.forEach(it=>{
       point = it.crossByLine(a, b);
@@ -87,7 +89,7 @@ class Physic{
   }
 }
 
-function getNearest(p, list){
+function getNearest(p: Vector3d, list: Array<{dv:Vector3d, triangle:Triangle}>){
   let minit;
   let minlen = 9999999;
   let dist;
@@ -102,7 +104,22 @@ function getNearest(p, list){
 }
 
 class Triangle{
-  constructor(u, v, w){
+  u: Vector3d;
+  v: Vector3d;
+  w: Vector3d;
+  normal: Vector3d;
+  dValue: number;
+  a: Vector3d;
+  b: Vector3d;
+  c: Vector3d;
+  al: number;
+  bl: number;
+  cl: number;
+  pr: number;
+  prq: number;
+  s: number;
+  center: Vector3d;
+  constructor(u: Vector3d, v: Vector3d, w: Vector3d){
     this.u = u;
     this.v = v;
     this.w = w;
@@ -125,7 +142,7 @@ class Triangle{
     this.normal = undefined;
   }
 
-  solveLinear(v1, v2){
+  solveLinear(v1:Vector3d, v2: Vector3d){
     let n = this.normal;
     let d = this.dValue;
     let nv = v1.subVector(v2);
@@ -149,7 +166,7 @@ class Triangle{
     return (sa+sb+sc)<=(this.s+0.00001);
   }
 
-  crossByLine(a, b){
+  crossByLine(a: Vector3d, b: Vector3d){
     let res;
     let dv = this.solveLinear(a, b, this.a, this.b, this.c);
     let dVector = new Vector3d(dv.x, dv.y, dv.z);
@@ -161,7 +178,7 @@ class Triangle{
     return res;
   }
 
-  isCrossedByTriangle(tr){
+  isCrossedByTriangle(tr: Triangle){
     let res = false;
     if (this.crossByLine(tr.a, tr.b) || this.crossByLine(tr.b, tr.c) || this.crossByLine(tr.c, tr.a)){
       res = true;

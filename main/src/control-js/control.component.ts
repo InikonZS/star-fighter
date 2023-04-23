@@ -1,7 +1,7 @@
-export default class Control {
+export default class Control<T extends HTMLElement = HTMLElement> {
   isDisabled: boolean;
   isHidden: boolean;
-  node: HTMLElement;
+  node: T;
   click: (ev: MouseEvent) => void;
   
   constructor(parentNode: HTMLElement, tagName: string="div", className: string ="", textContent: string = "", click?: (ev: MouseEvent)=>void, fromParent?: boolean) {
@@ -12,7 +12,7 @@ export default class Control {
     this.isHidden = false;
 
     if (!fromParent) {
-      this.node = document.createElement(tagNameV);
+      this.node = document.createElement(tagNameV) as T;
       parentNode.appendChild(this.node);
       this.node.className = classNameV;
       this.node.textContent = textContentV;

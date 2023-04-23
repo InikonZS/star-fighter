@@ -4,7 +4,7 @@ import RenderableItem from './renderable-item.new';
 import { createTextureFromImg, setBuffer } from '../gl-utils';
 
 class ModelList extends RenderableModelList{
-  constructor(gl, shaderVariables, record){
+  constructor(gl: WebGLRenderingContext, shaderVariables: any, record: { source: string; texImage: any; }){
     super(gl, shaderVariables, record.source); 
     createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
 
@@ -20,13 +20,13 @@ class ModelList extends RenderableModelList{
     }*/
   }
 
-  createStaticItem(matrix, color){
+  createStaticItem(matrix: number[], color: { r: number; g: number; b: number; }){
     return this.addChild(new RenderableItem(this.shaderVariables, this.mesh, matrix, color));  
   }
 }
 
 class ShaderList extends RenderableShaderList{
-  constructor(gl, shaderUnit){
+  constructor(gl: WebGLRenderingContext, shaderUnit){
     super(gl, shaderUnit);
     this.onRender = (gl, props)=>{
       shaderUnit.initShader(gl, this.shaderProgram, this.shaderVariables);
@@ -34,7 +34,7 @@ class ShaderList extends RenderableShaderList{
     }
   }
 
-  createModelList(record){
+  createModelList(record: { source: string; texImage: any; }){
     return this.addChild(new ModelList(this.gl, this.shaderVariables, record));
   }
 }

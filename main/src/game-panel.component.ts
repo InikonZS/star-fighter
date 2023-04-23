@@ -64,11 +64,11 @@ export default class GameMenu extends Control{
   money: GamIndicator;
   joy: Joy;
   data: { health: number; bullets: number; weapon: number; shield: number; speed: number; fuel: number; };
-  refresh: (data_: any) => void;
+  refresh: (data_?: any) => void;
   weapon: any;
   missionTarget: Control;
 
-  constructor(parentNode: number, glCanvas: GLCanvas){
+  constructor(parentNode: HTMLElement, glCanvas: GLCanvas){
     super(parentNode, 'div', 'overlay_panel', '', ()=>{
 
     });

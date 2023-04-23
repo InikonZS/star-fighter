@@ -2,7 +2,15 @@ import GameObject from './game-object.new';
 import Vector3d from '../vector3d.dev';
 
 class RenderableItem extends GameObject {
-  constructor(shaderVariables, meshPointer, matrix, color, maxVisibleDist){
+  meshPointer: { vertexList: string | any[]; };
+  shaderVariables: { colorUniVec4: WebGLUniformLocation; };
+  count: number;
+  color: { r: number; g: number; b: number; };
+  visible: boolean;
+  maxVisibleDistance: number;
+  pos_: Vector3d;
+
+  constructor(shaderVariables: { colorUniVec4: WebGLUniformLocation; }, meshPointer: { vertexList: string | any[]; }, matrix: number[], color: { r: number; g: number; b: number; }, maxVisibleDist: number){
     super();
     this.meshPointer = meshPointer;
     this.shaderVariables = shaderVariables;

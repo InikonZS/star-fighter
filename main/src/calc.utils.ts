@@ -1,5 +1,7 @@
 import Vector3d from './vector3d.dev';
 
+const m4 = (window as any).m4;
+
 export function radToDeg(r) {
   return r * 180 / Math.PI;
 }

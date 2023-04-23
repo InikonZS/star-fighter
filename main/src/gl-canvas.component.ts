@@ -8,7 +8,7 @@ import Timer from './engine/timer.new';
 
 import calc from './calc.utils';
 
-export default class GLCanvas extends Control{
+export default class GLCanvas extends Control<HTMLCanvasElement>{
   stWidth: number;
   stHeight: number;
   glContext: any;
@@ -22,7 +22,7 @@ export default class GLCanvas extends Control{
   fullScreenButton: Control;
   joyButton: Control;
   gamePanel: GamePanel;
-  sndPlayer: Control;
+  sndPlayer: Control<HTMLAudioElement>;
   sndButton: Control;
   sndAllow: boolean;
   overlay: Control;

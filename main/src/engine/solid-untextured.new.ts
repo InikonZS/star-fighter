@@ -2,9 +2,12 @@ import RenderableShaderList from './renderable-shader-list.new';
 import RenderableModelList from './renderable-model-list.new';
 import RenderableItem from './renderable-item.new';
 import { setBuffer } from '../gl-utils';
+import Vector3d from '../vector3d.dev';
 
 export class SolidUntexturedModelList extends RenderableModelList{
-  constructor(gl, shaderVariables, modelSource, preScaler){
+  shaderVariables: any;
+  
+  constructor(gl: WebGLRenderingContext, shaderVariables: any, modelSource: string, preScaler: number){
     super(gl, shaderVariables, modelSource, preScaler); 
     this.onRender = (gl, props)=>{
       setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
@@ -12,11 +15,11 @@ export class SolidUntexturedModelList extends RenderableModelList{
     }
   }
 
-  createStaticItem(matrix, color, maxVisibleDist){
+  createStaticItem(matrix: Array<number>, color: string, maxVisibleDist: number){
     return this.addChild(new RenderableItem(this.shaderVariables, this.mesh, matrix, color, maxVisibleDist));  
   }
 
-  createRotatingItem(position, sx, sy, sz, color){
+  createRotatingItem(position: Vector3d, sx: number, sy: number, sz: number, color: string){
     let el = this.addChild(new RenderableItem(this.shaderVariables, this.mesh, m4.identity(), color)); 
     el.position = position;
     el.sx = 0;
@@ -36,7 +39,7 @@ export class SolidUntexturedModelList extends RenderableModelList{
     return el;
   }
   
-  createMovingItem(posVector, speedVector, color){
+  createMovingItem(posVector: Vector3d, speedVector: Vector3d, color: string){
     let el = this.addChild(new RenderableItem(this.shaderVariables, this.mesh, m4.identity(), color));
     el.position = posVector.mul(1);
     el.speedVector = speedVector.mul(1);
@@ -51,15 +54,19 @@ export class SolidUntexturedModelList extends RenderableModelList{
 }
 
 export class SolidUntexturedShaderList extends RenderableShaderList{
-  constructor(gl, shaderUnit){
+  gl: WebGLRenderingContext;
+  constructor(gl: WebGLRenderingContext, shaderUnit: string){
     super(gl, shaderUnit);
     this.onRender = (gl, props)=>{
       shaderUnit.initShader(gl, this.shaderProgram, this.shaderVariables);
       gl.uniformMatrix4fv(this.shaderVariables.viewUniMat4, false, props.viewMatrix);
     }
   }
+  shaderVariables(gl: WebGLRenderingContext, shaderProgram: any, shaderVariables: any) {
+    throw new Error('Method not implemented.');
+  }
 
-  createModelList(modelSource, preScaler){
+  createModelList(modelSource: string, preScaler: number){
     return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource, preScaler));
   }
 }
