@@ -17,7 +17,7 @@
 .ngam_center{
   width: 100px;
   height: 100px;
-  background-image: url('./cross.png');
+  background-image: url('../assets/cross.png');
   background-size: 60px;
   background-position: center;
   background-repeat: no-repeat no-repeat;
