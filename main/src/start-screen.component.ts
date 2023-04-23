@@ -1,8 +1,11 @@
-const Control = require('./control-js/control.component.js');
-const calc = require('./calc.utils.js')
+import Control from './control-js/control.component.js';
+import calc from './calc.utils.js';
 
-class StartScreen extends Control{
-  constructor(parentNode, width, height, onClickStart){
+export class StartScreen extends Control{
+  startButton: Control;
+  loadingIndicator: Control;
+
+  constructor(parentNode: HTMLElement, width:number, height: number, onClickStart: ()=>void){
     super(parentNode, 'div', 'startBackground', '');
     this.refresh(width, height);
     /*this.node.style = `
@@ -15,7 +18,7 @@ class StartScreen extends Control{
     this.loadingIndicator = new Control(this.node, 'div', 'loadingIndicator', ' ');
   }
 
-  refresh(width, height){
+  refresh(width: number, height: number){
     this.node.style = `
       width:${width}px;
       height:${height}px;
@@ -23,5 +26,3 @@ class StartScreen extends Control{
     `;
   }
 }
-
-module.exports = StartScreen;

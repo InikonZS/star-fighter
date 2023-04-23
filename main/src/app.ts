@@ -1,11 +1,17 @@
-const GLCanvas = require('./gl-canvas.component.js');
-const Control = require('./control-js/control.component.js');
-const Loader = require('./res-loader.js');
-const SoundLoader = require('./sound-loader.js');
-const StartScreen = require('./start-screen.component.js');
+import GLCanvas from './gl-canvas.component.js';
+import Control from './control-js/control.component.js';
+import Loader from './res-loader.js';
+import SoundLoader from './sound-loader.js';
+import { StartScreen } from './start-screen.component';
 
-class App{
-  constructor(parentNode){
+export class App{
+  parentNode: HTMLElement;
+  stWidth: number;
+  stHeight: number;
+  startScreen: StartScreen;
+  glCanvas: any;
+
+  constructor(parentNode: HTMLElement){
     this.parentNode = parentNode;
     this.stWidth = 640;
     this.stHeight = 480;
@@ -68,7 +74,7 @@ class App{
     });
   }
 
-  loadApp(onLoad, onProgress){
+  loadApp(onLoad: ()=>void, onProgress:()=>void){
     let parentNode = this.parentNode;
     var sndLoader = new SoundLoader.Sounder(SoundLoader.soundConfig, ()=>{
       var loader = new Loader.ModelLoader(Loader.modelConfig, (res)=>{
@@ -87,5 +93,3 @@ class App{
     window.sndBase = sndLoader;  
   }
 }
-
-module.exports = {App};

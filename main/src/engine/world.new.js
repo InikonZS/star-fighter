@@ -146,7 +146,7 @@ class World{
     let chunkMesh = getChunked(gl, boxModel, 130, (i)=>{
       let sz = 50;
       let sc = 0.3
-      mtx = m4.identity();
+      let mtx = m4.identity();
       mtx = m4.translate(mtx, calc.rand(sz)-sz/2, calc.rand(sz)-sz/2, calc.rand(sz)-sz/2);
       mtx = m4.scale(mtx, sc, sc, sc);
       return mtx;
