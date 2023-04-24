@@ -17,7 +17,7 @@ export default class Control<T extends HTMLElement = HTMLElement> {
       this.node.className = classNameV;
       this.node.textContent = textContentV;
     } else {
-      this.node = parentNode;
+      this.node = parentNode as T;
       this.node.className = classNameV;
     }
 

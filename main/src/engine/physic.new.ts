@@ -39,12 +39,12 @@ class Physic{
     return res;
   }
 
-  hitMeshPoint(p, v){
+  hitMeshPoint(p: Vector3d, v: Vector3d){
     let b = p.addVector(v);
     return getNearest(p, this.crossByLine(p, b));
   }
 
-  mirrorVector(p, v){
+  mirrorVector(p: Vector3d, v: Vector3d){
     let b = p.addVector(v);
     let cpl = this.crossByLine(p, b);
     if (cpl.length){///reflection
@@ -55,7 +55,7 @@ class Physic{
     return false;
   }
 
-  isCrossedByTriangle(tr){
+  isCrossedByTriangle(tr: Triangle){
     for (let i = 0; i<this.triangles.length; i++){
       if (this.triangles[i].isCrossedByTriangle(tr)){
         return true;
@@ -63,7 +63,7 @@ class Physic{
     }  
   }
 
-  crossByTriangle(tr){
+  crossByTriangle(tr: Triangle){
     for (let i = 0; i<this.triangles.length; i++){
       if (this.triangles[i].isCrossedByTriangle(tr)){
         return tr;
@@ -71,7 +71,7 @@ class Physic{
     }  
   }
 
-  isCrossedByPhys(ms){
+  isCrossedByPhys(ms:Physic){
     for (let i = 0; i<ms.triangles.length; i++){
       if (this.isCrossedByTriangle(ms.triangles[i])){
         return true;
@@ -79,7 +79,7 @@ class Physic{
     }    
   }
 
-  crossByPhys(ms){
+  crossByPhys(ms: Physic){
     for (let i = 0; i<ms.triangles.length; i++){
       let tr = this.crossByTriangle(ms.triangles[i]);
       if (tr){
@@ -90,7 +90,7 @@ class Physic{
 }
 
 function getNearest(p: Vector3d, list: Array<{dv:Vector3d, triangle:Triangle}>){
-  let minit;
+  let minit: {dv:Vector3d, triangle:Triangle};
   let minlen = 9999999;
   let dist;
   list.forEach(it=>{
@@ -150,7 +150,7 @@ class Triangle{
     return {x: v1.x + h*nv.x, y: v1.y + h*nv.y, z: v1.z + h*nv.z}
   }
 
-  inTriangle(p){
+  inTriangle(p: Vector3d){
     if (p.subVector(this.center).abq()>this.prq) {return false;}
 
     let ap = this.a.subVector(p).abs();

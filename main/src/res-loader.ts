@@ -5,6 +5,8 @@ export interface IResourceRecord{
   url: string; 
   tex?: string; 
   class?: string;
+  ok?: boolean;
+  locURL?:string
 }
 
 export const modelConfig: {
@@ -178,7 +180,7 @@ export const modelConfig: {
 
 let counter = 0;
 
-export function getByName_(config, name){
+export function getByName_(config: { list: Array<IResourceRecord> }, name: string){
   let curName;
   for (let i = 0; i<config.list.length; i++){
     curName = config.list[i].name;
@@ -212,7 +214,7 @@ function loadModels(modelConfig:{
   });
 }
 
-function loadImages(modelConfig, onLoadedAll, onProgress){
+function loadImages(modelConfig: {list: Array<IResourceRecord>}, onLoadedAll: (data:{list: Array<IResourceRecord>})=>void, onProgress: ()=>void){
   //let max = modelConfig.list.length;
   let texCount = 0;
   modelConfig.list.forEach(it=>{

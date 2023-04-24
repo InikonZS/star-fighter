@@ -1,13 +1,20 @@
+import Mesh from "../mesh.object";
+import Vector3d from "d:/works/star-fighter/star-fighter/main/src/vector3d.dev";
+
 export default class GameObject{
+  hitTransformed(hitTransformed: any, pos: any, speedVectorSync: any) {
+    throw new Error('Method not implemented.');
+  }
   position: import("d:/works/star-fighter/star-fighter/main/src/vector3d.dev").default;
   sx: number;
   sy: number;
   sz: number;
-  matrix: any;
+  matrix: Array<number>;
   speedVector: import("d:/works/star-fighter/star-fighter/main/src/vector3d.dev").default;
-  hitPosition(hitPosition: any, lastPos: any, arg2: any, arg3: number) {
+  /*hitPosition(hitPosition: any, lastPos: any, arg2: any, arg3: number) {
     throw new Error('Method not implemented.');
-  }
+  }*/
+  hitPosition: Vector3d;
   childList: any[];
   isExists: boolean;
   reqFilter: boolean;
@@ -16,9 +23,9 @@ export default class GameObject{
   onReact: (gameObject: GameObject)=>void;
   parents: any[];
   onDelete: () => void;
-  mesh: any;
+  mesh: Mesh;
   texture: any;
-  shaderProgram: any;
+  shaderProgram: WebGLProgram;
   type: string;
   hitDist: number;
   physicList: any;
@@ -44,7 +51,7 @@ export default class GameObject{
         console.log('delbuffers');
       }
       if (this.texture){
-        app.glCanvas.glContext.deleteTexture(this.texture);
+        (window as any).app.glCanvas.glContext.deleteTexture(this.texture);
         console.log('deltex'); 
       } 
     }
@@ -63,7 +70,7 @@ export default class GameObject{
     });
   }
 
-  process(deltaTime: number, props:any ){
+  process(deltaTime: number, props?:any ){
   
     if (this.onProcess){
       this.onProcess(deltaTime, props);
@@ -130,7 +137,7 @@ export default class GameObject{
       console.log('delbuffers');
     }
     if (this.texture){
-      app.glCanvas.glContext.deleteTexture(this.texture);
+      (window as any).app.glCanvas.glContext.deleteTexture(this.texture);
       console.log('deltex'); 
     }
     if (this.shaderProgram){

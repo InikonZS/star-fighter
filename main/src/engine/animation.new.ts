@@ -1,7 +1,16 @@
 import calc from '../calc.utils';
 
 class Animation{
-  constructor(xmax, ymax, timeStep){
+  frame: number;
+  xmax: number;
+  ymax: number;
+  count: number;
+  time: number;
+  timeStep: number;
+  isFinished: boolean;
+  onFinished: (animation: Animation) => void;
+  
+  constructor(xmax: number, ymax: number, timeStep: number){
     //this.gl = gl;
     this.frame = 0;
     this.xmax = xmax;
@@ -20,7 +29,7 @@ class Animation{
     this.time = this.timeStep;
   }
 
-  render(gl, shaderVariables, deltaTime){
+  render(gl: WebGLRenderingContext, shaderVariables, deltaTime: number){
     gl.uniform4f(shaderVariables.posUniVec4, 
           1 / this.xmax,
           1 / this.ymax, 

@@ -2,6 +2,7 @@ import RenderableShaderList from './renderable-shader-list.new';
 import RenderableModelList from './renderable-model-list.new';
 import RenderableItem from './renderable-item.new';
 import { createTextureFromImg, setBuffer } from '../gl-utils';
+import { IShaderUnit } from './shaders/IShaderUnit';
 
 class ModelList extends RenderableModelList{
   constructor(gl: WebGLRenderingContext, shaderVariables: any, record: { source: string; texImage: any; }){
@@ -26,7 +27,7 @@ class ModelList extends RenderableModelList{
 }
 
 class ShaderList extends RenderableShaderList{
-  constructor(gl: WebGLRenderingContext, shaderUnit){
+  constructor(gl: WebGLRenderingContext, shaderUnit: IShaderUnit){
     super(gl, shaderUnit);
     this.onRender = (gl, props)=>{
       shaderUnit.initShader(gl, this.shaderProgram, this.shaderVariables);

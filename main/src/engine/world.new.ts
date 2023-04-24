@@ -9,7 +9,7 @@ import Vector3d from '../vector3d.dev';
 import solidUntexturedShaderUnit from './shaders/solid-untextured.shader';
 import { SolidUntexturedShaderList } from './solid-untextured.new';
 import solidTexturedShaderUnit from './shaders/solid-textured.shader';
-import { SolidTexturedShaderList } from './solid-textured.new';
+import { SolidTexturedModelList, SolidTexturedShaderList } from './solid-textured.new';
 import skyboxShaderUnit from './shaders/skybox.shader';
 import { SkyboxShaderList } from './skybox.new';
 import animatedShaderUnit from './shaders/ani-textured.shader';
@@ -17,6 +17,7 @@ import { AnimatedShaderList } from './ani-textured.new';
 
 import utils from '../any.utils';
 import Game from './game.new';
+import RenderableModelList from './renderable-model-list.new';
 
 class World{
   gl: WebGLRenderingContext;
@@ -30,29 +31,29 @@ class World{
   magicFogSpheres: any;
   bulPlasm: any;
   solidUntexturedShaderList: SolidUntexturedShaderList;
-  solidTexturedShaderList: SolidUntexturedShaderList;
+  solidTexturedShaderList: SolidTexturedShaderList;
   tun1: any[];
   tun2: any[];
-  meteModelList: any;
-  mercuryModelList: any;
-  marsModelList: any;
-  mete2ModelList: any;
-  neptuneModelList: any;
-  meteoriteModelList: any;
-  corridorModelList: any;
-  assaultModelList: any;
-  boxModelList: any;
-  selfModelLists: any[];
-  bigModelList: any;
-  shipLists: any[];
-  chunkList: any;
+  meteModelList: RenderableModelList;
+  mercuryModelList: RenderableModelList;
+  marsModelList: RenderableModelList;
+  mete2ModelList: RenderableModelList;
+  neptuneModelList: RenderableModelList;
+  meteoriteModelList: RenderableModelList;
+  corridorModelList: RenderableModelList;
+  assaultModelList: RenderableModelList;
+  boxModelList: SolidTexturedModelList;
+  selfModelLists: RenderableModelList[];
+  bigModelList: RenderableModelList;
+  shipLists: RenderableModelList[];
+  chunkList: RenderableModelList;
   graphicList: GameObject;
   physicsList: GameObject;
   bulletList: GameObject;
   breakableList: GameObject;
   objectList: GameObject;
   magicSpheres: any;
-  
+
   constructor(gl: WebGLRenderingContext, game: Game){
     
     //dynamic loaded res
@@ -148,7 +149,7 @@ class World{
     this.corridorModelList = this.solidTexturedShaderList.createModelList(corridorModel, 1);
     this.assaultModelList = this.solidTexturedShaderList.createModelList(assaultModel, 1);
 
-    this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel);
+    this.boxModelList = this.solidUntexturedShaderList.createModelList(boxModel) as SolidTexturedModelList;
    
    // this.tieModelList = this.solidUntexturedShaderList.createModelList(rocketModel);
    // this.rocketList = this.solidUntexturedShaderList.createModelList(rocketModel1);
@@ -238,7 +239,7 @@ class World{
     this.graphicList.render(this.gl, {viewMatrix, deltaTime, game:this.game});
   }
 
-  createExplosion (pos, scale){
+  createExplosion (pos: Vector3d, scale: number){
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
@@ -248,7 +249,7 @@ class World{
     }
   }
 
-  createMagic (pos, scale, single){
+  createMagic (pos: Vector3d, scale: number, single: boolean){
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
@@ -261,7 +262,7 @@ class World{
     return el;
   }
 
-  createMagicSphere (pos, scale, single){
+  createMagicSphere (pos: Vector3d, scale: number, single: boolean){
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
@@ -274,7 +275,7 @@ class World{
     return el;
   }
 
-  createFogMagicSphere (pos, scale, single){
+  createFogMagicSphere (pos: Vector3d, scale: number, single: boolean){
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
@@ -317,7 +318,7 @@ class World{
   }
   //////
 
-  createBreakable (pos, scale, color){
+  createBreakable (pos: Vector3d, scale: number, color){
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
     niMat = m4.scale(niMat, scale, scale, scale);
@@ -333,7 +334,7 @@ class World{
     return el;
   }
 
-  createSolid (pos, scale, color, bm){
+  createSolid (pos: Vector3d, scale: number, color, bm: boolean){
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
     niMat = m4.scale(niMat, scale, scale, scale);
@@ -353,7 +354,7 @@ class World{
     return el;
   }
 
-  createDanger (pos, scale, color){
+  createDanger (pos: Vector3d, scale: number, color: any){
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
     niMat = m4.scale(niMat, scale, scale, scale);

@@ -3,8 +3,14 @@ import RenderableModelList from './renderable-model-list.new';
 import RenderableItem from './renderable-item.new';
 import GameObject from './game-object.new';
 import { createTextureFromImg, setBuffer } from '../gl-utils';
+import Vector3d from '../vector3d.dev';
 
 class TexturedItem extends GameObject {
+  meshPointer: any;
+  shaderVariables: any;
+  count: number;
+  visible: boolean;
+  
   constructor(shaderVariables, meshPointer, matrix){
     super();
     this.meshPointer = meshPointer;
@@ -30,9 +36,9 @@ class TexturedItem extends GameObject {
   }
 }
 
-class SolidUntexturedModelList extends RenderableModelList{
+export class SolidTexturedModelList extends RenderableModelList{
  // constructor(gl, shaderVariables, modelSource, textureURL, preScaler){
-  constructor(gl, shaderVariables, record, preScaler){
+  constructor(gl: WebGLRenderingContext, shaderVariables: any, record: { source: string; texImage: any; }, preScaler: number){
     super(gl, shaderVariables, record.source, preScaler); 
     //GLUtils.createTexture(gl, textureURL, (tex)=>{this.texture = tex});
     createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
@@ -56,7 +62,7 @@ class SolidUntexturedModelList extends RenderableModelList{
     return this.addChild(new TexturedItem(this.shaderVariables, this.mesh, matrix, maxVisibleDist));  
   }
 
-  createRotatingItem(position, sx, sy, sz, color){
+  createRotatingItem(position: Vector3d, sx: number, sy: number, sz: number, color: { r: number; g: number; b: number; }){
     let el = this.addChild(new RenderableItem(this.shaderVariables, this.mesh, m4.identity(), color)); 
     el.position = position;
     el.sx = 0;
@@ -76,7 +82,7 @@ class SolidUntexturedModelList extends RenderableModelList{
     return el;
   }
   
-  createMovingItem(posVector, speedVector, color){
+  createMovingItem(posVector: Vector3d, speedVector: Vector3d, color: { r: number; g: number; b: number; }){
     let el = this.addChild(new RenderableItem(this.shaderVariables, this.mesh, m4.identity(), color));
     el.position = posVector.mul(1);
     el.speedVector = speedVector.mul(1);
@@ -90,8 +96,8 @@ class SolidUntexturedModelList extends RenderableModelList{
   }
 }
 
-class SolidUntexturedShaderList extends RenderableShaderList{
-  constructor(gl, shaderUnit){
+export class SolidTexturedShaderList extends RenderableShaderList{
+  constructor(gl: WebGLRenderingContext, shaderUnit){
     super(gl, shaderUnit);
     this.onRender = (gl, props)=>{
       shaderUnit.initShader(gl, this.shaderProgram, this.shaderVariables);
@@ -99,10 +105,10 @@ class SolidUntexturedShaderList extends RenderableShaderList{
     }
   }
 
-  createModelList(record, preScaler){
-    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, record, preScaler));
+  createModelList(record: { source: string; texImage: any; }, preScaler?: number){
+    return this.addChild(new SolidTexturedModelList(this.gl, this.shaderVariables, record, preScaler)) as SolidTexturedModelList;
   }
 }
 
-export const SolidTexturedShaderList = SolidUntexturedShaderList;
-export const SolidTexturedModelList = SolidUntexturedModelList;
+//export const SolidTexturedShaderList = SolidUntexturedShaderList;
+//export const SolidTexturedModelList = SolidUntexturedModelList;

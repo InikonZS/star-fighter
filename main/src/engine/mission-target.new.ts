@@ -1,9 +1,14 @@
 //const Control = require('../control-js/control.component.js');
 import calc from '../calc.utils';
 import GameObject from './game-object.new';
+import Game from './game.new';
 
 class Target extends GameObject{
-  constructor(game, text){
+  text: string;
+  status: string;
+  onChange: (status: string)=>void;
+
+  constructor(game: Game, text: string){
     super();
     this.text = text;
     this.status = 'pending';
@@ -17,7 +22,7 @@ class Target extends GameObject{
     }
   }
 
-  setText(text){
+  setText(text: string){
     this.text = text;
     if (this.onChange){
       this.onChange(this.status);
@@ -33,7 +38,10 @@ class Target extends GameObject{
 }
 
 class TargetList extends GameObject{
-  constructor(game){
+  game: any;
+  onChange: () => void;
+  onCompletedAll: any;
+  constructor(game: Game){
     super();
     this.game=game;
     this.onChange = () => {
@@ -41,7 +49,7 @@ class TargetList extends GameObject{
     };
   }
 
-  addTarget(text){
+  addTarget(text: string){
     let target = new Target(this.game, text);
     target.onChange = (status) =>{
       if (status == 'completed'){

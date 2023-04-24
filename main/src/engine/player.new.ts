@@ -33,7 +33,7 @@ class Player extends GameObject {
   currentWeaponIndex: number;
   refTimer: Timer;
   envTimer: Timer;
-  
+
   constructor(gl: WebGLRenderingContext, game: Game, keyStates: Record<string, boolean>){
     super();
     this.game = game;
@@ -244,7 +244,7 @@ class Player extends GameObject {
     this.weapons.forEach(it=>it.render(deltaTime)); 
   }
 
-  shot(weaponIndex){
+  shot(weaponIndex: number){
 
     //if (this.bullets>0){
       if (this.weapons[weaponIndex].shot(this.camera.getPosVector().subVector(this.camera.getCamNormal().mul(2.10)), 
@@ -259,7 +259,7 @@ class Player extends GameObject {
     //}
   }
   
-  shieldActivate(deltaTime){
+  shieldActivate(deltaTime: number){
     if (this.shieldEnergy>0){
       this.shieldModel.visible = true;
       //console.log(this.shieldTime);
@@ -278,7 +278,7 @@ class Player extends GameObject {
     }
   }
 
-  shieldCharge(deltaTime){
+  shieldCharge(deltaTime:number){
     if (this.shieldEnergy<100){
       if (calc.isTimeout(this.shieldTime)){
         this.shieldEnergy+=0.2;
@@ -301,7 +301,7 @@ class Player extends GameObject {
   }
 }
 
-function makeHitBox(gameObject, scale_, onHit){
+function makeHitBox(gameObject:GameObject, scale_: number, onHit: ()=>void){
   let hitbox = gameObject.game.world.createBreakable(gameObject.camera.getPosVector(), scale_);
   hitbox.type = 'object';
   hitbox.visible = false;
@@ -323,7 +323,7 @@ function makeHitBox(gameObject, scale_, onHit){
   return hitbox;
 }
 
-function starChunk(game, center, size, count){
+function starChunk(game: Game, center: Vector3d, size: number, count: number){
   for (let i=0; i<count; i++){
     
     let a = new Vector3d(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5);
@@ -353,7 +353,7 @@ function starChunk(game, center, size, count){
   }  
 }
 
-function incLim(val, inc, lim){
+function incLim(val: number, inc: number, lim: number){
   let nv = val+=inc;
   return nv < lim ? nv : lim;
 }

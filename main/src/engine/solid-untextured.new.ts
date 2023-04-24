@@ -6,7 +6,7 @@ import Vector3d from '../vector3d.dev';
 
 export class SolidUntexturedModelList extends RenderableModelList{
   shaderVariables: any;
-  
+
   constructor(gl: WebGLRenderingContext, shaderVariables: any, modelSource: string, preScaler: number){
     super(gl, shaderVariables, modelSource, preScaler); 
     this.onRender = (gl, props)=>{
@@ -55,18 +55,19 @@ export class SolidUntexturedModelList extends RenderableModelList{
 
 export class SolidUntexturedShaderList extends RenderableShaderList{
   gl: WebGLRenderingContext;
-  constructor(gl: WebGLRenderingContext, shaderUnit: string){
+  shaderVariables: {
+    viewUniMat4: any
+  }
+  constructor(gl: WebGLRenderingContext, shaderUnit: IShaderUnit){
     super(gl, shaderUnit);
     this.onRender = (gl, props)=>{
       shaderUnit.initShader(gl, this.shaderProgram, this.shaderVariables);
       gl.uniformMatrix4fv(this.shaderVariables.viewUniMat4, false, props.viewMatrix);
     }
   }
-  shaderVariables(gl: WebGLRenderingContext, shaderProgram: any, shaderVariables: any) {
-    throw new Error('Method not implemented.');
-  }
+  
 
-  createModelList(modelSource: string, preScaler: number){
-    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource, preScaler));
+  createModelList(modelSource: string, preScaler?: number): RenderableModelList{
+    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource, preScaler)) as RenderableModelList;
   }
 }

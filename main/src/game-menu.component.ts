@@ -68,11 +68,11 @@ class GameMenu extends Control{
     });
     this.optionMouseSense = new Control<HTMLInputElement>(this.optionsMenu.node, 'input', 'menu_item');
     this.optionMouseSense.node.type = 'range';
-    this.optionMouseSense.node.min=1;
-    this.optionMouseSense.node.max=100;
-    this.optionMouseSense.node.value = curOptions.mouseSens;
+    this.optionMouseSense.node.min=1..toString();
+    this.optionMouseSense.node.max=100..toString();
+    this.optionMouseSense.node.value = curOptions.mouseSens.toString();
     this.optionMouseSense.node.addEventListener('change', (e)=>{
-      curOptions.mouseSens = this.optionMouseSense.node.value;
+      curOptions.mouseSens = Number(this.optionMouseSense.node.value);
     })
 
     new Control(this.optionsMenu.node, 'div', 'menu_item', 'to main menu',()=>{

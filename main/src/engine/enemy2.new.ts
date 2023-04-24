@@ -10,9 +10,34 @@ import Message from './point-msg.new';
 
 const rand = calc.rand;
 import anyutils from '../any.utils.js';
+import Game from './game.new';
 
 class Enemy extends GameObject{
-  constructor(gl, game, startPoint, speedVector, modelList, extLogic){
+  MAX_SPEED: number;
+  ACCELARATION: number;
+  FRICTION: number;
+  TORQUE: number;
+  RADIAL_FRICTION: number;
+  THETA_VAL: number;
+  extLogic: any;
+  gl: WebGLRenderingContext;
+  game: Game;
+  pos: Vector3d;
+  v: Vector3d;
+  weapon: Weapon;
+  nv: Vector3d;
+  aziV: Vector3d;
+  azi: Vector3d;
+  atackObject: any;
+  atackList: any[];
+  msgPref: string;
+  msg: Message;
+  model: any;
+  hitbox: any;
+  onKilled: any;
+  speedVectorSync: any;
+  atack: boolean;
+  constructor(gl: WebGLRenderingContext, game: Game, startPoint: Vector3d, speedVector: Vector3d, modelList, extLogic){
     super();
     this.MAX_SPEED = 55;
     this.ACCELARATION = 5;
@@ -111,7 +136,7 @@ class Enemy extends GameObject{
  //   this.model.deleteBuffers();
  // }
 
-  render_( deltaTime){
+  render_( deltaTime: number){
     if (this.extLogic){
       this.extLogic(this);
     } else {
@@ -134,12 +159,12 @@ class Enemy extends GameObject{
     this.weapon.shot(startPoint, targetPoint, this.game.player.camera.getPosVector());  ////
   }
 
-  accelerate(deltaTime){
+  accelerate(deltaTime: number){
     this.v.subVector(this.nv.normalize().mul(deltaTime * this.ACCELARATION), true);
     if (this.v.abs()>this.MAX_SPEED){this.v = this.v.normalize().mul(this.MAX_SPEED);}
   }
 
-  directTo(dir, deltaTime){
+  directTo(dir: Vector3d, deltaTime: number){
     let orta = toPolar3d(dir);
     let az = azimutDifference(orta.x, this.azi.x);
     az = az>0 ? 1 : -1;  
@@ -166,7 +191,7 @@ class Enemy extends GameObject{
     }
   }*/
 
-  logic(playerPosition, playerSpeed, deltaTime){
+  logic(playerPosition: Vector3d, playerSpeed: Vector3d, deltaTime: number){
     let dir;
     if (this.atack){
       if (this.pos.subVector(playerPosition).abs()>30){
@@ -213,7 +238,7 @@ class Enemy extends GameObject{
   }
 }
 
-function polarToMatrix(point, azimuth, theta){
+function polarToMatrix(point: Vector3d, azimuth: number, theta: number){
   let mt = m4.identity();
   mt = m4.translate(mt, point.x, point.y, point.z);
   mt = m4.zRotate(mt, azimuth+Math.PI/2);
@@ -222,7 +247,7 @@ function polarToMatrix(point, azimuth, theta){
   return mt;
 }
 
-function azimutDifference(a, b){
+function azimutDifference(a: number, b: number){
   let da = a - b;
   let daOver = a - b + Math.PI*2;
   if (Math.abs(da) < Math.abs(daOver)){
@@ -232,16 +257,16 @@ function azimutDifference(a, b){
   }
 }
 
-function getAngleBetweenVectors(a, b){
+function getAngleBetweenVectors(a: Vector3d, b: Vector3d){
   return Math.acos(a.dot(b)/(a.abs()*b.abs()));
 }
 
-function toPolar3d(v){
+function toPolar3d(v: Vector3d){
   if (!v){v=new Vector3d(0,0,1);}
   return new Vector3d(Math.atan2(v.y, v.x), Math.acos(v.z/v.abs()), 0);
 }
 
-function toDecart(azi){
+function toDecart(azi: Vector3d){
   return new Vector3d(Math.sin(azi.y)*Math.cos(azi.x), Math.sin(azi.y)*Math.sin(azi.x), Math.cos(azi.y));
 }
 

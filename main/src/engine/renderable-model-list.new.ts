@@ -5,8 +5,8 @@ import GLUtils from '../gl-utils';
 
 class RenderableModelList extends GameObject {
   shaderVariables: any;
-  
-  constructor(gl: WebGLRenderingContext, shaderVariables: any, modelSource: string, preScaler: number){
+
+  constructor(gl: WebGLRenderingContext, shaderVariables: any, modelSource: string, preScaler?: number){
     super();
     this.shaderVariables = shaderVariables;
     this.mesh = new Mesh(gl);

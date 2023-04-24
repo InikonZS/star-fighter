@@ -1,14 +1,16 @@
 import calc from './calc.utils';
 
+type IVector = {x: number, y: number, z: number};
+
 export function getModList(oob: string, genOwnNormal: boolean, preScaler=1){
   let vreg=/[ \t]+/;
   let oreg=/[\n]+/;
 
   let arr = oob.split(oreg);
 
-  let vertexList = [];
-  let vertexListUV =[];
-  let vertexListNorm =[];
+  let vertexList: Array<IVector> = [];
+  let vertexListUV: Array<{u:number, v: number}> =[];
+  let vertexListNorm: Array<IVector> =[];
 
   let texList = [];
   let triangleList =[];
@@ -35,19 +37,19 @@ export function getModList(oob: string, genOwnNormal: boolean, preScaler=1){
       case 'f':
         for (let j=1; j<4; j++){
           let spj = spl[j].split('/');
-          let sp = spj[0]-1;
+          let sp = Number(spj[0])-1;
           triangleList.push(vertexList[sp].x/10);
           triangleList.push(vertexList[sp].y/10);
           triangleList.push(vertexList[sp].z/10);
 
-          sp = spj[1]-1;
+          sp = Number(spj[1])-1;
           if (vertexListUV[sp]){
             texList.push(vertexListUV[sp].u*preScaler);
             texList.push(1-vertexListUV[sp].v*preScaler);
           }
 
           if (!genOwnNormal){
-            sp = spj[2]-1;
+            sp = Number(spj[2])-1;
             if (vertexListNorm[sp]){
               normalList.push(vertexListNorm[sp].x);
               normalList.push(vertexListNorm[sp].y);

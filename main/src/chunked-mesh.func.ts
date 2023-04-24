@@ -5,9 +5,9 @@ import Mesh from './mesh.object';
 function makeChunkedMesh (gl: WebGLRenderingContext, modelSource: string, count: number, matrixFunction){
   let inputModel = new Mesh(gl);
   inputModel.loadFromSource(modelSource);
-  let outVertexList = [];
-  let outNormalList = [];
-  let outTexList = [];
+  let outVertexList: Array<number> = [];
+  let outNormalList: Array<number> = [];
+  let outTexList: Array<number> = [];
 
   let rand = _rand;
   let mtx;

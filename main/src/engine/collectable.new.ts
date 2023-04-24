@@ -7,9 +7,12 @@ import Message from './point-msg.new';
 
 const rand = calc.rand;
 import anyutils from '../any.utils';
+import Game from './game.new';
 
 class Collectable extends GameObject{
-  constructor(game, startPoint, type , count){
+  game: Game;
+  
+  constructor(game: Game, startPoint: Vector3d, type: string , count?: number){
     super();
     this.game = game;
     if (type == 'bullets'){

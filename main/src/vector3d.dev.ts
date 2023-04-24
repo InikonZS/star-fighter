@@ -11,7 +11,7 @@ class Vector3d{
     this.z = z;
   }
 
-  sub(x: number, y: number, z: number, self: Vector3d){
+  sub(x: number, y: number, z: number, self?: boolean){
     if (self){
       this.x -= x;  
       this.y -= y; 
@@ -41,7 +41,7 @@ class Vector3d{
     return new Vector3d(this.x+x, this.y+y, this.z+z);
   }
 
-  addVector(v: Vector3d, self: Vector3d){
+  addVector(v: Vector3d, self?: boolean){
     if (self){
       this.x += v.x;  
       this.y += v.y; 
@@ -51,7 +51,7 @@ class Vector3d{
     return new Vector3d(this.x+v.x, this.y+v.y, this.z+v.z); 
   }
 
-  mul(c: number, self: Vector3d){
+  mul(c: number, self?: boolean){
     if (self){
       this.x *= c;  
       this.y *= c; 

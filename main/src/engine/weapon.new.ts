@@ -1,10 +1,22 @@
 //const Vector3d = require('./vector3d.dev.js');
 import Utils from '../any.utils';
 import calc from '../calc.utils';
+import Vector3d from '../vector3d.dev';
 import bulletMaker from './bullet.gmob';
+import World from './world.new';
 
 class Weapon{
-  constructor(world, shotTime, bulletLifeTime, bulletSpeed, soundClass, name='gun', bulletCount=100, damage){
+  weaponName: string;
+  bulletCount: number;
+  damage: number;
+  initialShotTime: number;
+  shotTime: number;
+  bulletLifeTime: number;
+  bulletSpeed: number;
+  world: World;
+  sndClass: string;
+  
+  constructor(world: World, shotTime: number, bulletLifeTime: number, bulletSpeed: number, soundClass: string, name='gun', bulletCount=100, damage: number){
     this.weaponName = name;
     this.bulletCount = bulletCount;
 
@@ -20,8 +32,8 @@ class Weapon{
     //}
     this.sndClass = soundClass;
   }
-  shot(point, direction, playerPos){
-    
+
+  shot(point: Vector3d, direction: Vector3d, playerPos: Vector3d){
 
     if (calc.isTimeout(this.shotTime)){
     if (this.bulletCount<=0){return;}
@@ -65,11 +77,11 @@ class Weapon{
     return false;
   }
 
-  shotTo(gl, bulletList, pointA, pointB, playerPos){
+  shotTo(gl: Vector3d, bulletList: Vector3d, pointA: Vector3d, pointB: Vector3d, playerPos: Vector3d){
     return this.shot(gl, bulletList, pointA, pointB.subVector(pointA).normalize(), playerPos);
   }
 
-  render(deltaTime){
+  render(deltaTime: number){
     this.shotTime-=deltaTime;
   }
 }

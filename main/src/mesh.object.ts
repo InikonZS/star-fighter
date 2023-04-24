@@ -29,7 +29,7 @@ class Mesh{
     return this;
   }
 
-  loadFromLists(vertexList: Array<Array<number>>, normalList: Array<Array<number>>, texList: Array<Array<number>>){
+  loadFromLists(vertexList: Array<number>, normalList: Array<number>, texList: Array<number>){
     this.vertexList = vertexList;
     this.normalList = normalList;
     this.texList = texList;
@@ -38,7 +38,7 @@ class Mesh{
     return this;
   }
 
-  getTransformedMesh(matrix){ //bad it eats much memory
+  getTransformedMesh(matrix: Array<number>){ //bad it eats much memory
     let mesh = new Mesh(this.gl);
     let newVertexList = calc.transformVertexList(this.vertexList, matrix);
     let trMatrix = m4.transpose(matrix);
@@ -46,7 +46,7 @@ class Mesh{
     return mesh.loadFromLists(newVertexList, newNormList, this.texList);  
   }
 
-  getTransformedVertexList(matrix){
+  getTransformedVertexList(matrix: Array<number>){
     return calc.transformVertexList(this.vertexList, matrix);
   }
 
@@ -69,7 +69,7 @@ class Mesh{
   }
 }
 
-function getMaxDistance(vertexList: Array<Array<number>>){
+function getMaxDistance(vertexList: Array<number>){
   let max = 0;
   for (let i=0; i<vertexList.length; i+=3){
     let v = new Vector3d(vertexList[i+0], vertexList[i+1], vertexList[i+2]);
@@ -81,7 +81,7 @@ function getMaxDistance(vertexList: Array<Array<number>>){
   return max;
 }
 
-function getCenter(vertexList: Array<Array<number>>){
+function getCenter(vertexList: Array<number>){
   let res;
   for (let i=0; i<vertexList.length; i+=3){
     let v = new Vector3d(vertexList[i+0], vertexList[i+1], vertexList[i+2]);

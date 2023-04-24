@@ -1,7 +1,7 @@
 import BarIndicator from './bar-indicator.component';
 
 class BarIndicatorCustomized extends BarIndicator{
-  constructor (parentNode, value, demiValue){
+  constructor (parentNode: HTMLElement, value: number, demiValue: number){
     super(
       parentNode, 
       24, 
@@ -13,7 +13,7 @@ class BarIndicatorCustomized extends BarIndicator{
     this.setValue(value, demiValue);
   }
 
-  setPercent(percent){
+  setPercent(percent: number){
     let val = Math.ceil((percent/100)*this.maxValue);
     this.setValue(val, val);
   }

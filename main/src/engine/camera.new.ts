@@ -1,8 +1,29 @@
 import Vector3d from '../vector3d.dev';
+import World from './world.new';
 
+type IMatrix4 =  Array<number>;
 
 class Camera{
-  constructor(world, keyboardState){
+  keyboardState: Record<string, boolean>;
+  dmat: IMatrix4;
+  lmat: IMatrix4;
+  posX: number;
+  posY: number;
+  posZ: number;
+  vX: number;
+  vY: number;
+  vZ: number;
+  camRX: number;
+  camRY: number;
+  camRZ: number;
+  roX: number;
+  roY: number;
+  crn: number;
+  acl: number;
+  moc: boolean;
+  dt: number;
+  lastPos: Vector3d;
+  constructor(world: World, keyboardState: Record<string, boolean>){
     this.keyboardState = keyboardState;
     //this.tmat = m4.identity();
     this.dmat = m4.identity();
@@ -15,13 +36,13 @@ class Camera{
     return new Vector3d(-this.vX, -this.vY, -this.vZ);
   }
 
-  setSpeedVector(v){
+  setSpeedVector(v: Vector3d){
     this.vX=-v.x;
     this.vY=-v.y;
     this.vZ=-v.z;
   }
 
-  applySpeed(spd){
+  applySpeed(spd: Vector3d){
     let cam = this;
     cam.posX+=spd.x;
     cam.posY+=spd.y;
@@ -66,7 +87,7 @@ class Camera{
     this.moc=false;
   }
 
-  rotateCam(dx, dy, shoter=false){
+  rotateCam(dx: number, dy: number, shoter=false){
     if (shoter){
       this.camRX += (dx / 200);
       this.camRY += (dy / 200);  
@@ -81,7 +102,7 @@ class Camera{
     }
   }
 
-  process(deltaTime){
+  process(deltaTime: number){
     this.dt = deltaTime;
     
     let k=4;
@@ -191,7 +212,7 @@ class Camera{
   }
 }
 
-function trueVolumeCamera(cam, moveSpeed, deltaTime, accv){
+function trueVolumeCamera(cam: Camera, moveSpeed: number, deltaTime: number, accv: number[]){
   let nvv =accv;
   let matrix = camRotMatrix(cam);
   matrix = m4.inverse(matrix);
@@ -203,7 +224,7 @@ function trueVolumeCamera(cam, moveSpeed, deltaTime, accv){
   return new Vector3d(-nv.x, -nv.y, -nv.z);
 }
 
-function getCameraNormal(cam, ax){
+function getCameraNormal(cam: Camera, ax?: number){
   let nvv =[0,0,1,0];
 
   if (ax == 1){
@@ -223,7 +244,7 @@ function getCameraNormal(cam, ax){
 
 
 let slowCam = !true;
-function getCameraSelfMatrix(cam){
+function getCameraSelfMatrix(cam: Camera){
   let nvc = cam.getPosVector().addVector(cam.getCamNormal().mul(-1));
   let mmt = m4.identity();//m4.translate(cam.tmat,0,0,0);
 
@@ -246,7 +267,7 @@ function getCameraSelfMatrix(cam){
   return mts;
 }
 
-function camRotMatrix(cam){
+function camRotMatrix(cam: Camera){
   let matrix = m4.identity();
   matrix = m4.xRotate(matrix, cam.camRY);
   matrix = m4.yRotate(matrix, cam.camRZ);

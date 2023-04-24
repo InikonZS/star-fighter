@@ -5,7 +5,13 @@ import Animation from './animation.new';
 import { createTextureFromImg, setBuffer } from '../gl-utils';
 
 class AnimatedTextureItem extends GameObject {
-  constructor(shaderVariables, meshPointer, matrix, xmax, ymax, timeStep){
+  meshPointer: any;
+  shaderVariables: any;
+  count: number;
+  animation: Animation;
+  visible: boolean;
+  
+  constructor(shaderVariables, meshPointer, matrix: number[], xmax: number, ymax: number, timeStep: number){
     super();
     this.meshPointer = meshPointer;
     this.shaderVariables = shaderVariables;
@@ -27,7 +33,7 @@ class AnimatedTextureItem extends GameObject {
 
 
 class ModelList extends RenderableModelList{
-  constructor(gl, shaderVariables, record){
+  constructor(gl: WebGLRenderingContext, shaderVariables: any, record: { source: string; texImage: HTMLImageElement; }){
     super(gl, shaderVariables, record.source); 
     //GLUtils.createTexture(gl, record.textureURL, (tex)=>{this.texture = tex});
     createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
@@ -44,13 +50,13 @@ class ModelList extends RenderableModelList{
     }*/
   }
 
-  createStaticItem(matrix, xmax, ymax, timeStep){
+  createStaticItem(matrix: Array<number>, xmax: number, ymax: number, timeStep: number){
     return this.addChild(new AnimatedTextureItem(this.shaderVariables, this.mesh, matrix, xmax, ymax, timeStep));  
   }
 }
 
 class ShaderList extends RenderableShaderList{
-  constructor(gl, shaderUnit){
+  constructor(gl: WebGLRenderingContext, shaderUnit){
     super(gl, shaderUnit);
     this.onRender = (gl, props)=>{
       shaderUnit.initShader(gl, this.shaderProgram, this.shaderVariables);
@@ -58,7 +64,7 @@ class ShaderList extends RenderableShaderList{
     }
   }
 
-  createModelList(record){
+  createModelList(record: { source: string; texImage: HTMLImageElement; }){
     return this.addChild(new ModelList(this.gl, this.shaderVariables, record));
   }
 }

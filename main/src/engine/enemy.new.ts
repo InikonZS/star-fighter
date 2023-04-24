@@ -10,9 +10,32 @@ import Message from './point-msg.new';
 
 const rand = calc.rand;
 import anyutils from '../any.utils';
+import Game from './game.new';
 
 class Enemy extends GameObject{
-  constructor(gl, game, startPoint, speedVector, modelList, extLogic){
+  MAX_SPEED: number;
+  ACCELARATION: number;
+  FRICTION: number;
+  TORQUE: number;
+  RADIAL_FRICTION: number;
+  THETA_VAL: number;
+  extLogic: any;
+  gl: WebGLRenderingContext;
+  game: Game;
+  pos: Vector3d;
+  v: Vector3d;
+  weapon: Weapon;
+  nv: Vector3d;
+  aziV: Vector3d;
+  azi: Vector3d;
+  msg: Message;
+  model: any;
+  hitbox: any;
+  onKilled: ()=>void;
+  speedVectorSync: Vector3d;
+  atack: boolean;
+
+  constructor(gl: WebGLRenderingContext, game:Game, startPoint: Vector3d, speedVector: Vector3d, modelList, extLogic){
     super();
     this.MAX_SPEED = 55;
     this.ACCELARATION = 5;

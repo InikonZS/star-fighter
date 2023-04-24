@@ -3,7 +3,10 @@ import calc from '../calc.utils';
 import GameObject from './game-object.new';
 
 class Timer extends GameObject{
-  constructor(interval, onTimeout){
+  interval: number;
+  counter: number;
+  
+  constructor(interval: number, onTimeout: ()=> void){
     super();
     this.interval = interval;
     this.counter = interval;

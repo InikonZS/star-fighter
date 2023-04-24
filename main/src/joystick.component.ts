@@ -254,7 +254,14 @@ class TouchPad extends Control{
   }
 }
 
-function inBox(x: number, y: number, rect){
+interface IRect{
+  top: number,
+  left: number,
+  bottom: number,
+  right: number
+}
+
+function inBox(x: number, y: number, rect: IRect){
   return (
     y>rect.top &&
     x>rect.left &&

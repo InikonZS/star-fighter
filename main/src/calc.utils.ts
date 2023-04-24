@@ -2,15 +2,15 @@ import Vector3d from './vector3d.dev';
 
 const m4 = (window as any).m4;
 
-export function radToDeg(r) {
+export function radToDeg(r: number) {
   return r * 180 / Math.PI;
 }
 
-export function degToRad(d) {
+export function degToRad(d: number) {
   return d * Math.PI / 180;
 }
 
-export function rand(lim){
+export function rand(lim: number){
   return Math.trunc(Math.random()*lim);
 }
 
@@ -24,12 +24,12 @@ export function makeCameraMatrix1(aspect, rx, ry, rz, px, py, pz){
   return matrix;
 }
 
-export function makeCameraMatrix(aspect, mv){
+export function makeCameraMatrix(aspect: number, mv){
   let matrix = m4.perspective(1, aspect, 0.1, 2000); 
   return m4.multiply(matrix, mv);
 }
 
-export function getNormal(u, v, w){
+export function getNormal(u: { x: number; y: number; z: number; }, v: { x: number; y: number; z: number; }, w: { x: number; y: number; z: number; }){
   let nv = {x: v.x-u.x, y: v.y-u.y, z: v.z-u.z}  
   let nw = {x: w.x-u.x, y: w.y-u.y, z: w.z-u.z}  
   let n = {x: nv.y*nw.z - nv.z*nw.y, y: nv.z * nw.x - nv.x * nw.z, z: nv.x * nw.y - nv.y * nw.x}
@@ -37,12 +37,12 @@ export function getNormal(u, v, w){
   return {x: n.x/d, y: n.y/d, z: n.z/d}
 }
 
-export function getValueD(v, n){
+export function getValueD(v: { x: number; y: number; z: number; }, n: { x: any; y: any; z: any; }){
   let d = -(v.x*n.x + v.y*n.y + v.z*n.z);
   return d;
 }
 
-export function solveLinear(v1, v2, u, v, w){
+export function solveLinear(v1: Vector3d, v2: Vector3d, u: Vector3d, v: Vector3d, w: Vector3d){
   let n = getNormal (u, v, w);
   let d = getValueD(u, n);
   let nv = {x: v1.x-v2.x, y: v1.y-v2.y, z: v1.z-v2.z};
@@ -50,7 +50,7 @@ export function solveLinear(v1, v2, u, v, w){
   return {x: v1.x + h*nv.x, y: v1.y + h*nv.y, z: v1.z + h*nv.z}
 }
 
-export function getMatrixProduct(m1, m2) {
+export function getMatrixProduct(m1: number[][], m2: number[][]) {
   const res = [];
   const resl = m1.length;
   for (let i = 0; i < m1.length; i += 1) {
@@ -67,12 +67,12 @@ export function getMatrixProduct(m1, m2) {
   return res;
 }
 
-export function vecMul(a, b){
+export function vecMul(a:Vector3d, b:Vector3d){
   let vm = (a.y*b.z - a.z*b.y, a.z*b.x - a.x*b.z, a.x*b.y - a.y*b.x);
   return vm;
 }
 
-export function inTriangle(a, b, c, p){
+export function inTriangle(a:Vector3d, b:Vector3d, c:Vector3d, p:Vector3d){
   let al = a.subVector(b).abs();
   let bl = b.subVector(c).abs();
   let cl = c.subVector(a).abs();
@@ -92,14 +92,14 @@ export function inTriangle(a, b, c, p){
   return (sa+sb+sc)<=(s+0.00001);
 }
 
-export function onLine(a, b, p){
+export function onLine(a:Vector3d, b:Vector3d, p:Vector3d){
   let al = a.subVector(b).abs();
   let ap = a.subVector(p).abs();  
   let bp = b.subVector(p).abs();
   return (ap+bp)<=(al+0.00001);
 }
 
-export function lineCrossTriangle(a, b, u, v, w){
+export function lineCrossTriangle(a:Vector3d, b:Vector3d, u:Vector3d, v:Vector3d, w:Vector3d){
   let res;
   let dv = solveLinear(a, b, u, v, w);
   let dVector = new Vector3d(dv.x, dv.y, dv.z);
@@ -111,7 +111,7 @@ export function lineCrossTriangle(a, b, u, v, w){
   return res;
 }
 
-export function transformVertexList(vertexList, matrix){
+export function transformVertexList(vertexList:Array<number>, matrix: Array<number>){
   let ot =[];
   let mtx = matFromM4(matrix);
   for (let i=0; i<vertexList.length/3; i++){
@@ -124,7 +124,7 @@ export function transformVertexList(vertexList, matrix){
   return ot;  
 }
 
-export function crossMeshByLine(vertexList, lineVectorA, lineVectorB){
+export function crossMeshByLine(vertexList:Array<number>, lineVectorA:Vector3d, lineVectorB:Vector3d){
   let res =[];
   for (let i=0; i<vertexList.length; i+=9){
     let v=[];
@@ -139,7 +139,7 @@ export function crossMeshByLine(vertexList, lineVectorA, lineVectorB){
   return res;
 }
 
-export function crossMeshByLineT(vertexList, lineVectorA, lineVectorB){
+export function crossMeshByLineT(vertexList:Array<number>, lineVectorA:Vector3d, lineVectorB:Vector3d){
   let res =[];
   for (let i=0; i<vertexList.length; i+=9){
     let v=[];
@@ -154,7 +154,7 @@ export function crossMeshByLineT(vertexList, lineVectorA, lineVectorB){
   return res;
 }
 
-export function mirrorVectorFromMesh(vertexList, p, v){ //abs of result differents
+export function mirrorVectorFromMesh(vertexList: Array<number>, p: Vector3d, v:Vector3d){ //abs of result differents
   let b = p.addVector(v);
   let cpl = crossMeshByLineT(vertexList,p,b);
   if (cpl.length){///reflection
@@ -167,7 +167,7 @@ export function mirrorVectorFromMesh(vertexList, p, v){ //abs of result differen
   return false;
 }
 
-export function getNearest(point, list){
+export function getNearest(point: Vector3d, list: Array<{dv: Vector3d}>){
   let minit;
   let minlen = 999999;
   let p = new Vector3d(point.x, point.y, point.z);
@@ -182,7 +182,7 @@ export function getNearest(point, list){
   return minit;
 }
 
-export function hitMeshPoint(vertexList, p, v){
+export function hitMeshPoint(vertexList: Array<number>, p: Vector3d, v: Vector3d){
   let b = p.addVector(v);
   let cpl = crossMeshByLineT(vertexList,p,b);
   if (cpl.length){
@@ -192,7 +192,7 @@ export function hitMeshPoint(vertexList, p, v){
   return false;
 }
 
-export function isCrossedMeshByLine(vertexList, lineVectorA, lineVectorB){
+export function isCrossedMeshByLine(vertexList: Array<number>, lineVectorA: Vector3d, lineVectorB: Vector3d){
   let res =[];
   for (let i=0; i<vertexList.length; i+=9){
     let v=[];
@@ -205,12 +205,12 @@ export function isCrossedMeshByLine(vertexList, lineVectorA, lineVectorB){
   return false;
 }
 
-export function isCrossedSimple(pos, a, v, d){
+export function isCrossedSimple(pos: Vector3d, a:Vector3d, v: Vector3d, d: number){
   if (!v){return false;}
   return (pos.subVector(a).abs()<(v.abs()+d));
 }
 
-export function matFromM4(m){
+export function matFromM4(m: Array<number>){
   let res = [];
   for (let i=0; i<4; i++){
     //res.push([m[i*4+0],m[i*4+1],m[i*4+2],m[i*4+3]]);
@@ -219,7 +219,7 @@ export function matFromM4(m){
   return res;
 }
 
-export function makeRGBA(color){
+export function makeRGBA(color:string){
   let result = {r:rand(255), g:rand(255), b: rand(255), a:255};
   if (color!==undefined){
     let num = Number.parseInt('0x'+color);
@@ -255,12 +255,12 @@ export function makeRGBA(color){
   return result;
 }
 
-export function makeNormRGBA(color){
+export function makeNormRGBA(color: string){
   let res = makeRGBA(color);
   return {r:res.r/255, g:res.g/255, b:res.b/255, a:res.a/255}
 }
 
-export function getMaxDistance(vertexList){
+export function getMaxDistance(vertexList: Array<number>){
   let max = 0;
   for (let i=0; i<vertexList.length; i+=3){
     let v = new Vector3d(vertexList[i+0], vertexList[i+1], vertexList[i+2]);
@@ -272,15 +272,15 @@ export function getMaxDistance(vertexList){
   return max;
 }
 
-export function getPosFromMatrix(matrix){
+export function getPosFromMatrix(matrix: Array<number>){
   return new Vector3d(matrix[12], matrix[13], matrix[14]);
 }
 
-export function isTimeout(time){
+export function isTimeout(time: number){
   return (time<0 || time>1000); 
 }
 
-export function matrixFromPos(pos, scale=1, azi=0, theta=0){
+export function matrixFromPos(pos: Vector3d, scale=1, azi=0, theta=0){
   let mt = m4.identity();
   mt = m4.translate(mt, pos.x, pos.y, pos.z);
   mt = m4.scale(mt, scale, scale, scale);
