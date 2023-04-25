@@ -7,20 +7,24 @@ const rand = calc.rand;
 import anyutils from '../any.utils';
 import Game from './game.new';
 import Vector3d from '../vector3d.dev';
+export interface IGenericBullet {
+  reflectable: boolean,
+  scale: number,
+  azi: number,
+  theta: number,
+  type: string,
+  damage: number,
+  timer: Timer,
+  hitExplosionScale: number,
+  reflectionAcceleration: number,
+  lastSpeedVectorSync: Vector3d,
+  lastPosition: Vector3d,
+  speedVectorSync: Vector3d,
+  //onHit: (bullet: IGenericBullet)=>void;
+}
 
 function makeGenericBullet(game: Game, basicObject:any, pos: Vector3d, scale=1, azi=0, theta=0, speed: Vector3d, lifetime=1, damage=1, reflectable=false){
-  let el: GameObject & {
-    reflectable: boolean,
-    scale: number,
-    azi: number,
-    theta: number,
-    type: string,
-    damage: number,
-    timer: Timer,
-    hitExplosionScale: number,
-    reflectionAcceleration: number,
- //   onHit: (gameObject: GameObject) => void,
-  } = basicObject;
+  let el: GameObject & IGenericBullet = basicObject;
   let world = game.world;
 
   el.reflectable = reflectable;

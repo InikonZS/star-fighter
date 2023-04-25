@@ -10,15 +10,22 @@ const rand = calc.rand;
 import anyutils from '../any.utils';
 import World from './world.new';
 import RenderableModelList from './renderable-model-list.new';
+import { TexturedItem } from './solid-textured.new';
+import { IGenericBullet } from './bullet.gmob';
 
-function makePhysicalAzi (world: World, pos: Vector3d, scale: number, azi: number, theta: number, modelList: RenderableModelList, visible = true, type = 'solid', onContact: ()=>void, onHit: ()=>void){
+interface IPhysicalAzi extends TexturedItem{
+  visible: boolean,
+  onHit: (ob: IGenericBullet)=>void,
+}
+
+function makePhysicalAzi (world: World, pos: Vector3d, scale: number, azi: number, theta: number, modelList: RenderableModelList, visible = true, type = 'solid', onContact: ()=>void, onHit: ()=>void): IPhysicalAzi{
   let niMat = m4.identity();
   niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
   niMat = m4.scale(niMat, scale, scale, scale);
   niMat = m4.zRotate(niMat, azi);
   niMat = m4.xRotate(niMat, theta);
 
-  var el = modelList.createStaticItem(niMat, calc.makeNormRGBA());
+  var el: IPhysicalAzi = modelList.createStaticItem(niMat, calc.makeNormRGBA()) as IPhysicalAzi;
   el.visible = visible;
   el.type = type;
 
@@ -35,12 +42,12 @@ function makePhysicalAzi (world: World, pos: Vector3d, scale: number, azi: numbe
 }
 
 
-function makePhysical (world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, visible = true, type = 'solid', onContact: ()=>void, onHit?: (bullet:GameObject)=>void){
+function makePhysical (world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, visible = true, type = 'solid', onContact: ()=>void, onHit?: (bullet:IGenericBullet)=>void){
   let niMat = m4.identity();
   niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
   niMat = m4.scale(niMat, scale, scale, scale);
 
-  var el = modelList.createStaticItem(niMat, calc.makeNormRGBA());
+  var el: IPhysicalAzi = modelList.createStaticItem(niMat, calc.makeNormRGBA()) as IPhysicalAzi;
   el.visible = visible;
   el.type = type;
 
@@ -64,13 +71,17 @@ function makeCollactable(world: World, pos: Vector3d, scale: number, modelList: 
   return ob;
 }
 
-function makeBreakable(world: World, pos: Vector3d, scale: number, modelList, onHit: ()=>void){
-  let ob = makePhysical(world, pos, scale, modelList, true, 'solid', false, onHit);
+function makeBreakable(world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, onHit: ()=>void){
+  let ob = makePhysical(world, pos, scale, modelList, true, 'solid', null, onHit);
   return ob;
 }
 
-function makeBreakableStrong(world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, health: number, onKilled: (bullet: GameObject)=>void, onHurt?: ()=>void){
-  let ob = makePhysical(world, pos, scale, modelList, true, 'solid', false, (bullet)=>{
+interface IBreakableStrong extends IPhysicalAzi{
+  health: number;
+}
+
+function makeBreakableStrong(world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, health: number, onKilled: (bullet?: GameObject)=>void, onHurt?: (health: number)=>void){
+  let ob: IBreakableStrong = makePhysical(world, pos, scale, modelList, true, 'solid', null, (bullet)=>{
     if (bullet.damage!==undefined){
       ob.health-=bullet.damage;
     } else {
@@ -82,7 +93,7 @@ function makeBreakableStrong(world: World, pos: Vector3d, scale: number, modelLi
     if (onHurt){
       onHurt(ob.health);
     }
-  });
+  }) as IBreakableStrong;
   ob.health = health;
   return ob;
 }

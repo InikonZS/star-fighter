@@ -9,9 +9,9 @@ class Mesh{
   vertexList: Array<number>;
   normalList: Array<number>;
   texList: Array<number>;
-  positionBuffer: any;
-  normBuffer: any;
-  texBuffer: any;
+  positionBuffer: WebGLBuffer;
+  normBuffer: WebGLBuffer;
+  texBuffer: WebGLBuffer;
 
   constructor(gl: WebGLRenderingContext){
     this.gl = gl;

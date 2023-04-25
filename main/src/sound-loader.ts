@@ -144,7 +144,7 @@ function getByClass_(config: {list: IResourceRecord[]}, name: string){
 export class Sounder {
   data: {list: IResourceRecord[]};
 
-  constructor (soundConfig: {list: IResourceRecord[]}, onLoad: ()=>void, onProgress: ()=>void){
+  constructor (soundConfig: {list: IResourceRecord[]}, onLoad: ()=>void, onProgress: (type: string, it: IResourceRecord, length: number, current: number)=>void){
     this.data = soundConfig;
     loadSounds(this.data, onLoad, onProgress);
   }

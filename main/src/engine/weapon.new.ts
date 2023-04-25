@@ -33,7 +33,7 @@ class Weapon{
     this.sndClass = soundClass;
   }
 
-  shot(point: Vector3d, direction: Vector3d, playerPos: Vector3d){
+  shot(point: Vector3d, direction: Vector3d, playerPos?: Vector3d){
 
     if (calc.isTimeout(this.shotTime)){
     if (this.bulletCount<=0){return;}

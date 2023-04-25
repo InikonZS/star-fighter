@@ -1,22 +1,24 @@
 //let Bullet = require('./bullet.object.js')
 
-function mouseMoveHandler(glCanvas, dx, dy){
+import GLCanvas from "./gl-canvas.component";
+
+function mouseMoveHandler(glCanvas:GLCanvas, dx: number, dy: number){
   //glCanvas.camera.rotateCam(dx, dy);
   if (!glCanvas.useControls){return;}
   glCanvas.game.player.camera.rotateCam(dx, dy, false);
 }
 
-function mouseUpHandler(glCanvas, event){
+function mouseUpHandler(glCanvas:GLCanvas, event?: MouseEvent){
   if (!glCanvas.useControls){return;}
   glCanvas.keyboardState.shot = false;
 }
 
-function mouseDownHandler(glCanvas, event){
+function mouseDownHandler(glCanvas:GLCanvas, event?: MouseEvent){
   if (!glCanvas.useControls){return;}
   glCanvas.keyboardState.shot = true;
 }
 
-function keyDownHandler(glCanvas, e){
+function keyDownHandler(glCanvas:GLCanvas, e: KeyboardEvent){
   if (!glCanvas.useControls){return;}
   if (e.code == 'KeyQ'){
     glCanvas.keyboardState.crenleft = true;
@@ -54,7 +56,7 @@ function keyDownHandler(glCanvas, e){
   } 
 }
 
-function keyUpHandler(glCanvas, e){
+function keyUpHandler(glCanvas: GLCanvas, e: KeyboardEvent){
   if (!glCanvas.useControls){return;}// TODO set to false all states when controls are disabled
 
   if (e.code == 'Backquote'){
@@ -118,7 +120,7 @@ function keyUpHandler(glCanvas, e){
   } 
 }
 
-module.exports = {
+export default {
   mouseMoveHandler,
   mouseDownHandler,
   mouseUpHandler,

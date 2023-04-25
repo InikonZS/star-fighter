@@ -31,7 +31,7 @@ class Vector3d{
     return new Vector3d(this.x-v.x, this.y-v.y, this.z-v.z);  
   }
 
-  add(x: any, y: any, z: any, self?: boolean){
+  add(x: number, y: number, z: number, self?: boolean){
     if (self){
       this.x += x;  
       this.y += y; 
@@ -96,7 +96,7 @@ class Vector3d{
     list.push(this.z);
   }
 
-  transform(matrix: any){
+  transform(matrix: Array<number>){
     let vec = m4.transformVector(matrix, this.toVec4());
     return new Vector3d(vec[0], vec[1], vec[2]);
   }

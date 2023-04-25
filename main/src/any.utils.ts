@@ -1,12 +1,12 @@
 import Control from './control-js/control.component';
 
-function preloadSoundUrl(url){
+function preloadSoundUrl(url: string){
   let el = document.createElement('audio');
   document.body.appendChild(el);
   el.src = url;  
 }
 
-function playSoundUrl(url, volume){
+function playSoundUrl(url: string, volume: number){
   let el = document.createElement('audio');
   document.body.appendChild(el);
   el.oncanplay = ()=>{
@@ -25,12 +25,12 @@ function playSoundUrl(url, volume){
   el.volume = vol; 
 } 
 
-function makeExternalScript(parentNode, scriptURL, onLoad, onError) {
-  const elem = new Control(parentNode, 'script');
+function makeExternalScript(parentNode: HTMLElement, scriptURL: string, onLoad: (data: string) => void, onError: () => void) {
+  const elem = new Control<HTMLScriptElement>(parentNode, 'script');
   elem.node.onload = () => {
     //console.log(elem.node);
     onLoad(elem.node.textContent);
-    parentNode.removeChild(elem);
+    //parentNode.removeChild(elem);
   };
   elem.node.onerror = () => {
     onError();

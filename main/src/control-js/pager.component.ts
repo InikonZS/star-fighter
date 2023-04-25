@@ -2,7 +2,7 @@ import Control from './control.component';
 
 class Pager extends Control{
   pages: Control[];
-  currentPage: any;
+  currentPage: Control;
   currentPageIndex: number;
 
   constructor(parentNode: HTMLElement, thisStyle = '') {

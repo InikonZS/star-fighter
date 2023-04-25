@@ -7,11 +7,13 @@ import Vector3d from '../vector3d.dev';
 import Mesh from '../mesh.object';
 import { IShaderUnit, IShaderVars } from './shaders/IShaderUnit';
 
-class TexturedItem extends GameObject {
+export class TexturedItem extends GameObject {
   meshPointer: Mesh;
   shaderVariables: IShaderVars;
   count: number;
   visible: boolean;
+  scale?: number;
+  pos?: Vector3d;
   //hitTransformed: Array<number>;
   
   constructor(shaderVariables: IShaderVars, meshPointer: Mesh, matrix: Array<number>){

@@ -48,7 +48,7 @@ class RingIndicator extends Control{
   cx: number;
   cy: number;
   ctx: CanvasRenderingContext2D;
-  rings: any[];
+  rings: Ring[];
   node: HTMLCanvasElement;
   
   constructor(parentNode: HTMLElement, width: number, height: number){

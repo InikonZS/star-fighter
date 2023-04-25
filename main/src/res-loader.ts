@@ -248,8 +248,8 @@ function loadImages(modelConfig: {list: Array<IResourceRecord>}, onLoadedAll: (d
 //}
 
 export class ModelLoader{
-  data: any;
-  constructor(data: {list: IResourceRecord[]}, onLoad: (res: any) => void, onProgress: () => void){
+  data: {list: IResourceRecord[]};
+  constructor(data: {list: IResourceRecord[]}, onLoad: (res: {list: IResourceRecord[]}) => void, onProgress: (type: string, it: IResourceRecord, length: number, current: number) => void){
     this.data = data;
     console.log('loading models');
     loadModels(this.data, ()=>{

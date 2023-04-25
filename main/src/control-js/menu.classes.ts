@@ -38,12 +38,12 @@ class SliderButton extends Control{
 
 
 export class SliderStd extends Control{
-  onSlide: any;
+  onSlide: (index: number)=>void;
   currentIndex: number;
   onLeft: ()=>void;
   slidesContainer: Control;
   onRight: ()=>void;
-  slides: any[];
+  slides: Slide[];
   constructor(parentNode: HTMLElement){
     super(parentNode, 'div', 'sl_wrapper'); 
     this.onSlide;
@@ -92,7 +92,7 @@ export class GameSlideredScreen extends Control{
   titleElement: Control;
   slider: SliderStd;
   controlsContainer: Control;
-  buttons: any[];
+  buttons: Control[];
   constructor(parentNode: HTMLElement){
     super(parentNode, 'div', 'gs_wrapper');
     let titleWrapper = new Control (this.node, 'div', 'gs_title');

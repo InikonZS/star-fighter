@@ -11,13 +11,13 @@ import calc from './calc.utils';
 export default class GLCanvas extends Control<HTMLCanvasElement>{
   stWidth: number;
   stHeight: number;
-  glContext: any;
+  glContext: WebGLRenderingContext;
   isStarted: boolean;
   useControls: boolean;
   keyboardState: Record<string, boolean>;
   joyShow: boolean;
   infoTimer: Timer;
-  info: any;
+  info: Control;
   averageRenderTime: number;
   fullScreenButton: Control;
   joyButton: Control;
@@ -28,7 +28,7 @@ export default class GLCanvas extends Control<HTMLCanvasElement>{
   overlay: Control;
   menu: GameMenu;
   isPaused: boolean;
-  lastTime: any;
+  lastTime: number;
   game: Game;
 
   constructor(parentNode: HTMLElement, width: number, height: number){

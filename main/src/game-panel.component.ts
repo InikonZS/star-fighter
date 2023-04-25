@@ -51,6 +51,14 @@ class GamIndicator extends Control{
   }
 }
 
+interface IGamePanelData{
+  health: number,
+  shield: number,
+  speed: number,
+  bullets: number,
+  weapon: string
+}
+
 export default class GameMenu extends Control{
   center: Control;
   ringIndicator: RingIndicator;
@@ -63,9 +71,9 @@ export default class GameMenu extends Control{
   bullets: GamIndicator;
   money: GamIndicator;
   joy: Joy;
-  data: { health: number; bullets: number; weapon: number; shield: number; speed: number; fuel: number; };
-  refresh: (data_?: any) => void;
-  weapon: any;
+  data: { health: number; bullets: number; weapon: string; shield: number; speed: number; fuel: number; };
+  refresh: (data_?: IGamePanelData) => void;
+  weapon: Control;
   missionTarget: Control;
 
   constructor(parentNode: HTMLElement, glCanvas: GLCanvas){
@@ -110,7 +118,7 @@ export default class GameMenu extends Control{
     this.data = {
       health:0,
       bullets:0,
-      weapon:0,
+      weapon:'',
       shield:0,
       speed:0,
       fuel:0,
