@@ -3,11 +3,12 @@ import RenderableModelList from './renderable-model-list.new';
 import RenderableItem from './renderable-item.new';
 import { setBuffer } from '../gl-utils';
 import Vector3d from '../vector3d.dev';
+import { IShaderUnit, IShaderVars } from './shaders/IShaderUnit';
 
 export class SolidUntexturedModelList extends RenderableModelList{
-  shaderVariables: any;
+  shaderVariables: IShaderVars;
 
-  constructor(gl: WebGLRenderingContext, shaderVariables: any, modelSource: string, preScaler: number){
+  constructor(gl: WebGLRenderingContext, shaderVariables: IShaderVars, modelSource: string, preScaler: number){
     super(gl, shaderVariables, modelSource, preScaler); 
     this.onRender = (gl, props)=>{
       setBuffer(gl, this.mesh.positionBuffer, this.shaderVariables.positionAttr, 3);
@@ -15,11 +16,11 @@ export class SolidUntexturedModelList extends RenderableModelList{
     }
   }
 
-  createStaticItem(matrix: Array<number>, color: string, maxVisibleDist: number){
-    return this.addChild(new RenderableItem(this.shaderVariables, this.mesh, matrix, color, maxVisibleDist));  
+  createStaticItem(matrix: Array<number>, color: { r: number, g: number, b: number, a?: number}, maxVisibleDist?: number){
+    return this.addChild(new RenderableItem(this.shaderVariables, this.mesh, matrix, color, maxVisibleDist)) as RenderableItem;  
   }
 
-  createRotatingItem(position: Vector3d, sx: number, sy: number, sz: number, color: string){
+  createRotatingItem(position: Vector3d, sx: number, sy: number, sz: number, color: { r: number; g: number; b: number; a?: number; }){
     let el = this.addChild(new RenderableItem(this.shaderVariables, this.mesh, m4.identity(), color)); 
     el.position = position;
     el.sx = 0;
@@ -39,7 +40,7 @@ export class SolidUntexturedModelList extends RenderableModelList{
     return el;
   }
   
-  createMovingItem(posVector: Vector3d, speedVector: Vector3d, color: string){
+  createMovingItem(posVector: Vector3d, speedVector: Vector3d, color: { r: number; g: number; b: number; a?: number; }){
     let el = this.addChild(new RenderableItem(this.shaderVariables, this.mesh, m4.identity(), color));
     el.position = posVector.mul(1);
     el.speedVector = speedVector.mul(1);

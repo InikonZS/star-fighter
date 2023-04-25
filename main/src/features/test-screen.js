@@ -33,12 +33,12 @@ class Control {
 
   hide() {
     this.isHidden = true;
-    this.node.style = 'display:none';
+    this.node.style.cssText = 'display:none';
   }
 
   show() {
     this.isHidden = false;
-    this.node.style = '';
+    this.node.style.cssText = '';
   }
 
   animate(animationCssClass, inlineStyle) {
@@ -48,7 +48,7 @@ class Control {
           this.node.className = animationCssClass;
         }
         if (inlineStyle) {
-          this.node.style = inlineStyle;
+          this.node.style.cssText = inlineStyle;
         }
       });
     });
@@ -95,7 +95,7 @@ class Slide extends Control{
 
   setIndex(index){
     this.index = index;
-    this.node.style = `transform: translate(${100*this.index}%, 0px)`;
+    this.node.style.cssText = `transform: translate(${100*this.index}%, 0px)`;
   }
 }
 
@@ -110,14 +110,14 @@ class Slide extends Control{
 
   setIndex(index){
     this.index = index;
-    this.node.style = `transform: translate(${100*this.index}%, 0px)`;
+    this.node.style.cssText = `transform: translate(${100*this.index}%, 0px)`;
   }
 }*/
 
 class SliderButton extends Control{
   constructor(parentNode, wrapperClass, buttonClass, onClick){
     super(parentNode, 'div', '');
-    this.node.style='width:0px';
+    this.node.style.cssText ='width:0px';
     this.butWrapper = new Control(this.node, 'div', wrapperClass);
     this.button = new Control(this.butWrapper.node, 'div', buttonClass, '', onClick);
   }

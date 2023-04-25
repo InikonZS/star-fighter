@@ -35,7 +35,7 @@ export default class GLCanvas extends Control<HTMLCanvasElement>{
     super (parentNode, 'canvas', 'canvas_style', '', ()=>{
       //this.node.requestPointerLock();
     });
-    parentNode.style = 'position:relative';
+    parentNode.style.cssText = 'position:relative';
     this.stWidth = width;
     this.stHeight = height;
 
@@ -65,7 +65,7 @@ export default class GLCanvas extends Control<HTMLCanvasElement>{
     });
 
     this.sndPlayer = new Control(gameButtons.node, 'audio');
-    this.sndPlayer.node.src = sndBase.getByName('backSound').locURL;
+    this.sndPlayer.node.src = window.sndBase.getByName('backSound').locURL;
     this.sndPlayer.node.volume = 0.3;
     this.sndPlayer.node.addEventListener('ended', ()=>{
       this.sndPlayer.node.play();
@@ -109,7 +109,7 @@ export default class GLCanvas extends Control<HTMLCanvasElement>{
   }
 
   overlayRefresh(){
-    this.overlay.node.style = `
+    this.overlay.node.style.cssText = `
       position:absolute;
       width:${this.node.clientWidth}px;
       height:${this.node.clientHeight}px;

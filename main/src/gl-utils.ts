@@ -1,4 +1,4 @@
-function createShader(gl, type, source) {
+export function createShader(gl: WebGLRenderingContext, type: number, source: string) {
   var shader = gl.createShader(type);   
   gl.shaderSource(shader, source);     
   gl.compileShader(shader);             
@@ -12,7 +12,7 @@ function createShader(gl, type, source) {
   return false;
 }
 
-function createProgram(gl, vertexShader, fragmentShader) {
+export function createProgram(gl: WebGLRenderingContext, vertexShader: WebGLShader, fragmentShader: WebGLShader) {
   var program = gl.createProgram();
   gl.attachShader(program, vertexShader);
   gl.attachShader(program, fragmentShader);
@@ -27,7 +27,7 @@ function createProgram(gl, vertexShader, fragmentShader) {
   return false;
 }
 
-function createShaderFromSource(gl, vertexShaderSource, fragmentShaderSource){
+export function createShaderFromSource(gl: WebGLRenderingContext, vertexShaderSource: string, fragmentShaderSource:string){
   var vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
   var fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
   var program = createProgram(gl, vertexShader, fragmentShader);
@@ -37,11 +37,11 @@ function createShaderFromSource(gl, vertexShaderSource, fragmentShaderSource){
   return false;
 }
 
-function isPowerOf2(value) {
+export function isPowerOf2(value: number) {
   return (value & (value - 1)) == 0;
 }
 
-function createTexture(gl, textureUrl, onLoad){
+export function createTexture(gl: WebGLRenderingContext, textureUrl: string, onLoad: (texture: WebGLTexture)=>void){
   // Create a texture.
   var texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -51,7 +51,7 @@ function createTexture(gl, textureUrl, onLoad){
   // Asynchronously load an image
   //var image = new Image();
   let image = document.createElement('img');
-  //image.style='display:none';
+  //image.style.cssText ='display:none';
   image.crossOrigin ='';
   //document.body.appendChild(image);
   image.addEventListener('load', function() {
@@ -74,7 +74,7 @@ function createTexture(gl, textureUrl, onLoad){
   image.src = textureUrl;
 }
 
-function createTextureFromImg(gl, imgElement, onLoad){
+export function createTextureFromImg(gl: WebGLRenderingContext, imgElement: HTMLImageElement, onLoad: (texture: WebGLTexture)=>void){
   // Create a texture.
   let image = imgElement;
   var texture = gl.createTexture();
@@ -85,7 +85,7 @@ function createTextureFromImg(gl, imgElement, onLoad){
   // Asynchronously load an image
   //var image = new Image();
   //let image = document.createElement('img');
-  //image.style='display:none';
+  //image.style.cssText ='display:none';
   //image.crossOrigin ='';
   //document.body.appendChild(image);
   //image.addEventListener('load', function() {
@@ -107,14 +107,14 @@ function createTextureFromImg(gl, imgElement, onLoad){
  // });
 }
 
-function createBuffer(gl, list){
+export function createBuffer(gl: WebGLRenderingContext, list: Array<number>){
   var positionBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(list), gl.STATIC_DRAW); 
   return positionBuffer;
 }
 
-function setBuffer(gl, buffer, location, size){
+export function setBuffer(gl: WebGLRenderingContext, buffer: WebGLBuffer, location: number, size: number){
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
   // Указываем атрибуту, как получать данные от positionBuffer (ARRAY_BUFFER)
   //var size_ = size;          // 2 компоненты на итерацию
@@ -126,7 +126,7 @@ function setBuffer(gl, buffer, location, size){
   location, size, type, normalize, stride, offset);  
 }
 
-module.exports = {
+export default {
   createShader,
   createProgram,
   createShaderFromSource,

@@ -4,14 +4,17 @@ import RenderableItem from './renderable-item.new';
 import GameObject from './game-object.new';
 import { createTextureFromImg, setBuffer } from '../gl-utils';
 import Vector3d from '../vector3d.dev';
+import Mesh from '../mesh.object';
+import { IShaderUnit, IShaderVars } from './shaders/IShaderUnit';
 
 class TexturedItem extends GameObject {
-  meshPointer: any;
-  shaderVariables: any;
+  meshPointer: Mesh;
+  shaderVariables: IShaderVars;
   count: number;
   visible: boolean;
+  //hitTransformed: Array<number>;
   
-  constructor(shaderVariables, meshPointer, matrix){
+  constructor(shaderVariables: IShaderVars, meshPointer: Mesh, matrix: Array<number>){
     super();
     this.meshPointer = meshPointer;
     this.shaderVariables = shaderVariables;
@@ -58,11 +61,11 @@ export class SolidTexturedModelList extends RenderableModelList{
     }*/
   }
 
-  createStaticItem(matrix, maxVisibleDist){
-    return this.addChild(new TexturedItem(this.shaderVariables, this.mesh, matrix, maxVisibleDist));  
+  createStaticItem(matrix: Array<number>, color?: { r: number; g: number; b: number; a?: number}){
+    return this.addChild(new TexturedItem(this.shaderVariables, this.mesh, matrix)) as TexturedItem;  
   }
 
-  createRotatingItem(position: Vector3d, sx: number, sy: number, sz: number, color: { r: number; g: number; b: number; }){
+  createRotatingItem(position: Vector3d, sx: number, sy: number, sz: number, color: { r: number; g: number; b: number; a?: number}){
     let el = this.addChild(new RenderableItem(this.shaderVariables, this.mesh, m4.identity(), color)); 
     el.position = position;
     el.sx = 0;
@@ -97,7 +100,7 @@ export class SolidTexturedModelList extends RenderableModelList{
 }
 
 export class SolidTexturedShaderList extends RenderableShaderList{
-  constructor(gl: WebGLRenderingContext, shaderUnit){
+  constructor(gl: WebGLRenderingContext, shaderUnit: IShaderUnit){
     super(gl, shaderUnit);
     this.onRender = (gl, props)=>{
       shaderUnit.initShader(gl, this.shaderProgram, this.shaderVariables);

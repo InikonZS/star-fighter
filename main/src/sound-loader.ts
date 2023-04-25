@@ -103,7 +103,7 @@ function loadSoundBlob(url: string, onLoad: (data: Blob)=>void){
   fetch(url).then((res)=>res.blob()).then(blob=>onLoad(blob));  
 }
 
-function loadSounds(modelConfig:{list: IResourceRecord[]}, onLoadedAll: ()=>void, onProgress: (name: string, res: IResourceRecord, max:number, count: number)=>void){
+function loadSounds(modelConfig:{list: IResourceRecord[]}, onLoadedAll: (data: {list: IResourceRecord[]})=>void, onProgress: (name: string, res: IResourceRecord, max:number, count: number)=>void){
   let sndCount = modelConfig.list.length;
   let max = sndCount;
   modelConfig.list.forEach(it=>{
@@ -142,9 +142,9 @@ function getByClass_(config: {list: IResourceRecord[]}, name: string){
 
 
 export class Sounder {
-  data: {list: IResourceRecord};
+  data: {list: IResourceRecord[]};
 
-  constructor (soundConfig, onLoad, onProgress){
+  constructor (soundConfig: {list: IResourceRecord[]}, onLoad: ()=>void, onProgress: ()=>void){
     this.data = soundConfig;
     loadSounds(this.data, onLoad, onProgress);
   }

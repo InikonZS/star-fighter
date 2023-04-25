@@ -29,7 +29,7 @@ class Animation{
     this.time = this.timeStep;
   }
 
-  render(gl: WebGLRenderingContext, shaderVariables, deltaTime: number){
+  render(gl: WebGLRenderingContext, shaderVariables: { posUniVec4: WebGLUniformLocation; }, deltaTime: number){
     gl.uniform4f(shaderVariables.posUniVec4, 
           1 / this.xmax,
           1 / this.ymax, 

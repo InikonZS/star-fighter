@@ -78,7 +78,7 @@ class Weapon{
   }
 
   shotTo(gl: Vector3d, bulletList: Vector3d, pointA: Vector3d, pointB: Vector3d, playerPos: Vector3d){
-    return this.shot(gl, bulletList, pointA, pointB.subVector(pointA).normalize(), playerPos);
+    return this.shot(gl, bulletList, pointA/*, pointB.subVector(pointA).normalize(), playerPos*/);
   }
 
   render(deltaTime: number){

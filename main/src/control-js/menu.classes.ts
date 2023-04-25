@@ -17,7 +17,7 @@ export class Slide extends Control{
 
   setIndex(index: number){
     this.index = index;
-    this.node.style = `
+    this.node.style.cssText = `
       transform: translate(${100*this.index}%, 0px);
       background-image: url('${this.backImageURL}');
     `;
@@ -30,7 +30,7 @@ class SliderButton extends Control{
   
   constructor(parentNode: HTMLElement, wrapperClass: string, buttonClass: string, onClick: (ev: MouseEvent)=> void){
     super(parentNode, 'div', '');
-    this.node.style='width:0px';
+    this.node.style.cssText ='width:0px';
     this.butWrapper = new Control(this.node, 'div', wrapperClass);
     this.button = new Control(this.butWrapper.node, 'div', buttonClass, '', onClick);
   }

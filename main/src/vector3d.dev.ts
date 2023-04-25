@@ -21,7 +21,7 @@ class Vector3d{
     return new Vector3d(this.x-x, this.y-y, this.z-z);
   }
 
-  subVector(v: Vector3d, self?: Vector3d){
+  subVector(v: Vector3d, self?: boolean){
     if (self){
       this.x -= v.x;  
       this.y -= v.y; 
@@ -31,7 +31,7 @@ class Vector3d{
     return new Vector3d(this.x-v.x, this.y-v.y, this.z-v.z);  
   }
 
-  add(x: any, y: any, z: any, self: Vector3d){
+  add(x: any, y: any, z: any, self?: boolean){
     if (self){
       this.x += x;  
       this.y += y; 

@@ -11,9 +11,9 @@ import { SolidUntexturedShaderList } from './solid-untextured.new';
 import solidTexturedShaderUnit from './shaders/solid-textured.shader';
 import { SolidTexturedModelList, SolidTexturedShaderList } from './solid-textured.new';
 import skyboxShaderUnit from './shaders/skybox.shader';
-import { SkyboxShaderList } from './skybox.new';
+import { SkyboxModelList, SkyboxShaderList } from './skybox.new';
 import animatedShaderUnit from './shaders/ani-textured.shader';
-import { AnimatedShaderList } from './ani-textured.new';
+import { AnimatedModelList, AnimatedShaderList } from './ani-textured.new';
 
 import utils from '../any.utils';
 import Game from './game.new';
@@ -23,18 +23,18 @@ class World{
   gl: WebGLRenderingContext;
   game: Game;
   viewMatrix: any;
-  skyboxShaderList: ShaderList;
-  skyboxModelList: any;
-  animatedShaderList: ShaderList;
-  explosions: any;
-  magics: any;
+  skyboxShaderList: SkyboxShaderList;
+  skyboxModelList: SkyboxModelList;
+  animatedShaderList: AnimatedShaderList;
+  explosions: AnimatedModelList;
+  magics: AnimatedModelList;
   magicFogSpheres: any;
   bulPlasm: any;
   solidUntexturedShaderList: SolidUntexturedShaderList;
   solidTexturedShaderList: SolidTexturedShaderList;
   tun1: any[];
   tun2: any[];
-  meteModelList: RenderableModelList;
+  meteModelList: SolidTexturedModelList;
   mercuryModelList: RenderableModelList;
   marsModelList: RenderableModelList;
   mete2ModelList: RenderableModelList;
@@ -226,7 +226,7 @@ class World{
     return skyboxElement;
   }
 
-  render(viewMatrix, deltaTime){
+  render(viewMatrix: Array<number>, deltaTime: number){
     this.graphicList.process(deltaTime);
 
     this.objectList.process(deltaTime);
@@ -289,7 +289,7 @@ class World{
   }
 
   /// generics
-  createGenericAnimated (modelList, pos, scale, xmax, ymax, frametime, single){
+  createGenericAnimated (modelList: AnimatedModelList, pos: Vector3d, scale: number, xmax: number, ymax: number, frametime: number, single: boolean){
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
@@ -302,7 +302,7 @@ class World{
     return el;
   }
 
-  createGenericAnimatedAzi (modelList, pos, scale, azi, theta,  xmax, ymax, frametime, single){
+  createGenericAnimatedAzi (modelList: AnimatedModelList, pos: Vector3d, scale:number, azi:number, theta:number,  xmax: number, ymax: number, frametime: number, single: boolean){
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
@@ -318,7 +318,7 @@ class World{
   }
   //////
 
-  createBreakable (pos: Vector3d, scale: number, color){
+  createBreakable (pos: Vector3d, scale: number, color?: { r: number; g: number; b: number; a?: number; }){
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
     niMat = m4.scale(niMat, scale, scale, scale);
@@ -334,7 +334,7 @@ class World{
     return el;
   }
 
-  createSolid (pos: Vector3d, scale: number, color, bm: boolean){
+  createSolid (pos: Vector3d, scale: number, color: { r: number; g: number; b: number; a?: number; }, bm?: boolean){
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
     niMat = m4.scale(niMat, scale, scale, scale);

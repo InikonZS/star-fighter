@@ -23,15 +23,15 @@ export function getModList(oob: string, genOwnNormal: boolean, preScaler=1){
 
     switch (spl[0]){
       case 'v': 
-        vertexList.push({x:spl[1], y:spl[2], z:spl[3]});
+        vertexList.push({x:Number(spl[1]), y:Number(spl[2]), z:Number(spl[3])});
       break;
 
       case 'vt': 
-        vertexListUV.push({u:spl[1], v:spl[2]});
+        vertexListUV.push({u:Number(spl[1]), v:Number(spl[2])});
       break;
 
       case 'vn': 
-        vertexListNorm.push({x:spl[1], y:spl[2], z:spl[3]});
+        vertexListNorm.push({x:Number(spl[1]), y:Number(spl[2]), z:Number(spl[3])});
       break;
 
       case 'f':
@@ -61,9 +61,9 @@ export function getModList(oob: string, genOwnNormal: boolean, preScaler=1){
 
         if (!isNormalLoaded){
           for (let j=0; j<3; j++){
-            let sp1 = spl[1].split('/')[0]-1;
-            let sp2 = spl[2].split('/')[0]-1;
-            let sp3 = spl[3].split('/')[0]-1;
+            let sp1 = Number(spl[1].split('/')[0])-1;
+            let sp2 = Number(spl[2].split('/')[0])-1;
+            let sp3 = Number(spl[3].split('/')[0])-1;
             let norm = calc.getNormal(vertexList[sp1],vertexList[sp2],vertexList[sp3]);
             normalList.push(norm.x);
             normalList.push(norm.y);

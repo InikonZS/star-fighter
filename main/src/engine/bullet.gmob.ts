@@ -8,8 +8,19 @@ import anyutils from '../any.utils';
 import Game from './game.new';
 import Vector3d from '../vector3d.dev';
 
-function makeGenericBullet(game: Game, basicObject, pos: Vector3d, scale=1, azi=0, theta=0, speed=1, lifetime=1, damage=1, reflectable=false){
-  let el = basicObject;
+function makeGenericBullet(game: Game, basicObject:any, pos: Vector3d, scale=1, azi=0, theta=0, speed: Vector3d, lifetime=1, damage=1, reflectable=false){
+  let el: GameObject & {
+    reflectable: boolean,
+    scale: number,
+    azi: number,
+    theta: number,
+    type: string,
+    damage: number,
+    timer: Timer,
+    hitExplosionScale: number,
+    reflectionAcceleration: number,
+ //   onHit: (gameObject: GameObject) => void,
+  } = basicObject;
   let world = game.world;
 
   el.reflectable = reflectable;
@@ -123,14 +134,14 @@ function makeGenericBullet(game: Game, basicObject, pos: Vector3d, scale=1, azi=
   return el;
 }
 
-function makeBoxBullet(game: Game, pos: Vector3d, speed: number, lifetime: number, color: any, weaponName: string, damage: number, reflectable: boolean){
+function makeBoxBullet(game: Game, pos: Vector3d, speed: Vector3d, lifetime: number, color: any, weaponName: string, damage: number, reflectable: boolean){
   let el = game.world.boxModelList.createStaticItem(m4.identity(), color); 
   el.weaponName = weaponName;
   el = makeGenericBullet(game, el, pos, 1, 0, 0, speed, lifetime, damage, reflectable);
   return el;
 }
 
-function makeAnimatedBullet(game: Game, pos: Vector3d, scale: number, speed: number, lifetime: number, weaponName: string, damage: number, reflectable: boolean){
+function makeAnimatedBullet(game: Game, pos: Vector3d, scale: number, speed: Vector3d, lifetime: number, weaponName: string, damage: number, reflectable: boolean){
   let el = game.world.bulPlasm.createStaticItem(m4.identity(), 3, 1, 0.05);
   el.weaponName = weaponName;
   el = makeGenericBullet(game, el, pos, scale, 0, 0, speed, lifetime, damage, reflectable);

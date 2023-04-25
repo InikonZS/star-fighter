@@ -2,37 +2,35 @@ import Mesh from "../mesh.object";
 import Vector3d from "d:/works/star-fighter/star-fighter/main/src/vector3d.dev";
 
 export default class GameObject{
-  hitTransformed(hitTransformed: any, pos: any, speedVectorSync: any) {
-    throw new Error('Method not implemented.');
-  }
-  position: import("d:/works/star-fighter/star-fighter/main/src/vector3d.dev").default;
+  hitTransformed: Array<number>;
+  position: Vector3d;
   sx: number;
   sy: number;
   sz: number;
   matrix: Array<number>;
-  speedVector: import("d:/works/star-fighter/star-fighter/main/src/vector3d.dev").default;
+  speedVector: Vector3d
   /*hitPosition(hitPosition: any, lastPos: any, arg2: any, arg3: number) {
     throw new Error('Method not implemented.');
   }*/
   hitPosition: Vector3d;
-  childList: any[];
+  childList: GameObject[];
   isExists: boolean;
   reqFilter: boolean;
   onProcess: (deltaTime: number, props:any )=>void;
   onRender: (gl: WebGLRenderingContext, props: any)=>void;
   onReact: (gameObject: GameObject)=>void;
-  parents: any[];
+  parents: GameObject[];
   onDelete: () => void;
   mesh: Mesh;
-  texture: any;
+  texture: WebGLTexture;
   shaderProgram: WebGLProgram;
   type: string;
   hitDist: number;
   physicList: any;
-  onContact: any;
+  onContact: (gameObject: GameObject)=>void;
   bonus: string;
   bonus_count: any;
-  onCollect: any;
+  onCollect: (gameObject: GameObject)=>void;
 
   constructor(){
     this.childList = [];

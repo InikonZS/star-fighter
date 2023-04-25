@@ -10499,13 +10499,13 @@ var Control = /*#__PURE__*/function () {
     key: "hide",
     value: function hide() {
       this.isHidden = true;
-      this.node.style = 'display:none';
+      this.node.style.cssText = 'display:none';
     }
   }, {
     key: "show",
     value: function show() {
       this.isHidden = false;
-      this.node.style = '';
+      this.node.style.cssText = '';
     }
   }, {
     key: "animate",
@@ -10519,7 +10519,7 @@ var Control = /*#__PURE__*/function () {
           }
 
           if (inlineStyle) {
-            _this2.node.style = inlineStyle;
+            _this2.node.style.cssText = inlineStyle;
           }
         });
       });
@@ -13997,7 +13997,7 @@ var Message = /*#__PURE__*/function (_Control) {
     _this = _super.call(this, parentNode, 'div');
     _this.parentNode = parentNode;
     _this.color = colorHex || 'fff';
-    _this.node.style = "position:absolute; top:".concat(0, "px; left:", 0, "px; color:#", colorHex, ";");
+    _this.node.style.cssText = "position:absolute; top:".concat(0, "px; left:", 0, "px; color:#", colorHex, ";");
 
     if (text) {
       _this.node.textContent = text;
@@ -14030,7 +14030,7 @@ var Message = /*#__PURE__*/function (_Control) {
         ps.x = ps.x - this.node.clientWidth;
       }
 
-      this.node.style = "position:absolute; top:".concat(ps.y, "px; left:").concat(ps.x, "px; color:#").concat(this.color, ";");
+      this.node.style.cssText = "position:absolute; top:".concat(ps.y, "px; left:").concat(ps.x, "px; color:#").concat(this.color, ";");
     }
   }]);
 
@@ -15697,7 +15697,7 @@ var GameMenu = /*#__PURE__*/function (_Control) {
   }, {
     key: "refresh",
     value: function refresh() {
-      this.node.style = "\n      position:absolute;\n      width:".concat(this.glCanvas.node.clientWidth, "px;\n      height:").concat(this.glCanvas.node.clientHeight, "px;\n      top:0px;\n      left:0px;\n      display:").concat(this.isActive ? 'block' : 'none', ";\n      z-index:10;\n    ");
+      this.node.style.cssText = "\n      position:absolute;\n      width:".concat(this.glCanvas.node.clientWidth, "px;\n      height:").concat(this.glCanvas.node.clientHeight, "px;\n      top:0px;\n      left:0px;\n      display:").concat(this.isActive ? 'block' : 'none', ";\n      z-index:10;\n    ");
 
       if (this.glCanvas.isPaused) {
         this.resumeButton.show();
@@ -15844,7 +15844,7 @@ var GLCanvas = /*#__PURE__*/function (_Control) {
 
     _this = _super.call(this, parentNode, 'canvas', 'canvas_style', '', function () {//this.node.requestPointerLock();
     });
-    parentNode.style = 'position:relative';
+    parentNode.style.cssText = 'position:relative';
     _this.stWidth = width;
     _this.stHeight = height;
     _this.node.width = width;
@@ -15911,7 +15911,7 @@ var GLCanvas = /*#__PURE__*/function (_Control) {
   _createClass(GLCanvas, [{
     key: "overlayRefresh",
     value: function overlayRefresh() {
-      this.overlay.node.style = "\n      position:absolute;\n      width:".concat(this.node.clientWidth, "px;\n      height:").concat(this.node.clientHeight, "px;\n      top:0px;\n      left:0px;\n    ");
+      this.overlay.node.style.cssText = "\n      position:absolute;\n      width:".concat(this.node.clientWidth, "px;\n      height:").concat(this.node.clientHeight, "px;\n      top:0px;\n      left:0px;\n    ");
     }
   }, {
     key: "menuRefresh",
@@ -16085,7 +16085,7 @@ function createTexture(gl, textureUrl, onLoad) {
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 255, 255])); // Asynchronously load an image
   //var image = new Image();
 
-  var image = document.createElement('img'); //image.style='display:none';
+  var image = document.createElement('img'); //image.style.cssText ='display:none';
 
   image.crossOrigin = ''; //document.body.appendChild(image);
 
@@ -16118,7 +16118,7 @@ function createTextureFromImg(gl, imgElement, onLoad) {
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 255, 255])); // Asynchronously load an image
   //var image = new Image();
   //let image = document.createElement('img');
-  //image.style='display:none';
+  //image.style.cssText ='display:none';
   //image.crossOrigin ='';
   //document.body.appendChild(image);
   //image.addEventListener('load', function() {
@@ -16229,7 +16229,7 @@ var Joy = /*#__PURE__*/function (_Control) {
 
     _this = _super.call(this, parentNode, 'div', 'joy_panel', '');
     var headPanel = new Control(_this.node, 'div', 'joy_panel');
-    headPanel.node.style = 'height:30px; top:0px';
+    headPanel.node.style.cssText = 'height:30px; top:0px';
     _this.menuButton = new TouchButton(headPanel.node, 'butg', function (st) {
       if (!glCanvas.menu.isActive) {
         glCanvas.menu.activate();
@@ -16237,13 +16237,13 @@ var Joy = /*#__PURE__*/function (_Control) {
         document.exitPointerLock();
       }
     });
-    _this.menuButton.node.style = 'width:30px';
+    _this.menuButton.node.style.cssText = 'width:30px';
     var mainPanel = new Control(_this.node, 'div', 'joy_panel');
-    mainPanel.node.style = 'height:calc(100% - 30px - 100px); top:30px';
+    mainPanel.node.style.cssText = 'height:calc(100% - 30px - 100px); top:30px';
     var leftGroup = new Control(mainPanel.node, 'div', 'but_group');
-    leftGroup.node.style = 'justify-content: flex-start;';
+    leftGroup.node.style.cssText = 'justify-content: flex-start;';
     var rightGroup = new Control(mainPanel.node, 'div', 'but_group');
-    rightGroup.node.style = 'justify-content: flex-end;';
+    rightGroup.node.style.cssText = 'justify-content: flex-end;';
     var rightSubGroup = new Control(rightGroup.node, 'div', 'but_subgroup');
     var weaponSubGroup = new Control(leftGroup.node, 'div', 'but_subgroup');
 
@@ -16287,11 +16287,11 @@ var Joy = /*#__PURE__*/function (_Control) {
     _this.shotButton = new TouchButton(sub1.node, 'butg', function (st) {
       glCanvas.keyboardState.shot = st;
     });
-    _this.shotButton.node.style = 'width:100%';
+    _this.shotButton.node.style.cssText = 'width:100%';
     _this.shieldButton = new TouchButton(sub1.node, 'butg', function (st) {
       glCanvas.keyboardState.space = st;
     });
-    _this.shieldButton.node.style = 'width:100%';
+    _this.shieldButton.node.style.cssText = 'width:100%';
     return _this;
   }
 
@@ -17227,7 +17227,7 @@ var StartScreen = /*#__PURE__*/function (_Control) {
     _this = _super.call(this, parentNode, 'div', 'startBackground', '');
 
     _this.refresh(width, height);
-    /*this.node.style = `
+    /*this.node.style.cssText = `
       width:${width}px;
       height:${height}px;
       background-image: url('../assets/back_images/back${calc.rand(4)+1}.jpg');
@@ -17242,7 +17242,7 @@ var StartScreen = /*#__PURE__*/function (_Control) {
   _createClass(StartScreen, [{
     key: "refresh",
     value: function refresh(width, height) {
-      this.node.style = "\n      width:".concat(width, "px;\n      height:").concat(height, "px;\n      background-image: url('../assets/back_images/back").concat(calc.rand(4) + 1, ".jpg');\n    ");
+      this.node.style.cssText = "\n      width:".concat(width, "px;\n      height:").concat(height, "px;\n      background-image: url('../assets/back_images/back").concat(calc.rand(4) + 1, ".jpg');\n    ");
     }
   }]);
 

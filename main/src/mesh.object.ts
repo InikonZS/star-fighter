@@ -6,9 +6,9 @@ import {getModList} from './obj-loader.utils';
 class Mesh{
   gl: WebGLRenderingContext;
   maxDistance: number;
-  vertexList: any;
-  normalList: any;
-  texList: any;
+  vertexList: Array<number>;
+  normalList: Array<number>;
+  texList: Array<number>;
   positionBuffer: any;
   normBuffer: any;
   texBuffer: any;
@@ -18,7 +18,7 @@ class Mesh{
     this.maxDistance = 0;  
   }
 
-  loadFromSource(modelSource: string, preScaler: number){
+  loadFromSource(modelSource: string, preScaler?: number){
     let modelObject = getModList(modelSource, false , preScaler);
     this.vertexList = modelObject.triangleList;
     this.normalList = modelObject.normalList;

@@ -14,7 +14,7 @@ export function rand(lim: number){
   return Math.trunc(Math.random()*lim);
 }
 
-export function makeCameraMatrix1(aspect, rx, ry, rz, px, py, pz){
+export function makeCameraMatrix1(aspect: number, rx: number, ry: number, rz: number, px: number, py: number, pz: number){
   let matrix = m4.perspective(1, aspect, 0.1, 2000); 
   matrix = m4.xRotate(matrix, ry);
   matrix = m4.yRotate(matrix, rz);
@@ -24,7 +24,7 @@ export function makeCameraMatrix1(aspect, rx, ry, rz, px, py, pz){
   return matrix;
 }
 
-export function makeCameraMatrix(aspect: number, mv){
+export function makeCameraMatrix(aspect: number, mv: number){
   let matrix = m4.perspective(1, aspect, 0.1, 2000); 
   return m4.multiply(matrix, mv);
 }
@@ -140,7 +140,7 @@ export function crossMeshByLine(vertexList:Array<number>, lineVectorA:Vector3d, 
 }
 
 export function crossMeshByLineT(vertexList:Array<number>, lineVectorA:Vector3d, lineVectorB:Vector3d){
-  let res =[];
+  let res: Array<{dv: Vector3d, triangle: [Vector3d, Vector3d, Vector3d]}> =[];
   for (let i=0; i<vertexList.length; i+=9){
     let v=[];
     for (let j=0; j<3; j+=1){
@@ -167,8 +167,8 @@ export function mirrorVectorFromMesh(vertexList: Array<number>, p: Vector3d, v:V
   return false;
 }
 
-export function getNearest(point: Vector3d, list: Array<{dv: Vector3d}>){
-  let minit;
+export function getNearest(point: Vector3d, list: Array<{dv: Vector3d, triangle: [Vector3d, Vector3d, Vector3d]}>){
+  let minit: {dv: Vector3d, triangle: [Vector3d, Vector3d, Vector3d]};
   let minlen = 999999;
   let p = new Vector3d(point.x, point.y, point.z);
   list.forEach(it=>{
@@ -219,7 +219,7 @@ export function matFromM4(m: Array<number>){
   return res;
 }
 
-export function makeRGBA(color:string){
+export function makeRGBA(color?:string){
   let result = {r:rand(255), g:rand(255), b: rand(255), a:255};
   if (color!==undefined){
     let num = Number.parseInt('0x'+color);
@@ -255,7 +255,7 @@ export function makeRGBA(color:string){
   return result;
 }
 
-export function makeNormRGBA(color: string){
+export function makeNormRGBA(color?: string){
   let res = makeRGBA(color);
   return {r:res.r/255, g:res.g/255, b:res.b/255, a:res.a/255}
 }

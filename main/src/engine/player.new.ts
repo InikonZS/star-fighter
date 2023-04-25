@@ -22,12 +22,12 @@ class Player extends GameObject {
   shieldTime: number;
   weapons: Weapon[];
   camera: Camera;
-  model: any;
+  model: GameObject;
   shieldModelScaler: number;
   shieldModel: any;
   shieldActivated: any;
-  hitbox: any;
-  nearbox: any;
+  hitbox: GameObject;
+  nearbox: GameObject;
   touch: any;
   speedVectorSync: any;
   currentWeaponIndex: number;
@@ -301,7 +301,7 @@ class Player extends GameObject {
   }
 }
 
-function makeHitBox(gameObject:GameObject, scale_: number, onHit: ()=>void){
+function makeHitBox(gameObject:GameObject & {game: Game, camera: Camera}, scale_: number, onHit: (bullet: GameObject)=>void){
   let hitbox = gameObject.game.world.createBreakable(gameObject.camera.getPosVector(), scale_);
   hitbox.type = 'object';
   hitbox.visible = false;

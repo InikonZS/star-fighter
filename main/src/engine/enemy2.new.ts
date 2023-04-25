@@ -11,6 +11,8 @@ import Message from './point-msg.new';
 const rand = calc.rand;
 import anyutils from '../any.utils.js';
 import Game from './game.new';
+import Mesh from '../mesh.object';
+import RenderableModelList from './renderable-model-list.new';
 
 class Enemy extends GameObject{
   MAX_SPEED: number;
@@ -19,7 +21,7 @@ class Enemy extends GameObject{
   TORQUE: number;
   RADIAL_FRICTION: number;
   THETA_VAL: number;
-  extLogic: any;
+  extLogic: (enemy: Enemy) => void;
   gl: WebGLRenderingContext;
   game: Game;
   pos: Vector3d;
@@ -37,7 +39,7 @@ class Enemy extends GameObject{
   onKilled: any;
   speedVectorSync: any;
   atack: boolean;
-  constructor(gl: WebGLRenderingContext, game: Game, startPoint: Vector3d, speedVector: Vector3d, modelList, extLogic){
+  constructor(gl: WebGLRenderingContext, game: Game, startPoint: Vector3d, speedVector: Vector3d, modelList: RenderableModelList, extLogic: (enemy: Enemy) => void){
     super();
     this.MAX_SPEED = 55;
     this.ACCELARATION = 5;
@@ -83,7 +85,7 @@ class Enemy extends GameObject{
       this.model = this.game.world.shipLists[calc.rand(this.game.world.shipLists.length)].createStaticItem(mtx);
     }
 
-    let hitbox = this.game.world.createBreakable(this.pos, 2);
+    let hitbox: GameObject & {visible: boolean, pos: Vector3d, scale: number, onHit:(bullet:  GameObject)=>void, meshPointer: Mesh} = this.game.world.createBreakable(this.pos, 2);
     hitbox.type = 'object';
     hitbox.visible = false;
     hitbox.scale = 2;

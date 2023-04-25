@@ -168,7 +168,7 @@ class Triangle{
 
   crossByLine(a: Vector3d, b: Vector3d){
     let res;
-    let dv = this.solveLinear(a, b, this.a, this.b, this.c);
+    let dv = this.solveLinear(a, b/*, this.a, this.b, this.c*/);
     let dVector = new Vector3d(dv.x, dv.y, dv.z);
     if (this.inTriangle(dVector)){
       if (calc.onLine(a, b, dVector)){

@@ -33,12 +33,12 @@ class Control {
 
   hide() {
     this.isHidden = true;
-    this.node.style = 'display:none';
+    this.node.style.cssText = 'display:none';
   }
 
   show() {
     this.isHidden = false;
-    this.node.style = '';
+    this.node.style.cssText = '';
   }
 
   animate(animationCssClass, inlineStyle) {
@@ -48,7 +48,7 @@ class Control {
           this.node.className = animationCssClass;
         }
         if (inlineStyle) {
-          this.node.style = inlineStyle;
+          this.node.style.cssText = inlineStyle;
         }
       });
     });

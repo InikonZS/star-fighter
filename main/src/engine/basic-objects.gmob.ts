@@ -11,7 +11,7 @@ import anyutils from '../any.utils';
 import World from './world.new';
 import RenderableModelList from './renderable-model-list.new';
 
-function makePhysicalAzi (world: World, pos: Vector3d, scale: number, azi: number, theta: number, modelList, visible = true, type = 'solid', onContact: ()=>void, onHit: ()=>void){
+function makePhysicalAzi (world: World, pos: Vector3d, scale: number, azi: number, theta: number, modelList: RenderableModelList, visible = true, type = 'solid', onContact: ()=>void, onHit: ()=>void){
   let niMat = m4.identity();
   niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
   niMat = m4.scale(niMat, scale, scale, scale);
@@ -35,7 +35,7 @@ function makePhysicalAzi (world: World, pos: Vector3d, scale: number, azi: numbe
 }
 
 
-function makePhysical (world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, visible = true, type = 'solid', onContact, onHit: ()=>void){
+function makePhysical (world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, visible = true, type = 'solid', onContact: ()=>void, onHit?: (bullet:GameObject)=>void){
   let niMat = m4.identity();
   niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
   niMat = m4.scale(niMat, scale, scale, scale);
@@ -56,7 +56,7 @@ function makePhysical (world: World, pos: Vector3d, scale: number, modelList: Re
   return el;
 }
 
-function makeCollactable(world: World, pos: Vector3d, scale: number, modelList, onCollect){
+function makeCollactable(world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, onCollect:()=>void){
   let ob = makePhysical(world, pos, scale, modelList, true, 'collectable', onCollect);
   ob.onCollect = onCollect;
   ob.bonus = '';
@@ -69,7 +69,7 @@ function makeBreakable(world: World, pos: Vector3d, scale: number, modelList, on
   return ob;
 }
 
-function makeBreakableStrong(world: World, pos: Vector3d, scale: number, modelList, health, onKilled: ()=>void, onHurt: ()=>void){
+function makeBreakableStrong(world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, health: number, onKilled: (bullet: GameObject)=>void, onHurt?: ()=>void){
   let ob = makePhysical(world, pos, scale, modelList, true, 'solid', false, (bullet)=>{
     if (bullet.damage!==undefined){
       ob.health-=bullet.damage;
@@ -87,7 +87,7 @@ function makeBreakableStrong(world: World, pos: Vector3d, scale: number, modelLi
   return ob;
 }
 
-function makeBreakableExplosive(world: World, pos: Vector3d, scale: number, modelList, health: number, exscale, onKilled: ()=>void){
+function makeBreakableExplosive(world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, health: number, exscale:number, onKilled: ()=>void){
   return makeBreakableStrong(world, pos, scale, modelList, health, (bullet)=>{
     world.createExplosion(pos, exscale);
     let vol = 130/(pos.subVector(world.game.player.camera.getPosVector()).abs());

@@ -38,9 +38,10 @@ class Target extends GameObject{
 }
 
 class TargetList extends GameObject{
-  game: any;
+  game: Game;
   onChange: () => void;
-  onCompletedAll: any;
+  onCompletedAll: () => void;
+  childList: Target[];
   constructor(game: Game){
     super();
     this.game=game;

@@ -1,7 +1,7 @@
 import Control from './control-js/control.component';
 import Pager from './control-js/pager.component';
 import { loadOptions, saveOptions } from './options.utils';
-import joyUtils from './joystick.component';
+import { TouchPad } from './joystick.component';
 import { GameSlideredScreen } from './control-js/menu.classes';
 import { ShipSlide } from './control-js/menu.classes';
 import misTexts from './mis.texts';
@@ -38,7 +38,7 @@ class GameMenu extends Control{
     });
     this.glCanvas = glCanvas;
     //this.isActive = true;
-    this.menu = new Pager(this.node, '', 'menu_background');
+    this.menu = new Pager(this.node, ''/*, 'menu_background'*/);
 
     this.mainMenu = this.menu.addPage('Main Menu');
     this.optionsMenu = this.menu.addPage('Options');
@@ -125,9 +125,9 @@ class GameMenu extends Control{
 
 //////
     this.startMenu.node.innerHTML="";
-    this.touchPad = new joyUtils.TouchPad(this.startMenu.node, ()=>{});
+    this.touchPad = new TouchPad(this.startMenu.node, ()=>{});
     this.touchPad.node.className = 'but fullScreenTouch';
-    this.touchPad.node.style = 'z-index:2'
+    this.touchPad.node.style.cssText = 'z-index:2'
     //this.startMenu.node.innerHTML='';
 
     let bs = new GameSlideredScreen(this.startMenu.node);
@@ -269,7 +269,7 @@ class GameMenu extends Control{
   }
 
   refresh(){
-    this.node.style = `
+    this.node.style.cssText = `
       position:absolute;
       width:${this.glCanvas.node.clientWidth}px;
       height:${this.glCanvas.node.clientHeight}px;

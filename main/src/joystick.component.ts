@@ -1,7 +1,7 @@
 import Control from './control-js/control.component';
 import GLCanvas from './gl-canvas.component';
 
-class Joy extends Control{
+export class Joy extends Control{
   menuButton: TouchButton;
   leftPad: TouchPad;
   touchPad: TouchPad;
@@ -11,7 +11,7 @@ class Joy extends Control{
   constructor(parentNode: HTMLElement, glCanvas: GLCanvas, onChange: ()=>void, onChangeLeft: ()=> void){
     super(parentNode, 'div', 'joy_panel', '');
     let headPanel = new Control(this.node, 'div', 'joy_panel');
-    headPanel.node.style='height:30px; top:0px';
+    headPanel.node.style.cssText ='height:30px; top:0px';
     this.menuButton = new TouchButton (headPanel.node, 'butg', (st)=>{
       if (!glCanvas.menu.isActive){
         glCanvas.menu.activate();
@@ -19,16 +19,16 @@ class Joy extends Control{
         document.exitPointerLock();
       } 
     });
-    this.menuButton.node.style = 'width:30px';
+    this.menuButton.node.style.cssText = 'width:30px';
 
     let mainPanel = new Control(this.node, 'div', 'joy_panel');
-    mainPanel.node.style='height:calc(100% - 30px - 7%); top:30px';
+    mainPanel.node.style.cssText ='height:calc(100% - 30px - 7%); top:30px';
     
 
     let leftGroup = new Control(mainPanel.node, 'div', 'but_group');
-    leftGroup.node.style = 'justify-content: flex-start;';
+    leftGroup.node.style.cssText = 'justify-content: flex-start;';
     let rightGroup = new Control(mainPanel.node, 'div', 'but_group');
-    rightGroup.node.style = 'justify-content: flex-end;';
+    rightGroup.node.style.cssText = 'justify-content: flex-end;';
     let rightSubGroup = new Control(rightGroup.node, 'div', 'but_subgroup');
 
 
@@ -73,16 +73,16 @@ class Joy extends Control{
     this.shotButton = new TouchButton (sub1.node, 'butg', (st)=>{
       glCanvas.keyboardState.shot= st;  
     });
-    this.shotButton.node.style='width:100%';
+    this.shotButton.node.style.cssText ='width:100%';
 
     this.shieldButton = new TouchButton (sub1.node, 'butg', (st)=>{
       glCanvas.keyboardState.space= st;  
     });
-    this.shieldButton.node.style='width:100%';
+    this.shieldButton.node.style.cssText ='width:100%';
   }
 }
 
-class TouchButton extends Control{
+export class TouchButton extends Control{
   onChange: (state: boolean) => void;
   constructor (parentNode: HTMLElement, className: string, onChange: (state: boolean)=>void){
     super (parentNode, 'div', className||'but', '');
@@ -110,7 +110,7 @@ class TouchButton extends Control{
   }
 }
 
-class TouchPad extends Control{
+export class TouchPad extends Control{
   onChange: (dx: number, dy: number, cx: number, cy: number)=>void;
 
   constructor (parentNode: HTMLElement, onChange: (dx: number, dy: number, cx: number, cy: number)=>void, onClick?: ()=>void){
@@ -149,7 +149,7 @@ class TouchPad extends Control{
       lts = undefined;  
     });
 
-    let startHandler = (e)=>{
+    let startHandler = (e: TouchEvent)=>{
       e.preventDefault();
       let br = but.node.getBoundingClientRect();
       let it;
@@ -169,7 +169,7 @@ class TouchPad extends Control{
       lts = undefined;
     };
 
-    let endHandler = (e)=>{
+    let endHandler = (e: TouchEvent | MouseEvent)=>{
       e.preventDefault();
       this.onChange(0,0, 0, 0);
       lts=undefined;
@@ -254,7 +254,7 @@ class TouchPad extends Control{
   }
 }
 
-interface IRect{
+export interface IRect{
   top: number,
   left: number,
   bottom: number,

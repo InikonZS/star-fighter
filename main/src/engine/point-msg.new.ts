@@ -12,7 +12,7 @@ class Message extends Control{
     super(parentNode, 'div');
     this.parentNode = parentNode;
     this.color = colorHex || 'fff';
-    this.node.style = `position:absolute; top:${0}px; left:${0}px; color:#${colorHex};`;
+    this.node.style.cssText = `position:absolute; top:${0}px; left:${0}px; color:#${colorHex};`;
     if (text){
       this.node.textContent = text;
     }
@@ -31,7 +31,7 @@ class Message extends Control{
     if (ps.x+this.node.clientWidth>relt.right){
       ps.x = ps.x-this.node.clientWidth;
     }
-    this.node.style=`position:absolute; top:${ps.y}px; left:${ps.x}px; color:#${this.color};`;
+    this.node.style.cssText =`position:absolute; top:${ps.y}px; left:${ps.x}px; color:#${this.color};`;
   }
 }
 

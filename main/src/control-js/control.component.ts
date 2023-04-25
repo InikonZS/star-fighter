@@ -2,7 +2,7 @@ export default class Control<T extends HTMLElement = HTMLElement> {
   isDisabled: boolean;
   isHidden: boolean;
   node: T;
-  click: (ev: MouseEvent) => void;
+  click: (ev?: MouseEvent) => void;
   
   constructor(parentNode: HTMLElement, tagName: string="div", className: string ="", textContent: string = "", click?: (ev: MouseEvent)=>void, fromParent?: boolean) {
     const classNameV = className || '';
@@ -49,12 +49,12 @@ export default class Control<T extends HTMLElement = HTMLElement> {
 
   hide() {
     this.isHidden = true;
-    this.node.style = 'display:none';
+    this.node.style.cssText = 'display:none';
   }
 
   show() {
     this.isHidden = false;
-    this.node.style = '';
+    this.node.style.cssText = '';
   }
 
   animate(animationCssClass: string, inlineStyle: string) {
@@ -64,7 +64,7 @@ export default class Control<T extends HTMLElement = HTMLElement> {
           this.node.className = animationCssClass;
         }
         if (inlineStyle) {
-          this.node.style = inlineStyle;
+          this.node.style.cssText = inlineStyle;
         }
       });
     });

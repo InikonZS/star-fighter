@@ -53,7 +53,7 @@ class RadioGroup extends Control{
 }
 
 export class Joy extends Control{
-  constructor(parentNode: HTMLElement, glCanvas: GLCanvas, onChange: (dx: number, dy: number, cx: number, cy: number)=>void, onChangeLeft: ()=>void){
+  constructor(parentNode: HTMLElement, glCanvas: GLCanvas, onChange: (dx: number, dy: number, cx: number, cy: number)=>void, onChangeLeft: (dx: number, dy: number, cx: number, cy: number)=>void){
     super(parentNode, 'div', 'njoy_wrapper_with_panel');
     //left
     let leftPanel = new Control(this.node, 'div', "njoy_panel njoy_panel_left");

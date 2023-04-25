@@ -4,7 +4,7 @@ import RenderableItem from './renderable-item.new';
 import { createTextureFromImg, setBuffer } from '../gl-utils';
 import { IShaderUnit } from './shaders/IShaderUnit';
 
-class ModelList extends RenderableModelList{
+export class SkyboxModelList extends RenderableModelList{
   constructor(gl: WebGLRenderingContext, shaderVariables: any, record: { source: string; texImage: any; }){
     super(gl, shaderVariables, record.source); 
     createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
@@ -21,12 +21,12 @@ class ModelList extends RenderableModelList{
     }*/
   }
 
-  createStaticItem(matrix: number[], color: { r: number; g: number; b: number; }){
+  createStaticItem(matrix: number[], color?: { r: number; g: number; b: number; a?:number}){
     return this.addChild(new RenderableItem(this.shaderVariables, this.mesh, matrix, color));  
   }
 }
 
-class ShaderList extends RenderableShaderList{
+export class SkyboxShaderList extends RenderableShaderList{
   constructor(gl: WebGLRenderingContext, shaderUnit: IShaderUnit){
     super(gl, shaderUnit);
     this.onRender = (gl, props)=>{
@@ -36,9 +36,9 @@ class ShaderList extends RenderableShaderList{
   }
 
   createModelList(record: { source: string; texImage: any; }){
-    return this.addChild(new ModelList(this.gl, this.shaderVariables, record));
+    return this.addChild(new SkyboxModelList(this.gl, this.shaderVariables, record)) as SkyboxModelList;
   }
 }
 
-export const SkyboxShaderList = ShaderList;
-export const SkyboxModeList = ModelList;
+//export const SkyboxShaderList = ShaderList;
+//export const SkyboxModeList = ModelList;

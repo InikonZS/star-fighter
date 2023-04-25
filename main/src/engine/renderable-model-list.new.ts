@@ -28,6 +28,10 @@ class RenderableModelList extends GameObject {
       console.log('deleted');
     });  
   }*/
+  createStaticItem(matrix: number[], color?: { r: number; g: number; b: number; a?:number}):GameObject{
+    //abstract
+    return null;
+  }
 }
 
 export default RenderableModelList;
