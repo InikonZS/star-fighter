@@ -50,7 +50,7 @@ function makeLineSpline(cnt: number, startVector: Vector3d, step: number){
   return res;
 };
 
-function recLabi(game: Game, rou: { cp: Vector3d; orot: number; cur: number; }[], i: string | number, blocks: GameObject[]){
+function recLabi(game: Game, rou: { cp: Vector3d; orot: number; cur: number; }[], i: number, blocks: GameObject[]){
   console.log('recpoint '+i);
   basics.makePhysical(game.world, new Vector3d (0, 10*lScaler, 0 ),lScaler,game.world.tun2[0]);
   if (rou[i]){

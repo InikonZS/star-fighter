@@ -16,7 +16,7 @@ class Weapon{
   world: World;
   sndClass: string;
   
-  constructor(world: World, shotTime: number, bulletLifeTime: number, bulletSpeed: number, soundClass: string, name='gun', bulletCount=100, damage: number){
+  constructor(world: World, shotTime: number, bulletLifeTime: number, bulletSpeed: number, soundClass?: string, name:string='gun', bulletCount:number=100, damage?: number){
     this.weaponName = name;
     this.bulletCount = bulletCount;
 

@@ -1,4 +1,5 @@
 import calc from '../calc.utils';
+import { IShaderVars } from './shaders/IShaderUnit';
 
 class Animation{
   frame: number;
@@ -29,7 +30,7 @@ class Animation{
     this.time = this.timeStep;
   }
 
-  render(gl: WebGLRenderingContext, shaderVariables: { posUniVec4: WebGLUniformLocation; }, deltaTime: number){
+  render(gl: WebGLRenderingContext, shaderVariables: IShaderVars, deltaTime: number){
     gl.uniform4f(shaderVariables.posUniVec4, 
           1 / this.xmax,
           1 / this.ymax, 

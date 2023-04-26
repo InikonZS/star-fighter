@@ -4,9 +4,11 @@ import RenderableItem from './renderable-item.new';
 import { setBuffer } from '../gl-utils';
 import Vector3d from '../vector3d.dev';
 import { IShaderUnit, IShaderVars } from './shaders/IShaderUnit';
+import GameObject from './game-object.new';
 
 export class SolidUntexturedModelList extends RenderableModelList{
   shaderVariables: IShaderVars;
+  childList: RenderableItem[];
 
   constructor(gl: WebGLRenderingContext, shaderVariables: IShaderVars, modelSource: string, preScaler: number){
     super(gl, shaderVariables, modelSource, preScaler); 
@@ -16,7 +18,7 @@ export class SolidUntexturedModelList extends RenderableModelList{
     }
   }
 
-  createStaticItem(matrix: Array<number>, color: { r: number, g: number, b: number, a?: number}, maxVisibleDist?: number){
+  createStaticItem(matrix: Array<number>, color?: { r: number, g: number, b: number, a?: number}, maxVisibleDist?: number){
     return this.addChild(new RenderableItem(this.shaderVariables, this.mesh, matrix, color, maxVisibleDist)) as RenderableItem;  
   }
 

@@ -2,9 +2,11 @@ import anyutils from '../../any.utils';
 import basics from '../basic-objects.gmob';
 import Vector3d from '../../vector3d.dev';
 import calc from '../../calc.utils';
+import Game from '../game.new';
+import { TexturedItem } from '../solid-textured.new';
 const rand =calc.rand;
 
-function missionGarage(game){
+function missionGarage(game: Game){
   game.player.camera.posY=0;
   game.player.camera.posX=0;
   game.player.camera.posZ=-5;
@@ -45,7 +47,7 @@ function missionGarage(game){
   
 
   for (let i=0; i< game.world.shipLists.length; i++){
-    let model = game.world.shipLists[i].createStaticItem(calc.matrixFromPos(new Vector3d(0,0,0), 1, 0, 0));
+    let model: TexturedItem & {menuIndex?: number} = game.world.shipLists[i].createStaticItem(calc.matrixFromPos(new Vector3d(0,0,0), 1, 0, 0));
     game.player.model.visible=false;
     model.menuIndex = i;
     model.onProcess = (deltaTime)=>{ //TODO use axis rotation

@@ -9,4 +9,5 @@ interface Window {
     resBase: any;
     sndBase: any;
     gameResource: any;
+    app: any;
 }

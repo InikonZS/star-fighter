@@ -13,6 +13,7 @@ import anyutils from '../any.utils.js';
 import Game from './game.new';
 import Mesh from '../mesh.object';
 import RenderableModelList from './renderable-model-list.new';
+import { TexturedItem } from './solid-textured.new';
 
 class Enemy extends GameObject{
   MAX_SPEED: number;
@@ -35,7 +36,7 @@ class Enemy extends GameObject{
   msgPref: string;
   msg: Message;
   model: GameObject;
-  hitbox: GameObject;
+  hitbox: TexturedItem;
   onKilled: ()=>void;
   speedVectorSync: Vector3d;
   atack: boolean;
@@ -85,7 +86,7 @@ class Enemy extends GameObject{
       this.model = this.game.world.shipLists[calc.rand(this.game.world.shipLists.length)].createStaticItem(mtx);
     }
 
-    let hitbox: GameObject & {visible: boolean, pos: Vector3d, scale: number, onHit:(bullet:  GameObject)=>void, meshPointer: Mesh} = this.game.world.createBreakable(this.pos, 2);
+    let hitbox = this.game.world.createBreakable(this.pos, 2);
     hitbox.type = 'object';
     hitbox.visible = false;
     hitbox.scale = 2;

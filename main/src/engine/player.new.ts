@@ -11,6 +11,8 @@ import GameObject from './game-object.new';
 import Phys from './physic.new';
 import Game from './game.new';
 import { AnimatedTextureItem } from './ani-textured.new';
+import { TexturedItem } from './solid-textured.new';
+import RenderableItem from './renderable-item.new';
 
 const shieldTimeStd = 0.03;
 
@@ -23,7 +25,7 @@ class Player extends GameObject {
   shieldTime: number;
   weapons: Weapon[];
   camera: Camera;
-  model: GameObject;
+  model: TexturedItem | RenderableItem;
   shieldModelScaler: number;
   shieldModel: AnimatedTextureItem;
   shieldActivated: boolean;

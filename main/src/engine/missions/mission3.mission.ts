@@ -29,7 +29,7 @@ function mission3(game: Game){
 
   rou.forEach(it=>{
     starChunk(game, it, 400, 50);
-    let brp = basics.makeBreakableExplosive(game.world, it, 0.1, game.world.meteModelList, 10, 30, (bullet)=>{
+    let brp = basics.makeBreakableExplosive(game.world, it, 0.1, game.world.meteModelList, 10, 30, ()=>{
       brp.deleteSelf();  
     });  
   })
@@ -37,7 +37,7 @@ function mission3(game: Game){
   recCollectable(game, rou ,0);
 }
 
-function recCollectable(game: Game, rou: { [x: string]: any; }, i: string | number){
+function recCollectable(game: Game, rou: Array<Vector3d>, i: number){
   console.log('recpoint '+i);
   if (rou[i]){
     let tg = game.addLabel('target', rou[i]);

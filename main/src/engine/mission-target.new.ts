@@ -3,7 +3,7 @@ import calc from '../calc.utils';
 import GameObject from './game-object.new';
 import Game from './game.new';
 
-class Target extends GameObject{
+export class Target extends GameObject{
   text: string;
   status: string;
   onChange: (status: string)=>void;
@@ -77,7 +77,7 @@ class TargetList extends GameObject{
 
   checkAll(){
     let res = true;
-    for (let i=0; i<this.childList.lenght; i++){
+    for (let i=0; i<this.childList.length; i++){
       if (this.childList[i].status!='completed'){
         return false;
       }

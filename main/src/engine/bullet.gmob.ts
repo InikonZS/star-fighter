@@ -20,6 +20,7 @@ export interface IGenericBullet {
   lastSpeedVectorSync: Vector3d,
   lastPosition: Vector3d,
   speedVectorSync: Vector3d,
+  weaponName: string
   //onHit: (bullet: IGenericBullet)=>void;
 }
 
@@ -140,15 +141,15 @@ function makeGenericBullet(game: Game, basicObject:any, pos: Vector3d, scale=1, 
 
 function makeBoxBullet(game: Game, pos: Vector3d, speed: Vector3d, lifetime: number, color: any, weaponName: string, damage: number, reflectable: boolean){
   let el = game.world.boxModelList.createStaticItem(m4.identity(), color); 
-  el.weaponName = weaponName;
   let elm = makeGenericBullet(game, el, pos, 1, 0, 0, speed, lifetime, damage, reflectable);
+  elm.weaponName = weaponName;
   return elm;
 }
 
 function makeAnimatedBullet(game: Game, pos: Vector3d, scale: number, speed: Vector3d, lifetime: number, weaponName: string, damage: number, reflectable: boolean){
-  let el = game.world.bulPlasm.createStaticItem(m4.identity(), 3, 1, 0.05);
-  el.weaponName = weaponName;
+  let el = game.world.bulPlasm.createStaticItem(m4.identity(), null, 3, 1, 0.05);
   let elm = makeGenericBullet(game, el, pos, scale, 0, 0, speed, lifetime, damage, reflectable);
+  elm.weaponName = weaponName;
   return elm;
 }
 

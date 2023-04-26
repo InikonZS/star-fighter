@@ -11,6 +11,7 @@ class RenderableItem extends GameObject {
   visible: boolean;
   maxVisibleDistance: number;
   pos_: Vector3d;
+  centerPoint?: Vector3d;
 
   constructor(shaderVariables: IShaderVars, meshPointer: Mesh, matrix: number[], color: { r: number; g: number; b: number; a?: number}, maxVisibleDist?: number){
     super();

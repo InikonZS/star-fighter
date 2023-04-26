@@ -204,7 +204,10 @@ function glRender(glCanvas: GLCanvas, deltaTime: number){
   }
   glCanvas.infoTimer.process(deltaTime);
   //glCanvas.info.node.textContent = 'FPS: '+ Math.round(1/glCanvas.averageRenderTime);
-
+  if (!(glCanvas.glContext.canvas instanceof HTMLCanvasElement)){
+    //warning if not canvas.
+    return;
+  }
   var aspect = glCanvas.glContext.canvas.clientWidth / glCanvas.glContext.canvas.clientHeight;
   
   glCanvas.game.render(aspect, deltaTime);

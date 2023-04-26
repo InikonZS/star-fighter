@@ -15,10 +15,10 @@ import { IGenericBullet } from './bullet.gmob';
 
 interface IPhysicalAzi extends TexturedItem{
   visible: boolean,
-  onHit: (ob: IGenericBullet)=>void,
+  onHit: (ob: IGenericBullet | GameObject)=>void,
 }
 
-function makePhysicalAzi (world: World, pos: Vector3d, scale: number, azi: number, theta: number, modelList: RenderableModelList, visible = true, type = 'solid', onContact: ()=>void, onHit: ()=>void): IPhysicalAzi{
+function makePhysicalAzi (world: World, pos: Vector3d, scale: number, azi: number, theta: number, modelList: RenderableModelList, visible = true, type = 'solid', onContact?: ()=>void, onHit?: ()=>void): IPhysicalAzi{
   let niMat = m4.identity();
   niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
   niMat = m4.scale(niMat, scale, scale, scale);
@@ -42,7 +42,7 @@ function makePhysicalAzi (world: World, pos: Vector3d, scale: number, azi: numbe
 }
 
 
-function makePhysical (world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, visible = true, type = 'solid', onContact: ()=>void, onHit?: (bullet:IGenericBullet)=>void){
+function makePhysical (world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, visible = true, type = 'solid', onContact?: ()=>void, onHit?: (bullet:IGenericBullet)=>void){
   let niMat = m4.identity();
   niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
   niMat = m4.scale(niMat, scale, scale, scale);
@@ -63,7 +63,7 @@ function makePhysical (world: World, pos: Vector3d, scale: number, modelList: Re
   return el;
 }
 
-function makeCollactable(world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, onCollect:()=>void){
+function makeCollactable(world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, onCollect?:(gameObject?:GameObject)=>void){
   let ob = makePhysical(world, pos, scale, modelList, true, 'collectable', onCollect);
   ob.onCollect = onCollect;
   ob.bonus = '';
@@ -71,7 +71,7 @@ function makeCollactable(world: World, pos: Vector3d, scale: number, modelList: 
   return ob;
 }
 
-function makeBreakable(world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, onHit: ()=>void){
+function makeBreakable(world: World, pos: Vector3d, scale: number, modelList: RenderableModelList, onHit: (bullet?: IGenericBullet)=>void){
   let ob = makePhysical(world, pos, scale, modelList, true, 'solid', null, onHit);
   return ob;
 }

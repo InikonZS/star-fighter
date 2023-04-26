@@ -243,7 +243,7 @@ class World{
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
-    let el = this.explosions.createStaticItem(mt, 5, 4, 0.05);
+    let el = this.explosions.createStaticItem(mt, null, 5, 4, 0.05);
     el.animation.onFinished = ()=>{
       el.deleteSelf();
     }
@@ -253,7 +253,7 @@ class World{
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
-    let el = this.magics.createStaticItem(mt, 5, 5, 0.05); 
+    let el = this.magics.createStaticItem(mt, null, 5, 5, 0.05); 
     if (single){
       el.animation.onFinished = ()=>{
         el.deleteSelf();
@@ -266,7 +266,7 @@ class World{
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
-    let el = this.magicSpheres.createStaticItem(mt, 5, 5, 0.05); 
+    let el = this.magicSpheres.createStaticItem(mt, null, 5, 5, 0.05); 
     if (single){
       el.animation.onFinished = ()=>{
         el.deleteSelf();
@@ -279,7 +279,7 @@ class World{
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
-    let el = this.magicFogSpheres.createStaticItem(mt, 5, 1, 0.10); 
+    let el = this.magicFogSpheres.createStaticItem(mt, null, 5, 1, 0.10); 
     if (single){
       el.animation.onFinished = ()=>{
         el.deleteSelf();
@@ -293,7 +293,7 @@ class World{
     let mt = m4.identity();
     mt = m4.translate(mt, pos.x, pos.y, pos.z);
     mt = m4.scale(mt, scale, scale, scale);
-    let el = modelList.createStaticItem(mt, xmax, ymax, frametime); 
+    let el = modelList.createStaticItem(mt, null, xmax, ymax, frametime); 
     if (single){
       el.animation.onFinished = ()=>{
         el.deleteSelf();
@@ -308,7 +308,7 @@ class World{
     mt = m4.scale(mt, scale, scale, scale);
     mt = m4.zRotate(mt, azi);
     mt = m4.xRotate(mt, theta);
-    let el = modelList.createStaticItem(mt, xmax, ymax, frametime); 
+    let el = modelList.createStaticItem(mt, null, xmax, ymax, frametime); 
     if (single){
       el.animation.onFinished = ()=>{
         el.deleteSelf();
@@ -334,7 +334,7 @@ class World{
     return el;
   }
 
-  createSolid (pos: Vector3d, scale: number, color: { r: number; g: number; b: number; a?: number; }, bm?: boolean){
+  createSolid (pos: Vector3d, scale: number, color: { r: number; g: number; b: number; a?: number; }, bm?: string){
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
     niMat = m4.scale(niMat, scale, scale, scale);

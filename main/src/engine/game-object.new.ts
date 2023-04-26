@@ -1,4 +1,6 @@
 import Mesh from "../mesh.object";
+import Physic from "./physic.new";
+import Player from "./player.new";
 import Vector3d from "d:/works/star-fighter/star-fighter/main/src/vector3d.dev";
 
 export default class GameObject{
@@ -26,11 +28,12 @@ export default class GameObject{
   shaderProgram: WebGLProgram;
   type: string;
   hitDist: number;
-  physicList: any;
-  onContact: (gameObject: GameObject)=>void;
+  physicList: Physic;
+  onContact: (gameObject: Player)=>void;
   bonus: string;
-  bonus_count: any;
+  bonus_count: number;
   onCollect: (gameObject: GameObject)=>void;
+  onHit: (gameObject: GameObject)=>void;
 
   constructor(){
     this.childList = [];

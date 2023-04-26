@@ -13,6 +13,7 @@ import anyutils from '../any.utils';
 import Game from './game.new';
 import RenderableModelList from './renderable-model-list.new';
 import { TexturedItem } from './solid-textured.new';
+import { Target } from './mission-target.new';
 
 class Enemy extends GameObject{
   MAX_SPEED: number;
@@ -36,8 +37,9 @@ class Enemy extends GameObject{
   onKilled: ()=>void;
   speedVectorSync: Vector3d;
   atack: boolean;
+  targetPointer: Target;
 
-  constructor(gl: WebGLRenderingContext, game:Game, startPoint: Vector3d, speedVector: Vector3d, modelList: RenderableModelList, extLogic: (enemy: Enemy) => void){
+  constructor(gl: WebGLRenderingContext, game:Game, startPoint: Vector3d, speedVector: Vector3d, modelList?: RenderableModelList, extLogic?: (enemy: Enemy) => void){
     super();
     this.MAX_SPEED = 55;
     this.ACCELARATION = 5;

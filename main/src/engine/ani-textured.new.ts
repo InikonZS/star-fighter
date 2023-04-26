@@ -3,17 +3,17 @@ import RenderableModelList from './renderable-model-list.new';
 import GameObject from './game-object.new';
 import Animation from './animation.new';
 import { createTextureFromImg, setBuffer } from '../gl-utils';
-import { IShaderUnit } from './shaders/IShaderUnit';
+import { IShaderUnit, IShaderVars } from './shaders/IShaderUnit';
 import Mesh from '../mesh.object';
 
 export class AnimatedTextureItem extends GameObject {
   meshPointer: Mesh;
-  shaderVariables: {worldUniMat4: WebGLUniformLocation, posUniVec4:WebGLUniformLocation};
+  shaderVariables: IShaderVars;
   count: number;
   animation: Animation;
   visible: boolean;
 
-  constructor(shaderVariables: {worldUniMat4: WebGLUniformLocation, posUniVec4:WebGLUniformLocation}, meshPointer: Mesh, matrix: number[], xmax: number, ymax: number, timeStep: number){
+  constructor(shaderVariables: IShaderVars, meshPointer: Mesh, matrix: number[], xmax: number, ymax: number, timeStep: number){
     super();
     this.meshPointer = meshPointer;
     this.shaderVariables = shaderVariables;
@@ -52,7 +52,7 @@ export class AnimatedModelList extends RenderableModelList{
     }*/
   }
 
-  createStaticItem(matrix: Array<number>, xmax: number, ymax: number, timeStep: number){
+  createStaticItem(matrix: Array<number>, color?: { r: number, g: number, b: number, a?: number}, xmax?: number, ymax?: number, timeStep?: number){
     return this.addChild(new AnimatedTextureItem(this.shaderVariables, this.mesh, matrix, xmax, ymax, timeStep)) as AnimatedTextureItem;  
   }
 }

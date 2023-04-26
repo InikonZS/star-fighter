@@ -84,10 +84,10 @@ class RingIndicator extends Control{
 
 function setpixelated(context: CanvasRenderingContext2D){
   context['imageSmoothingEnabled'] = false;       /* standard */
-  context['mozImageSmoothingEnabled'] = false;    /* Firefox */
-  context['oImageSmoothingEnabled'] = false;      /* Opera */
-  context['webkitImageSmoothingEnabled'] = false; /* Safari */
-  context['msImageSmoothingEnabled'] = false;     /* IE */
+  (context as any)['mozImageSmoothingEnabled'] = false;    /* Firefox */
+  (context as any)['oImageSmoothingEnabled'] = false;      /* Opera */
+  (context as any)['webkitImageSmoothingEnabled'] = false; /* Safari */
+  (context as any)['msImageSmoothingEnabled'] = false;     /* IE */
 }
 
 /*let tb = document.querySelector('.joy_weap1_ico');

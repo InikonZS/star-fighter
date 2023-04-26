@@ -8,6 +8,7 @@ import { createBulletBox, createHealthBox} from '../collectable.new';
 
 import mUtils from './mission.utils';
 import Game from '../game.new';
+import { TexturedItem } from '../solid-textured.new';
 const randVector = mUtils.randVector;
 const starChunk = mUtils.starChunk;
 
@@ -42,7 +43,7 @@ function mission1(game: Game){
   let enKilled = 0;
 
   let makeEnemy = ()=>{
-    let en;
+    let en: Enemy;
     if (calc.rand(5)<4){
       en = new Enemy (game.gl, game, randVector(new Vector3d(1000,0,0), 500), new Vector3d(0,0,0), game.world.shipLists[0] );
       en.atackObject = brp;
@@ -56,7 +57,7 @@ function mission1(game: Game){
     en.onKilled=()=>{
       enKilled++;
       misTarget1.setText('Kill all enemies '+enKilled+'/'+enMax);
-      let nt=big;
+      let nt: TexturedItem = big;
       for (let i=0; i< enList.length; i++){
         if (enList[i].isExists && enList[i].hitbox){
           nt = enList[i].hitbox;
