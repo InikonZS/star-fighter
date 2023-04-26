@@ -33,12 +33,12 @@ class Control {
 
   hide() {
     this.isHidden = true;
-    this.node.style = 'display:none';
+    this.node.style.cssText = 'display:none';
   }
 
   show() {
     this.isHidden = false;
-    this.node.style = '';
+    this.node.style.cssText = '';
   }
 
   animate(animationCssClass, inlineStyle) {
@@ -48,7 +48,7 @@ class Control {
           this.node.className = animationCssClass;
         }
         if (inlineStyle) {
-          this.node.style = inlineStyle;
+          this.node.style.cssText = inlineStyle;
         }
       });
     });
@@ -84,7 +84,7 @@ but.node.addEventListener('touchmove', (e)=>{
     let dy = (ay-ly)/dt;
 
     let sc = 20000.1;
-    cur.node.style = `
+    cur.node.style.cssText = `
       top:${dy*sc+50}px;
       left:${dx*sc+50}px;
     `;

@@ -1,7 +1,14 @@
-import Control from './control.component';
+import Control from '../control-js/control.component';
+import calc from '../calc.utils';
+//const getScreenPos = calc.getScreenPos;
+import GameObject from './game-object.new';
+import Vector3d from '../vector3d.dev';
+import GLCanvas from '../gl-canvas.component';
 
 class Message extends Control{
-  constructor(parentNode, text, colorHex){
+  parentNode: HTMLElement;
+  color: string;
+  constructor(parentNode: HTMLElement, text: string, colorHex: string){
     super(parentNode, 'div');
     this.parentNode = parentNode;
     this.color = colorHex || 'fff';
@@ -11,7 +18,7 @@ class Message extends Control{
     }
   }
 
-  refresh(viewMatrix, vector, text){
+  refresh(viewMatrix: Array<number>, vector: Vector3d, text: string){
     let rect = this.parentNode.getBoundingClientRect();
     let relt = {top:0, left:0, right:rect.width, bottom:rect.height}
     let ps = getScreenPos(viewMatrix, vector, relt);
@@ -28,7 +35,28 @@ class Message extends Control{
   }
 }
 
-function getScreenPos(viewMatrix, vector, clipRect){
+class MessageGamed extends GameObject{
+  textPref: string;
+  text: string;
+  messageNode: Message;
+  vector: Vector3d;
+  constructor(glCanvas: GLCanvas, text: string, colorHex: string, vector: Vector3d){
+    super();
+    let parentNode = glCanvas.gamePanel.view.node;
+    this.messageNode = new Message(parentNode, text, colorHex);
+    this.vector = vector;
+    this.text = text;
+    this.onRender = (gl, props) =>{
+      this.messageNode.refresh(props.viewMatrix, this.vector, this.text);
+    }
+    this.onDelete = () =>{
+      parentNode.removeChild(this.messageNode.node);
+    }
+  }
+}
+
+
+function getScreenPos(viewMatrix: number[], vector: Vector3d, clipRect: { top: any; left: any; right: any; bottom: any; }){
   var point = [vector.x, vector.y, vector.z, 1];  
   // это верхний правый угол фронтальной части
   // вычисляем координаты пространства отсечения,
@@ -54,4 +82,4 @@ function getScreenPos(viewMatrix, vector, clipRect){
   return {x:pixelX, y:pixelY, back:(clipspace[3]<0)}
 }
 
-export default Message;
+export default MessageGamed;
