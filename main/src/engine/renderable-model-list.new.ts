@@ -2,11 +2,12 @@ import GameObject from './game-object.new';
 import RenderableItem from './renderable-item.new';
 import Mesh from '../mesh.object';
 import GLUtils from '../gl-utils';
+import { IShaderVars } from './shaders/IShaderUnit';
 
 class RenderableModelList extends GameObject {
-  shaderVariables: any;
+  shaderVariables: IShaderVars;
 
-  constructor(gl: WebGLRenderingContext, shaderVariables: any, modelSource: string, preScaler?: number){
+  constructor(gl: WebGLRenderingContext, shaderVariables: IShaderVars, modelSource: string, preScaler?: number){
     super();
     this.shaderVariables = shaderVariables;
     this.mesh = new Mesh(gl);

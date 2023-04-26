@@ -10,6 +10,7 @@ import GameObject from './game-object.new';
 
 import Phys from './physic.new';
 import Game from './game.new';
+import { AnimatedTextureItem } from './ani-textured.new';
 
 const shieldTimeStd = 0.03;
 
@@ -24,12 +25,12 @@ class Player extends GameObject {
   camera: Camera;
   model: GameObject;
   shieldModelScaler: number;
-  shieldModel: any;
-  shieldActivated: any;
+  shieldModel: AnimatedTextureItem;
+  shieldActivated: boolean;
   hitbox: GameObject;
   nearbox: GameObject;
-  touch: any;
-  speedVectorSync: any;
+  touch: Phys;
+  speedVectorSync: Vector3d;
   currentWeaponIndex: number;
   refTimer: Timer;
   envTimer: Timer;

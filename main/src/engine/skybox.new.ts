@@ -2,10 +2,11 @@ import RenderableShaderList from './renderable-shader-list.new';
 import RenderableModelList from './renderable-model-list.new';
 import RenderableItem from './renderable-item.new';
 import { createTextureFromImg, setBuffer } from '../gl-utils';
-import { IShaderUnit } from './shaders/IShaderUnit';
+import { IShaderUnit, IShaderVars } from './shaders/IShaderUnit';
+import { IResourceRecord } from '../res-loader';
 
 export class SkyboxModelList extends RenderableModelList{
-  constructor(gl: WebGLRenderingContext, shaderVariables: any, record: { source: string; texImage: any; }){
+  constructor(gl: WebGLRenderingContext, shaderVariables: IShaderVars, record: IResourceRecord){
     super(gl, shaderVariables, record.source); 
     createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
 
@@ -35,7 +36,7 @@ export class SkyboxShaderList extends RenderableShaderList{
     }
   }
 
-  createModelList(record: { source: string; texImage: any; }){
+  createModelList(record: IResourceRecord){
     return this.addChild(new SkyboxModelList(this.gl, this.shaderVariables, record)) as SkyboxModelList;
   }
 }

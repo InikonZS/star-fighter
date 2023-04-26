@@ -30,16 +30,16 @@ class Enemy extends GameObject{
   nv: Vector3d;
   aziV: Vector3d;
   azi: Vector3d;
-  atackObject: any;
-  atackList: any[];
+  atackObject: GameObject;
+  atackList: GameObject[];
   msgPref: string;
   msg: Message;
-  model: any;
-  hitbox: any;
-  onKilled: any;
-  speedVectorSync: any;
+  model: GameObject;
+  hitbox: GameObject;
+  onKilled: ()=>void;
+  speedVectorSync: Vector3d;
   atack: boolean;
-  constructor(gl: WebGLRenderingContext, game: Game, startPoint: Vector3d, speedVector: Vector3d, modelList: RenderableModelList, extLogic: (enemy: Enemy) => void){
+  constructor(gl: WebGLRenderingContext, game: Game, startPoint: Vector3d, speedVector: Vector3d, modelList: RenderableModelList, extLogic?: (enemy: Enemy) => void){
     super();
     this.MAX_SPEED = 55;
     this.ACCELARATION = 5;

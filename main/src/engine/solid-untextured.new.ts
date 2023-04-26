@@ -68,7 +68,7 @@ export class SolidUntexturedShaderList extends RenderableShaderList{
   }
   
 
-  createModelList(modelSource: string, preScaler?: number): RenderableModelList{
-    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource, preScaler)) as RenderableModelList;
+  createModelList(modelSource: string, preScaler?: number): SolidUntexturedModelList{
+    return this.addChild(new SolidUntexturedModelList(this.gl, this.shaderVariables, modelSource, preScaler)) as SolidUntexturedModelList;
   }
 }

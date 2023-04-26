@@ -37,7 +37,7 @@ export function getNormal(u: { x: number; y: number; z: number; }, v: { x: numbe
   return {x: n.x/d, y: n.y/d, z: n.z/d}
 }
 
-export function getValueD(v: { x: number; y: number; z: number; }, n: { x: any; y: any; z: any; }){
+export function getValueD(v: { x: number; y: number; z: number; }, n: { x: number; y: number; z: number; }){
   let d = -(v.x*n.x + v.y*n.y + v.z*n.z);
   return d;
 }

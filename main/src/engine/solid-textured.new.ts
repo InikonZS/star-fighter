@@ -6,6 +6,7 @@ import { createTextureFromImg, setBuffer } from '../gl-utils';
 import Vector3d from '../vector3d.dev';
 import Mesh from '../mesh.object';
 import { IShaderUnit, IShaderVars } from './shaders/IShaderUnit';
+import { IResourceRecord } from '../res-loader';
 
 export class TexturedItem extends GameObject {
   meshPointer: Mesh;
@@ -43,7 +44,7 @@ export class TexturedItem extends GameObject {
 
 export class SolidTexturedModelList extends RenderableModelList{
  // constructor(gl, shaderVariables, modelSource, textureURL, preScaler){
-  constructor(gl: WebGLRenderingContext, shaderVariables: any, record: { source: string; texImage: any; }, preScaler: number){
+  constructor(gl: WebGLRenderingContext, shaderVariables: IShaderVars, record: IResourceRecord, preScaler: number){
     super(gl, shaderVariables, record.source, preScaler); 
     //GLUtils.createTexture(gl, textureURL, (tex)=>{this.texture = tex});
     createTextureFromImg(gl, record.texImage, (tex)=>{this.texture = tex});
@@ -110,7 +111,7 @@ export class SolidTexturedShaderList extends RenderableShaderList{
     }
   }
 
-  createModelList(record: { source: string; texImage: any; }, preScaler?: number){
+  createModelList(record: IResourceRecord, preScaler?: number){
     return this.addChild(new SolidTexturedModelList(this.gl, this.shaderVariables, record, preScaler)) as SolidTexturedModelList;
   }
 }

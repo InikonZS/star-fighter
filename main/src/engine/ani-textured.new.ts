@@ -6,7 +6,7 @@ import { createTextureFromImg, setBuffer } from '../gl-utils';
 import { IShaderUnit } from './shaders/IShaderUnit';
 import Mesh from '../mesh.object';
 
-class AnimatedTextureItem extends GameObject {
+export class AnimatedTextureItem extends GameObject {
   meshPointer: Mesh;
   shaderVariables: {worldUniMat4: WebGLUniformLocation, posUniVec4:WebGLUniformLocation};
   count: number;

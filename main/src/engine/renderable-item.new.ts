@@ -1,9 +1,10 @@
 import GameObject from './game-object.new';
 import Vector3d from '../vector3d.dev';
 import { IShaderVars } from './shaders/IShaderUnit';
+import Mesh from '../mesh.object';
 
 class RenderableItem extends GameObject {
-  meshPointer: { vertexList: string | any[]; };
+  meshPointer: Mesh;
   shaderVariables: IShaderVars;
   count: number;
   color: { r: number; g: number; b: number; a?: number};
@@ -11,7 +12,7 @@ class RenderableItem extends GameObject {
   maxVisibleDistance: number;
   pos_: Vector3d;
 
-  constructor(shaderVariables: IShaderVars, meshPointer: { vertexList: string | any[]; }, matrix: number[], color: { r: number; g: number; b: number; a?: number}, maxVisibleDist?: number){
+  constructor(shaderVariables: IShaderVars, meshPointer: Mesh, matrix: number[], color: { r: number; g: number; b: number; a?: number}, maxVisibleDist?: number){
     super();
     this.meshPointer = meshPointer;
     this.shaderVariables = shaderVariables;

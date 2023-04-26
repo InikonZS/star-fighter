@@ -12,6 +12,7 @@ const rand = calc.rand;
 import anyutils from '../any.utils';
 import Game from './game.new';
 import RenderableModelList from './renderable-model-list.new';
+import { TexturedItem } from './solid-textured.new';
 
 class Enemy extends GameObject{
   MAX_SPEED: number;
@@ -31,7 +32,7 @@ class Enemy extends GameObject{
   azi: Vector3d;
   msg: Message;
   model: GameObject;
-  hitbox: any;
+  hitbox: TexturedItem;
   onKilled: ()=>void;
   speedVectorSync: Vector3d;
   atack: boolean;

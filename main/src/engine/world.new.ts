@@ -7,9 +7,9 @@ import calc from '../calc.utils';
 import Vector3d from '../vector3d.dev';
 
 import solidUntexturedShaderUnit from './shaders/solid-untextured.shader';
-import { SolidUntexturedShaderList } from './solid-untextured.new';
+import { SolidUntexturedModelList, SolidUntexturedShaderList } from './solid-untextured.new';
 import solidTexturedShaderUnit from './shaders/solid-textured.shader';
-import { SolidTexturedModelList, SolidTexturedShaderList } from './solid-textured.new';
+import { SolidTexturedModelList, SolidTexturedShaderList, TexturedItem } from './solid-textured.new';
 import skyboxShaderUnit from './shaders/skybox.shader';
 import { SkyboxModelList, SkyboxShaderList } from './skybox.new';
 import animatedShaderUnit from './shaders/ani-textured.shader';
@@ -22,18 +22,18 @@ import RenderableModelList from './renderable-model-list.new';
 class World{
   gl: WebGLRenderingContext;
   game: Game;
-  viewMatrix: any;
+  viewMatrix: Array<number>;
   skyboxShaderList: SkyboxShaderList;
   skyboxModelList: SkyboxModelList;
   animatedShaderList: AnimatedShaderList;
   explosions: AnimatedModelList;
   magics: AnimatedModelList;
-  magicFogSpheres: any;
-  bulPlasm: any;
+  magicFogSpheres: AnimatedModelList;
+  bulPlasm: AnimatedModelList;
   solidUntexturedShaderList: SolidUntexturedShaderList;
   solidTexturedShaderList: SolidTexturedShaderList;
-  tun1: any[];
-  tun2: any[];
+  tun1: SolidTexturedModelList[];
+  tun2: SolidTexturedModelList[];
   meteModelList: SolidTexturedModelList;
   mercuryModelList: RenderableModelList;
   marsModelList: RenderableModelList;
@@ -43,16 +43,16 @@ class World{
   corridorModelList: RenderableModelList;
   assaultModelList: RenderableModelList;
   boxModelList: SolidTexturedModelList;
-  selfModelLists: RenderableModelList[];
-  bigModelList: RenderableModelList;
-  shipLists: RenderableModelList[];
-  chunkList: RenderableModelList;
+  selfModelLists:(SolidUntexturedModelList | SolidTexturedModelList)[];
+  bigModelList: SolidTexturedModelList;
+  shipLists: SolidTexturedModelList[];
+  chunkList: SolidUntexturedModelList;
   graphicList: GameObject;
   physicsList: GameObject;
   bulletList: GameObject;
   breakableList: GameObject;
   objectList: GameObject;
-  magicSpheres: any;
+  magicSpheres: AnimatedModelList;
 
   constructor(gl: WebGLRenderingContext, game: Game){
     
@@ -318,7 +318,7 @@ class World{
   }
   //////
 
-  createBreakable (pos: Vector3d, scale: number, color?: { r: number; g: number; b: number; a?: number; }){
+  createBreakable (pos: Vector3d, scale: number, color?: { r: number; g: number; b: number; a?: number; }): TexturedItem & {onHit: (ob: GameObject)=>void; process_?: (deltatime: number)=>void}{
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
     niMat = m4.scale(niMat, scale, scale, scale);
@@ -354,7 +354,7 @@ class World{
     return el;
   }
 
-  createDanger (pos: Vector3d, scale: number, color: any){
+  createDanger (pos: Vector3d, scale: number, color: {r: number, g: number, b: number, a?:number}){
     let niMat = m4.identity();
     niMat = m4.translate(niMat, pos.x, pos.y, pos.z);
     niMat = m4.scale(niMat, scale, scale, scale);
