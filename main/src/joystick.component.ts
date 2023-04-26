@@ -10,7 +10,7 @@ export class Joy extends Control{
 
   constructor(parentNode: HTMLElement, glCanvas: GLCanvas, onChange: ()=>void, onChangeLeft: ()=> void){
     super(parentNode, 'div', 'joy_panel', '');
-    let headPanel = new Control(this.node, 'div', 'joy_panel');
+    const headPanel = new Control(this.node, 'div', 'joy_panel');
     headPanel.node.style.cssText ='height:30px; top:0px';
     this.menuButton = new TouchButton (headPanel.node, 'butg', (st)=>{
       if (!glCanvas.menu.isActive){
@@ -21,18 +21,18 @@ export class Joy extends Control{
     });
     this.menuButton.node.style.cssText = 'width:30px';
 
-    let mainPanel = new Control(this.node, 'div', 'joy_panel');
+    const mainPanel = new Control(this.node, 'div', 'joy_panel');
     mainPanel.node.style.cssText ='height:calc(100% - 30px - 7%); top:30px';
     
 
-    let leftGroup = new Control(mainPanel.node, 'div', 'but_group');
+    const leftGroup = new Control(mainPanel.node, 'div', 'but_group');
     leftGroup.node.style.cssText = 'justify-content: flex-start;';
-    let rightGroup = new Control(mainPanel.node, 'div', 'but_group');
+    const rightGroup = new Control(mainPanel.node, 'div', 'but_group');
     rightGroup.node.style.cssText = 'justify-content: flex-end;';
-    let rightSubGroup = new Control(rightGroup.node, 'div', 'but_subgroup');
+    const rightSubGroup = new Control(rightGroup.node, 'div', 'but_subgroup');
 
 
-    let weaponSubGroup = new Control(leftGroup.node, 'div', 'but_subgroup');
+    const weaponSubGroup = new Control(leftGroup.node, 'div', 'but_subgroup');
     for (let i=0; i<4; i++){
       new TouchButton (weaponSubGroup.node, 'butg', (st)=>{
         glCanvas.game.player.setWeapon(i+1);  
@@ -87,23 +87,23 @@ export class TouchButton extends Control{
   constructor (parentNode: HTMLElement, className: string, onChange: (state: boolean)=>void){
     super (parentNode, 'div', className||'but', '');
     this.onChange = onChange;
-    let sh = this;
-    sh.node.addEventListener('mousedown', (e)=>{
+
+    this.node.addEventListener('mousedown', (e)=>{
       e.preventDefault();
       this.onChange(true);
       //glCanvas.keyboardState.shot = true;
     });
-    sh.node.addEventListener('mouseup', (e)=>{
+    this.node.addEventListener('mouseup', (e)=>{
       e.preventDefault();
       this.onChange(false);
     }); 
 
-    sh.node.addEventListener('touchstart', (e)=>{
+    this.node.addEventListener('touchstart', (e)=>{
       e.preventDefault();
       this.onChange(true);
       //glCanvas.keyboardState.shot = true;
     });
-    sh.node.addEventListener('touchend', (e)=>{
+    this.node.addEventListener('touchend', (e)=>{
       e.preventDefault();
       this.onChange(false);
     });  
@@ -128,8 +128,6 @@ export class TouchPad extends Control{
     let lts: number;
     let touchIndex =-1;
     this.onChange = onChange;
-
-    let tst;
 
     let downed = false;
 

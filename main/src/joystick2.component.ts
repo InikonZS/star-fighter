@@ -31,7 +31,7 @@ class RadioButton extends Control{
 }
 
 class RadioGroup extends Control{
-  buttons: RadioButton[];
+  protected buttons: RadioButton[];
   constructor(parentNode: HTMLElement, wrapperClass: string){
     super(parentNode, 'div', wrapperClass);
     this.buttons = [];

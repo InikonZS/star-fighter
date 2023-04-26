@@ -1,17 +1,15 @@
-import { rand as _rand, transformVertexList } from './calc.utils';
-import Vector3d from './vector3d.dev';
+import { transformVertexList } from './calc.utils';
 import Mesh from './mesh.object';
 
 function makeChunkedMesh (gl: WebGLRenderingContext, modelSource: string, count: number, matrixFunction: (index: number)=>Array<number>){
-  let inputModel = new Mesh(gl);
+  const inputModel = new Mesh(gl);
   inputModel.loadFromSource(modelSource);
-  let outVertexList: Array<number> = [];
-  let outNormalList: Array<number> = [];
-  let outTexList: Array<number> = [];
+  const outVertexList: Array<number> = [];
+  const outNormalList: Array<number> = [];
+  const outTexList: Array<number> = [];
 
-  let rand = _rand;
-  let mtx;
-  let transformed;
+  let mtx: Array<number>;
+  let transformed: Array<number>;
   for (let i = 0; i<count; i++){
     mtx = matrixFunction(i);
     transformed = transformVertexList(inputModel.vertexList, mtx);
@@ -31,7 +29,7 @@ function makeChunkedMesh (gl: WebGLRenderingContext, modelSource: string, count:
   }
 
   inputModel.deleteBuffers();
-  let outputMesh = new Mesh(gl);
+  const outputMesh = new Mesh(gl);
   outputMesh.loadFromLists(outVertexList, outNormalList, outTexList);
   return outputMesh;
 }

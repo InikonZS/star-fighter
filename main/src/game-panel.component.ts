@@ -24,8 +24,8 @@ class BarIndicatorCustomized extends BarIndicator{
 }
 
 class GamIndicator extends Control{
-  caption: string;
-  value: number;
+  private caption: string;
+  private value: number;
 
   constructor(parentNode:HTMLElement, caption: string, initValue?: number){
     super(parentNode, 'div', 'ngam_top_item');
