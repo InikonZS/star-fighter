@@ -4,8 +4,9 @@ import Vector3d from '../../vector3d.dev';
 import calc from '../../calc.utils';
 const rand =calc.rand;
 import Enemy from '../enemy.new';
+import Game from '../game.new';
 
-function starChunk(game, center, size, count){
+function starChunk(game: Game, center: Vector3d, size: number, count: number){
   for (let i=0; i<count; i++){
     
     let a = new Vector3d(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5);
@@ -20,7 +21,7 @@ function starChunk(game, center, size, count){
   }  
 }
 
-function randVector(center, size){
+function randVector(center: Vector3d, size: number){
   let a = new Vector3d(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5);
   a = a.mul(size).addVector(center);  
   return a;

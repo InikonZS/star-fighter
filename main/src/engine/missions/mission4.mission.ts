@@ -7,10 +7,11 @@ import Enemy from '../enemy.new';
 import Collectable from '../collectable.new';
 
 import mUtils from './mission.utils';
+import Game from '../game.new';
 const randVector = mUtils.randVector;
 const starChunk = mUtils.starChunk;
 
-function mission4(game){
+function mission4(game: Game){
   starChunk(game, new Vector3d(0,0,0), 500, 50);
   let baseLabel = game.addLabel('StartPoint', new Vector3d(0, 0, 0));
   

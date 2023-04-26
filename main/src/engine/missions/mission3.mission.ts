@@ -7,10 +7,11 @@ import Enemy from '../enemy.new';
 
 
 import mUtils from './mission.utils';
+import Game from '../game.new';
 const randVector = mUtils.randVector;
 const starChunk = mUtils.starChunk;
 
-function mission3(game){
+function mission3(game: Game){
   let rou = makeRingSpline(1000);
   game.player.camera.posY=-1050;
   game.player.camera.posX=0;
@@ -36,7 +37,7 @@ function mission3(game){
   recCollectable(game, rou ,0);
 }
 
-function recCollectable(game, rou, i){
+function recCollectable(game: Game, rou: { [x: string]: any; }, i: string | number){
   console.log('recpoint '+i);
   if (rou[i]){
     let tg = game.addLabel('target', rou[i]);
@@ -66,12 +67,12 @@ function recCollectable(game, rou, i){
   }
 }
 
-function makeRingSpline(r){
+function makeRingSpline(r: number){
   let ir;
   let x;
   let y;
   let z;
-  res = [];
+  let res: Array<Vector3d> = [];
   let n=9
   for (let i=0; i<9; i++){
     ir = calc.degToRad(i*360/n);

@@ -7,10 +7,11 @@ import Enemy from '../enemy2.new';
 import Collectable from '../collectable.new';
 
 import mUtils from './mission.utils';
+import Game from '../game.new';
 const randVector = mUtils.randVector;
 const starChunk = mUtils.starChunk;
 
-function mission1(game){
+function mission1(game: Game){
   let baseSpawner = game.addTimer(15, ()=>{
     new Collectable(
       game, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 

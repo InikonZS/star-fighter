@@ -2,16 +2,18 @@
 import basics from '../basic-objects.gmob';
 import Vector3d from '../../vector3d.dev';
 import calc from '../../calc.utils';
+import Game from '../game.new';
+import GameObject from '../game-object.new';
 
 const lScaler = 15;
 
-function missionLabirint(game){
+function missionLabirint(game: Game){
   let len = 10;
   let spline = makeLineSpline(len, new Vector3d (0, 0, 0), -10*lScaler);
   recLabi(game, spline , 0, []);
 }
 
-function makeLineSpline(cnt, startVector, step){
+function makeLineSpline(cnt: number, startVector: Vector3d, step: number){
   let res =[];
   let cp = startVector;
   let rot = 0;
@@ -48,7 +50,7 @@ function makeLineSpline(cnt, startVector, step){
   return res;
 };
 
-function recLabi(game, rou, i, blocks){
+function recLabi(game: Game, rou: { cp: Vector3d; orot: number; cur: number; }[], i: string | number, blocks: GameObject[]){
   console.log('recpoint '+i);
   basics.makePhysical(game.world, new Vector3d (0, 10*lScaler, 0 ),lScaler,game.world.tun2[0]);
   if (rou[i]){
