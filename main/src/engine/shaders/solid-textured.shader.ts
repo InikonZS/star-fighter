@@ -1,3 +1,5 @@
+import { IShaderVars } from "./IShaderUnit";
+
 let vertexShaderSource = `
   attribute vec4 a_position;
   attribute vec2 a_texcoord;
@@ -37,7 +39,7 @@ let fragmentShaderSource =`
   }
 `;
 
-function getShaderVariables(gl, program){
+function getShaderVariables(gl: WebGLRenderingContext, program: WebGLProgram){
   //gl.useProgram(program);
   var positionAttr = gl.getAttribLocation(program, "a_position");
   var normalAttr = gl.getAttribLocation(program, "a_norm");
@@ -60,7 +62,7 @@ function getShaderVariables(gl, program){
   }
 }
 
-function initShader(gl, shaderProgram, shaderVariables){
+function initShader(gl: WebGLRenderingContext, shaderProgram: WebGLProgram, shaderVariables: IShaderVars){
   gl.clearColor(0, 0, 0, 0);
   gl.enable(gl.DEPTH_TEST);
   gl.depthMask(true);
@@ -72,7 +74,7 @@ function initShader(gl, shaderProgram, shaderVariables){
   gl.enableVertexAttribArray(shaderVariables.texAttr);
 }
 
-module.exports = {
+export default {
   vertexShaderSource,
   fragmentShaderSource,
   getShaderVariables,

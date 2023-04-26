@@ -1,10 +1,11 @@
+import { IShaderVars } from "./IShaderUnit";
+
 let vertexShaderSource = `
   attribute vec4 a_position;
   attribute vec2 a_texcoord;
   
   uniform mat4 u_view;
   uniform mat4 u_world;
-  uniform vec4 u_texpos;
 
   varying vec4 v_position;
   varying vec2 v_texcoord;
@@ -12,7 +13,7 @@ let vertexShaderSource = `
   void main() {
     gl_Position = u_view * u_world * a_position;
     v_position = gl_Position;
-    v_texcoord = vec2((a_texcoord.x+u_texpos.z)*u_texpos.x, (a_texcoord.y+u_texpos.a)*u_texpos.y);
+    v_texcoord = a_texcoord;
   }
 `;
 
@@ -30,11 +31,10 @@ let fragmentShaderSource =`
   }
 `;
 
-function getShaderVariables(gl, program){
+function getShaderVariables(gl: WebGLRenderingContext, program: WebGLProgram){
   var positionAttr = gl.getAttribLocation(program, "a_position");
   var texAttr = gl.getAttribLocation(program, "a_texcoord");
   var colorUniVec4 = gl.getUniformLocation(program, "u_color");
-  var posUniVec4 = gl.getUniformLocation(program, "u_texpos");
   var viewUniMat4 = gl.getUniformLocation(program, "u_view");
   var worldUniMat4 = gl.getUniformLocation(program, "u_world");
   var texture = gl.getUniformLocation(program, "u_texture");
@@ -45,24 +45,22 @@ function getShaderVariables(gl, program){
     colorUniVec4,
     viewUniMat4,
     worldUniMat4,
-    posUniVec4,
     texture
   }
 }
 
-function initShader(gl, program, vars){
+function initShader(gl: WebGLRenderingContext, program: WebGLProgram, vars: IShaderVars){
   gl.clearColor(0, 0, 0, 0);
-  //gl.disable(gl.DEPTH_TEST);
+  gl.disable(gl.DEPTH_TEST);
+  gl.disable(gl.BLEND);
   gl.depthMask(false);
-  gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
-  gl.enable(gl.BLEND);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   gl.useProgram(program);
   gl.enableVertexAttribArray(vars.positionAttr);
   gl.enableVertexAttribArray(vars.texAttr);
 }
 
-module.exports = {
+export default {
   vertexShaderSource,
   fragmentShaderSource,
   getShaderVariables,

@@ -11,5 +11,6 @@ export interface IShaderVars {
     colorUniVec4?: WebGLUniformLocation,
     viewUniMat4?: WebGLUniformLocation,
     positionAttr?: number,
-    normalAttr?: number
+    normalAttr?: number,
+    texAttr?: number
 }

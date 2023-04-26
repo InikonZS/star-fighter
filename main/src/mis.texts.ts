@@ -178,7 +178,7 @@ let mis6 = `
   </div>
 `;
 
-module.exports = [
+export default [
   mis1,
   mis2,
   mis3,
