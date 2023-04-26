@@ -21,11 +21,11 @@ export default class GameObject{
   onProcess: (deltaTime: number, props:any )=>void;
   onRender: (gl: WebGLRenderingContext, props: any)=>void;
   onReact: (gameObject: GameObject)=>void;
-  parents: GameObject[];
+  protected parents: GameObject[];
   onDelete: () => void;
   mesh: Mesh;
   texture: WebGLTexture;
-  shaderProgram: WebGLProgram;
+  protected shaderProgram: WebGLProgram;
   type: string;
   hitDist: number;
   physicList: Physic;

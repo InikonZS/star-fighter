@@ -23,8 +23,8 @@ class Enemy extends GameObject{
   RADIAL_FRICTION: number;
   THETA_VAL: number;
   extLogic: (enemy: Enemy) => void;
-  gl: WebGLRenderingContext;
-  game: Game;
+  protected gl: WebGLRenderingContext;
+  protected game: Game;
   pos: Vector3d;
   v: Vector3d;
   weapon: Weapon;
@@ -32,8 +32,8 @@ class Enemy extends GameObject{
   aziV: Vector3d;
   azi: Vector3d;
   msg: Message;
-  model: GameObject;
-  hitbox: TexturedItem;
+  protected model: GameObject;
+  protected hitbox: TexturedItem;
   onKilled: ()=>void;
   speedVectorSync: Vector3d;
   atack: boolean;

@@ -18,24 +18,24 @@ const shieldTimeStd = 0.03;
 
 class Player extends GameObject {
   game: Game;
-  keyStates: Record<string, boolean>;
-  isAlive: boolean;
-  health: number;
-  shieldEnergy: number;
-  shieldTime: number;
-  weapons: Weapon[];
+  private keyStates: Record<string, boolean>;
+  private isAlive: boolean;
+  private health: number;
+  private shieldEnergy: number;
+  private shieldTime: number;
+  private weapons: Weapon[];
   camera: Camera;
   model: TexturedItem | RenderableItem;
-  shieldModelScaler: number;
-  shieldModel: AnimatedTextureItem;
-  shieldActivated: boolean;
-  hitbox: GameObject;
-  nearbox: GameObject;
-  touch: Phys;
-  speedVectorSync: Vector3d;
-  currentWeaponIndex: number;
-  refTimer: Timer;
-  envTimer: Timer;
+  private shieldModelScaler: number;
+  private shieldModel: AnimatedTextureItem;
+  private shieldActivated: boolean;
+  private hitbox: GameObject;
+  private nearbox: GameObject;
+  private touch: Phys;
+  private speedVectorSync: Vector3d;
+  private currentWeaponIndex: number;
+  private refTimer: Timer;
+  private envTimer: Timer;
 
   constructor(gl: WebGLRenderingContext, game: Game, keyStates: Record<string, boolean>){
     super();

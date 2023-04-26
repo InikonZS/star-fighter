@@ -60,20 +60,20 @@ interface IGamePanelData{
 }
 
 export default class GameMenu extends Control{
-  center: Control;
-  ringIndicator: RingIndicator;
+  private center: Control;
+  private ringIndicator: RingIndicator;
   view: Control;
-  tool: Control;
-  group: Control;
-  health: GamIndicator;
-  shield: GamIndicator;
-  speed: GamIndicator;
-  bullets: GamIndicator;
-  money: GamIndicator;
+  private tool: Control;
+  private group: Control;
+  private health: GamIndicator;
+  private shield: GamIndicator;
+  private speed: GamIndicator;
+  private bullets: GamIndicator;
+  private money: GamIndicator;
   joy: Joy;
   data: { health: number; bullets: number; weapon: string; shield: number; speed: number; fuel: number; };
   refresh: (data_?: IGamePanelData) => void;
-  weapon: Control;
+  private weapon: Control;
   missionTarget: Control;
 
   constructor(parentNode: HTMLElement, glCanvas: GLCanvas){

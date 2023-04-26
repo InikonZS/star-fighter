@@ -2,7 +2,7 @@ import Vector3d from '../vector3d.dev';
 import calc from '../calc.utils';
 
 class Physic{
-  triangles: Triangle[];
+  private triangles: Triangle[];
 
   constructor(vertexList: number[]){
     this.triangles = [];
@@ -104,21 +104,22 @@ function getNearest(p: Vector3d, list: Array<{dv:Vector3d, triangle:Triangle}>){
 }
 
 class Triangle{
-  u: Vector3d;
-  v: Vector3d;
-  w: Vector3d;
+  private u: Vector3d;
+  private v: Vector3d;
+  private w: Vector3d;
   normal: Vector3d;
-  dValue: number;
-  a: Vector3d;
-  b: Vector3d;
-  c: Vector3d;
-  al: number;
-  bl: number;
-  cl: number;
-  pr: number;
-  prq: number;
-  s: number;
-  center: Vector3d;
+  private dValue: number;
+  private a: Vector3d;
+  private b: Vector3d;
+  private c: Vector3d;
+  private al: number;
+  private bl: number;
+  private cl: number;
+  private pr: number;
+  private prq: number;
+  private s: number;
+  private center: Vector3d;
+  
   constructor(u: Vector3d, v: Vector3d, w: Vector3d){
     this.u = u;
     this.v = v;

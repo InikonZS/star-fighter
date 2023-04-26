@@ -13,7 +13,7 @@ class Weapon{
   shotTime: number;
   bulletLifeTime: number;
   bulletSpeed: number;
-  world: World;
+  private world: World;
   sndClass: string;
   
   constructor(world: World, shotTime: number, bulletLifeTime: number, bulletSpeed: number, soundClass?: string, name:string='gun', bulletCount:number=100, damage?: number){

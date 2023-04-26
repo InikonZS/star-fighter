@@ -1,5 +1,3 @@
-//const Control = require('../control-js/control.component.js');
-import calc from '../calc.utils';
 import GameObject from './game-object.new';
 import Game from './game.new';
 

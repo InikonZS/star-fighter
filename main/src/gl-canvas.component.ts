@@ -9,26 +9,26 @@ import Timer from './engine/timer.new';
 import calc from './calc.utils';
 
 export default class GLCanvas extends Control<HTMLCanvasElement>{
-  stWidth: number;
-  stHeight: number;
+  private stWidth: number;
+  private stHeight: number;
   glContext: WebGLRenderingContext;
   isStarted: boolean;
   useControls: boolean;
   keyboardState: Record<string, boolean>;
-  joyShow: boolean;
+  private joyShow: boolean;
   infoTimer: Timer;
-  info: Control;
+  private info: Control;
   averageRenderTime: number;
-  fullScreenButton: Control;
-  joyButton: Control;
+  private fullScreenButton: Control;
+  private joyButton: Control;
   gamePanel: GamePanel;
   sndPlayer: Control<HTMLAudioElement>;
-  sndButton: Control;
+  private sndButton: Control;
   sndAllow: boolean;
-  overlay: Control;
+  private overlay: Control;
   menu: GameMenu;
   isPaused: boolean;
-  lastTime: number;
+  private lastTime: number;
   game: Game;
 
   constructor(parentNode: HTMLElement, width: number, height: number){

@@ -8,28 +8,28 @@ import misTexts from './mis.texts';
 import GLCanvas from './gl-canvas.component';
 
 class GameMenu extends Control{
-  glCanvas: GLCanvas;
+  private glCanvas: GLCanvas;
   menu: Pager;
-  mainMenu: Control;
-  optionsMenu: Control;
-  missionMenu: Control;
-  startMenu: Control;
-  gameMenu: Control;
+  private mainMenu: Control;
+  private optionsMenu: Control;
+  private missionMenu: Control;
+  private startMenu: Control;
+  private gameMenu: Control;
   gameOverMenu: Control;
-  gameWinMenu: Control;
+  private gameWinMenu: Control;
   missionOptions: { missionName: string; shipIndex: number; };
-  startButton: Control;
-  optionsButton: Control;
-  optionMouseSense: Control<HTMLInputElement>;
-  exitButton: Control;
+  private startButton: Control;
+  private optionsButton: Control;
+  private optionMouseSense: Control<HTMLInputElement>;
+  private exitButton: Control;
   touchPad: TouchPad;
   prevShip: Control;
   nextShip: Control;
-  startMissionButton: Control;
-  mainMenuButtonO: Control;
-  mainMenuButtonW: Control;
-  resumeButton: Control;
-  mainMenuButton: Control;
+  private startMissionButton: Control;
+  private mainMenuButtonO: Control;
+  private mainMenuButtonW: Control;
+  private resumeButton: Control;
+  private mainMenuButton: Control;
   isActive: boolean;
 
   constructor(parentNode: HTMLElement, glCanvas:GLCanvas){

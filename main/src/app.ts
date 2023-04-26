@@ -5,7 +5,7 @@ import { Sounder, soundConfig } from './sound-loader';
 import { StartScreen } from './start-screen.component';
 
 export class App{
-  parentNode: HTMLElement;
+  private parentNode: HTMLElement;
   stWidth: number;
   stHeight: number;
   startScreen: StartScreen;
@@ -69,15 +69,15 @@ export class App{
         this.startScreen.hide();
       },
       (type, it, length, current)=>{
-        this.startScreen.loadingIndicator.node.textContent = `Loading ${type} ${current}/${length}, ${Math.round(100*current/length)}% done `;
+        this.startScreen.loadingUpdate(type, it, length, current);
       });
     });
   }
 
   loadApp(onLoad: ()=>void, onProgress:(type: string, it: IResourceRecord, length: number, current: number)=>void){
-    let parentNode = this.parentNode;
-    var sndLoader = new Sounder(soundConfig, ()=>{
-      var loader = new ModelLoader(modelConfig, (res)=>{
+    const parentNode = this.parentNode;
+    const sndLoader = new Sounder(soundConfig, ()=>{
+      const loader = new ModelLoader(modelConfig, (res)=>{
         console.log('loaded', res);
         window.gameResource = res;
         this.glCanvas = new GLCanvas (parentNode, this.stWidth, this.stHeight);

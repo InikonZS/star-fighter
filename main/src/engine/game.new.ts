@@ -2,17 +2,11 @@ import World from './world.new';
 import Player from './player.new';
 import Vector3d from '../vector3d.dev';
 import calc from '../calc.utils';
-const rand = calc.rand;
 
-import Enemy from './enemy.new';
 import Message from './point-msg.new';
 import GameObject from './game-object.new';
 import Timer from './timer.new';
 import TargetList from './mission-target.new';
-import anyutils from '../any.utils';
-import utils from '../any.utils';
-
-import basics from './basic-objects.gmob';
 
 import missionLabirint from './missions/labirint.mission';
 import missionGarage from './missions/garage.mission';
