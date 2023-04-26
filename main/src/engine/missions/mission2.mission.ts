@@ -4,7 +4,7 @@ import Vector3d from '../../vector3d.dev';
 import calc from '../../calc.utils';
 const rand =calc.rand;
 import Enemy from '../enemy.new';
-import Collectable from '../collectable.new';
+import { createBulletBox, createHealthBox } from '../collectable.new';
 
 import mUtils from './mission.utils';
 import Game from '../game.new';
@@ -13,10 +13,7 @@ const starChunk = mUtils.starChunk;
 
 function mission2(game: Game){
   let baseSpawner = game.addTimer(15, ()=>{
-    new Collectable(
-      game, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50), 
-      Math.random()<0.5? 'bullets':'health'
-    ); 
+    (Math.random()<0.5? createBulletBox : createHealthBox)(game, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50));
   });
 
   let baseLabel = game.addLabel('StartPoint', new Vector3d(0, 0, 0));

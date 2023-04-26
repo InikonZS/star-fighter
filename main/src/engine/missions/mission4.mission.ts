@@ -4,7 +4,7 @@ import Vector3d from '../../vector3d.dev';
 import calc from '../../calc.utils';
 const rand =calc.rand;
 import Enemy from '../enemy.new';
-import Collectable from '../collectable.new';
+import { createCollectable } from '../collectable.new';
 
 import mUtils from './mission.utils';
 import Game from '../game.new';
@@ -45,12 +45,12 @@ function mission4(game: Game){
       window.sndBase.playByClass('correct');
       en.targetPointer.setComplete();  
       
-      let point1 = new Collectable(game, new Vector3d(0,0,0), ''); 
+      let point1 = createCollectable(game, new Vector3d(rand(100)-50, rand(100)-50, rand(100)-50)); 
       game.targets.addTarget('return to start');
       point1.onCollect = ()=>{
         //anyutils.playSoundUrl('assets/sounds/success.mp3');
         window.sndBase.playByClass('success');
-        game.finish();
+        game.finish(true);
       }
     }
   }
