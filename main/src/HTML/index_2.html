@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_2.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <header  id="app-header" class="header">
+        <div class="wrapper header__wrapper">
+ 
+          <nav class="header__navigation burger">
+            <div class="hamburger burger hamburger__rotate" style=" position: absolute;  z-index: 12; opacity: 1; margin-bottom: 14px; ">
+              <span class="hamburger__line"></span>
+            </div>
+            <h1 class="header__title">
+              <a class="logo" href="#">
+              <span style="color: rgb(124, 110, 248);">S</span>tar
+              <span style="color: rgb(124, 110, 248);">F</span>ighter
+              </a>
+              </h1>
+              <span class="hamburger__title" id="hidden__title" style="animation: 1.3s ease 0s 1 normal forwards running navLinkFade;"></span>
+            <div class="navigation">
+             <ul id="menu" class="nav__links active">
+             <li class="header__menu active">
+              <a class="navigation__link active" href="#app-main">Game</a>
+             </li>
+            <li class="header__menu">
+             <a class="navigation__link" href="#gameplay">Gameplay</a>
+             </li>
+            <li class="header__menu">
+              <a class="navigation__link" href="#project">Project</a>
+            </li>
+            <li class="header__menu">
+              <a class="navigation__link" href="#team">Team</a>
+            </li>
+            <li class="header__menu">
+              <a class="navigation__link" href="#develop">Development</a>
+            </li>
+            <li class="header__menu">
+              <a class="navigation__link" href="#problems">Problems</a>
+            </li>        
+          </ul>
+            </div>
+          <div class="navigation__burger"></div> 
+          </nav>  
+        </div>
+        </header>       
+        <main class="center">
+        <section id="app-main" class="wrapper center__wrapper">
+            <div class="game__container">  
+            <div class="control__container">
+            <div class="contol__text">
+              <h4>Управление:</h4>
+              <ul class="control__list">
+              <li><b>w</b> - ускорение;&nbsp;</li>
+              <li><b>1 2 3 4</b> - смена пушек;&nbsp;</li>
+              <li><b>клик</b> - стрелять;&nbsp;</li>
+              <li><b>space</b> - щит;&nbsp;</li>
+              <li><b>` (обратная кавычка)</b> - выход в меню;&nbsp;</li>
+              <li><b>esc</b> - выход из полноэкранного режима.</li>
+            </ul>
+            </div> 
+          </div>            
+            <div class="game__panel">
+                <canvas class="canvas__style"></canvas>
+            </div>
+        </div>
+        </section>
+        <div class="line"></div>
+        <section class="gameplay" id="gameplay">
+          <div class="wrapper gameplay__wrapper">
+            <div class="titleGameplay__container">
+            <div class="gameplay__row">             
+              <h2 class="team__title">Gameplay and screenshot</h2>
+              <p class="team__text"></p>  
+              <div class="gameplay__container">        
+              <div class="gameplay__img"><img class="gameplay__screen" src="../assets/image/Screen1.png"><img class="gameplay__screen" src="../assets/image/Screen2.png"><img class="gameplay__screen" src="../assets/image/Screen2.png"></div>
+              <div class="" slot="youtube" playlist="" autoplay="0" controls="1" rel="0" annotations="1" hide-info="0" button-color="dark" status="paused" allowfullscreen="">   
+                  <iframe class="gameplay__style" src="https://www.youtube.com/embed/xgjEBOjbKc8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+             </div>
+            
+            </div> 
+            </div>
+            </div>
+          </div>
+        </section>
+        <div class="line"></div>
+        <section class="project" id="project">
+          <div class="wrapper project__wrapper">
+            <div class="titleProject__container">
+            <div class="title__row">             
+              <h2 class="team__title">Project description</h2>
+              <p class="team__text">Zdies nado napisac o proektie</p>
+            </div>
+            </div>
+          </div>
+        </section>
+        <div class="line"></div>
+        <section class="team" id="team">
+          <div class="wrapper team__wrapper">
+            <div class="titleTeam__container">
+            <div class="title__row">             
+              <h2 class="team__title">Team Member</h2>
+              <p class="team__text">Zdies nado napisac o komandie</p>
+            </div>
+            </div>
+              <div class="titleTeam__container">
+                  <div class="employee">
+                      <div class="employee__content">
+                          <div class="background__employee"><img src="../assets/image/Alena.jpg"
+                                  alt="employee photo"></div>
+                          <h3 class="employee__title">Alena Rebkavets</h3>
+                          <p class="employee__text">Quisque luctus, quam eget molestie commodo, lacus purus
+                              cursus purus, nec rutrum tellus dolor id lorem.</p>
+                              <div class="video__container" slot="youtube" playlist="" autoplay="0" controls="1" rel="0" annotations="1" hide-info="0" button-color="dark" status="paused" allowfullscreen="">   
+                                <iframe class="video" src="https://www.youtube.com/embed/xgjEBOjbKc8" frameborder="0" width="100%" height="200px" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                              </div>
+                              <div class="services__icon">
+                                <a href="https://www.facebook.com/alena.rebkavets.3" class="ico"><img src="../assets/icons/Facebook.png" alt="icon facebook"></a>
+                                <a href="#" class="ico"><img src="../assets/icons/Google.png" alt="icon google"></a>
+                                <a href="#" class="ico"><img src="../assets/icons/LinkedIn.png" alt="icon linkedin"></a>
+                                <a href="https://github.com/Ragneda" class="ico"><img src="../assets/icons/code+collaboration+github+network+round+social+icon-1320086084536018107_48.png" alt="icon linkedin"></a>
+                              </div>                            
+                      </div>
+                    </div>
+                  <div class="employee">
+                      <div class="employee__content">
+                          <div class="background__employee"><img src="../assets/image/person2.jpg"
+                                  alt="employee photo"></div>
+                          <h3 class="employee__title">Zhan Zhuridov</h3>
+                          <p class="employee__text">Curabitur vestibulum eget mauris quis
+                              laoreet. Phasellus in quam laoreet, viverra lacus ut, ultrices velit.</p>
+                              <div class="video__container" slot="youtube" playlist="" autoplay="0" controls="1" rel="0" annotations="1" hide-info="0" button-color="dark" status="paused" allowfullscreen="">   
+                                <iframe class="video" src="https://www.youtube.com/embed/xgjEBOjbKc8" frameborder="0" width="100%" height="200px" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                              </div>
+                          <div class="services__icon">
+                            <a href="#" class="ico"><img src="../assets/icons/Facebook.png" alt="icon facebook"></a>
+                            <a href="#" class="ico"><img src="../assets/icons/Google.png" alt="icon google"></a>
+                            <a href="#" class="ico"><img src="../assets/icons/LinkedIn.png" alt="icon linkedin"></a>
+                            <a href="#" class="ico"><img src="../assets/icons/code+collaboration+github+network+round+social+icon-1320086084536018107_48.png" alt="icon linkedin"></a>
+                          </div>
+                      </div>
+                    </div>                
+              </div>
+          </div>
+        </section>
+          <div class="line"></div>
+          <section id="develop" class="development">
+            <div class="wrapper development__wrapper">
+              <div class="titleDevelopment__container">
+              <div class="title__row">             
+                <h2 class="team__title">Organization of the development process</h2>
+                <p class="team__text">Zdies nado napisac o organizacii processa razrabotki 
+                  -itr9y0rtyrt0yrt0yrt0y9urt0y9urt0yurtuyrtuyrt0uytylknty;kjtnrkjhn
+                dfhgfuhg;fhgfghofghj;odfjh;ofgjhofghjofgjhofghjfgohjfgohijgoh
+              dfgh;dfghdf;gjfdlgjfdlgjdfljglgkhnglhjglhjlghjglhjlhlghjlghjghlk
+            dlkgjdlgfghknghnglhnglhk</p>
+              </div>
+              </div>
+            </div>
+          </section>
+          <div class="line"></div>
+          <section class="problems" id="problems">
+            <div class="wrapper problems__wrapper">
+              <div class="titleProblems__container">
+              <div class="title__row">             
+                <h2 class="team__title">Technical problems</h2>
+                <p class="team__text">Zdies nado napisac o technicheskich problemach, reshionnych v processe razrabotki</p>
+              </div>
+              </div>
+            </div>
+          </section>
+        </section>
+        <div class="line"></div>
+        </main> 
+        <!--<footer class="footer">
+            <div class="wrapper footer__wrapper">
+            <div class="footer__text"></div>
+          </div>
+          </footer> -->
+          <script src="script.js"></script>             
+</body>
+</html>

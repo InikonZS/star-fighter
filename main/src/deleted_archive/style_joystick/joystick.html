@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:8080/ -->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./joystick_files/style.css" />
+    <link rel="stylesheet" href="./joystick_files/gamemenu.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Gugi&display=swap" rel="stylesheet">
+  </head>
+  <body>
+      <header id="app-header" class="header">
+        <div class="wrapper header__wrapper">
+            <h1>
+            <a class="logo" href="#">
+            <span style="color: #96f; font-size: 26pt;">S</span>tar
+            <span style="color: #96f; font-size: 26pt;">F</span>ighter
+            </a>
+            </h1>
+          <nav class="header__navigation">
+             <ul class="navigation">
+             <li class="header_menu_item">
+              <a class="navigation__link" href="#">Main</a>
+             </li>
+            <li class="header_menu_item">
+             <a class="navigation__link" href="#">History</a>
+      </li>
+            <li class="header_menu_item">
+              <a class="navigation__link" href="#">Team</a>
+            </li>
+          </ul>
+          </nav>     
+      </header>
+  
+      <main class="center">
+        <div class="wrapper center__wrapper">
+        <div class="layout-2-column">
+        <div class="left__panel">
+          <h2>здесь напишем про управление</h2>
+          <ul>
+            <li>w - ускорение</li>
+            <li>1 2 3 4 - смена пушек</li>
+            <li>клик - стрелять</li>
+            <li>space - щит</li>
+            <li>` (обратная кавычка) - в меню</li>
+            <li>esc - выход из полноэкранного и захвата курсора</li>
+
+            <li>красные блоки - бонус здоровья</li>
+            <li>зеленые блоки - бонус патронов</li>
+          </ul>
+          <p>Перечень фич для разработки</p>
+          <ul>
+            <li>
+              Физика и геометрия:
+              <ul>
+                <li>пересечь два треугольника</li>
+                <li>найти факт пересечения двух моделей в треугольниках</li>
+                <li>оптимизировать решение попадания точки в треугольник</li>
+              </ul>
+            </li>
+            <li>
+              Управление, геймплей:
+              <ul>
+                <li>хорошо подумать над управлением</li>
+                <li>
+                  сделать камеру такую как в оригинале, чтобы бесконечно и
+                  равномерно вращалась
+                </li>
+                <li>попробовать вид сзади</li>
+                <li>
+                  попробовать отвязать положение игрока от мыши, а мышью лишь
+                  вращать обзор, а стрелять по напралению своего корабля
+                </li>
+                <li>
+                  попробовать использовать акселерометр для управления с мобилы
+                </li>
+                <li>экранный джойстик для мобилы</li>
+                <li>
+                  попробовать управление на подобие гонок, возможно добавить и
+                  разделить режимы боевого и скоростного
+                </li>
+              </ul>
+            </li>
+            <li>
+              Интелект врагов, союзников, живности:
+              <ul>
+                <li>добавить режим достижения точки для бота</li>
+                <li>так же режим атаки любого объекта, заданного точкой</li>
+                <li>режим избегания любого объекта с заданным расстоянием</li>
+                <li>
+                  состояние аггрессивное и радиус активации, возможно радиус
+                  прекращения преследования
+                </li>
+                <li>другие идеи</li>
+              </ul>
+            </li>
+            <li>
+              Движок, загрузчик:
+              <ul>
+                <li>переход на blob загрузки звука</li>
+                <li>
+                  даже если не blob, то сформировать класс для загрузки и
+                  воспроизведения звука с контролем количества звуков
+                  одновременно а так же объект констант файлов
+                </li>
+                <li>возможно переход на sound api 3d sound</li>
+                <li>
+                  функция автоматического выбора звука случайного из списка
+                  вариантов
+                </li>
+                <li>аналогично модернизация загрузчика моделей</li>
+                <li>
+                  уход от импортируемых моделей, переделать на динамическую
+                  загрузку и основательно так попработать над минимизацией
+                  моделей в памяти
+                </li>
+              </ul>
+            </li>
+            <li>
+              меню, игровая нижняя панель:
+              <ul>
+                <li>улучшать внешний вид меню</li>
+                <li>
+                  добавить более интересные индикаторы патронов, энергии,
+                  здоровья, скорости
+                </li>
+                <li>добавить карту или радар</li>
+                <li>добавить победный экран и доработать экран поражения</li>
+                <li>
+                  сложно: добавить возможность включения 3д моделей в меню
+                </li>
+                <li>
+                  сделать бэкграунды заставки в меню, возможно в игре тоже,
+                  вероятно рендерить как игру саму
+                </li>
+                <li>
+                  для того пункта поработать над компонентом камеры, чтобы
+                  возможно было управление не через управление игрока
+                </li>
+                <li>
+                  наполнить меню options, может количество побочных эффектов,
+                  дальность снижения детализации
+                </li>
+              </ul>
+            </li>
+            <li>
+              миссии:
+              <ul>
+                <li>разработать миссии</li>
+                <li>
+                  миссия с полетом по туннелю, для нее генератор сплайна и
+                  оболочки туннеля или любой вариант
+                </li>
+                <li>задействовать максимум объектов для демо</li>
+              </ul>
+            </li>
+            <li>
+              все остальное:
+              <ul>
+                <li>
+                  пофиксить хитпоинты врагов, создавать модели хитпоинтов для
+                  облегчения физики
+                </li>
+                <li>добавить здоровье врагам и разрушаемым объектам</li>
+                <li>
+                  уровни детализации модели, как их само создание так и
+                  поддержка движком
+                </li>
+                <li>
+                  поддержка движком разных подбираемых объектов и реализация их
+                  моделей, эффекты прозрачности и вращения для них движком
+                </li>
+                <li>
+                  текстуры выстрелов разные, может и модели снарядов, а так же
+                  прозрачные текстуры сферы щита, эффекты от двигателей и т.д.
+                </li>
+                <li>звук движения, работы двигателя</li>
+                <li>
+                  выбор корабля в меню на миссию, выбор дополнительного оружия,
+                  возможно прокачка корабля
+                </li>
+                <li>
+                  выделение характеристик кораблей, приближение физики
+                  собственного корабля с вражескими
+                </li>
+                <li>
+                  для эффектов некоторых пуль возможно позиционирование не
+                  только смещением но и матрицей с поворотами
+                </li>
+                <li>
+                  озвучивание смены целей голосом, вероятно синтезатор речи
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="game__panel">
+          <div id="app-main" class="game__box" style="position: relative;">
+            <div class="startBackground" style="display: none;">
+              <div class="startButton">Click To Load</div>
+              <div class="loadingIndicator">
+                Loading texture 20/20, 100% done
+              </div>
+            </div>
+            <canvas class="canvas_style" width="640" height="480"></canvas>
+            <div class="">FPS: 54</div>
+            <div class="game__buttons">
+              <button class="fullscreen__button button_bordered">fullScreen</button>
+              <button class="fullscreen__button button_colored">joystick</button>
+            </div>
+            <div
+              class="container__game"
+              style="
+           
+              "
+            >
+              <div class="overlay_panel" style="">
+                <div class="overlay_center"></div>
+                <div class="view_panel">
+                  <div
+                    class=""
+                    style="
+                      position: absolute;
+                      top: 382.234px;
+                      left: 516px;
+                      color: rgb(255, 68, 255);
+                    "
+                  >
+                    StartPoint: 1136.9km
+                  </div>
+                  <div
+                    class=""
+                    style="
+                      position: absolute;
+                      top: 367.234px;
+                      left: 540px;
+                      color: rgb(255, 68, 255);
+                    "
+                  >
+                    target: 1222.3km
+                  </div>
+                </div>
+                <div class="machine_panel">
+                  <div class="panel_group">
+                    <div class="panel_item">health: 100</div>
+                    <div class="panel_item">bullets: 56</div>
+                    <div class="panel_item">phaser</div>
+                    <div class="panel_item">shield: 95</div>
+                    <div class="panel_item">speed: 0</div>
+                  </div>
+                  <div class="panel_item">
+                    <div>come to target pending</div>
+                  </div>
+                </div>
+                <div class="joy_panel" style="">
+                  <div class="joy_panel" style="height: 30px; top: 0px;">
+                    <div class="butg" style="width: 30px;"></div>
+                  </div>
+                  <div
+                    class="joy_panel"
+                    style="height: calc((100% - 30px) - 100px); top: 30px;"
+                  >
+                    <div class="but_group" style="justify-content: flex-start;">
+                      <div class="but_subgroup">
+                        <div class="butg"></div>
+                        <div class="butg"></div>
+                        <div class="butg"></div>
+                        <div class="butg"></div>
+                      </div>
+                      <div class="but"></div>
+                      <div class="but_subgroup">
+                        <div class="butg" style="width: 100%;"></div>
+                        <div class="butg" style="width: 100%;"></div>
+                      </div>
+                    </div>
+                    <div class="but_group" style="justify-content: flex-end;">
+                      <div class="but_subgroup"></div>
+                      <div class="but"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class=""
+              style="
+                position: absolute;
+                width: 640px;
+                height: 480px;
+                top: 0px;
+                left: 0px;
+                display: none;
+                z-index: 10;
+              "
+            >
+              <div class="">
+                <div class="menu_background" style="display: none;">
+                  Main Menu
+                  <div class="menu_item">start new</div>
+                  <div class="menu_item">options</div>
+                  <div class="menu_item">exit</div>
+                </div>
+                <div class="menu_background" style="display: none;">
+                  Options<input
+                    class="menu_item"
+                    type="range"
+                    min="1"
+                    max="100"
+                  />
+                  <div class="menu_item">to main menu</div>
+                </div>
+                <div class="menu_background" style="display: none;">
+                  Select Mission
+                  <div class="menu_item">mission1</div>
+                  <div class="menu_item">mission2</div>
+                  <div class="menu_item">mission3</div>
+                  <div class="menu_item">mission4</div>
+                  <div class="menu_item">mission5</div>
+                  <div class="menu_item">to main menu</div>
+                </div>
+                <div class="menu_background" style="display: none;">
+                  Start Mission
+                  <div class="but fullScreenTouch"></div>
+                  <div class="menu_item">prevShip</div>
+                  <div class="menu_item">nextShip</div>
+                  <div class="menu_item menu_item_clikit">Fight!</div>
+                  <div class="menu_item">to main menu</div>
+                </div>
+                <div class="menu_background" style="">
+                  Paused
+                  <div class="menu_item" style="display: none;">continue</div>
+                  <div class="menu_item">to main menu</div>
+                </div>
+                <div class="menu_background" style="display: none;">
+                  Game Over
+                  <div class="menu_item">to main menu</div>
+                </div>
+                <div class="menu_background" style="display: none;">
+                  Mission Complete
+                  <div class="menu_item">to main menu</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      </main>
+      <footer class="footer">
+        <div class="wrapper footer__wrapper">
+        <div class="footer__text">а здесь типо футер</div>
+      </div>
+      </footer>
+
+  </body>
+</html>

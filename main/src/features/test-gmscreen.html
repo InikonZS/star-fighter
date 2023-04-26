@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="gm-screen.css">  
+    <link rel="stylesheet" href="bar-indicator.css"> 
+  </head>
+  <body>
+    <div class ="gms_wrapper">
+      <div class = "gam_wrapper">
+        <div class = "gam_top">
+          <div class = "gam_top_item">
+            health: 100
+          </div>
+          <div class = "gam_top_item">
+            shield: 100
+          </div>
+          <div class = "gam_top_item">
+            fuel: 100
+          </div>
+          <div class = "gam_top_item">
+            money: 10990
+          </div>
+        </div>
+        <div class = "gam_center">
+          
+        </div> 
+        <canvas style = "position:absolute;" id = "gam-central-canvas"></canvas>  
+      </div> 
+
+      <div class = "joy_wrapper_with_panel">
+        <div class = "joy_panel joy_panel_left">
+          <div class = "joy_buttons_group">
+            <div class = "joy_button joy_weap1_ico">
+              <div>100</div>
+            </div>  
+            <div class = "joy_button joy_weap2_ico joy_button_active">
+              <div>35</div>
+            </div>  
+            <div class = "joy_button joy_weap3_ico">
+          
+            </div>  
+            <div class = "joy_button joy_weap4_ico">
+        
+            </div>  
+          </div>
+          <div class = "joy_touch_wrapper joy_touch_wrapper_left">
+            <div class = "joy_touch joy_touch_left">
+            
+            </div>  
+          </div>
+          <div class = "joy_down_left">
+            <div class = "joy_shot_button">
+              <div class = "joy_button joy_shot_ico joy_button_lighten">
+        
+              </div>   
+            </div>
+            <div class = "joy_shot_button">
+              <div class = "joy_button joy_shield_ico joy_button_lighten">
+      
+              </div>  
+            </div>
+          </div>
+        </div>
+        <div class = "joy_panel joy_panel_right">
+          <div class = "joy_buttons_group joy_buttons_group_right">
+            <div class = "joy_button joy_pause_ico joy_button_lighten">
+          
+            </div>  
+          </div>
+          <div class = "joy_touch_wrapper">
+            <div class = "joy_touch joy_touch_right">
+
+            </div>
+          </div>   
+        </div>
+      </div>
+    </div> 
+    <script src="canvas-central.js"></script>
+  </body>
+</html>

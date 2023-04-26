@@ -1,0 +1,42 @@
+.bar-wrapper{
+  font-size: 10pt;
+  background-color: #0009;
+  border-radius: 5px;
+  width: max-content;
+  padding: 5px 15px;
+  margin-bottom: 5px;
+}
+.bar-indicator{
+  border-style:solid;
+  border-width: 0px;
+  display:flex;
+  width: min-content;
+  box-sizing: border-box;
+  padding: 2px;
+  padding-left: 0px;  
+  background-color:#0000;
+}
+
+.bar-indicator_bar{
+  width:8px;
+  height:8px;
+  margin-left:2px;
+  box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.bar-indicator_bar__active{
+  background-color: #0f0;
+  border-color:#fff;
+}
+
+.bar-indicator_bar__demi{
+  background-color: #0f07;
+  border-color:#fff7;
+}
+
+.bar-indicator_bar__inactive{
+  background-color: #0f00;
+  border-color:#fff7;
+}

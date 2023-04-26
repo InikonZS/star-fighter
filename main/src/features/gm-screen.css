@@ -1,0 +1,191 @@
+.gms_wrapper{
+  width: 640px;
+  height: 480px;
+  position: relative;
+  background-color: #000;
+}
+
+.gam_wrapper{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.gam_center{
+  width: 100px;
+  height: 100px;
+  background-image: url('./cross.png');
+  background-size: 60px;
+  background-position: center;
+  background-repeat: no-repeat no-repeat;
+}
+
+.gam_top{
+  width: 100%;
+  display: flex;
+  height: 30px;
+  box-sizing: border-box;
+  background-color: #ccf5;
+  position: absolute;
+  top: 0px;
+}
+
+.gam_top_item{
+  color: #fff;
+  margin: 3px 5px;
+  font-size: 10pt;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border-top: solid 2px #3339;
+  border-bottom: solid 2px #9999;
+  border-radius: 5px;
+  padding: 0px 2px;
+}
+
+.joy_wrapper{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+}
+
+.joy_wrapper_with_panel{
+  width: 100%;
+  height: calc(100% - 30px);
+  position: absolute;
+  display: flex;
+  top: 30px;
+}
+
+.joy_panel{
+  height: 100%;
+  width: 50%;
+}
+
+.joy_panel_left{
+
+}
+
+.joy_panel_right{
+
+}
+
+.joy_touch_wrapper{
+  height: calc(100% - 65px - 25%);
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 10px;
+  padding-left: 0px;
+  box-sizing: border-box;
+}
+
+.joy_touch_wrapper_left{
+  justify-content: flex-start;
+  padding-right: 0px;
+  padding-left: 10px;
+}
+
+.joy_touch{
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 70%;
+  width: 160px;
+  opacity: 50%;
+}
+
+.joy_touch_left{
+  background-image: url('./joy-pad1.png');
+  background-position: center left;
+}
+
+.joy_touch_right{
+  background-image: url('./joy-pad2.png');
+  background-position: center right;
+}
+
+.joy_buttons_group{
+  display:flex;
+  width:100%;
+  height: 65px;
+}
+
+.joy_buttons_group_right{
+  display:flex;
+  justify-content: flex-end;
+  width:100%;
+}
+
+.joy_button{
+  width: 50px;
+  height: 50px;
+  background-size: 32px;
+  background-repeat: no-repeat;
+  background-color: #ccf6;
+  margin: 5px;
+  border-radius: 5px;
+  background-position: center;
+  font-size: 8pt;
+  font-weight: bold;
+  color: #fff;
+  box-sizing: border-box;
+  padding: 2px;
+}
+
+.joy_button_active{
+  background-color: #ccf9;
+  border: solid 2px #ccf;
+  padding: 0px;
+}
+
+.joy_button_lighten{
+  background-color: #ccf9;
+}
+
+.joy_weap1_ico{
+  background-image: url('./weap1_ico.png');
+}
+
+.joy_weap2_ico{
+  background-image: url('./weap2_ico.png');
+}
+
+.joy_weap3_ico{
+  background-image: url('./weap3_ico.png');
+}
+
+.joy_weap4_ico{
+  background-image: url('./weap4_ico.png');
+}
+
+.joy_pause_ico{
+  background-image: url('./pause_ico.png');
+}
+
+.joy_shot_ico{
+  background-image: url('./shot_ico.png');
+}
+
+.joy_shield_ico{
+  background-image: url('./shield_ico.png');
+}
+
+.joy_down_left{
+  display: flex;
+  height: 25%;
+  width: 100%;
+}
+
+.joy_shot_button{
+  height: 100%;
+  width: 50%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
